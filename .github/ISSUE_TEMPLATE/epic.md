@@ -1,5 +1,5 @@
 ---
-name: EPIC template
+name: EPIC
 about: Custom template for project EPICs
 title: "[EPIC] "
 labels: EPIC, new
