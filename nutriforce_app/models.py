@@ -75,8 +75,8 @@ class Products(models.Model):
     stock_count = models.IntegerField()
     ingredients = models.TextField()
     active = models.BooleanField(default=True)
-    related_products = models.TextField(blank=True,
-                                        null=True)
+    categories = models.TextField(blank=True,
+                                  null=True)
 
     class Meta:
         ordering = ['-active', 'product_name']
@@ -156,6 +156,8 @@ class SavedItems(models.Model):
     quantity = models.IntegerField()
     list_type = models.CharField(max_length=50,
                                  choices=ListType.choices)
+    expected_dt = models.DateTimeField(blank=True,
+                                       null=True)
 
     class Meta:
         ordering = ['list_type', 'product']
