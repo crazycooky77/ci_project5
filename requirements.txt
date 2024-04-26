@@ -3,7 +3,7 @@ coverage==7.3.2
 dj3-cloudinary-storage==0.0.6
 django-cloudinary-storage==0.3.0
 dj-database-url==2.1.0
-Django==4.1
+Django==4.2.1
 django-allauth==0.62.0
 django-select2==8.1.2
 gunicorn==21.2.0
