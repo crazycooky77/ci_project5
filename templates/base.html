@@ -27,13 +27,18 @@
                         <a href="home"><img src="../static/logo.jpeg" alt="NutriForce Logo"></a>
                     </div>
                     <div class="nav-middle">
-                        <!-- Search bar -->
-                        <label for="nav-search" aria-label="Search Bar"><input type="text" id="nav-search" placeholder="Search"></label>
+                        <div class="nav-search">
+                            <!-- Search bar -->
+                            <label for="nav-search" aria-label="Search Bar"><input type="text" id="nav-search" placeholder="Search"></label>
+                        </div>
                         <!-- Nav buttons -->
                         <div class="nav-buttons">
                             <button onclick="">All Products</button>
+                            |
                             <button onclick="">Sports</button>
+                            |
                             <button onclick="">Health</button>
+                            |
                             <button onclick="">What's New</button>
                         </div>
                     </div>
@@ -45,12 +50,14 @@
                             <a href="mailto:contact@test.com">contact@test.com</a>
                         </p>
                     </div>
-                    <div class="nav-left">
+                    <div class="nav-right">
                         <a href=""><i class="fa-solid fa-cart-shopping"></i> View Cart</a>
                         {% if user.is_authenticated %}
+                            <br>
                             <a href="">Profile</a>
                         {% else %}
                             <a href="">Log In</a>
+                            <br>
                             <a href="">Create Account</a>
                         {% endif %}
                     </div>

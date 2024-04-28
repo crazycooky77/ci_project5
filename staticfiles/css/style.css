@@ -1,0 +1,84 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+    max-width: 1400px;
+    margin: auto;
+    background-color: #F5FEFD;
+    font-family: "Montserrat", sans-serif;
+}
+
+.nav-div {
+    margin: 20px auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.nav-left img {
+    border-radius: 20px;
+    display: block;
+    margin: auto;
+}
+
+.nav-middle {
+    display: flex;
+    flex-direction: column;
+    margin: auto 10px;
+}
+
+.nav-search input {
+    width: 350px;
+    height: 25px;
+    background-color: #9FFFB8;
+    border-radius: 5px;
+}
+
+.nav-middle .nav-buttons {
+    margin-top: 20px;
+    background-color: #88FFF9;
+    border-radius: 5px;
+}
+
+.nav-buttons button {
+    margin-left: 10px;
+    margin-right: 10px;
+    border: none;
+    padding: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    background-color: #88FFF9;
+}
+
+.nav-buttons button:hover {
+    text-decoration: underline;
+}
+
+.nav-buttons button:active {
+    color: white;
+}
+
+.nav-support {
+    margin-right: 50px;
+    text-align: center;
+}
+
+.nav-right {
+    text-align: center;
+    font-weight: bold;
+}
+
+.nav-right a {
+    display: inline-block;
+    margin: 7px auto;
+    text-decoration: none;
+    font-size: 18px;
+    color: #A0CDFF
+}
+
+.nav-right a:hover {
+    color: #90CD94
+}
+
+.nav-right a:active {
+    text-decoration: underline;
+}
