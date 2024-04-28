@@ -1,0 +1,73 @@
+<!-- Load static files folder -->
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!-- Metadata for the site -->
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <meta name="description" content="A shop for all your sports and health nutrition needs">
+        <!-- Link to the stylesheet -->
+        <link rel="stylesheet" href="{% static 'css/style.css' %}">
+        <!-- Site title -->
+        <title>NutriForce</title>
+        <!-- Load favicon -->
+        <link rel="icon" type="image/x-icon" href="../static/favicon.ico">
+        <!-- Font Awesome script -->
+        <script src="https://kit.fontawesome.com/3e8d6f7307.js" crossorigin="anonymous"></script>
+    </head>
+    <body>
+        <nav>
+            <!-- Nav bar -->
+                <div class="nav-div">
+                    <div class="nav-left">
+                        <!-- Site logo -->
+                        <a href="home"><img src="../static/logo.jpeg" alt="NutriForce Logo"></a>
+                    </div>
+                    <div class="nav-middle">
+                        <!-- Search bar -->
+                        <label for="nav-search" aria-label="Search Bar"><input type="text" id="nav-search" placeholder="Search"></label>
+                        <!-- Nav buttons -->
+                        <div class="nav-buttons">
+                            <button onclick="">All Products</button>
+                            <button onclick="">Sports</button>
+                            <button onclick="">Health</button>
+                            <button onclick="">What's New</button>
+                        </div>
+                    </div>
+                    <div class="nav-support">
+                        <!-- Contact details -->
+                        <p class="support-details">
+                            Support
+                            <br>
+                            <a href="mailto:contact@test.com">contact@test.com</a>
+                        </p>
+                    </div>
+                    <div class="nav-left">
+                        <a href=""><i class="fa-solid fa-cart-shopping"></i> View Cart</a>
+                        {% if user.is_authenticated %}
+                            <a href="">Profile</a>
+                        {% else %}
+                            <a href="">Log In</a>
+                            <a href="">Create Account</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </nav>
+        <main>
+            <div class="container">
+                {% block content %}
+                <!-- Main site content -->
+                {% endblock content %}
+            </div>
+        </main>
+        <footer>
+                <!-- Footer for copyright -->
+                {% block copyright %}
+                    Made by CrazyCooky
+                {% endblock copyright %}
+        </footer>
+    </body>
+</html>
