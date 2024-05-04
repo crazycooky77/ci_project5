@@ -60,6 +60,7 @@ class Addresses(models.Model):
 
     class Meta:
         ordering = ['county', 'city']
+        verbose_name_plural = 'Addresses'
 
     def __str__(self):
         return f'{self.county} | {self.city} | {self.eir_code}'
@@ -69,7 +70,8 @@ class Products(models.Model):
     product_id = models.AutoField(primary_key=True)
     product_name = models.CharField(max_length=100)
     product_pic = CloudinaryField('image')
-    price = models.IntegerField()
+    price = models.DecimalField(max_digits=6,
+                                decimal_places=2)
     size = models.CharField(max_length=50)
     description = models.TextField()
     stock_count = models.IntegerField()
@@ -77,9 +79,11 @@ class Products(models.Model):
     active = models.BooleanField(default=True)
     categories = models.TextField(blank=True,
                                   null=True)
+    created_ts = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         ordering = ['-active', 'product_name']
+        verbose_name_plural = 'Products'
 
     def __str__(self):
         return f'{self.active} | {self.product_name} | {self.size} | {self.price} | {self.stock_count}'
@@ -121,6 +125,7 @@ class PurchaseHistory(models.Model):
 
     class Meta:
         ordering = ['-order_dt', 'status']
+        verbose_name_plural = 'Purchase Histories'
 
     def __str__(self):
         return f'{self.status} | {self.order_dt}'
@@ -136,6 +141,7 @@ class Purchases(models.Model):
 
     class Meta:
         ordering = ['-purchase_id', 'product']
+        verbose_name_plural = 'Purchases'
 
     def __str__(self):
         return f'{self.purchase_id} | {Products.product_name} | {self.quantity}'
@@ -161,6 +167,7 @@ class SavedItems(models.Model):
 
     class Meta:
         ordering = ['list_type', 'product']
+        verbose_name_plural = 'Saved Items'
 
     def __str__(self):
         return f'{self.list_type} | {Products.product_name} | {self.quantity}'
