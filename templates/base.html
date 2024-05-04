@@ -24,7 +24,7 @@
                 <div class="nav-div">
                     <div class="nav-left">
                         <!-- Site logo -->
-                        <a href="home"><img src="../static/logo.jpeg" alt="NutriForce Logo"></a>
+                        <a href="/"><img src="../static/logo.jpeg" alt="NutriForce Logo"></a>
                     </div>
                     <div class="nav-middle">
                         <div class="nav-search">
@@ -55,11 +55,19 @@
                         {% if user.is_authenticated %}
                             <br>
                             <a href="">Profile</a>
+                            <br>
+                            <form method="POST" action="{% url 'account_logout' %}">
+                                {% csrf_token %}
+                                {% if redirect_field_value %}
+                                    <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+                                {% endif %}
+                                <button type="submit" id="nav-logout">Log Out</button>
+                            </form>
                         {% else %}
                             <br>
                             <a href="">Log In</a>
                             <br>
-                            <a href="">Create Account</a>
+                            <a href="/signup">Create Account</a>
                         {% endif %}
                     </div>
                 </div>

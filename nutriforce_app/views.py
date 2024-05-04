@@ -1,5 +1,7 @@
+from django.urls import reverse_lazy
 from .models import *
 from django.shortcuts import render, redirect
+from django.views.generic.edit import CreateView
 from django.contrib import messages
 from django.contrib.auth import logout
 from .forms import *
@@ -26,3 +28,10 @@ def homepage_view(request):
                    'new_product': new_product,
                    'sports_product': sports_product,
                    'health_product': health_product})
+
+
+class CreateUser(CreateView):
+    model = User
+    fields = ['email', 'password']
+    template_name = 'signup.html'
+    success_url = reverse_lazy('home')

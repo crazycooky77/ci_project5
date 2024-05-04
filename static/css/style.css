@@ -8,6 +8,12 @@
     font-size: 18px;
 }
 
+label:has(+input:required):after {
+    content: '*';
+    color: red;
+    margin-right: 3px;
+}
+
 hr {
     margin-bottom: 15px;
 }
@@ -23,6 +29,72 @@ a:hover {
 
 a:active {
     font-weight: bold;
+}
+
+button {
+    background: #6DB1FC;
+    border-radius: 5px;
+}
+
+button:hover {
+    background: #90CD94;
+}
+
+button:active {
+    color: white;
+}
+
+input {
+    background-color: #9FFFB8;
+    border-radius: 5px;
+}
+
+h2 {
+    margin-bottom: 20px;
+}
+
+#nav-logout {
+    background: none;
+    border: none;
+    border-radius: unset;
+    color: #6DB1FC;
+    font-weight: bold;
+    margin: 5px auto;
+}
+
+#nav-logout:hover {
+    color: #90CD94;
+}
+
+#nav-logout:active {
+    text-decoration: underline;
+}
+
+.signup-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.label-input {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 10px;
+}
+
+.pass-req {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.pass-req p {
+    margin-bottom: 10px;
+}
+
+.pass-req button {
+    margin-top: 20px;
 }
 
 .nav-div {
@@ -53,8 +125,6 @@ a:active {
 .nav-search input {
     width: 350px;
     height: 25px;
-    background-color: #9FFFB8;
-    border-radius: 5px;
 }
 
 .nav-middle .nav-buttons {
@@ -168,6 +238,23 @@ main {
 }
 
 .feat-prod-details {
+    margin-bottom: 10px;
+}
+
+.errorlist * {
+    list-style: none;
+    color: red;
+    text-align: center;
+}
+
+.form-error {
+    color: red;
+    text-align: center;
+}
+
+.form-confirm {
+    color: green;
+    text-align: center;
     margin-bottom: 10px;
 }
 

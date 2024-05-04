@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% load allauth i18n %}
+
+{% block content %}
+    <div class="mid-content">
+        <h2>Create Account</h2>
+        {% url 'account_signup' as action_url %}
+        {% element form form=form method="post" action=action_url tags="entrance,signup" %}
+            {% slot body %}
+                {% csrf_token %}
+                <!-- Form errors -->
+                {% if form.errors %}
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                            <div class="form-error">
+                                {{ error|escape }}
+                            </div>
+                        {% endfor %}
+                    {% endfor %}
+                    {% for error in form.non_field_errors %}
+                        <div class="form-error">
+                            {{ error|escape }}
+                        </div>
+                    {% endfor %}
+                    <br>
+                {% endif %}
+                <!-- Messages from the form (confirmation and error) -->
+                {% if messages %}
+                    {% for message in messages %}
+                        {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR or message.level == DEFAULT_MESSAGE_LEVELS.WARNING %}
+                            <div class="form-error">
+                                {{ message }}
+                            </div>
+                        {% elif message.level == DEFAULT_MESSAGE_LEVELS.INFO or message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+                            <div class="form-confirm">
+                                {{ message }}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                    <br>
+                {% endif %}
+                <div class="signup-form">
+                    <div class="label-input">
+                        <label for="id_email" aria-label="Email Address"></label>
+                        <input type="email" id="id_email" placeholder="email address" name="email" required>
+                    </div>
+                    <div class="label-input">
+                        <label for="id_password1" aria-label="Password"></label>
+                        <input type="password" id="id_password1" placeholder="password" name="password1" required>
+                    </div>
+                    <div class="label-input">
+                        <label for="id_password2" aria-label="Re-enter Password"></label>
+                        <input type="password" id="id_password2" placeholder="re-enter password" name="password2" required>
+                    </div>
+                </div>
+                <div class="pass-req">
+                    <p>Note, your password:</p>
+                    <ul>
+                        <li>can’t be too similar to your other personal information
+                        <li>must contain at least 8 characters</li>
+                        <li>can’t be a commonly used password</li>
+                        <li>can’t be entirely numeric</li>
+                    </ul>
+                    {% if redirect_field_value %}
+                        <input type="hidden"
+                               name="{{ redirect_field_name }}"
+                               value="{{ redirect_field_value }}" />
+                    {% endif %}
+                {% endslot %}
+                <!-- Sign up button to create the account from form details -->
+                {% slot actions %}
+                    {% element button tags="prominent,signup" type="submit" %}
+                        {% trans "Create Account" %}
+                    {% endelement %}
+                {% endslot %}
+            </div>
+        {% endelement %}
+        <!-- Social account signup (not yet enabled) -->
+        {% if SOCIALACCOUNT_ENABLED %}
+            {% include "socialaccount/snippets/login.html" with page_layout="entrance" %}
+        {% endif %}
+    </div>
+{% endblock content %}
