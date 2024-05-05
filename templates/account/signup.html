@@ -8,7 +8,6 @@
         {% element form form=form method="post" action=action_url tags="entrance,signup" %}
             {% slot body %}
                 {% csrf_token %}
-                <!-- Form errors -->
                 {% if form.errors %}
                     {% for field in form %}
                         {% for error in field.errors %}
@@ -24,7 +23,6 @@
                     {% endfor %}
                     <br>
                 {% endif %}
-                <!-- Messages from the form (confirmation and error) -->
                 {% if messages %}
                     {% for message in messages %}
                         {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR or message.level == DEFAULT_MESSAGE_LEVELS.WARNING %}
@@ -39,7 +37,7 @@
                     {% endfor %}
                     <br>
                 {% endif %}
-                <div class="signup-form">
+                <div class="form-div">
                     <div class="label-input">
                         <label for="id_email" aria-label="Email Address"></label>
                         <input type="email" id="id_email" placeholder="email address" name="email" required>
@@ -66,14 +64,15 @@
                                name="{{ redirect_field_name }}"
                                value="{{ redirect_field_value }}" />
                     {% endif %}
-                {% endslot %}
-                <!-- Sign up button to create the account from form details -->
-                {% slot actions %}
+                </div>
+            {% endslot %}
+            {% slot actions %}
+                <div class="pass-req">
                     {% element button tags="prominent,signup" type="submit" %}
                         {% trans "Create Account" %}
                     {% endelement %}
-                {% endslot %}
-            </div>
+                </div>
+            {% endslot %}
         {% endelement %}
         <!-- Social account signup (not yet enabled) -->
         {% if SOCIALACCOUNT_ENABLED %}

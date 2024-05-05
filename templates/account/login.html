@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="mid-content">
+        <h2>Log In</h2>
+        <form method="POST" action="{% url 'account_login' %}">
+            {% csrf_token %}
+            {% if form.errors %}
+                {% for field in form %}
+                    {% for error in field.errors %}
+                        <div class="form-error">
+                            {{ error|escape }}
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+                {% for error in form.non_field_errors %}
+                    <div class="form-error">
+                        {{ error|escape }}
+                    </div>
+                {% endfor %}
+                <br>
+            {% endif %}
+            {% if messages %}
+                {% for message in messages %}
+                    {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR or message.level == DEFAULT_MESSAGE_LEVELS.WARNING %}
+                        <div class="form-error">
+                            {{ message }}
+                        </div>
+                    {% elif message.level == DEFAULT_MESSAGE_LEVELS.INFO or message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+                        <div class="form-confirm">
+                            {{ message }}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+                <br>
+            {% endif %}
+            <div class="form-div">
+                <div class="label-input">
+                    <label for="id_login" aria-label="Email Address"></label>
+                    <input type="text" id="id_login" placeholder="email address" name="login" required>
+                </div>
+                <div class="label-input">
+                    <label for="id_password" aria-label="Password"></label>
+                    <input type="password" id="id_password" placeholder="password" name="password" required>
+                </div>
+                <div class="label-input">
+                    <button type="submit">Log In</button>
+                </div>
+            </div>
+        </form>
+        <div class="form-div">
+            <button onclick="location=/password\reset/">Forgot Password</button>
+        </div>
+    </div>
+{% endblock content %}
