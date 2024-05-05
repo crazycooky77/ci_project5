@@ -70,7 +70,7 @@ h2 {
     text-decoration: underline;
 }
 
-.signup-form {
+.form-div {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -79,6 +79,11 @@ h2 {
 .label-input {
     display: flex;
     flex-direction: row;
+    margin-bottom: 10px;
+}
+
+label[for="id_email"], #id_email {
+    margin-top: 20px;
     margin-bottom: 10px;
 }
 
