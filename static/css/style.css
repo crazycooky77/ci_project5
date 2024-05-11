@@ -284,10 +284,19 @@ main {
     margin-bottom: 15px;
 }
 
-.acc-details button {
+.profile-buttons {
     width: 25%;
     margin-right: 75%;
+}
+
+.prof-button {
+    width: 100%;
     margin-top: 10px;
+}
+
+.del-button {
+    width: 100%;
+    margin-top: 30px;
 }
 
 .pw-change *, .email-change * {
