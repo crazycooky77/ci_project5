@@ -1,3 +1,5 @@
+from allauth.account.views import PasswordChangeView, EmailView, \
+    ConfirmEmailView
 from django.urls import reverse_lazy
 from .models import *
 from django.shortcuts import render, redirect
@@ -35,3 +37,19 @@ class CreateUser(CreateView):
     fields = ['email', 'password']
     template_name = 'signup.html'
     success_url = reverse_lazy('home')
+
+
+class CustomEmailChangeView(EmailView):
+    template_name = 'profile.html'
+
+
+class CustomEmailConfirmView(ConfirmEmailView):
+    template_name = 'profile.html'
+
+
+class CustomPasswordChangeView(PasswordChangeView):
+    template_name = 'profile.html'
+
+
+def profile_view(request):
+    return render(request, 'profile.html')
