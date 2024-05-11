@@ -2,7 +2,9 @@
 
 {% block content %}
     <div class="profile">
-        {% if request.user.is_authenticated %}
+        {% if request.get_full_path|slice:"0:15" == '/confirm-email/' and not request.user.is_authenticated %}
+                {% include 'account/email_confirm.html' %}
+        {% elif request.user.is_authenticated %}
             <div class="profile-menu">
                 <a href="/profile">Account Details</a>
                 <a href="/profile/addresses">Addresses</a>
