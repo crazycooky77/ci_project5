@@ -54,7 +54,7 @@
                         <a href=""><i class="fa-solid fa-cart-shopping"></i> View Cart</a>
                         {% if user.is_authenticated %}
                             <br>
-                            <a href="">Profile</a>
+                            <a href="/profile">Profile</a>
                             <br>
                             <form method="POST" action="{% url 'account_logout' %}">
                                 {% csrf_token %}
