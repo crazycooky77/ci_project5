@@ -15,11 +15,16 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
 from nutriforce_app.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', homepage_view, name='home'),
-    path('', include('allauth.urls'), name='login')
+    path('email/', CustomEmailChangeView.as_view(), name='email-change'),
+    re_path(r"^confirm-email/(?P<key>[-:\w]+)/$", CustomEmailConfirmView.as_view(), name='email-confirm'),
+    path('password/change/', CustomPasswordChangeView.as_view(), name='pw-change'),
+    path('', include('allauth.urls'), name='login'),
+    path('profile', profile_view, name='profile'),
+    path('profile/addresses', profile_view, name='addresses')
 ]
