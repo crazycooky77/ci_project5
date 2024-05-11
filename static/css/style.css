@@ -92,6 +92,7 @@ label[for="id_email"], #id_email {
     flex-direction: column;
     justify-content: center;
     margin-top: 10px;
+    width: auto;
 }
 
 .pass-req p {
@@ -244,6 +245,90 @@ main {
 
 .feat-prod-details {
     margin-bottom: 10px;
+}
+
+.profile {
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+    align-items: flex-start;
+    width: 80%;
+    border: 1px solid black;
+    padding: 20px;
+    border-radius: 7px;
+}
+
+.profile-menu {
+    display: flex;
+    flex-direction: column;
+    width: 20%;
+}
+
+.profile-menu * {
+    width: 100%;
+    margin: 3px auto;
+}
+
+.acc-details, .pw-change, .email-change, .email-confirm {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    margin: 0;
+}
+
+.acc-details * {
+    margin-left: 0;
+}
+
+.acc-details p, .pw-change ul {
+    margin-bottom: 15px;
+}
+
+.acc-details button {
+    width: 25%;
+    margin-right: 75%;
+    margin-top: 10px;
+}
+
+.pw-change *, .email-change * {
+    margin-left: 0;
+}
+
+.pw-change button {
+    width: 35%;
+    margin-right: 65%;
+    margin-top: 10px;
+}
+
+.email-change button {
+    margin-top: 15px;
+}
+
+.email-change label[for="id_email"] {
+    margin-right: 30px;
+}
+
+#new_email {
+    margin-top: 15px;
+    margin-bottom: 10px;
+}
+
+.email-change label[for="new_email"] {
+    margin-right: 10px;
+}
+
+.default-addr {
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+}
+
+.other-addr {
+    display: flex;
+    flex-direction: column;
+    width: 40%;
 }
 
 .errorlist * {
