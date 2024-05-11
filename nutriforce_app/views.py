@@ -1,5 +1,5 @@
 from allauth.account.views import PasswordChangeView, EmailView, \
-    ConfirmEmailView
+    ConfirmEmailView, EmailVerificationSentView
 from django.urls import reverse_lazy
 from .models import *
 from django.shortcuts import render, redirect
@@ -35,8 +35,12 @@ def homepage_view(request):
 class CreateUser(CreateView):
     model = User
     fields = ['email', 'password']
-    template_name = 'signup.html'
+    template_name = 'account/signup.html'
     success_url = reverse_lazy('home')
+
+
+class CustomEmailVerificationSent(EmailVerificationSentView):
+    template_name = 'account/verification_sent.html'
 
 
 class CustomEmailChangeView(EmailView):
@@ -52,4 +56,14 @@ class CustomPasswordChangeView(PasswordChangeView):
 
 
 def profile_view(request):
-    return render(request, 'profile.html')
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            if request.POST.get("delete-button"):
+                User.delete(request.user)
+                logout(request)
+                messages.success(request, 'Account successfully deleted')
+                return redirect(homepage_view)
+        else:
+            return render(request, 'profile.html')
+    else:
+        return render(request, 'profile.html')

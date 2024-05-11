@@ -30,7 +30,12 @@
         <br>
     {% endif %}
     <p>Email address: {{ user.email }}</p>
-    <button onclick="location.href='/email'">Change Email</button>
-    <button onclick="location=/password\change/">Change Password</button>
-    <button type="submit" name="delete-button" value="delete-button" onclick="return confirm('Are you sure you want to delete your account? This cannot be undone')">Delete Account</button>
+    <div class="profile-buttons">
+        <button class="prof-button" onclick="location.href='/email'">Change Email</button>
+        <button class="prof-button" onclick="location=/password\change/">Change Password</button>
+        <form method="POST">
+            {% csrf_token %}
+            <button type="submit" name="delete-button" value="delete-button" class="del-button" onclick="return confirm('Are you sure you want to delete your account? This cannot be undone')">Delete Account</button>
+        </form>
+    </div>
 </div>
