@@ -1,0 +1,97 @@
+{% load allauth i18n %}
+
+<div class="email-change">
+    <h2>Change Email</h2>
+    {% if not emailaddresses %}
+        {% include "account/snippets/warn_no_email.html" %}
+    {% endif %}
+    {% url 'account_email' as action_url %}
+    {% element form method="post" action=action_url %}
+        {% slot body %}
+            {% csrf_token %}
+            {% if form.errors %}
+                {% for field in form %}
+                    {% for error in field.errors %}
+                        <div class="form-error">
+                            {{ error|escape }}
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+                {% for error in form.non_field_errors %}
+                    <div class="form-error">
+                        {{ error|escape }}
+                    </div>
+                {% endfor %}
+                <br>
+            {% endif %}
+            {% if messages %}
+                {% for message in messages %}
+                    {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR or message.level == DEFAULT_MESSAGE_LEVELS.WARNING %}
+                        <div class="form-error">
+                            {{ message }}
+                        </div>
+                    {% elif message.level == DEFAULT_MESSAGE_LEVELS.INFO or message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+                        <div class="form-confirm">
+                            {{ message }}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+                <br>
+            {% endif %}
+            {% if current_emailaddress %}
+                {% element field id="current_email" disabled=True type="email" value=current_emailaddress.email %}
+                    {% slot label %}
+                        {% translate "Current email" %}:
+                    {% endslot %}
+                {% endelement %}
+            {% endif %}
+            {% if new_emailaddress %}
+                {% element field id="new_email" value=new_emailaddress.email disabled=True type="email" %}
+                    {% slot label %}
+                        {% if not current_emailaddress %}
+                            {% translate "Current email" %}:
+                        {% else %}
+                            {% translate "Changing to" %}:
+                        {% endif %}
+                    {% endslot %}
+                    {% slot help_text %}
+                        <br>
+                        {% blocktranslate %}Your email address is still pending verification.{% endblocktranslate %}
+                        <br>
+                        {% element button form="pending-email" type="submit" name="action_send" tags="minor,secondary" %}
+                            {% trans 'Re-send Verification' %}
+                        {% endelement %}
+                        <br>
+                        {% if current_emailaddress %}
+                            {% element button form="pending-email" type="submit" name="action_remove" tags="danger,minor" %}
+                                {% trans 'Cancel Change' %}
+                            {% endelement %}
+                        {% endif %}
+                    {% endslot %}
+                {% endelement %}
+                {% else %}
+                {% element field id=form.email.auto_id name="email" value=form.email.value errors=form.email.errors type="email" %}
+                {% slot label %}
+                    {% translate "Change to" %}:
+                {% endslot %}
+            {% endelement %}
+            {% slot actions %}
+            {% element button name="action_add" type="submit" %}
+                {% trans "Change Email" %}
+            {% endelement %}
+        {% endslot %}
+            {% endif %}
+
+        {% endslot %}
+
+    {% endelement %}
+    {% if new_emailaddress %}
+        <form style="display: none"
+              id="pending-email"
+              method="post"
+              action="{% url 'account_email' %}">
+            {% csrf_token %}
+            <input type="hidden" name="email" value="{{ new_emailaddress.email }}">
+        </form>
+    {% endif %}
+</div>

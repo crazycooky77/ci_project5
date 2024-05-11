@@ -1,0 +1,61 @@
+{% load i18n %}
+{% load account %}
+{% load allauth %}
+
+<div class="email-confirm">
+    <h2>Confirm Email</h2>
+    {% if confirmation %}
+        {% user_display confirmation.email_address.user as user_display %}
+        {% if can_confirm %}
+            {% element p %}
+                {% blocktrans with confirmation.email_address.email as email %}Please confirm that <a href="mailto:{{ email }}">{{ email }}</a> is an email address for user {{ user_display }}.{% endblocktrans %}
+            {% endelement %}
+            {% url 'account_confirm_email' confirmation.key as action_url %}
+            {% element form method="post" action=action_url %}
+                {% slot actions %}
+                    {% csrf_token %}
+                    {% if form.errors %}
+                        {% for field in form %}
+                            {% for error in field.errors %}
+                                <div class="form-error">
+                                    {{ error|escape }}
+                                </div>
+                            {% endfor %}
+                        {% endfor %}
+                        {% for error in form.non_field_errors %}
+                            <div class="form-error">
+                                {{ error|escape }}
+                            </div>
+                        {% endfor %}
+                        <br>
+                    {% endif %}
+                    {% if messages %}
+                        {% for message in messages %}
+                            {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR or message.level == DEFAULT_MESSAGE_LEVELS.WARNING %}
+                                <div class="form-error">
+                                    {{ message }}
+                                </div>
+                            {% elif message.level == DEFAULT_MESSAGE_LEVELS.INFO or message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+                                <div class="form-confirm">
+                                    {{ message }}
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                        <br>
+                    {% endif %}
+                    {{ redirect_field }}
+                    {% element button type="submit" %}
+                        {% trans 'Confirm' %}
+                    {% endelement %}
+                {% endslot %}
+            {% endelement %}
+        {% else %}
+            {% element p %}
+                {% blocktrans %}Unable to confirm {{ email }} because it is already confirmed by a different account.{% endblocktrans %}
+            {% endelement %}
+        {% endif %}
+    {% else %}
+        {% url 'account_email' as email_url %}
+            {% blocktrans %}This email confirmation link expired or is invalid. Please <a href="{{ email_url }}">issue a new email confirmation request</a>.{% endblocktrans %}
+    {% endif %}
+</div>
