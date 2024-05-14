@@ -38,6 +38,10 @@ class User(AbstractUser):
 
 
 class Addresses(models.Model):
+
+    class Countries(models.TextChoices):
+        IE = 'IE', _('Ireland')
+
     address_id = models.AutoField(primary_key=True)
     user = models.ForeignKey(User,
                              on_delete=models.CASCADE)
@@ -54,7 +58,8 @@ class Addresses(models.Model):
     eir_code = models.CharField(max_length=50)
     county = models.CharField(max_length=50)
     country = models.CharField(max_length=50,
-                               default='Ireland')
+                               choices=Countries.choices,
+                               default=Countries.IE)
     phone_nr = models.IntegerField()
     default_addr = models.BooleanField(default=True)
 
