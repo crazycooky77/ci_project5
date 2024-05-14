@@ -69,21 +69,20 @@
                         {% endif %}
                     {% endslot %}
                 {% endelement %}
-                {% else %}
+            {% else %}
                 {% element field id=form.email.auto_id name="email" value=form.email.value errors=form.email.errors type="email" %}
-                {% slot label %}
-                    {% translate "Change to" %}:
+                    {% slot label %}
+                        {% translate "Change to" %}:
+                    {% endslot %}
+                {% endelement %}
+                {% slot actions %}
+                    {% element button name="action_add" type="submit" %}
+                        {% trans "Change Email" %}
+                    {% endelement %}
+                    <button onclick="location.href='/profile'" type="button">Cancel</button>
                 {% endslot %}
-            {% endelement %}
-            {% slot actions %}
-            {% element button name="action_add" type="submit" %}
-                {% trans "Change Email" %}
-            {% endelement %}
-        {% endslot %}
             {% endif %}
-
         {% endslot %}
-
     {% endelement %}
     {% if new_emailaddress %}
         <form style="display: none"
