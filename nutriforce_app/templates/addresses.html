@@ -1,11 +1,37 @@
 <div class="addresses">
     <div class="default-addr">
         <h2>Default Address</h2>
-        {{ addr_form }}
-        <button type="submit" onclick="location.href='/profile/add-address'">Add Address</button>
+        {% if default_address %}
+            {{ default_address }}
+        {% else %}
+            <button type="submit" onclick="location.href='/profile/add-address'">Add Address</button>
+        {% endif %}
     </div>
     <div class="other-addr">
         <h2>Other Addresses</h2>
-        <button type="submit" onclick="location.href='/profile/add-address'">Add Address</button>
+        {% if default_address %}
+            <button type="submit" onclick="location.href='/profile/add-address'">Add Address</button>
+        {% endif %}
+        {% if other_address %}
+            {% for addr in other_address %}
+                <div class="addr-view">
+                    <h3>Address {{ forloop.counter }}</h3>
+                    <p>{{ addr.first_name }}
+                    {{ addr.last_name }}</p>
+                    <p>{{ addr.addr_line_1 }}<p>
+                    {% if addr.addr_line_2 %}
+                        <p>{{ addr.addr_line_2 }}<p>
+                    {% endif %}
+                    {% if addr.addr_line_3 %}
+                        <p>{{ addr.addr_line_3 }}<p>
+                    {% endif %}
+                    <p>{{ addr.city }}
+                    {{ addr.eir_code }}<p>
+                    <p>{{ addr.county }},
+                    {{ addr.get_country_display }}<p>
+                    <p>0{{ addr.phone_nr }}<p>
+                </div>
+            {% endfor %}
+        {% endif %}
     </div>
 </div>

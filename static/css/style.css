@@ -53,6 +53,13 @@ h2 {
     margin-bottom: 20px;
 }
 
+h3 {
+    text-decoration: underline;
+    font-weight: normal;
+    margin-bottom: 10px;
+    margin-left: 0;
+}
+
 #nav-logout {
     background: none;
     border: none;
@@ -262,6 +269,7 @@ main {
     display: flex;
     flex-direction: column;
     width: 20%;
+    margin: 0;
 }
 
 .profile-menu * {
@@ -269,7 +277,7 @@ main {
     margin: 3px auto;
 }
 
-.acc-details, .pw-change, .email-change, .email-confirm {
+.acc-details, .pw-change, .email-change, .email-confirm, .add-addr {
     display: flex;
     flex-direction: column;
     width: 80%;
@@ -310,6 +318,8 @@ main {
 }
 
 .email-change button {
+    width: 50%;
+    margin-right: 65%;
     margin-top: 15px;
 }
 
@@ -326,18 +336,77 @@ main {
     margin-right: 10px;
 }
 
+.addresses {
+    display: flex;
+    flex-direction: row;
+    width: 80%;
+    margin: 0;
+}
+
 .default-addr {
     display: flex;
     flex-direction: column;
+    align-content: flex-start;
+    flex-wrap: wrap;
     width: 40%;
     border-left: 1px solid black;
-    border-right: 1px solid black;
+    margin: 0;
+    padding-left: 15px;
+    padding-right: 15px;
 }
 
 .other-addr {
     display: flex;
     flex-direction: column;
+    align-content: flex-start;
+    flex-wrap: wrap;
     width: 40%;
+    border-left: 1px solid black;
+    margin: 0;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.addresses h2, .addresses button {
+    margin-left: 0;
+    margin-top: 0;
+}
+
+.add-addr > .label-input {
+    margin: 5px 0;
+}
+
+.add-addr label {
+    margin-left: 0;
+}
+
+.add-addr input, .add-addr select {
+    margin-right: 300px;
+  }
+
+.add-addr select {
+    border-radius: 5px;
+    background-color: #9FFFB8;
+}
+
+input[name="default_addr"] {
+    margin-right: 495px;
+}
+
+.add-addr button {
+    margin-left: 0;
+    margin-top: 20px;
+}
+
+.addr-view {
+    display: flex;
+    flex-direction: column;
+    margin-top: 30px;
+}
+
+.addr-view p {
+    margin-left: 0;
+    margin-bottom: 1px;
 }
 
 .errorlist * {

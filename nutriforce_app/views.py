@@ -57,6 +57,12 @@ class CustomPasswordChangeView(PasswordChangeView):
 
 def profile_view(request):
     if request.user.is_authenticated:
+        default_address = Addresses.objects.filter(
+            user=request.user,
+            default_addr=True)
+        other_address = Addresses.objects.filter(
+            user=request.user,
+            default_addr=False)
         if request.method == 'POST':
             if request.POST.get("delete-button"):
                 User.delete(request.user)
@@ -64,6 +70,30 @@ def profile_view(request):
                 messages.success(request, 'Account successfully deleted')
                 return redirect(homepage_view)
         else:
-            return render(request, 'profile.html')
+            return render(request, 'profile.html',
+                          {'default_address': default_address,
+                           'other_address': other_address})
     else:
         return render(request, 'profile.html')
+
+
+def profile_addr(request):
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            addr_form = AddressForm(request.POST)
+            if addr_form.is_valid():
+                obj = addr_form.save(commit=False)
+                obj.user = request.user
+                obj.save()
+                messages.success(
+                    request,
+                    'You successfully added your address to your account.')
+                return redirect('addresses')
+        else:
+            addr_form = AddressForm()
+        return render(request, 'profile.html',
+                      {'addr_form': addr_form})
+    else:
+        return render(request, 'profile.html')
+
+            # Addresses.objects.get(user=request.user)

@@ -27,5 +27,6 @@ urlpatterns = [
     path('password/change/', CustomPasswordChangeView.as_view(), name='pw-change'),
     path('', include('allauth.urls'), name='login'),
     path('profile', profile_view, name='profile'),
-    path('profile/addresses', profile_view, name='addresses')
+    path('profile/addresses', profile_view, name='addresses'),
+    path('profile/add-address', profile_addr, name='add-address')
 ]
