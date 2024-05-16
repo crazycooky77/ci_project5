@@ -1,11 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 
 * {
-    max-width: 1400px;
+    max-width: 1920px;
+    max-height: 1080px;
     margin: auto;
     background-color: #F5FEFD;
     font-family: "Montserrat", sans-serif;
     font-size: 18px;
+}
+
+body {
+    margin: auto 20px;
 }
 
 label:has(+input:required):after {
@@ -336,10 +341,16 @@ main {
     margin-right: 10px;
 }
 
+.addr-msg {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+}
+
 .addresses {
     display: flex;
     flex-direction: row;
-    width: 80%;
+    width: 100%;
     margin: 0;
 }
 
@@ -348,7 +359,7 @@ main {
     flex-direction: column;
     align-content: flex-start;
     flex-wrap: wrap;
-    width: 40%;
+    width: 50%;
     border-left: 1px solid black;
     margin: 0;
     padding-left: 15px;
@@ -359,17 +370,31 @@ main {
     display: flex;
     flex-direction: column;
     align-content: flex-start;
-    flex-wrap: wrap;
-    width: 40%;
+    width: 50%;
     border-left: 1px solid black;
     margin: 0;
     padding-left: 15px;
     padding-right: 15px;
 }
 
-.addresses h2, .addresses button {
+.other-addr-list {
+    flex: 1;
+    overflow-y: auto;
+    margin: 0;
+}
+
+.addresses h2 {
     margin-left: 0;
     margin-top: 0;
+}
+
+.addresses button {
+    margin-top: 0;
+    margin-left: 0;
+}
+
+.add-addr-button {
+    margin-bottom: 30px;
 }
 
 .add-addr > .label-input {
@@ -394,19 +419,34 @@ input[name="default_addr"] {
 }
 
 .add-addr button {
-    margin-left: 0;
-    margin-top: 20px;
+    margin: 20px auto 30px 0;
 }
 
 .addr-view {
     display: flex;
     flex-direction: column;
-    margin-top: 30px;
+    margin-top: 0;
+    margin-left: 0;
 }
 
 .addr-view p {
     margin-left: 0;
     margin-bottom: 1px;
+}
+
+.addr-view button {
+    margin-top: 15px;
+}
+
+.addr-buttons {
+    display: flex;
+    flex-direction: column;
+    margin-left: 0;
+    margin-bottom: 30px;
+}
+
+.addr-buttons button {
+    width: 100%;
 }
 
 .errorlist * {
@@ -418,12 +458,14 @@ input[name="default_addr"] {
 .form-error {
     color: red;
     text-align: center;
+    margin-top: 0;
 }
 
 .form-confirm {
     color: green;
     text-align: center;
     margin-bottom: 10px;
+    margin-top: 0;
 }
 
 footer {

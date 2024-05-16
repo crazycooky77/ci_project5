@@ -24,6 +24,8 @@
                 {% include 'addresses.html' %}
             {% elif request.get_full_path == '/profile/add-address' %}
                 {% include 'add_address.html' %}
+            {% elif request.get_full_path|slice:"0:22" == '/profile/edit-address/' %}
+                {% include 'edit_address.html' %}
             {% endif %}
         {% else %}
             <p>You need to <a href="/login">log in</a> to view this page.</p>

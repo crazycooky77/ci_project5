@@ -1,66 +1,95 @@
-<div class="addresses">
-    <div class="default-addr">
-        {% if form.errors %}
-            {% for field in form %}
-                {% for error in field.errors %}
-                    <div class="form-error">
-                        {{ error|escape }}
-                    </div>
-                {% endfor %}
-            {% endfor %}
-            {% for error in form.non_field_errors %}
+<div class="addr-msg">
+    {% if form.errors %}
+        {% for field in form %}
+            {% for error in field.errors %}
                 <div class="form-error">
                     {{ error|escape }}
                 </div>
             {% endfor %}
-            <br>
-        {% endif %}
-        {% if messages %}
-            {% for message in messages %}
-                {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR or message.level == DEFAULT_MESSAGE_LEVELS.WARNING %}
-                    <div class="form-error">
-                        {{ message }}
-                    </div>
-                {% elif message.level == DEFAULT_MESSAGE_LEVELS.INFO or message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
-                    <div class="form-confirm">
-                        {{ message }}
-                    </div>
-                {% endif %}
-            {% endfor %}
-            <br>
-        {% endif %}
-        <h2>Default Address</h2>
-        {% if default_address %}
-            {{ default_address }}
-        {% else %}
-            <button type="submit" onclick="location.href='/profile/add-address'">Add Address</button>
-        {% endif %}
-    </div>
-    <div class="other-addr">
-        <h2>Other Addresses</h2>
-        {% if default_address %}
-            <button type="submit" onclick="location.href='/profile/add-address'">Add Address</button>
-        {% endif %}
-        {% if other_address %}
-            {% for addr in other_address %}
-                <div class="addr-view">
-                    <h3>Address {{ forloop.counter }}</h3>
-                    <p>{{ addr.first_name }}
-                    {{ addr.last_name }}</p>
-                    <p>{{ addr.addr_line_1 }}<p>
-                    {% if addr.addr_line_2 %}
-                        <p>{{ addr.addr_line_2 }}<p>
-                    {% endif %}
-                    {% if addr.addr_line_3 %}
-                        <p>{{ addr.addr_line_3 }}<p>
-                    {% endif %}
-                    <p>{{ addr.city }}
-                    {{ addr.eir_code }}<p>
-                    <p>{{ addr.county }},
-                    {{ addr.get_country_display }}<p>
-                    <p>0{{ addr.phone_nr }}<p>
+        {% endfor %}
+        {% for error in form.non_field_errors %}
+            <div class="form-error">
+                {{ error|escape }}
+            </div>
+        {% endfor %}
+        <br>
+    {% endif %}
+    {% if messages %}
+        {% for message in messages %}
+            {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR or message.level == DEFAULT_MESSAGE_LEVELS.WARNING %}
+                <div class="form-error">
+                    {{ message }}
                 </div>
-            {% endfor %}
-        {% endif %}
+            {% elif message.level == DEFAULT_MESSAGE_LEVELS.INFO or message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+                <div class="form-confirm">
+                    {{ message }}
+                </div>
+            {% endif %}
+        {% endfor %}
+        <br>
+    {% endif %}
+    <div class="addresses">
+        <div class="default-addr">
+            <h2>Default Address</h2>
+            {% if default_address %}
+                <div class="addr-view">
+                    <p>{{ default_address.first.first_name }}
+                    {{ default_address.first.last_name }}</p>
+                    <p>{{ default_address.first.addr_line_1 }}<p>
+                    {% if default_address.first.addr_line_2 %}
+                        <p>{{ default_address.first.addr_line_2 }}<p>
+                    {% endif %}
+                    {% if default_address.first.addr_line_3 %}
+                        <p>{{ default_address.first.addr_line_3 }}<p>
+                    {% endif %}
+                    <p>{{ default_address.first.city }}
+                    {{ default_address.first.eir_code }}<p>
+                    <p>{{ default_address.first.county }},
+                    {{ default_address.first.get_country_display }}<p>
+                    <p>0{{ default_address.first.phone_nr }}<p>
+                    <form method="POST" class="addr-buttons">
+                        {% csrf_token %}
+                        <button type="submit" name="edit-addr-button" value="{{ default_address.first.pk }}">Edit Address</button>
+                    </form>
+                </div>
+            {% else %}
+                <button type="button" class="add-addr-button" onclick="location.href='/profile/add-address'">Add Address</button>
+            {% endif %}
+        </div>
+        <div class="other-addr">
+            <h2>Other Addresses</h2>
+            {% if default_address %}
+                <button type="button" class="add-addr-button" onclick="location.href='/profile/add-address'">Add Address</button>
+            {% endif %}
+            {% if other_address %}
+                <div class="other-addr-list">
+                    {% for addr in other_address %}
+                        <div class="addr-view">
+                            <h3>Address {{ forloop.counter }}</h3>
+                            <p>{{ addr.first_name }}
+                            {{ addr.last_name }}</p>
+                            <p>{{ addr.addr_line_1 }}<p>
+                            {% if addr.addr_line_2 %}
+                                <p>{{ addr.addr_line_2 }}<p>
+                            {% endif %}
+                            {% if addr.addr_line_3 %}
+                                <p>{{ addr.addr_line_3 }}<p>
+                            {% endif %}
+                            <p>{{ addr.city }}
+                            {{ addr.eir_code }}<p>
+                            <p>{{ addr.county }},
+                            {{ addr.get_country_display }}<p>
+                            <p>0{{ addr.phone_nr }}<p>
+                            <form method="POST" class="addr-buttons">
+                                {% csrf_token %}
+                                <button type="submit" name="mk-default-button" value="{{ addr.pk }}">Make Default</button>
+                                <button type="submit" name="edit-addr-button" value="{{ addr.pk }}">Edit Address</button>
+                                <button type="submit" name="del-addr-button" value="{{ addr.pk }}">Delete Address</button>
+                            </form>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
     </div>
 </div>

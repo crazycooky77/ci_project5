@@ -31,48 +31,60 @@
     {% endif %}
     <div class="label-input">
         <label for="id_first_name" aria-label="First Name">First Name:</label>
-        {{ addr_form.first_name }}
+        <input type="text" name="first_name" id="id_first_name" required value="{{ addr_to_edit.first_name }}">
     </div>
     <div class="label-input">
         <label for="id_last_name" aria-label="Last Name">Last Name:</label>
-        {{ addr_form.last_name }}
+        <input type="text" name="last_name" id="id_last_name" required value="{{ addr_to_edit.last_name }}">
     </div>
     <div class="label-input">
         <label for="id_addr_line_1" aria-label="Address Line 1">Address Line 1:</label>
-        {{ addr_form.addr_line_1 }}
+        <input type="text" name="addr_line_1" id="id_addr_line_1" required value="{{ addr_to_edit.addr_line_1 }}">
     </div>
     <div class="label-input">
         <label for="id_addr_line_2" aria-label="Address Line 2">Address Line 2:</label>
-        {{ addr_form.addr_line_2 }}
+        {% if addr_to_edit.addr_line_2 %}
+            <input type="text" name="addr_line_2" id="id_addr_line_2" value="{{ addr_to_edit.addr_line_2 }}">
+        {% else %}
+            {{ edit_addr_form.addr_line_2 }}
+        {% endif %}
     </div>
     <div class="label-input">
         <label for="id_addr_line_3" aria-label="Address Line 3">Address Line 3:</label>
-        {{ addr_form.addr_line_3 }}
+        {% if addr_to_edit.addr_line_3 %}
+            <input type="text" name="addr_line_3" id="id_addr_line_3" value="{{ addr_to_edit.addr_line_3 }}">
+        {% else %}
+            {{ edit_addr_form.addr_line_3 }}
+        {% endif %}
     </div>
     <div class="label-input">
         <label for="id_city" aria-label="City">City:</label>
-        {{ addr_form.city }}
+        <input type="text" name="city" id="id_city" required value="{{ addr_to_edit.city }}">
     </div>
     <div class="label-input">
         <label for="id_eir_code" aria-label="Eir Code">Eir Code:</label>
-        {{ addr_form.eir_code }}
+        <input type="text" name="eir_code" id="id_eir_code" required value="{{ addr_to_edit.eir_code }}">
     </div>
     <div class="label-input">
         <label for="id_county" aria-label="County">County:</label>
-        {{ addr_form.county }}
+        <input type="text" name="county" id="id_county" required value="{{ addr_to_edit.county }}">
     </div>
     <div class="label-input">
         <label for="id_country" aria-label="Country">Country:</label>
-        {{ addr_form.country }}
+        {{ edit_addr_form.country }}
     </div>
     <div class="label-input">
         <label for="id_phone_nr" aria-label="Phone Number">Phone Number:</label>
-        {{ addr_form.phone_nr }}
+        <input type="number" name="phone_nr" id="id_phone_nr" required value="0{{ addr_to_edit.phone_nr }}">
     </div>
     <div class="label-input">
         <label for="id_default_addr" aria-label="Default Address">Default Address:</label>
-        {{ addr_form.default_addr }}
+        {% if addr_to_edit.default_addr %}
+            <input type="checkbox" name="default_addr" id="id_default_addr" checked>
+        {% else %}
+            <input type="checkbox" name="default_addr" id="id_default_addr">
+        {% endif %}
     </div>
-    <button type="submit" name="save-addr-button" value="save-addr-button">Save Address</button>
+    <button type="submit" name="save-edit-addr-button" value="save-edit-addr-button">Save Address</button>
     <button onclick="location.href='/profile/addresses'" type="button">Cancel</button>
 </form>
