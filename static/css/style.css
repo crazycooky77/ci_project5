@@ -449,6 +449,25 @@ input[name="default_addr"] {
     width: 100%;
 }
 
+.orders {
+    margin-left: 0;
+    margin-top: 0;
+    width: 80%;
+}
+.order-table table {
+    text-align: center;
+    border-collapse: collapse;
+}
+
+.order-table table th, .order-table table td {
+    border-left: 1px solid;
+    padding: 10px;
+}
+
+.order-table table th:first-child, .order-table table td:first-child {
+    border-left:0;
+}
+
 .errorlist * {
     list-style: none;
     color: red;

@@ -29,5 +29,7 @@ urlpatterns = [
     path('profile', profile_view, name='profile'),
     path('profile/addresses', profile_view, name='addresses'),
     path('profile/add-address', profile_addr, name='add-address'),
-    path('profile/edit-address/<var>', profile_edit_addr, name='edit-address')
+    path('profile/edit-address/<var>', profile_edit_addr, name='edit-address'),
+    path('orders', profile_view, name='orders'),
+    path('orders/<var>', profile_view, name='order-details')
 ]

@@ -8,7 +8,7 @@
             <div class="profile-menu">
                 <a href="/profile">Account Details</a>
                 <a href="/profile/addresses">Addresses</a>
-                <a href="">Orders</a>
+                <a href="/orders">Orders</a>
                 <a href="">Watchlist</a>
                 <a href="">Saved for Later</a>
             </div>
@@ -26,6 +26,8 @@
                 {% include 'add_address.html' %}
             {% elif request.get_full_path|slice:"0:22" == '/profile/edit-address/' %}
                 {% include 'edit_address.html' %}
+            {% elif request.get_full_path == '/orders' %}
+                {% include 'orders.html' %}
             {% endif %}
         {% else %}
             <p>You need to <a href="/login">log in</a> to view this page.</p>
