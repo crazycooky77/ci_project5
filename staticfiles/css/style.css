@@ -1,10 +1,118 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 
 * {
-    max-width: 1400px;
+    max-width: 1920px;
+    max-height: 1080px;
     margin: auto;
     background-color: #F5FEFD;
     font-family: "Montserrat", sans-serif;
+    font-size: 18px;
+}
+
+body {
+    margin: auto 20px;
+}
+
+label:has(+input:required):after {
+    content: '*';
+    color: red;
+    margin-right: 3px;
+}
+
+hr {
+    margin-bottom: 15px;
+}
+
+a {
+    color: #6DB1FC;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #90CD94;
+}
+
+a:active {
+    font-weight: bold;
+}
+
+button {
+    background: #6DB1FC;
+    border-radius: 5px;
+}
+
+button:hover {
+    background: #90CD94;
+}
+
+button:active {
+    color: white;
+}
+
+input {
+    background-color: #9FFFB8;
+    border-radius: 5px;
+}
+
+h2 {
+    margin-bottom: 20px;
+}
+
+h3 {
+    text-decoration: underline;
+    font-weight: normal;
+    margin-bottom: 10px;
+    margin-left: 0;
+}
+
+#nav-logout {
+    background: none;
+    border: none;
+    border-radius: unset;
+    color: #6DB1FC;
+    font-weight: bold;
+    margin: 5px auto;
+}
+
+#nav-logout:hover {
+    color: #90CD94;
+}
+
+#nav-logout:active {
+    text-decoration: underline;
+}
+
+.form-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.label-input {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 10px;
+}
+
+label[for="id_email"], #id_email {
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.pass-req {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 10px;
+    width: auto;
+}
+
+.pass-req p {
+    margin-bottom: 10px;
+}
+
+.pass-req button {
+    margin-top: 20px;
 }
 
 .nav-div {
@@ -12,6 +120,11 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    width: 100%;
+}
+
+.nav-left {
+    width: 25%;
 }
 
 .nav-left img {
@@ -23,14 +136,13 @@
 .nav-middle {
     display: flex;
     flex-direction: column;
-    margin: auto 10px;
+    margin: auto;
+    width: 50%;
 }
 
 .nav-search input {
     width: 350px;
     height: 25px;
-    background-color: #9FFFB8;
-    border-radius: 5px;
 }
 
 .nav-middle .nav-buttons {
@@ -58,13 +170,23 @@
 }
 
 .nav-support {
-    margin-right: 50px;
     text-align: center;
+    width: 15%;
+}
+
+.support-details {
+    font-size: 16px;
+}
+
+.nav-support a, .support-details i {
+    text-decoration: underline;
+    font-size: 16px;
 }
 
 .nav-right {
     text-align: center;
     font-weight: bold;
+    width: 10%;
 }
 
 .nav-right a {
@@ -72,13 +194,301 @@
     margin: 7px auto;
     text-decoration: none;
     font-size: 18px;
-    color: #A0CDFF
-}
-
-.nav-right a:hover {
-    color: #90CD94
 }
 
 .nav-right a:active {
     text-decoration: underline;
+}
+
+main {
+    max-width: 90%;
+    margin-top: 30px;
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+}
+
+.mid-content {
+    width: 60%;
+    border: 1px solid black;
+    padding: 20px;
+    border-radius: 7px;
+    text-align: left;
+}
+
+.home-div {
+    display: flex;
+    flex-direction: column;
+}
+
+.home-row {
+    display: flex;
+    flex-direction: row;
+}
+
+.feat-prod-div {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    border: solid 1px black;
+    border-radius: 7px;
+    margin: 20px;
+    padding: 5px;
+}
+
+.home-row .feat-prod-div {
+    width: 50%;
+}
+
+.feat-img-div {
+    max-width: 35%;
+}
+
+.feat-img {
+    max-width: 100%;
+    max-height: 300px;
+}
+
+.feat-prod-details-div {
+    padding: 10px;
+}
+
+.feat-prod-details {
+    margin-bottom: 10px;
+}
+
+.profile {
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+    align-items: flex-start;
+    width: 80%;
+    border: 1px solid black;
+    padding: 20px;
+    border-radius: 7px;
+}
+
+.profile-menu {
+    display: flex;
+    flex-direction: column;
+    width: 20%;
+    margin: 0;
+}
+
+.profile-menu * {
+    width: 100%;
+    margin: 3px auto;
+}
+
+.acc-details, .pw-change, .email-change, .email-confirm, .add-addr {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    margin: 0;
+}
+
+.acc-details * {
+    margin-left: 0;
+}
+
+.acc-details p, .pw-change ul {
+    margin-bottom: 15px;
+}
+
+.profile-buttons {
+    width: 25%;
+    margin-right: 75%;
+}
+
+.prof-button {
+    width: 100%;
+    margin-top: 10px;
+}
+
+.del-button {
+    width: 100%;
+    margin-top: 30px;
+}
+
+.pw-change *, .email-change * {
+    margin-left: 0;
+}
+
+.pw-change button {
+    width: 35%;
+    margin-right: 65%;
+    margin-top: 10px;
+}
+
+.email-change button {
+    width: 50%;
+    margin-right: 65%;
+    margin-top: 15px;
+}
+
+.email-change label[for="id_email"] {
+    margin-right: 30px;
+}
+
+#new_email {
+    margin-top: 15px;
+    margin-bottom: 10px;
+}
+
+.email-change label[for="new_email"] {
+    margin-right: 10px;
+}
+
+.addr-msg {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+}
+
+.addresses {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    margin: 0;
+}
+
+.default-addr {
+    display: flex;
+    flex-direction: column;
+    align-content: flex-start;
+    flex-wrap: wrap;
+    width: 50%;
+    border-left: 1px solid black;
+    margin: 0;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.other-addr {
+    display: flex;
+    flex-direction: column;
+    align-content: flex-start;
+    width: 50%;
+    border-left: 1px solid black;
+    margin: 0;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.other-addr-list {
+    flex: 1;
+    overflow-y: auto;
+    margin: 0;
+}
+
+.addresses h2 {
+    margin-left: 0;
+    margin-top: 0;
+}
+
+.addresses button {
+    margin-top: 0;
+    margin-left: 0;
+}
+
+.add-addr-button {
+    margin-bottom: 30px;
+}
+
+.add-addr > .label-input {
+    margin: 5px 0;
+}
+
+.add-addr label {
+    margin-left: 0;
+}
+
+.add-addr input, .add-addr select {
+    margin-right: 300px;
+  }
+
+.add-addr select {
+    border-radius: 5px;
+    background-color: #9FFFB8;
+}
+
+input[name="default_addr"] {
+    margin-right: 495px;
+}
+
+.add-addr button {
+    margin: 20px auto 30px 0;
+}
+
+.addr-view {
+    display: flex;
+    flex-direction: column;
+    margin-top: 0;
+    margin-left: 0;
+}
+
+.addr-view p {
+    margin-left: 0;
+    margin-bottom: 1px;
+}
+
+.addr-view button {
+    margin-top: 15px;
+}
+
+.addr-buttons {
+    display: flex;
+    flex-direction: column;
+    margin-left: 0;
+    margin-bottom: 30px;
+}
+
+.addr-buttons button {
+    width: 100%;
+}
+
+.orders {
+    margin-left: 0;
+    margin-top: 0;
+    width: 80%;
+}
+.order-table table {
+    text-align: center;
+    border-collapse: collapse;
+}
+
+.order-table table th, .order-table table td {
+    border-left: 1px solid;
+    padding: 10px;
+}
+
+.order-table table th:first-child, .order-table table td:first-child {
+    border-left:0;
+}
+
+.errorlist * {
+    list-style: none;
+    color: red;
+    text-align: center;
+}
+
+.form-error {
+    color: red;
+    text-align: center;
+    margin-top: 0;
+}
+
+.form-confirm {
+    color: green;
+    text-align: center;
+    margin-bottom: 10px;
+    margin-top: 0;
+}
+
+footer {
+    margin-top: 50px;
+    text-align: center;
+    font-size: 16px;
 }
