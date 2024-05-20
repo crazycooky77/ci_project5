@@ -55,49 +55,74 @@ class CustomPasswordChangeView(PasswordChangeView):
     template_name = 'profile.html'
 
 
+def profile_vars(request):
+    default_address = Addresses.objects.filter(
+        user=request.user,
+        default_addr=True)
+    other_address = Addresses.objects.filter(
+        user=request.user,
+        default_addr=False).order_by('pk')
+    orders = PurchaseHistory.objects.all().filter(
+        purchaser=request.user).order_by('-order_dt')
+    return default_address, other_address, orders
+
+
+def delete_acc(request):
+    User.delete(request.user)
+    logout(request)
+    messages.success(request, 'Account successfully deleted')
+
+
+def default_addr(request):
+    make_default = request.POST.get("mk-default-button")
+    def_addr_req = Addresses.objects.filter(user=request.user,
+                                            pk=make_default)
+    default = Addresses.objects.filter(user=request.user,
+                                       default_addr=True)
+    if default:
+        default.update(default_addr=False)
+    def_addr_req.update(default_addr=True)
+    messages.success(
+        request,
+        'You successfully updated your default address.')
+
+
+def edit_addr(request):
+    edit_addr_id = request.POST.get("edit-addr-button")
+    return edit_addr_id
+
+
+def delete_addr(request):
+    del_addr_id = request.POST.get("del-addr-button")
+    Addresses.objects.get(user=request.user,
+                          pk=del_addr_id).delete()
+    messages.success(
+        request,
+        'You successfully deleted your address ' +
+        'from your account.')
+
+
 def profile_view(request):
     if request.user.is_authenticated:
-        default_address = Addresses.objects.filter(
-            user=request.user,
-            default_addr=True)
-        other_address = Addresses.objects.filter(
-            user=request.user,
-            default_addr=False).order_by('pk')
+        default_address, other_address, orders = profile_vars(request)
         if request.method == 'POST':
             if request.POST.get("del-acc-button"):
-                User.delete(request.user)
-                logout(request)
-                messages.success(request, 'Account successfully deleted')
+                delete_acc(request)
                 return redirect(homepage_view)
             if request.POST.get("mk-default-button"):
-                make_default = request.POST.get("mk-default-button")
-                def_addr_req = Addresses.objects.filter(user=request.user,
-                                                        pk=make_default)
-                default = Addresses.objects.filter(user=request.user,
-                                                   default_addr=True)
-                if default:
-                    default.update(default_addr=False)
-                def_addr_req.update(default_addr=True)
-                messages.success(
-                    request,
-                    'You successfully updated your default address.')
+                default_addr(request)
                 return redirect('addresses')
             if request.POST.get("edit-addr-button"):
-                edit_addr_id = request.POST.get("edit-addr-button")
+                edit_addr_id = edit_addr(request)
                 return redirect('edit-address', edit_addr_id)
             if request.POST.get("del-addr-button"):
-                del_addr_id = request.POST.get("del-addr-button")
-                Addresses.objects.get(user=request.user,
-                                      pk=del_addr_id).delete()
-                messages.success(
-                    request,
-                    'You successfully deleted your address ' +
-                    'from your account.')
+                delete_addr(request)
                 return redirect('addresses')
         else:
             return render(request, 'profile.html',
                           {'default_address': default_address,
-                           'other_address': other_address})
+                           'other_address': other_address,
+                           'orders': orders})
     else:
         return render(request, 'profile.html')
 
