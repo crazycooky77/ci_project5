@@ -14,8 +14,10 @@ def homepage_view(request):
     if Products.objects.all().filter(stock_count__gte=10):
         new_product = Products.objects.all().filter(
             stock_count__gte=10).latest('created_ts')
-    else:
+    elif Products.objects.all():
         new_product = Products.objects.all().latest('created_ts')
+    else:
+        new_product = Products.objects.all()
     sports_product = Products.objects.all().filter(
         categories__icontains='sports').order_by('-stock_count').first()
     health_product = Products.objects.all().filter(
