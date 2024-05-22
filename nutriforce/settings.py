@@ -51,7 +51,8 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-    'nutriforce_app'
+    'nutriforce_app',
+    'mathfilters'
 ]
 
 cloudinary.config(secure=True)
