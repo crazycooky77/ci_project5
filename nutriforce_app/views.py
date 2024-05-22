@@ -11,8 +11,11 @@ from .forms import *
 
 def homepage_view(request):
     products = Products.objects.all().exclude(active=False)
-    new_product = Products.objects.all().filter(
-        stock_count__gte=10).latest('created_ts')
+    if Products.objects.all().filter(stock_count__gte=10):
+        new_product = Products.objects.all().filter(
+            stock_count__gte=10).latest('created_ts')
+    else:
+        new_product = Products.objects.all().latest('created_ts')
     sports_product = Products.objects.all().filter(
         categories__icontains='sports').order_by('-stock_count').first()
     health_product = Products.objects.all().filter(
