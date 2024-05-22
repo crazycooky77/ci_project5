@@ -28,6 +28,8 @@
                 {% include 'edit_address.html' %}
             {% elif request.get_full_path == '/orders' %}
                 {% include 'orders.html' %}
+            {% elif request.get_full_path|slice:"0:13" == '/orders/id%3D' %}
+                {% include 'order_details.html' %}
             {% endif %}
         {% else %}
             <p>You need to <a href="/login">log in</a> to view this page.</p>

@@ -177,6 +177,25 @@ def profile_edit_addr(request, var):
         else:
             edit_addr_form = AddressForm()
         return render(request, 'profile.html',
-                      {'edit_addr_form': edit_addr_form, 'addr_to_edit': addr_to_edit[0]})
+                      {'edit_addr_form': edit_addr_form,
+                       'addr_to_edit': addr_to_edit[0]})
     else:
         return render(request, 'profile.html')
+
+
+def profile_orders(request, var):
+    if request.user.is_authenticated:
+        order = PurchaseHistory.objects.all().filter(
+            purchaser=request.user,
+            pk=var)
+        if order:
+            order_details = Purchases.objects.all().filter(
+                order=order[0]).order_by('product__product_id')
+            products = Products.objects.filter(
+                product_id__in=order_details.values(
+                    'product__product_id')).order_by('product_id')
+            print(order_details, products)
+            return render(request, 'profile.html',
+                          {'order': order[0],
+                           'order_details': zip(order_details, products)})
+    return render(request, 'profile.html')

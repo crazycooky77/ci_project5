@@ -19,10 +19,6 @@ label:has(+input:required):after {
     margin-right: 3px;
 }
 
-hr {
-    margin-bottom: 15px;
-}
-
 a {
     color: #6DB1FC;
     text-decoration: none;
@@ -454,18 +450,38 @@ input[name="default_addr"] {
     margin-top: 0;
     width: 80%;
 }
-.order-table table {
+.order-table table, .order-table-details table {
     text-align: center;
     border-collapse: collapse;
 }
 
-.order-table table th, .order-table table td {
+.order-table table th, .order-table table td, .order-table-details table th, .order-table-details table td {
     border-left: 1px solid;
     padding: 10px;
 }
 
-.order-table table th:first-child, .order-table table td:first-child {
+.order-table table th:first-child, .order-table table td:first-child, .order-table-details table th:first-child, .order-table-details table td:first-child {
     border-left:0;
+}
+
+.details-table {
+    margin: 50px auto;
+}
+
+.order-sums {
+    font-weight: bold;
+}
+
+.order-table-details table td:first-child {
+    text-align: left !important;
+}
+
+.sum-title {
+    padding: 20px 10px !important;
+}
+
+.order-sums td {
+    border-left: none !important;
 }
 
 .errorlist * {
@@ -485,6 +501,10 @@ input[name="default_addr"] {
     text-align: center;
     margin-bottom: 10px;
     margin-top: 0;
+}
+
+.footer-split {
+    margin-bottom: 15px;
 }
 
 footer {

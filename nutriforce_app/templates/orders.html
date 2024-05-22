@@ -49,7 +49,7 @@
                             <td>N/A</td>
                         {% endif %}
                         <td>{{ order.get_status_display }}</td>
-                        <td><button type="button" onclick="location=/orders/{{ order.order_id }}">View Order</button></td>
+                        <td><button type="button" onclick="location.href='/orders/id={{ order.order_id }}'">View Order</button></td>
                     </tr>
                 {% endfor %}
             </table>
