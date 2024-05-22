@@ -118,6 +118,10 @@ class PurchaseHistory(models.Model):
     shipping_addr = models.ForeignKey(Addresses,
                                       related_name='shipping_addr',
                                       on_delete=models.SET('0000'))
+    shipping_cost = models.DecimalField(max_digits=6,
+                                        decimal_places=2)
+    total_cost = models.DecimalField(max_digits=6,
+                                     decimal_places=2)
     payment_type = models.CharField(max_length=50,
                                     choices=PaymentType.choices)
     purchaser = models.ForeignKey(User,
