@@ -1,0 +1,29 @@
+- model: nutriforce_app.User
+  pk: 0
+  fields:
+    email: deleted@test.com
+- model: nutriforce_app.Products
+  pk: 0
+  fields:
+    product_name: DELETED
+    product_pic: "DELETED.webp"
+    price: 0
+    size: 0
+    description: DELETED
+    stock_count: 0
+    ingredients: DELETED
+    active: False
+    created_ts: 2000-01-01 00:00:00
+- model: nutriforce_app.Addresses
+  pk: 0
+  fields:
+    user: 0
+    first_name: DELETED
+    last_name: DELETED
+    addr_line_1: DELETED
+    city: DELETED
+    eir_code: DELETED
+    county: DELETED
+    country: IE
+    phone_nr: 0
+    default_addr: True

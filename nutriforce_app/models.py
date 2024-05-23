@@ -114,10 +114,10 @@ class PurchaseHistory(models.Model):
     order_dt = models.DateTimeField(auto_now_add=True)
     billing_addr = models.ForeignKey(Addresses,
                                      related_name='billing_addr',
-                                     on_delete=models.SET('0000'))
+                                     on_delete=models.SET('0'))
     shipping_addr = models.ForeignKey(Addresses,
                                       related_name='shipping_addr',
-                                      on_delete=models.SET('0000'))
+                                      on_delete=models.SET('0'))
     shipping_cost = models.DecimalField(max_digits=6,
                                         decimal_places=2)
     total_cost = models.DecimalField(max_digits=6,
@@ -125,7 +125,7 @@ class PurchaseHistory(models.Model):
     payment_type = models.CharField(max_length=50,
                                     choices=PaymentType.choices)
     purchaser = models.ForeignKey(User,
-                                  on_delete=models.SET('0000'))
+                                  on_delete=models.SET('0'))
     status = models.CharField(max_length=50,
                               choices=Status.choices,
                               default=Status.PEND)
@@ -167,7 +167,7 @@ class SavedItems(models.Model):
     owner = models.ForeignKey(User,
                               on_delete=models.CASCADE)
     product = models.ForeignKey(Products,
-                                on_delete=models.SET('0000'))
+                                on_delete=models.SET('0'))
     quantity = models.IntegerField()
     list_type = models.CharField(max_length=50,
                                  choices=ListType.choices)

@@ -11,23 +11,23 @@ from .forms import *
 
 def homepage_view(request):
     products = Products.objects.all().exclude(active=False)
-    if Products.objects.all().filter(stock_count__gte=10):
-        new_product = Products.objects.all().filter(
+    if Products.objects.all().exclude(pk=0).filter(stock_count__gte=10):
+        new_product = Products.objects.all().exclude(pk=0).filter(
             stock_count__gte=10).latest('created_ts')
-    elif Products.objects.all():
-        new_product = Products.objects.all().latest('created_ts')
+    elif Products.objects.all().exclude(pk=0):
+        new_product = Products.objects.all().exclude(pk=0).latest('created_ts')
     else:
-        new_product = Products.objects.all()
-    sports_product = Products.objects.all().filter(
+        new_product = Products.objects.all().exclude(pk=0)
+    sports_product = Products.objects.all().exclude(pk=0).filter(
         categories__icontains='sports').order_by('-stock_count').first()
-    health_product = Products.objects.all().filter(
+    health_product = Products.objects.all().exclude(pk=0).filter(
         categories__icontains='health').order_by('-stock_count').first()
 
     if new_product == sports_product:
-        sports_product = Products.objects.all().filter(
+        sports_product = Products.objects.all().exclude(pk=0).filter(
             categories__icontains='sports').order_by('-stock_count')[1]
     if new_product == health_product:
-        health_product = Products.objects.all().filter(
+        health_product = Products.objects.all().exclude(pk=0).filter(
             categories__icontains='health').order_by('-stock_count')[1]
 
     return render(request, 'index.html',
