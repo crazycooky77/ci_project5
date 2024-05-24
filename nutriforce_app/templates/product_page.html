@@ -1,0 +1,69 @@
+<!-- Load the base html file -->
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="prod-div">
+        {% if messages %}
+            {% for message in messages %}
+                {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR or message.level == DEFAULT_MESSAGE_LEVELS.WARNING %}
+                    <div class="form-error">
+                        {{ message }}
+                    </div>
+                {% elif message.level == DEFAULT_MESSAGE_LEVELS.INFO or message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+                    <div class="form-confirm">
+                        {{ message }}
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+        {% if product %}
+            <div class="hor-prod-div">
+                <img class="prod-img" src="{{ product.first.product_pic.url }}" alt="Product image">
+                <div class="prod-actions">
+                    <p>Product: {{ product.first.product_name }}</p>
+                    <p>Size: {{ product.first.size }}</p>
+                    <p>Price: € {{ product.first.price }}</p>
+                    {% if product.first.stock_count %}
+                        <p>
+                            <label for="prod-quantity">Quantity: </label>
+                            <input type="number" id="prod-quantity" name="prod-quantity" min="1" max="{{ product.first.stock_count }}">
+                            <button>Add to Cart</button>
+                        </p>
+                        <p>Availability: In Stock</p>
+                    {% else %}
+                        <p>Availability: Out Of Stock</p>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="prod-details">
+                <h2>Description</h2>
+                <p>{{ product.first.description }}</p>
+                <hr class="prod-split">
+                <h2>Ingredients</h2>
+                <p>{{ product.first.ingredients }}</p>
+            </div>
+            {% if linked_sorted %}
+                <div class="similar-prod">
+                    <p>You may also like...</p>
+                    <div class="linked-hor">
+                        {% for item in linked_sorted %}
+                            <div class="linked-ver">
+                                <img class="linked-img" src="{{ item.product_pic.url }}" alt="Product image">
+                                <div class="linked-details">
+                                    <p>{{ item.product_name }}</p>
+                                    <p>{{ item.size }}</p>
+                                    <p>€ {{ item.price }}</p>
+                                    <p><label for="prod-quantity" aria-label="Quantity"></label>
+                                    <input type="number" id="prod-quantity" name="prod-quantity" min="1" max="{{ item.stock_count }}">
+                                    <button class="linked-button">Add to Cart</button></p>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+        {% else %}
+            <p>No product with this ID exists</p>
+        {% endif %}
+    </div>
+{% endblock %}

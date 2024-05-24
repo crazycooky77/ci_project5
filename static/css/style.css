@@ -7,6 +7,7 @@
     background-color: #F5FEFD;
     font-family: "Montserrat", sans-serif;
     font-size: 18px;
+    overflow: auto;
 }
 
 body {
@@ -482,6 +483,50 @@ input[name="default_addr"] {
 
 .order-sums td {
     border-left: none !important;
+}
+
+.prod-div {
+    width: 80%;
+}
+
+.hor-prod-div {
+    display: flex;
+    flex-direction: row;
+}
+
+.prod-img {
+    max-height: 300px;
+}
+
+.prod-details {
+    margin: 30px auto;
+}
+
+.prod-split {
+    margin: 15px auto;
+}
+
+.similar-prod {
+    margin-top: 100px;
+}
+
+.linked-hor {
+    display: flex;
+    flex-direction: row;
+}
+
+.linked-ver {
+    width: 20%;
+    margin: 20px 7px auto 7px;
+}
+
+.linked-img {
+    max-height: 150px;
+    margin-bottom: 10px;
+}
+
+.linked-details p {
+    margin-bottom: 10px;
 }
 
 .errorlist * {

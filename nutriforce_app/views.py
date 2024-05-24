@@ -6,6 +6,9 @@ from django.shortcuts import render, redirect
 from django.views.generic.edit import CreateView
 from django.contrib import messages
 from django.contrib.auth import logout
+import operator
+from django.db.models import Q
+from functools import reduce
 from .forms import *
 
 
@@ -58,6 +61,23 @@ class CustomEmailConfirmView(ConfirmEmailView):
 
 class CustomPasswordChangeView(PasswordChangeView):
     template_name = 'profile.html'
+
+
+def product_view(request, var):
+    product = Products.objects.all().exclude(active=False).filter(product_id=var)
+    if product:
+        categories = product[0].categories.split(',')
+        linked_products = Products.objects.all().exclude(
+            active=False).exclude(
+            product_id=var).filter(
+            reduce(operator.or_,(Q(
+                categories__icontains=x) for x in categories)))
+        linked_sorted = linked_products.order_by('-stock_count')[:5]
+        return render(request, 'product_page.html',
+                      {'product': product, 'linked_sorted': linked_sorted})
+    else:
+        return render(request, 'product_page.html',
+                      {'product': product})
 
 
 def profile_vars(request):
@@ -170,7 +190,6 @@ def profile_edit_addr(request, var):
                     default = Addresses.objects.filter(user=request.user,
                                                        default_addr=True)
                     obj = edit_addr_form.save(commit=False)
-                    print(edit_addr_form)
                     if default and obj.default_addr:
                         print('yes')
                         default.update(default_addr=False)
@@ -199,7 +218,6 @@ def profile_orders(request, var):
             products = Products.objects.filter(
                 product_id__in=order_details.values(
                     'product__product_id')).order_by('product_id')
-            print(order_details, products)
             return render(request, 'profile.html',
                           {'order': order[0],
                            'order_details': zip(order_details, products)})
