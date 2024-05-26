@@ -21,7 +21,7 @@
                 <img class="prod-img" src="{{ product.first.product_pic.url }}" alt="Product image">
                 <div class="prod-actions">
                     <p>Product: {{ product.first.product_name }}</p>
-                    <p>Size: {{ product.first.size }}</p>
+                    <p>Sizes: {{ product.first.sizes }}</p>
                     <p>Price: € {{ product.first.price }}</p>
                     {% if product.first.stock_count %}
                         <p>
@@ -50,12 +50,16 @@
                             <div class="linked-ver">
                                 <img class="linked-img" src="{{ item.product_pic.url }}" alt="Product image">
                                 <div class="linked-details">
-                                    <p>{{ item.product_name }}</p>
-                                    <p>{{ item.size }}</p>
-                                    <p>€ {{ item.price }}</p>
-                                    <p><label for="prod-quantity" aria-label="Quantity"></label>
-                                    <input type="number" id="prod-quantity" name="prod-quantity" min="1" max="{{ item.stock_count }}">
-                                    <button class="linked-button">Add to Cart</button></p>
+                                    <div class="linked-name">
+                                        {{ item.product_name }}
+                                    </div>
+                                    <div class="linked-other">
+                                        <p>{{ item.sizes }}</p>
+                                        <p>€ {{ item.price }}</p>
+                                        <p><label for="prod-quantity" aria-label="Quantity"></label>
+                                        <input type="number" id="prod-quantity" name="prod-quantity" min="1" max="{{ item.stock_count }}">
+                                        <button class="linked-button">Add to Cart</button></p>
+                                    </div>
                                 </div>
                             </div>
                         {% endfor %}
