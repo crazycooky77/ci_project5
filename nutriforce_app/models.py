@@ -73,11 +73,15 @@ class Addresses(models.Model):
 
 class Products(models.Model):
     product_id = models.AutoField(primary_key=True)
-    product_name = models.CharField(max_length=100)
+    brand = models.CharField(max_length=50)
+    product_name = models.CharField(max_length=50)
     product_pic = CloudinaryField('image')
     price = models.DecimalField(max_digits=6,
                                 decimal_places=2)
-    size = models.CharField(max_length=50)
+    sizes = models.CharField(max_length=500)
+    flavours = models.CharField(max_length=600,
+                                blank=True,
+                                null=True)
     description = models.TextField()
     stock_count = models.IntegerField()
     ingredients = models.TextField()
@@ -91,7 +95,7 @@ class Products(models.Model):
         verbose_name_plural = 'Products'
 
     def __str__(self):
-        return f'{self.active} | {self.product_name} | {self.size} | {self.price} | {self.stock_count}'
+        return f'{self.active} | {self.product_name} | {self.sizes} | {self.price} | {self.stock_count}'
 
 
 class PurchaseHistory(models.Model):

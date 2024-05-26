@@ -6,9 +6,10 @@
   pk: 0
   fields:
     product_name: DELETED
+    brand: DELETED
     product_pic: "DELETED.webp"
     price: 0
-    size: 0
+    sizes: 0
     description: DELETED
     stock_count: 0
     ingredients: DELETED
