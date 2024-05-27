@@ -6,6 +6,7 @@ from .models import *
 admin.site.register([User,
                      Addresses,
                      Products,
+                     ProductDetails,
                      PurchaseHistory,
                      Purchases,
                      SavedItems])
