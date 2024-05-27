@@ -18,35 +18,119 @@
         {% endif %}
         <div class="feat-prod-div">
             <div class="feat-img-div">
-                <a href="/products/id={{ new_product.product_id }}"><img class="feat-img" src="{{ new_product.product_pic.url }}" alt="New featured product"></a>
+                <a href="/products/id={{ new_product.product.product_id }}"><img class="feat-img" src="{{ new_product.product.product_pic.url }}" alt="New featured product"></a>
             </div>
             <div class="feat-prod-details-div">
-                <a href="/products/id={{ new_product.product_id }}"><p class="feat-prod-details">{{ new_product.product_name }}</p>
-                <p class="feat-prod-details">{{ new_product.sizes }}</p>
-                <p class="feat-prod-details">€ {{ new_product.price }}</p></a>
+                <a href="/products/id={{ new_product.product.product_id }}">
+                    <p class="feat-prod-details">{{ new_product.product.brand }}</p>
+                    <p class="feat-prod-details">{{ new_product.product.product_name }}</p>
+                </a>
+                {% if new_product.flavour %}
+                    <p class="feat-prod-details">
+                        <label for="new-prod-flavours">Flavour:</label>{
+                        <select name="new-prod-flavours" id="new-prod-flavours">
+                            {% for option in new_product_extras %}
+                                {% if option.flavour == new_product.flavour %}
+                                    <option value="{{ option.flavour }}" selected="selected">{{ option.flavour }}</option>
+                                {% else %}
+                                    <option value="{{ option.flavour }}">{{ option.flavour }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    </p>
+                {% endif %}
+                <p class="feat-prod-details">
+                    <label for="new-prod-sizes">Size:</label>
+                    <select name="new-prod-sizes" id="new-prod-sizes">
+                        {% for option in new_product_extras %}
+                            {% if option.size == new_product.size %}
+                                <option value="{{ option.size }}" selected="selected">{{ option.size }}</option>
+                            {% else %}
+                                <option value="{{ option.size }}">{{ option.size }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                </p>
+                <p class="feat-prod-details">€ {{ new_product.price }}</p>
                 <p><button>Add to Cart</button></p>
             </div>
         </div>
         <div class="home-row">
             <div class="feat-prod-div">
                 <div class="feat-img-div">
-                    <a href="/products/id={{ sports_product.product_id }}"><img class="feat-img" src="{{ sports_product.product_pic.url }}" alt="Featured sports product"></a>
+                    <a href="/products/id={{ sports_product.product.product_id }}"><img class="feat-img" src="{{ sports_product.product.product_pic.url }}" alt="Featured sports product"></a>
                 </div>
                 <div class="feat-prod-details-div">
-                    <a href="/products/id={{ sports_product.product_id }}"><p class="feat-prod-details">{{ sports_product.product_name }}</p>
-                    <p class="feat-prod-details">{{ sports_product.sizes }}</p>
-                    <p class="feat-prod-details">€ {{ sports_product.price }}</p></a>
+                    <a href="/products/id={{ sports_product.product.product_id }}">
+                        <p class="feat-prod-details">{{ sports_product.product.brand }}</p>
+                        <p class="feat-prod-details">{{ sports_product.product.product_name }}</p>
+                    </a>
+                    {% if sports_product.flavour %}
+                        <p class="feat-prod-details">
+                            <label for="sports-prod-flavours">Flavour:</label>
+                            <select name="sports-prod-flavours" id="sports-prod-flavours">
+                                {% for option in sports_product_extras %}
+                                    {% if option.flavour == sports_product.flavour %}
+                                        <option value="{{ option.flavour }}" selected="selected">{{ option.flavour }}</option>
+                                    {% else %}
+                                        <option value="{{ option.flavour }}">{{ option.flavour }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </p>
+                    {% endif %}
+                    <p class="feat-prod-details">
+                        <label for="sports-prod-sizes">Size:</label>
+                        <select name="sports-prod-sizes" id="sports-prod-sizes">
+                            {% for option in sports_product_extras %}
+                                {% if option.size == sports_product.size %}
+                                    <option value="{{ option.size }}" selected="selected">{{ option.size }}</option>
+                                {% else %}
+                                    <option value="{{ option.size }}">{{ option.size }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    </p>
+                    <p class="feat-prod-details">€ {{ sports_product.price }}</p>
                     <p><button>Add to Cart</button></p>
                 </div>
             </div>
             <div class="feat-prod-div">
                 <div class="feat-img-div">
-                    <a href="/products/id={{ health_product.product_id }}"><img class="feat-img" src="{{ health_product.product_pic.url }}" alt="Featured health product"></a>
+                    <a href="/products/id={{ health_product.product.product_id }}"><img class="feat-img" src="{{ health_product.product.product_pic.url }}" alt="Featured health product"></a>
                 </div>
                 <div class="feat-prod-details-div">
-                    <a href="/products/id={{ health_product.product_id }}"><p class="feat-prod-details">{{ health_product.product_name }}</p>
-                    <p class="feat-prod-details">{{ health_product.sizes }}</p>
-                    <p class="feat-prod-details">€ {{ health_product.price }}</p></a>
+                    <a href="/products/id={{ health_product.product.product_id }}">
+                        <p class="feat-prod-details">{{ health_product.product.brand }}</p>
+                        <p class="feat-prod-details">{{ health_product.product.product_name }}</p>
+                    </a>
+                    {% if health_product.flavour %}
+                        <p class="feat-prod-details">
+                            <label for="health-prod-flavours">Flavour:</label>
+                            <select name="health-prod-flavours" id="health-prod-flavours">
+                                {% for option in health_product_extras %}
+                                    {% if option.flavour == health_product.flavour %}
+                                        <option value="{{ option.flavour }}" selected="selected">{{ option.flavour }}</option>
+                                    {% else %}
+                                        <option value="{{ option.flavour }}">{{ option.flavour }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </p>
+                    {% endif %}
+                    <p class="feat-prod-details">
+                        <label for="health-prod-sizes">Size:</label>
+                        <select name="health-prod-sizes" id="health-prod-sizes">
+                            {% for option in health_product_extras %}
+                                {% if option.size == health_product.size %}
+                                    <option value="{{ option.size }}" selected="selected">{{ option.size }}</option>
+                                {% else %}
+                                    <option value="{{ option.size }}">{{ option.size }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    </p>
+                    <p class="feat-prod-details">€ {{ health_product.price }}</p>
                     <p><button>Add to Cart</button></p>
                 </div>
             </div>

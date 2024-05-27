@@ -406,7 +406,7 @@ main {
     margin-right: 300px;
   }
 
-.add-addr select {
+.add-addr select, #prod-sizes, #prod-flavours, .feat-prod-details select {
     border-radius: 5px;
     background-color: #9FFFB8;
 }
@@ -539,15 +539,14 @@ input[name="default_addr"] {
 .linked-details {
     display: flex;
     flex-direction: column;
-    margin-left: 0;
     height: 250px;
+    margin-left: 0;
 }
 
 .linked-name {
     margin-bottom: 20px;
-    flex-grow: 1;
-    flex-shrink: 3;
-    max-height: max-content;
+    text-align: center;
+    flex: 1;
 }
 
 .linked-other {

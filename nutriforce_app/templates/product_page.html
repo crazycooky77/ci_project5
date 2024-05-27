@@ -18,10 +18,28 @@
         {% endif %}
         {% if product %}
             <div class="hor-prod-div">
-                <img class="prod-img" src="{{ product.first.product_pic.url }}" alt="Product image">
+                <img class="prod-img" src="{{ product.first.product.product_pic.url }}" alt="Product image">
                 <div class="prod-actions">
-                    <p>Product: {{ product.first.product_name }}</p>
-                    <p>Sizes: {{ product.first.sizes }}</p>
+                    <p>Brand: {{ product.first.product.brand }}</p>
+                    <p>Product: {{ product.first.product.product_name }}</p>
+                    {% if product.first.flavour %}
+                        <p>
+                            <label for="prod-flavours">Flavour:</label>
+                            <select name="prod-flavours" id="prod-flavours">
+                                {% for option in product %}
+                                    <option value="{{ option.flavour }}">{{ option.flavour }}</option>
+                                {% endfor %}
+                            </select>
+                        </p>
+                    {% endif %}
+                    <p>
+                        <label for="prod-sizes">Size:</label>
+                        <select name="prod-sizes" id="prod-sizes">
+                            {% for option in product %}
+                                <option value="{{ option.size }}">{{ option.size }}</option>
+                            {% endfor %}
+                        </select>
+                    </p>
                     <p>Price: € {{ product.first.price }}</p>
                     {% if product.first.stock_count %}
                         <p>
@@ -37,7 +55,7 @@
             </div>
             <div class="prod-details">
                 <h2>Description</h2>
-                <p>{{ product.first.description }}</p>
+                <p>{{ product.first.product.description }}</p>
                 <hr class="prod-split">
                 <h2>Ingredients</h2>
                 <p>{{ product.first.ingredients }}</p>
@@ -48,13 +66,30 @@
                     <div class="linked-hor">
                         {% for item in linked_sorted %}
                             <div class="linked-ver">
-                                <img class="linked-img" src="{{ item.product_pic.url }}" alt="Product image">
+                                <img class="linked-img" src="{{ item.product.product_pic.url }}" alt="Product image">
                                 <div class="linked-details">
                                     <div class="linked-name">
-                                        {{ item.product_name }}
+                                        {{ item.product.brand }} {{ item.product.product_name }}
                                     </div>
                                     <div class="linked-other">
-                                        <p>{{ item.sizes }}</p>
+                                        {% if product.first.flavour %}
+                                            <p>
+                                                <label for="prod-flavours" aria-label="Flavour"></label>
+                                                <select name="prod-flavours" id="prod-flavours">
+                                                    {% for option in product %}
+                                                        <option value="{{ option.flavour }}">{{ option.flavour }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </p>
+                                        {% endif %}
+                                        <p>
+                                            <label for="prod-sizes" aria-label="Size"></label>
+                                            <select name="prod-sizes" id="prod-sizes">
+                                                {% for option in product %}
+                                                    <option value="{{ option.size }}">{{ option.size }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </p>
                                         <p>€ {{ item.price }}</p>
                                         <p><label for="prod-quantity" aria-label="Quantity"></label>
                                         <input type="number" id="prod-quantity" name="prod-quantity" min="1" max="{{ item.stock_count }}">

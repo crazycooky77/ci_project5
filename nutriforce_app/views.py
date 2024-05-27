@@ -1,3 +1,5 @@
+from operator import attrgetter
+
 from allauth.account.views import PasswordChangeView, EmailView, \
     ConfirmEmailView, EmailVerificationSentView
 from django.urls import reverse_lazy
@@ -13,31 +15,52 @@ from .forms import *
 
 
 def homepage_view(request):
-    products = Products.objects.all().exclude(active=False)
-    if Products.objects.all().exclude(pk=0).filter(stock_count__gte=10):
-        new_product = Products.objects.all().exclude(pk=0).filter(
+    products = ProductDetails.objects.all().exclude(active=False)
+    if ProductDetails.objects.all().exclude(pk=0).filter(stock_count__gte=10):
+        new_product = ProductDetails.objects.all().exclude(pk=0).filter(
             stock_count__gte=10).latest('created_ts')
-    elif Products.objects.all().exclude(pk=0):
-        new_product = Products.objects.all().exclude(pk=0).latest('created_ts')
+        new_product_extras = ProductDetails.objects.all().filter(
+            product__product_id=new_product.product_id)
+    elif ProductDetails.objects.all().exclude(pk=0):
+        new_product = ProductDetails.objects.all().exclude(pk=0).latest(
+            'created_ts')
+        new_product_extras = ProductDetails.objects.all().filter(
+            product__product_id=new_product.product_id)
     else:
-        new_product = Products.objects.all().exclude(pk=0)
-    sports_product = Products.objects.all().exclude(pk=0).filter(
-        categories__icontains='sports').order_by('-stock_count').first()
-    health_product = Products.objects.all().exclude(pk=0).filter(
-        categories__icontains='health').order_by('-stock_count').first()
+        new_product = ProductDetails.objects.all().exclude(pk=0)
+        new_product_extras = ProductDetails.objects.all().filter(
+            product__product_id=new_product.product_id)
+    sports_product = ProductDetails.objects.all().exclude(pk=0).filter(
+        product__categories__icontains='sports').order_by(
+        '-stock_count').first()
+    sports_product_extras = ProductDetails.objects.all().filter(
+        product__product_id=sports_product.product_id)
+    health_product = ProductDetails.objects.all().exclude(pk=0).filter(
+        product__categories__icontains='health').order_by(
+        '-stock_count').first()
+    health_product_extras = ProductDetails.objects.all().filter(
+        product__product_id=health_product.product_id)
 
     if new_product == sports_product:
-        sports_product = Products.objects.all().exclude(pk=0).filter(
-            categories__icontains='sports').order_by('-stock_count')[1]
+        sports_product = ProductDetails.objects.all().exclude(pk=0).filter(
+            product__categories__icontains='sports').order_by(
+            '-stock_count')[1]
+        sports_product_extras = ProductDetails.objects.all().filter(
+            product__product_id=sports_product.product_id)
     if new_product == health_product:
-        health_product = Products.objects.all().exclude(pk=0).filter(
-            categories__icontains='health').order_by('-stock_count')[1]
-
+        health_product = ProductDetails.objects.all().exclude(pk=0).filter(
+            product__categories__icontains='health').order_by(
+            '-stock_count')[1]
+        health_product_extras = ProductDetails.objects.all().filter(
+            product__product_id=health_product.product_id)
     return render(request, 'index.html',
                   {'products': products,
                    'new_product': new_product,
+                   'new_product_extras': new_product_extras,
                    'sports_product': sports_product,
-                   'health_product': health_product})
+                   'sports_product_extras': sports_product_extras,
+                   'health_product': health_product,
+                   'health_product_extras': health_product_extras})
 
 
 class CreateUser(CreateView):
@@ -64,14 +87,16 @@ class CustomPasswordChangeView(PasswordChangeView):
 
 
 def product_view(request, var):
-    product = Products.objects.all().exclude(active=False).filter(product_id=var)
-    if product:
-        categories = product[0].categories.split(',')
-        linked_products = Products.objects.all().exclude(
+    product = ProductDetails.objects.all().exclude(active=False).filter(
+        product__product_id=var)
+    product_cats = Products.objects.all().filter(product_id=var)
+    if product_cats:
+        categories = product_cats[0].categories.split(',')
+        linked_products = ProductDetails.objects.all().exclude(
             active=False).exclude(
-            product_id=var).filter(
-            reduce(operator.or_,(Q(
-                categories__icontains=x) for x in categories)))
+            product__product_id=var).filter(
+            reduce(operator.or_, (Q(
+                product__categories__icontains=x) for x in categories)))
         linked_sorted = linked_products.order_by('-stock_count')
         return render(request, 'product_page.html',
                       {'product': product, 'linked_sorted': linked_sorted})
@@ -215,8 +240,8 @@ def profile_orders(request, var):
         if order:
             order_details = Purchases.objects.all().filter(
                 order=order[0]).order_by('product__product_id')
-            products = Products.objects.filter(
-                product_id__in=order_details.values(
+            products = ProductDetails.objects.filter(
+                product__product_id__in=order_details.values(
                     'product__product_id')).order_by('product_id')
             return render(request, 'profile.html',
                           {'order': order[0],
