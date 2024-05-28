@@ -411,6 +411,10 @@ main {
     background-color: #9FFFB8;
 }
 
+.linked-other #prod-sizes, .linked-other #prod-flavours {
+    width: 100%;
+}
+
 input[name="default_addr"] {
     margin-right: 495px;
 }
