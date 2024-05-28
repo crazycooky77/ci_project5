@@ -91,7 +91,8 @@ class Products(models.Model):
 class ProductDetails(models.Model):
     product = models.ForeignKey(Products,
                                 on_delete=models.CASCADE)
-    size = models.CharField(max_length=500)
+    size = models.IntegerField()
+    size_unit = models.CharField(max_length=50)
     flavour = models.CharField(max_length=600,
                                blank=True,
                                null=True)
@@ -107,7 +108,8 @@ class ProductDetails(models.Model):
         verbose_name_plural = 'Product Details'
 
     def __str__(self):
-        return f'{self.active} | {self.product} | {self.size} | {self.flavour} | {self.price} | {self.stock_count}'
+        return (f'{self.active} | {self.product} | {self.size} {self.size_unit}'
+                f' | {self.flavour} | {self.price} | {self.stock_count}')
 
 
 class PurchaseHistory(models.Model):
