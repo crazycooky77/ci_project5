@@ -98,8 +98,11 @@ def product_view(request, var):
             reduce(operator.or_, (Q(
                 product__categories__icontains=x) for x in categories)))
         linked_sorted = linked_products.order_by('-stock_count')
+        linked_sorted_distinct = linked_products.distinct('product_id')
         return render(request, 'product_page.html',
-                      {'product': product, 'linked_sorted': linked_sorted})
+                      {'product': product,
+                       'linked_sorted': linked_sorted,
+                       'linked_sorted_distinct': linked_sorted_distinct})
     else:
         return render(request, 'product_page.html',
                       {'product': product})

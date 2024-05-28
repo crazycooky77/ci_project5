@@ -26,8 +26,12 @@
                         <p>
                             <label for="prod-flavours">Flavour:</label>
                             <select name="prod-flavours" id="prod-flavours">
-                                {% for option in product %}
-                                    <option value="{{ option.flavour }}">{{ option.flavour }}</option>
+                                {% for option in product|dictsort:"flavour" %}
+                                    {% if product.size == option.size %}
+                                        <option value="{{ option.flavour }}" selected="selected">{{ option.flavour }}</option>
+                                    {% else %}
+                                        <option value="{{ option.flavour }}">{{ option.flavour }}</option>
+                                    {% endif %}
                                 {% endfor %}
                             </select>
                         </p>
@@ -35,8 +39,8 @@
                     <p>
                         <label for="prod-sizes">Size:</label>
                         <select name="prod-sizes" id="prod-sizes">
-                            {% for option in product %}
-                                <option value="{{ option.size }}">{{ option.size }}</option>
+                            {% for option in product|dictsort:"size" %}
+                                <option value="{{ option.size }}">{{ option.size }} {{ option.size_unit }}</option>
                             {% endfor %}
                         </select>
                     </p>
@@ -64,20 +68,30 @@
                 <div class="similar-prod">
                     <p>You may also like...</p>
                     <div class="linked-hor">
-                        {% for item in linked_sorted %}
+                        {% for item in linked_sorted_distinct %}
                             <div class="linked-ver">
-                                <img class="linked-img" src="{{ item.product.product_pic.url }}" alt="Product image">
+                                <a href="/products/id={{ item.product.product_id }}">
+                                    <img class="linked-img" src="{{ item.product.product_pic.url }}" alt="Product image">
+                                </a>
                                 <div class="linked-details">
                                     <div class="linked-name">
-                                        {{ item.product.brand }} {{ item.product.product_name }}
+                                        <a href="/products/id={{ item.product.product_id }}">
+                                            {{ item.product.brand }} {{ item.product.product_name }}
+                                        </a>
                                     </div>
                                     <div class="linked-other">
-                                        {% if product.first.flavour %}
+                                        {% if item.flavour %}
                                             <p>
                                                 <label for="prod-flavours" aria-label="Flavour"></label>
                                                 <select name="prod-flavours" id="prod-flavours">
-                                                    {% for option in product %}
-                                                        <option value="{{ option.flavour }}">{{ option.flavour }}</option>
+                                                    {% for option in linked_sorted %}
+                                                        {% if item.product_id == option.product.product_id %}
+                                                            {% if item.size == option.size %}
+                                                                <option value="{{ option.flavour }}" selected="selected">{{ option.flavour }}</option>
+                                                            {% else %}
+                                                                <option value="{{ option.flavour }}">{{ option.flavour }}</option>
+                                                            {% endif %}
+                                                        {% endif %}
                                                     {% endfor %}
                                                 </select>
                                             </p>
@@ -85,8 +99,10 @@
                                         <p>
                                             <label for="prod-sizes" aria-label="Size"></label>
                                             <select name="prod-sizes" id="prod-sizes">
-                                                {% for option in product %}
-                                                    <option value="{{ option.size }}">{{ option.size }}</option>
+                                                {% for option in linked_sorted|dictsort:"size" %}
+                                                    {% if item.product_id == option.product.product_id %}
+                                                        <option value="{{ option.size }}">{{ option.size }} {{ option.size_unit }}</option>
+                                                    {% endif %}
                                                 {% endfor %}
                                             </select>
                                         </p>
