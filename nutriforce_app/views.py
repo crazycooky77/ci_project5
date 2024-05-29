@@ -1,5 +1,4 @@
-from operator import attrgetter
-
+from django.core import serializers
 from allauth.account.views import PasswordChangeView, EmailView, \
     ConfirmEmailView, EmailVerificationSentView
 from django.urls import reverse_lazy
@@ -99,10 +98,17 @@ def product_view(request, var):
                 product__categories__icontains=x) for x in categories)))
         linked_sorted = linked_products.order_by('-stock_count')
         linked_sorted_distinct = linked_products.distinct('product_id')
+
+        json_serializer = serializers.get_serializer("json")()
+        js_product = json_serializer.serialize(product, ensure_ascii=False)
+        js_linked_sorted = json_serializer.serialize(linked_sorted, ensure_ascii=False)
+
         return render(request, 'product_page.html',
                       {'product': product,
                        'linked_sorted': linked_sorted,
-                       'linked_sorted_distinct': linked_sorted_distinct})
+                       'linked_sorted_distinct': linked_sorted_distinct,
+                       'js_product': js_product,
+                       'js_linked_sorted': js_linked_sorted})
     else:
         return render(request, 'product_page.html',
                       {'product': product})

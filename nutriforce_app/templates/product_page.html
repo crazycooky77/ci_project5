@@ -1,5 +1,6 @@
 <!-- Load the base html file -->
 {% extends "base.html" %}
+{% load static %}
 
 {% block content %}
     <div class="prod-div">
@@ -25,8 +26,8 @@
                     {% if product.first.flavour %}
                         <p>
                             <label for="prod-flavours">Flavour:</label>
-                            <select name="prod-flavours" id="prod-flavours">
-                                {% for option in product|dictsort:"flavour" %}
+                            <select name="prod-flavours" id="prod-flavours" onChange=linkedSize()>
+                                {% for option in product %}
                                     {% if product.size == option.size %}
                                         <option value="{{ option.flavour }}" selected="selected">{{ option.flavour }}</option>
                                     {% else %}
@@ -38,7 +39,7 @@
                     {% endif %}
                     <p>
                         <label for="prod-sizes">Size:</label>
-                        <select name="prod-sizes" id="prod-sizes">
+                        <select name="prod-sizes" id="prod-sizes" onChange=linkedFlavour()>
                             {% for option in product|dictsort:"size" %}
                                 <option value="{{ option.size }}">{{ option.size }} {{ option.size_unit }}</option>
                             {% endfor %}
@@ -82,8 +83,8 @@
                                     <div class="linked-other">
                                         {% if item.flavour %}
                                             <p>
-                                                <label for="prod-flavours" aria-label="Flavour"></label>
-                                                <select name="prod-flavours" id="prod-flavours">
+                                                <label for="linked-prod-flavours" aria-label="Flavour"></label>
+                                                <select name="linked-prod-flavours" id="linked-prod-flavours" onChange=linkedSize()>
                                                     {% for option in linked_sorted %}
                                                         {% if item.product_id == option.product.product_id %}
                                                             {% if item.size == option.size %}
@@ -97,8 +98,8 @@
                                             </p>
                                         {% endif %}
                                         <p>
-                                            <label for="prod-sizes" aria-label="Size"></label>
-                                            <select name="prod-sizes" id="prod-sizes">
+                                            <label for="linked-prod-sizes" aria-label="Size"></label>
+                                            <select name="linked-prod-sizes" id="linked-prod-sizes" onChange=linkedFlavour()>
                                                 {% for option in linked_sorted|dictsort:"size" %}
                                                     {% if item.product_id == option.product.product_id %}
                                                         <option value="{{ option.size }}">{{ option.size }} {{ option.size_unit }}</option>
@@ -107,8 +108,8 @@
                                             </select>
                                         </p>
                                         <p>€ {{ item.price }}</p>
-                                        <p><label for="prod-quantity" aria-label="Quantity"></label>
-                                        <input type="number" id="prod-quantity" name="prod-quantity" min="1" max="{{ item.stock_count }}">
+                                        <p><label for="linked-prod-quantity" aria-label="Quantity"></label>
+                                        <input type="number" id="linked-prod-quantity" name="linked-prod-quantity" min="1" max="{{ item.stock_count }}">
                                         <button class="linked-button">Add to Cart</button></p>
                                     </div>
                                 </div>
@@ -121,4 +122,12 @@
             <p>No product with this ID exists</p>
         {% endif %}
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+        const js_linked_prods = "{{ js_linked_sorted }}".replace(/&quot;/ig,'"')
+        const js_prod = "{{ js_product }}".replace(/&quot;/ig,'"')
+        json_linked_prods = JSON.parse(js_linked_prods)
+        json_prod = JSON.parse(js_prod)
+    </script>
+    <script src="{% static 'js/script.js' %}"></script>
 {% endblock %}
