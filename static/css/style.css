@@ -406,12 +406,12 @@ main {
     margin-right: 300px;
   }
 
-.add-addr select, #prod-sizes, #prod-flavours, .feat-prod-details select, #linked-prod-flavours, #linked-prod-sizes {
+.add-addr select, #prod-sizes, #prod-flavours, .feat-prod-details select, .linked-other select {
     border-radius: 5px;
     background-color: #9FFFB8;
 }
 
-#linked-prod-sizes, #linked-prod-flavours {
+.linked-other select {
     width: 100%;
 }
 

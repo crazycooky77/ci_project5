@@ -15,6 +15,8 @@ from .forms import *
 
 def homepage_view(request):
     products = ProductDetails.objects.all().exclude(active=False)
+    json_serializer = serializers.get_serializer("json")()
+
     if ProductDetails.objects.all().exclude(pk=0).filter(stock_count__gte=10):
         new_product = ProductDetails.objects.all().exclude(pk=0).filter(
             stock_count__gte=10).latest('created_ts')
@@ -27,18 +29,49 @@ def homepage_view(request):
             product__product_id=new_product.product_id)
     else:
         new_product = ProductDetails.objects.all().exclude(pk=0)
-        new_product_extras = ProductDetails.objects.all().filter(
-            product__product_id=new_product.product_id)
     sports_product = ProductDetails.objects.all().exclude(pk=0).filter(
         product__categories__icontains='sports').order_by(
         '-stock_count').first()
-    sports_product_extras = ProductDetails.objects.all().filter(
-        product__product_id=sports_product.product_id)
     health_product = ProductDetails.objects.all().exclude(pk=0).filter(
         product__categories__icontains='health').order_by(
         '-stock_count').first()
-    health_product_extras = ProductDetails.objects.all().filter(
-        product__product_id=health_product.product_id)
+
+    try:
+        new_product_extras
+    except NameError:
+        if new_product:
+            new_product_extras = ProductDetails.objects.all().filter(
+                product__product_id=new_product.product_id)
+        else:
+            new_product_extras = ''
+    try:
+        js_new_product
+    except NameError:
+        if new_product_extras:
+            js_new_product = json_serializer.serialize(
+                new_product_extras.order_by('flavour'),
+                ensure_ascii=False)
+    else:
+        js_new_product = ''
+
+    if sports_product:
+        sports_product_extras = ProductDetails.objects.all().filter(
+            product__product_id=sports_product.product_id)
+        js_sports_product = json_serializer.serialize(
+            sports_product_extras.order_by('flavour'),
+            ensure_ascii=False)
+    else:
+        sports_product_extras = ''
+        js_sports_product = ''
+    if health_product:
+        health_product_extras = ProductDetails.objects.all().filter(
+            product__product_id=health_product.product_id)
+        js_health_product = json_serializer.serialize(
+            health_product_extras.order_by('flavour'),
+            ensure_ascii=False)
+    else:
+        health_product_extras = ''
+        js_health_product = ''
 
     if new_product == sports_product:
         sports_product = ProductDetails.objects.all().exclude(pk=0).filter(
@@ -52,6 +85,7 @@ def homepage_view(request):
             '-stock_count')[1]
         health_product_extras = ProductDetails.objects.all().filter(
             product__product_id=health_product.product_id)
+
     return render(request, 'index.html',
                   {'products': products,
                    'new_product': new_product,
@@ -59,7 +93,10 @@ def homepage_view(request):
                    'sports_product': sports_product,
                    'sports_product_extras': sports_product_extras,
                    'health_product': health_product,
-                   'health_product_extras': health_product_extras})
+                   'health_product_extras': health_product_extras,
+                   'js_new_product': js_new_product,
+                   'js_sports_product': js_sports_product,
+                   'js_health_product': js_health_product})
 
 
 class CreateUser(CreateView):
@@ -98,15 +135,20 @@ def product_view(request, var):
                 product__categories__icontains=x) for x in categories)))
         linked_sorted = linked_products.order_by('-stock_count')
         linked_sorted_distinct = linked_products.distinct('product_id')
+        linked_distinct_flavour = linked_products.distinct('product_id','flavour').order_by('product_id','flavour')
+        linked_distinct_size = linked_products.distinct('product_id','size').order_by('product_id','size')
 
         json_serializer = serializers.get_serializer("json")()
-        js_product = json_serializer.serialize(product, ensure_ascii=False)
-        js_linked_sorted = json_serializer.serialize(linked_sorted, ensure_ascii=False)
+        js_product = json_serializer.serialize(product.order_by('flavour'), ensure_ascii=False)
+        js_linked_sorted = json_serializer.serialize(linked_sorted.order_by(
+            '-stock_count','product_id','flavour'), ensure_ascii=False)
 
         return render(request, 'product_page.html',
                       {'product': product,
                        'linked_sorted': linked_sorted,
                        'linked_sorted_distinct': linked_sorted_distinct,
+                       'linked_distinct_flavour': linked_distinct_flavour,
+                       'linked_distinct_size': linked_distinct_size,
                        'js_product': js_product,
                        'js_linked_sorted': js_linked_sorted})
     else:
