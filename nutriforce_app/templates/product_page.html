@@ -26,10 +26,12 @@
                     {% if product.first.flavour %}
                         <p>
                             <label for="prod-flavours">Flavour:</label>
-                            <select name="prod-flavours" id="prod-flavours" onChange=linkedSize()>
-                                {% for option in product %}
-                                    {% if product.size == option.size %}
+                            <select name="prod-flavours" id="prod-flavours" onChange=productOptions()>
+                                {% for option in product|dictsort:"flavour" %}
+                                    {% if option.flavour == product.first.flavour %}
                                         <option value="{{ option.flavour }}" selected="selected">{{ option.flavour }}</option>
+                                    {% elif option.stock_count < 1 %}
+                                        <option value="{{ option.flavour }}" class="oos" disabled>{{ option.flavour }}</option>
                                     {% else %}
                                         <option value="{{ option.flavour }}">{{ option.flavour }}</option>
                                     {% endif %}
@@ -39,9 +41,13 @@
                     {% endif %}
                     <p>
                         <label for="prod-sizes">Size:</label>
-                        <select name="prod-sizes" id="prod-sizes" onChange=linkedFlavour()>
+                        <select name="prod-sizes" id="prod-sizes" onChange=productOptions()>
                             {% for option in product|dictsort:"size" %}
-                                <option value="{{ option.size }}">{{ option.size }} {{ option.size_unit }}</option>
+                                {% if option.stock_count < 1 %}
+                                    <option value="{{ option.size }}" class="oos" disabled>{{ option.size }}</option>
+                                {% else %}
+                                    <option value="{{ option.size }}">{{ option.size }} {{ option.size_unit }}</option>
+                                {% endif %}
                             {% endfor %}
                         </select>
                     </p>
@@ -83,8 +89,8 @@
                                     <div class="linked-other">
                                         {% if item.flavour %}
                                             <p>
-                                                <label for="linked-prod-flavours" aria-label="Flavour"></label>
-                                                <select name="linked-prod-flavours" id="linked-prod-flavours" onChange=linkedSize()>
+                                                <label for="{{ item.product_id }}-prod-flavours" aria-label="Flavour"></label>
+                                                <select name="{{ item.product_id }}-prod-flavours" id="{{ item.product_id }}-prod-flavours" onChange=linkedOptions()>
                                                     {% for option in linked_sorted %}
                                                         {% if item.product_id == option.product.product_id %}
                                                             {% if item.size == option.size %}
@@ -98,9 +104,9 @@
                                             </p>
                                         {% endif %}
                                         <p>
-                                            <label for="linked-prod-sizes" aria-label="Size"></label>
-                                            <select name="linked-prod-sizes" id="linked-prod-sizes" onChange=linkedFlavour()>
-                                                {% for option in linked_sorted|dictsort:"size" %}
+                                            <label for="{{ item.product_id }}-prod-sizes" aria-label="Size"></label>
+                                            <select name="{{ item.product_id }}-prod-sizes" id="{{ item.product_id }}-prod-sizes" onChange=linkedOptions()>
+                                                {% for option in linked_sorted %}
                                                     {% if item.product_id == option.product.product_id %}
                                                         <option value="{{ option.size }}">{{ option.size }} {{ option.size_unit }}</option>
                                                     {% endif %}
@@ -108,8 +114,8 @@
                                             </select>
                                         </p>
                                         <p>€ {{ item.price }}</p>
-                                        <p><label for="linked-prod-quantity" aria-label="Quantity"></label>
-                                        <input type="number" id="linked-prod-quantity" name="linked-prod-quantity" min="1" max="{{ item.stock_count }}">
+                                        <p><label for="{{ item.product_id }}-prod-quantity" aria-label="Quantity"></label>
+                                        <input type="number" id="{{ item.product_id }}-prod-quantity" name="{{ item.product_id }}-prod-quantity" min="1" max="{{ item.stock_count }}">
                                         <button class="linked-button">Add to Cart</button></p>
                                     </div>
                                 </div>

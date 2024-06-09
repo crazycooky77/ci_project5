@@ -139,7 +139,7 @@ def product_view(request, var):
         linked_distinct_size = linked_products.distinct('product_id','size').order_by('product_id','size')
 
         json_serializer = serializers.get_serializer("json")()
-        js_product = json_serializer.serialize(product.order_by('flavour'), ensure_ascii=False)
+        js_product = json_serializer.serialize(product.order_by('size','flavour'), ensure_ascii=False)
         js_linked_sorted = json_serializer.serialize(linked_sorted.order_by(
             '-stock_count','product_id','flavour'), ensure_ascii=False)
 
@@ -267,7 +267,6 @@ def profile_edit_addr(request, var):
                                                        default_addr=True)
                     obj = edit_addr_form.save(commit=False)
                     if default and obj.default_addr:
-                        print('yes')
                         default.update(default_addr=False)
                     obj.save()
                     messages.success(
