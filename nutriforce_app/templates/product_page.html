@@ -28,9 +28,7 @@
                             <label for="prod-flavours">Flavour:</label>
                             <select name="prod-flavours" id="prod-flavours" onChange=productOptions()>
                                 {% for option in product|dictsort:"flavour" %}
-                                    {% if option.flavour == product.first.flavour %}
-                                        <option value="{{ option.flavour }}" selected="selected">{{ option.flavour }}</option>
-                                    {% elif option.stock_count < 1 %}
+                                    {% if option.stock_count < 1 %}
                                         <option value="{{ option.flavour }}" class="oos" disabled>{{ option.flavour }}</option>
                                     {% else %}
                                         <option value="{{ option.flavour }}">{{ option.flavour }}</option>
@@ -93,11 +91,7 @@
                                                 <select name="{{ item.product_id }}-prod-flavours" id="{{ item.product_id }}-prod-flavours" onChange=linkedOptions()>
                                                     {% for option in linked_sorted %}
                                                         {% if item.product_id == option.product.product_id %}
-                                                            {% if item.size == option.size %}
-                                                                <option value="{{ option.flavour }}" selected="selected">{{ option.flavour }}</option>
-                                                            {% else %}
-                                                                <option value="{{ option.flavour }}">{{ option.flavour }}</option>
-                                                            {% endif %}
+                                                            <option value="{{ option.flavour }}">{{ option.flavour }}</option>
                                                         {% endif %}
                                                     {% endfor %}
                                                 </select>
@@ -106,7 +100,7 @@
                                         <p>
                                             <label for="{{ item.product_id }}-prod-sizes" aria-label="Size"></label>
                                             <select name="{{ item.product_id }}-prod-sizes" id="{{ item.product_id }}-prod-sizes" onChange=linkedOptions()>
-                                                {% for option in linked_sorted %}
+                                                {% for option in linked_sorted|dictsort:"size" %}
                                                     {% if item.product_id == option.product.product_id %}
                                                         <option value="{{ option.size }}">{{ option.size }} {{ option.size_unit }}</option>
                                                     {% endif %}
