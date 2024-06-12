@@ -13,15 +13,17 @@ function json_sort(json) {
 }
 
 
-/* Check for and hide duplicate flavours */
-function dupe_flavours() {
-    let dupeFlavours = {};
-    $("select > option").each(function () {
-        if (dupeFlavours[this.text]) {
+/* Check for and hide duplicate sizes */
+function dupe_sizes(id_size) {
+    let dupeSizes = {};
+    console.log($("select[name=id_size]"))
+    $("select[name=" + id_size + "] > option").each(function () {
+        console.log($(this))
+        if (dupeSizes[this.text]) {
             $(this).hide();
             $(this).addClass('hidden')
         } else {
-            dupeFlavours[this.text] = this.value;
+            dupeSizes[this.text] = this.value;
         }
     })
 }
@@ -109,6 +111,18 @@ function oos_products(flavour,size,json) {
 
 
 function linked_prod_options() {
+    // Remove duplicate sizes in linked products
+    let sizeIds = []
+    for (let i = 0; i < json_linked_prods.length; i++) {
+        let sizeId = json_linked_prods[i].fields.product
+        if (!(sizeIds.includes(sizeId))) {
+            sizeIds.push(sizeId)
+            let sizeElement = sizeId + "-prod-sizes"
+            dupe_sizes(sizeElement)
+        }
+    }
+
+
     // Get occurrences for products
     let prod_count = {}
     for (let i = 0; i < json_linked_prods.length; i++) {
@@ -194,11 +208,11 @@ if (window.location.pathname.indexOf("/products/") !== -1) {
         /* For the main product on the page */
         let prodFlavour = document.getElementById("prod-flavours");
         let selectedSize = $("#prod-sizes :selected").val()
-        dupe_flavours()
+        dupe_sizes('prod-sizes')
         oos_products(prodFlavour,selectedSize,json_prod)
 
         /* For linked products */
-        // linked_prod_options()
+        linked_prod_options()
     })
 }
 
