@@ -225,6 +225,11 @@ main {
     flex-direction: row;
 }
 
+.home-oos {
+    padding: 15px;
+    text-align: center;
+}
+
 .feat-prod-div {
     display: flex;
     flex-direction: row;

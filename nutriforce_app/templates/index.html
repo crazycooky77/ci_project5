@@ -18,122 +18,134 @@
             {% endfor %}
         {% endif %}
         <div class="feat-prod-div">
-            <div class="feat-img-div">
-                <a href="/products/id={{ new_product.product.product_id }}"><img class="feat-img" src="{{ new_product.product.product_pic.url }}" alt="New featured product"></a>
-            </div>
-            <div class="feat-prod-details-div">
-                <a href="/products/id={{ new_product.product.product_id }}">
-                    <p class="feat-prod-details">{{ new_product.product.brand }}</p>
-                    <p class="feat-prod-details">{{ new_product.product.product_name }}</p>
-                </a>
-                {% if new_product.flavour %}
+            {% if new_product %}
+                <div class="feat-img-div">
+                    <a href="/products/id={{ new_product.product.product_id }}"><img class="feat-img" src="{{ new_product.product.product_pic.url }}" alt="New featured product"></a>
+                </div>
+                <div class="feat-prod-details-div">
+                    <a href="/products/id={{ new_product.product.product_id }}">
+                        <p class="feat-prod-details">{{ new_product.product.brand }}</p>
+                        <p class="feat-prod-details">{{ new_product.product.product_name }}</p>
+                    </a>
+                    {% if new_product.flavour %}
+                        <p class="feat-prod-details">
+                            <label for="new-prod-flavours">Flavour:</label>{
+                            <select name="new-prod-flavours" id="new-prod-flavours" onChange=featOptions()>
+                                {% for option in new_product_extras|dictsort:"flavour" %}
+                                    {% if option.flavour == new_product.flavour %}
+                                        <option value="{{ option.flavour }}" selected="selected">{{ option.flavour }}</option>
+                                    {% else %}
+                                        <option value="{{ option.flavour }}">{{ option.flavour }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </p>
+                    {% endif %}
                     <p class="feat-prod-details">
-                        <label for="new-prod-flavours">Flavour:</label>{
-                        <select name="new-prod-flavours" id="new-prod-flavours" onChange=featOptions()>
-                            {% for option in new_product_extras|dictsort:"flavour" %}
-                                {% if option.flavour == new_product.flavour %}
-                                    <option value="{{ option.flavour }}" selected="selected">{{ option.flavour }}</option>
+                        <label for="new-prod-sizes">Size:</label>
+                        <select name="new-prod-sizes" id="new-prod-sizes" onChange=featOptions()>
+                            {% for option in new_product_extras|dictsort:"size" %}
+                                {% if option.size == new_product.size %}
+                                    <option value="{{ option.size }} {{ option.size_unit }}" selected="selected">{{ option.size }} {{ option.size_unit }}</option>
                                 {% else %}
-                                    <option value="{{ option.flavour }}">{{ option.flavour }}</option>
+                                    <option value="{{ option.size }} {{ option.size_unit }}">{{ option.size }} {{ option.size_unit }}</option>
                                 {% endif %}
                             {% endfor %}
                         </select>
                     </p>
-                {% endif %}
-                <p class="feat-prod-details">
-                    <label for="new-prod-sizes">Size:</label>
-                    <select name="new-prod-sizes" id="new-prod-sizes" onChange=featOptions()>
-                        {% for option in new_product_extras|dictsort:"size" %}
-                            {% if option.size == new_product.size %}
-                                <option value="{{ option.size }} {{ option.size_unit }}" selected="selected">{{ option.size }} {{ option.size_unit }}</option>
-                            {% else %}
-                                <option value="{{ option.size }} {{ option.size_unit }}">{{ option.size }} {{ option.size_unit }}</option>
-                            {% endif %}
-                        {% endfor %}
-                    </select>
-                </p>
-                <p class="feat-prod-details">€ {{ new_product.price }}</p>
-                <p><button>Add to Cart</button></p>
-            </div>
+                    <p class="feat-prod-details">€ {{ new_product.price }}</p>
+                    <p><button>Add to Cart</button></p>
+                </div>
+            {% else %}
+                <p class="home-oos">We don't have a featured new product to show you yet. Stay tuned!</p>
+            {% endif %}
         </div>
         <div class="home-row">
             <div class="feat-prod-div">
-                <div class="feat-img-div">
-                    <a href="/products/id={{ sports_product.product.product_id }}"><img class="feat-img" src="{{ sports_product.product.product_pic.url }}" alt="Featured sports product"></a>
-                </div>
-                <div class="feat-prod-details-div">
-                    <a href="/products/id={{ sports_product.product.product_id }}">
-                        <p class="feat-prod-details">{{ sports_product.product.brand }}</p>
-                        <p class="feat-prod-details">{{ sports_product.product.product_name }}</p>
-                    </a>
-                    {% if sports_product.flavour %}
+                {% if sports_product %}
+                    <div class="feat-img-div">
+                        <a href="/products/id={{ sports_product.product.product_id }}"><img class="feat-img" src="{{ sports_product.product.product_pic.url }}" alt="Featured sports product"></a>
+                    </div>
+                    <div class="feat-prod-details-div">
+                        <a href="/products/id={{ sports_product.product.product_id }}">
+                            <p class="feat-prod-details">{{ sports_product.product.brand }}</p>
+                            <p class="feat-prod-details">{{ sports_product.product.product_name }}</p>
+                        </a>
+                        {% if sports_product.flavour %}
+                            <p class="feat-prod-details">
+                                <label for="sports-prod-flavours">Flavour:</label>
+                                <select name="sports-prod-flavours" id="sports-prod-flavours" onChange=featOptions()>
+                                    {% for option in sports_product_extras|dictsort:"flavour" %}
+                                        {% if option.flavour == sports_product.flavour %}
+                                            <option value="{{ option.flavour }}" selected="selected">{{ option.flavour }}</option>
+                                        {% else %}
+                                            <option value="{{ option.flavour }}">{{ option.flavour }}</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
+                            </p>
+                        {% endif %}
                         <p class="feat-prod-details">
-                            <label for="sports-prod-flavours">Flavour:</label>
-                            <select name="sports-prod-flavours" id="sports-prod-flavours" onChange=featOptions()>
-                                {% for option in sports_product_extras|dictsort:"flavour" %}
-                                    {% if option.flavour == sports_product.flavour %}
-                                        <option value="{{ option.flavour }}" selected="selected">{{ option.flavour }}</option>
+                            <label for="sports-prod-sizes">Size:</label>
+                            <select name="sports-prod-sizes" id="sports-prod-sizes" onChange=featOptions()>
+                                {% for option in sports_product_extras|dictsort:"size" %}
+                                    {% if option.size == sports_product.size %}
+                                        <option value="{{ option.size }} {{ option.size_unit }}" selected="selected">{{ option.size }} {{ option.size_unit }}</option>
                                     {% else %}
-                                        <option value="{{ option.flavour }}">{{ option.flavour }}</option>
+                                        <option value="{{ option.size }} {{ option.size_unit }}">{{ option.size }} {{ option.size_unit }}</option>
                                     {% endif %}
                                 {% endfor %}
                             </select>
                         </p>
-                    {% endif %}
-                    <p class="feat-prod-details">
-                        <label for="sports-prod-sizes">Size:</label>
-                        <select name="sports-prod-sizes" id="sports-prod-sizes" onChange=featOptions()>
-                            {% for option in sports_product_extras|dictsort:"size" %}
-                                {% if option.size == sports_product.size %}
-                                    <option value="{{ option.size }} {{ option.size_unit }}" selected="selected">{{ option.size }} {{ option.size_unit }}</option>
-                                {% else %}
-                                    <option value="{{ option.size }} {{ option.size_unit }}">{{ option.size }} {{ option.size_unit }}</option>
-                                {% endif %}
-                            {% endfor %}
-                        </select>
-                    </p>
-                    <p class="feat-prod-details">€ {{ sports_product.price }}</p>
-                    <p><button>Add to Cart</button></p>
-                </div>
+                        <p class="feat-prod-details">€ {{ sports_product.price }}</p>
+                        <p><button>Add to Cart</button></p>
+                    </div>
+                {% else %}
+                    <p class="home-oos">We don't have a featured sports product to show you yet. Stay tuned!</p>
+                {% endif %}
             </div>
             <div class="feat-prod-div">
-                <div class="feat-img-div">
-                    <a href="/products/id={{ health_product.product.product_id }}"><img class="feat-img" src="{{ health_product.product.product_pic.url }}" alt="Featured health product"></a>
-                </div>
-                <div class="feat-prod-details-div">
-                    <a href="/products/id={{ health_product.product.product_id }}">
-                        <p class="feat-prod-details">{{ health_product.product.brand }}</p>
-                        <p class="feat-prod-details">{{ health_product.product.product_name }}</p>
-                    </a>
-                    {% if health_product.flavour %}
+                {% if health_product %}
+                    <div class="feat-img-div">
+                        <a href="/products/id={{ health_product.product.product_id }}"><img class="feat-img" src="{{ health_product.product.product_pic.url }}" alt="Featured health product"></a>
+                    </div>
+                    <div class="feat-prod-details-div">
+                        <a href="/products/id={{ health_product.product.product_id }}">
+                            <p class="feat-prod-details">{{ health_product.product.brand }}</p>
+                            <p class="feat-prod-details">{{ health_product.product.product_name }}</p>
+                        </a>
+                        {% if health_product.flavour %}
+                            <p class="feat-prod-details">
+                                <label for="health-prod-flavours">Flavour:</label>
+                                <select name="health-prod-flavours" id="health-prod-flavours" onChange=featOptions()>
+                                    {% for option in health_product_extras|dictsort:"flavour" %}
+                                        {% if option.flavour == health_product.flavour %}
+                                            <option value="{{ option.flavour }}" selected="selected">{{ option.flavour }}</option>
+                                        {% else %}
+                                            <option value="{{ option.flavour }}">{{ option.flavour }}</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
+                            </p>
+                        {% endif %}
                         <p class="feat-prod-details">
-                            <label for="health-prod-flavours">Flavour:</label>
-                            <select name="health-prod-flavours" id="health-prod-flavours" onChange=featOptions()>
-                                {% for option in health_product_extras|dictsort:"flavour" %}
-                                    {% if option.flavour == health_product.flavour %}
-                                        <option value="{{ option.flavour }}" selected="selected">{{ option.flavour }}</option>
+                            <label for="health-prod-sizes">Size:</label>
+                            <select name="health-prod-sizes" id="health-prod-sizes" onChange=featOptions()>
+                                {% for option in health_product_extras|dictsort:"size" %}
+                                    {% if option.size == health_product.size %}
+                                        <option value="{{ option.size }} {{ option.size_unit }}" selected="selected">{{ option.size }} {{ option.size_unit }}</option>
                                     {% else %}
-                                        <option value="{{ option.flavour }}">{{ option.flavour }}</option>
+                                        <option value="{{ option.size }} {{ option.size_unit }}">{{ option.size }} {{ option.size_unit }}</option>
                                     {% endif %}
                                 {% endfor %}
                             </select>
                         </p>
-                    {% endif %}
-                    <p class="feat-prod-details">
-                        <label for="health-prod-sizes">Size:</label>
-                        <select name="health-prod-sizes" id="health-prod-sizes" onChange=featOptions()>
-                            {% for option in health_product_extras|dictsort:"size" %}
-                                {% if option.size == health_product.size %}
-                                    <option value="{{ option.size }} {{ option.size_unit }}" selected="selected">{{ option.size }} {{ option.size_unit }}</option>
-                                {% else %}
-                                    <option value="{{ option.size }} {{ option.size_unit }}">{{ option.size }} {{ option.size_unit }}</option>
-                                {% endif %}
-                            {% endfor %}
-                        </select>
-                    </p>
-                    <p class="feat-prod-details">€ {{ health_product.price }}</p>
-                    <p><button>Add to Cart</button></p>
-                </div>
+                        <p class="feat-prod-details">€ {{ health_product.price }}</p>
+                        <p><button>Add to Cart</button></p>
+                    </div>
+                {% else %}
+                    <p class="home-oos">We don't have a featured health product to show you yet. Stay tuned!</p>
+                {% endif %}
             </div>
         </div>
     </div>

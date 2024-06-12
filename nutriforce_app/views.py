@@ -36,22 +36,15 @@ def homepage_view(request):
         product__categories__icontains='health').order_by(
         '-stock_count').first()
 
-    try:
-        new_product_extras
-    except NameError:
-        if new_product:
-            new_product_extras = ProductDetails.objects.all().filter(
-                product__product_id=new_product.product_id)
-        else:
-            new_product_extras = ''
-    try:
-        js_new_product
-    except NameError:
-        if new_product_extras:
-            js_new_product = json_serializer.serialize(
-                new_product_extras.order_by('flavour'),
-                ensure_ascii=False)
+
+    if new_product:
+        new_product_extras = ProductDetails.objects.all().filter(
+            product__product_id=new_product.product_id)
+        js_new_product = json_serializer.serialize(
+            new_product_extras.order_by('flavour'),
+            ensure_ascii=False)
     else:
+        new_product_extras = ''
         js_new_product = ''
 
     if sports_product:
@@ -73,13 +66,13 @@ def homepage_view(request):
         health_product_extras = ''
         js_health_product = ''
 
-    if new_product == sports_product:
+    if new_product == sports_product and new_product != '' and sports_product != '':
         sports_product = ProductDetails.objects.all().exclude(pk=0).filter(
             product__categories__icontains='sports').order_by(
             '-stock_count')[1]
         sports_product_extras = ProductDetails.objects.all().filter(
             product__product_id=sports_product.product_id)
-    if new_product == health_product:
+    if new_product == health_product and new_product != '' and health_product != '':
         health_product = ProductDetails.objects.all().exclude(pk=0).filter(
             product__categories__icontains='health').order_by(
             '-stock_count')[1]
