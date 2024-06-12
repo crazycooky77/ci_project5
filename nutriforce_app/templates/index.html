@@ -46,15 +46,19 @@
                         <select name="new-prod-sizes" id="new-prod-sizes" onChange=featOptions()>
                             {% for option in new_product_extras|dictsort:"size" %}
                                 {% if option.size == new_product.size %}
-                                    <option value="{{ option.size }} {{ option.size_unit }}" selected="selected">{{ option.size }} {{ option.size_unit }}</option>
+                                    <option value="{{ option.size }}" selected="selected">{{ option.size }} {{ option.size_unit }}</option>
                                 {% else %}
-                                    <option value="{{ option.size }} {{ option.size_unit }}">{{ option.size }} {{ option.size_unit }}</option>
+                                    <option value="{{ option.size }}">{{ option.size }} {{ option.size_unit }}</option>
                                 {% endif %}
                             {% endfor %}
                         </select>
                     </p>
-                    <p class="feat-prod-details">€ {{ new_product.price }}</p>
-                    <p><button>Add to Cart</button></p>
+                    <p id="new-prod-price" class="feat-prod-details"></p>
+                    <p id="new-prod-cart">
+                        <label for="new-prod-quantity">Quantity: </label>
+                        <input type="number" id="new-prod-quantity" name="new-prod-quantity" min="1">
+                        <button>Add to Cart</button>
+                    </p>
                 </div>
             {% else %}
                 <p class="home-oos">We don't have a featured new product to show you yet. Stay tuned!</p>
@@ -90,15 +94,19 @@
                             <select name="sports-prod-sizes" id="sports-prod-sizes" onChange=featOptions()>
                                 {% for option in sports_product_extras|dictsort:"size" %}
                                     {% if option.size == sports_product.size %}
-                                        <option value="{{ option.size }} {{ option.size_unit }}" selected="selected">{{ option.size }} {{ option.size_unit }}</option>
+                                        <option value="{{ option.size }}" selected="selected">{{ option.size }} {{ option.size_unit }}</option>
                                     {% else %}
-                                        <option value="{{ option.size }} {{ option.size_unit }}">{{ option.size }} {{ option.size_unit }}</option>
+                                        <option value="{{ option.size }}">{{ option.size }} {{ option.size_unit }}</option>
                                     {% endif %}
                                 {% endfor %}
                             </select>
                         </p>
-                        <p class="feat-prod-details">€ {{ sports_product.price }}</p>
-                        <p><button>Add to Cart</button></p>
+                        <p id="sports-prod-price" class="feat-prod-details"></p>
+                         <p id="sports-prod-cart">
+                            <label for="sports-prod-quantity">Quantity: </label>
+                            <input type="number" id="sports-prod-quantity" name="sports-prod-quantity" min="1">
+                            <button>Add to Cart</button>
+                        </p>
                     </div>
                 {% else %}
                     <p class="home-oos">We don't have a featured sports product to show you yet. Stay tuned!</p>
@@ -133,15 +141,19 @@
                             <select name="health-prod-sizes" id="health-prod-sizes" onChange=featOptions()>
                                 {% for option in health_product_extras|dictsort:"size" %}
                                     {% if option.size == health_product.size %}
-                                        <option value="{{ option.size }} {{ option.size_unit }}" selected="selected">{{ option.size }} {{ option.size_unit }}</option>
+                                        <option value="{{ option.size }}" selected="selected">{{ option.size }} {{ option.size_unit }}</option>
                                     {% else %}
-                                        <option value="{{ option.size }} {{ option.size_unit }}">{{ option.size }} {{ option.size_unit }}</option>
+                                        <option value="{{ option.size }}">{{ option.size }} {{ option.size_unit }}</option>
                                     {% endif %}
                                 {% endfor %}
                             </select>
                         </p>
-                        <p class="feat-prod-details">€ {{ health_product.price }}</p>
-                        <p><button>Add to Cart</button></p>
+                        <p id="health-prod-price" class="feat-prod-details"></p>
+                        <p id="health-prod-cart">
+                            <label for="health-prod-quantity">Quantity: </label>
+                            <input type="number" id="health-prod-quantity" name="health-prod-quantity" min="1">
+                            <button>Add to Cart</button>
+                        </p>
                     </div>
                 {% else %}
                     <p class="home-oos">We don't have a featured health product to show you yet. Stay tuned!</p>

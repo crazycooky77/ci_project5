@@ -42,24 +42,20 @@
                         <select name="prod-sizes" id="prod-sizes" onChange=productOptions()>
                             {% for option in product|dictsort:"size" %}
                                 {% if option.stock_count < 1 %}
-                                    <option value="{{ option.size }}" class="oos" disabled>{{ option.size }}</option>
+                                    <option value="{{ option.size }}" class="oos" disabled>{{ option.size }} {{ option.size_unit }}</option>
                                 {% else %}
                                     <option value="{{ option.size }}">{{ option.size }} {{ option.size_unit }}</option>
                                 {% endif %}
                             {% endfor %}
                         </select>
                     </p>
-                    <p>Price: € {{ product.first.price }}</p>
-                    {% if product.first.stock_count %}
-                        <p>
-                            <label for="prod-quantity">Quantity: </label>
-                            <input type="number" id="prod-quantity" name="prod-quantity" min="1" max="{{ product.first.stock_count }}">
-                            <button>Add to Cart</button>
-                        </p>
-                        <p>Availability: In Stock</p>
-                    {% else %}
-                        <p>Availability: Out Of Stock</p>
-                    {% endif %}
+                    <p id="prod-price"></p>
+                    <p id="prod-cart">
+                        <label for="prod-quantity">Quantity: </label>
+                        <input type="number" id="prod-quantity" name="prod-quantity" min="1">
+                        <button>Add to Cart</button>
+                    </p>
+                    <p id="prod-stock"></p>
                 </div>
             </div>
             <div class="prod-details">
@@ -107,10 +103,12 @@
                                                 {% endfor %}
                                             </select>
                                         </p>
-                                        <p>€ {{ item.price }}</p>
-                                        <p><label for="{{ item.product_id }}-prod-quantity" aria-label="Quantity"></label>
-                                        <input type="number" id="{{ item.product_id }}-prod-quantity" name="{{ item.product_id }}-prod-quantity" min="1" max="{{ item.stock_count }}">
-                                        <button class="linked-button">Add to Cart</button></p>
+                                        <p id="{{ item.product_id }}-prod-price"></p>
+                                        <p id="{{ item.product_id }}-prod-cart">
+                                            <label for="{{ item.product_id }}-prod-quantity" aria-label="Quantity"></label>
+                                            <input type="number" id="{{ item.product_id }}-prod-quantity" name="{{ item.product_id }}-prod-quantity" min="1" max="{{ item.stock_count }}">
+                                            <button class="linked-button">Add to Cart</button>
+                                        </p>
                                     </div>
                                 </div>
                             </div>

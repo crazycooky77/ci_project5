@@ -122,7 +122,7 @@ def product_view(request, var):
     if product_cats:
         categories = product_cats[0].categories.split(',')
         linked_products = ProductDetails.objects.all().exclude(
-            active=False).exclude(
+            active=False).exclude(stock_count__lt=1).exclude(
             product__product_id=var).filter(
             reduce(operator.or_, (Q(
                 product__categories__icontains=x) for x in categories)))
