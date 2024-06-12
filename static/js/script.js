@@ -16,9 +16,7 @@ function json_sort(json) {
 /* Check for and hide duplicate sizes */
 function dupe_sizes(id_size) {
     let dupeSizes = {};
-    console.log($("select[name=id_size]"))
     $("select[name=" + id_size + "] > option").each(function () {
-        console.log($(this))
         if (dupeSizes[this.text]) {
             $(this).hide();
             $(this).addClass('hidden')
@@ -180,6 +178,9 @@ if (window.location.pathname === "/") {
         let healthFlavour = document.getElementById("health-prod-flavours");
         let healthSelectedSize = $("#health-prod-sizes :selected").val().slice(0, -2);
 
+        dupe_sizes('new-prod-sizes')
+        dupe_sizes('sports-prod-sizes')
+        dupe_sizes('health-prod-sizes')
         oos_products(newFlavour,newSelectedSize,json_new_prod)
         oos_products(sportsFlavour,sportsSelectedSize,json_sports_prod)
         oos_products(healthFlavour,healthSelectedSize,json_health_prod)
