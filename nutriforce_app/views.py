@@ -20,13 +20,9 @@ def homepage_view(request):
     if ProductDetails.objects.all().exclude(pk=0).filter(stock_count__gte=10):
         new_product = ProductDetails.objects.all().exclude(pk=0).filter(
             stock_count__gte=10).latest('created_ts')
-        new_product_extras = ProductDetails.objects.all().filter(
-            product__product_id=new_product.product_id)
     elif ProductDetails.objects.all().exclude(pk=0):
         new_product = ProductDetails.objects.all().exclude(pk=0).latest(
             'created_ts')
-        new_product_extras = ProductDetails.objects.all().filter(
-            product__product_id=new_product.product_id)
     else:
         new_product = ProductDetails.objects.all().exclude(pk=0)
     sports_product = ProductDetails.objects.all().exclude(pk=0).filter(
@@ -35,7 +31,6 @@ def homepage_view(request):
     health_product = ProductDetails.objects.all().exclude(pk=0).filter(
         product__categories__icontains='health').order_by(
         '-stock_count').first()
-
 
     if new_product:
         new_product_extras = ProductDetails.objects.all().filter(
@@ -290,3 +285,14 @@ def profile_orders(request, var):
                           {'order': order[0],
                            'order_details': zip(order_details, products)})
     return render(request, 'profile.html')
+
+
+def all_products(request):
+    products = ProductDetails.objects.all().exclude(active=False)
+    products_distinct = products.distinct('product_id')
+    json_serializer = serializers.get_serializer("json")()
+    js_products = json_serializer.serialize(products.order_by('-stock_count'),
+                                            ensure_ascii=False)
+    return render(request, 'all_products.html', {'products': products,
+                                                 'products_distinct': products_distinct,
+                                                 'js_products': js_products})

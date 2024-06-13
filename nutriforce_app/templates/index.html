@@ -29,8 +29,8 @@
                     </a>
                     {% if new_product.flavour %}
                         <p class="feat-prod-details">
-                            <label for="new-prod-flavours">Flavour:</label>{
-                            <select name="new-prod-flavours" id="new-prod-flavours" onChange=featOptions()>
+                            <label for="{{ new_product.product_id }}-prod-flavours">Flavour:</label>{
+                            <select name="{{ new_product.product_id }}-prod-flavours" id="{{ new_product.product_id }}-prod-flavours" onChange=featOptions()>
                                 {% for option in new_product_extras|dictsort:"flavour" %}
                                     {% if option.flavour == new_product.flavour %}
                                         <option value="{{ option.flavour }}" selected="selected">{{ option.flavour }}</option>
@@ -42,8 +42,8 @@
                         </p>
                     {% endif %}
                     <p class="feat-prod-details">
-                        <label for="new-prod-sizes">Size:</label>
-                        <select name="new-prod-sizes" id="new-prod-sizes" onChange=featOptions()>
+                        <label for="{{ new_product.product_id }}-prod-sizes">Size:</label>
+                        <select name="{{ new_product.product_id }}-prod-sizes" id="{{ new_product.product_id }}-prod-sizes" onChange=featOptions()>
                             {% for option in new_product_extras|dictsort:"size" %}
                                 {% if option.size == new_product.size %}
                                     <option value="{{ option.size }}" selected="selected">{{ option.size }} {{ option.size_unit }}</option>
@@ -53,15 +53,15 @@
                             {% endfor %}
                         </select>
                     </p>
-                    <p id="new-prod-price" class="feat-prod-details"></p>
-                    <p id="new-prod-cart">
-                        <label for="new-prod-quantity">Quantity: </label>
-                        <input type="number" id="new-prod-quantity" name="new-prod-quantity" min="1">
+                    <p id="{{ new_product.product_id }}-prod-price" class="feat-prod-details"></p>
+                    <p id="{{ new_product.product_id }}-prod-cart">
+                        <label for="{{ new_product.product_id }}-prod-quantity">Quantity: </label>
+                        <input type="number" id="{{ new_product.product_id }}-prod-quantity" name="{{ new_product.product_id }}-prod-quantity" min="1">
                         <button>Add to Cart</button>
                     </p>
                 </div>
             {% else %}
-                <p class="home-oos">We don't have a featured new product to show you yet. Stay tuned!</p>
+                <p class="prod-oos">We don't have a featured new product to show you yet. Stay tuned!</p>
             {% endif %}
         </div>
         <div class="home-row">
@@ -77,8 +77,8 @@
                         </a>
                         {% if sports_product.flavour %}
                             <p class="feat-prod-details">
-                                <label for="sports-prod-flavours">Flavour:</label>
-                                <select name="sports-prod-flavours" id="sports-prod-flavours" onChange=featOptions()>
+                                <label for="{{ sports_product.product_id }}-prod-flavours">Flavour:</label>
+                                <select name="{{ sports_product.product_id }}-prod-flavours" id="{{ sports_product.product_id }}-prod-flavours" onChange=featOptions()>
                                     {% for option in sports_product_extras|dictsort:"flavour" %}
                                         {% if option.flavour == sports_product.flavour %}
                                             <option value="{{ option.flavour }}" selected="selected">{{ option.flavour }}</option>
@@ -90,8 +90,8 @@
                             </p>
                         {% endif %}
                         <p class="feat-prod-details">
-                            <label for="sports-prod-sizes">Size:</label>
-                            <select name="sports-prod-sizes" id="sports-prod-sizes" onChange=featOptions()>
+                            <label for="{{ sports_product.product_id }}-prod-sizes">Size:</label>
+                            <select name="{{ sports_product.product_id }}-prod-sizes" id="{{ sports_product.product_id }}-prod-sizes" onChange=featOptions()>
                                 {% for option in sports_product_extras|dictsort:"size" %}
                                     {% if option.size == sports_product.size %}
                                         <option value="{{ option.size }}" selected="selected">{{ option.size }} {{ option.size_unit }}</option>
@@ -101,15 +101,15 @@
                                 {% endfor %}
                             </select>
                         </p>
-                        <p id="sports-prod-price" class="feat-prod-details"></p>
-                         <p id="sports-prod-cart">
-                            <label for="sports-prod-quantity">Quantity: </label>
-                            <input type="number" id="sports-prod-quantity" name="sports-prod-quantity" min="1">
+                        <p id="{{ sports_product.product_id }}-prod-price" class="feat-prod-details"></p>
+                         <p id="{{ sports_product.product_id }}-prod-cart">
+                            <label for="{{ sports_product.product_id }}-prod-quantity">Quantity: </label>
+                            <input type="number" id="{{ sports_product.product_id }}-prod-quantity" name="{{ sports_product.product_id }}-prod-quantity" min="1">
                             <button>Add to Cart</button>
                         </p>
                     </div>
                 {% else %}
-                    <p class="home-oos">We don't have a featured sports product to show you yet. Stay tuned!</p>
+                    <p class="prod-oos">We don't have a featured sports product to show you yet. Stay tuned!</p>
                 {% endif %}
             </div>
             <div class="feat-prod-div">
@@ -124,8 +124,8 @@
                         </a>
                         {% if health_product.flavour %}
                             <p class="feat-prod-details">
-                                <label for="health-prod-flavours">Flavour:</label>
-                                <select name="health-prod-flavours" id="health-prod-flavours" onChange=featOptions()>
+                                <label for="{{ health_product.product_id }}-prod-flavours">Flavour:</label>
+                                <select name="{{ health_product.product_id }}-prod-flavours" id="{{ health_product.product_id }}-prod-flavours" onChange=featOptions()>
                                     {% for option in health_product_extras|dictsort:"flavour" %}
                                         {% if option.flavour == health_product.flavour %}
                                             <option value="{{ option.flavour }}" selected="selected">{{ option.flavour }}</option>
@@ -137,8 +137,8 @@
                             </p>
                         {% endif %}
                         <p class="feat-prod-details">
-                            <label for="health-prod-sizes">Size:</label>
-                            <select name="health-prod-sizes" id="health-prod-sizes" onChange=featOptions()>
+                            <label for="{{ health_product.product_id }}-prod-sizes">Size:</label>
+                            <select name="{{ health_product.product_id }}-prod-sizes" id="{{ health_product.product_id }}-prod-sizes" onChange=featOptions()>
                                 {% for option in health_product_extras|dictsort:"size" %}
                                     {% if option.size == health_product.size %}
                                         <option value="{{ option.size }}" selected="selected">{{ option.size }} {{ option.size_unit }}</option>
@@ -148,15 +148,15 @@
                                 {% endfor %}
                             </select>
                         </p>
-                        <p id="health-prod-price" class="feat-prod-details"></p>
-                        <p id="health-prod-cart">
-                            <label for="health-prod-quantity">Quantity: </label>
-                            <input type="number" id="health-prod-quantity" name="health-prod-quantity" min="1">
+                        <p id="{{ health_product.product_id }}-prod-price" class="feat-prod-details"></p>
+                        <p id="{{ health_product.product_id }}-prod-cart">
+                            <label for="{{ health_product.product_id }}-prod-quantity">Quantity: </label>
+                            <input type="number" id="{{ health_product.product_id }}-prod-quantity" name="{{ health_product.product_id }}-prod-quantity" min="1">
                             <button>Add to Cart</button>
                         </p>
                     </div>
                 {% else %}
-                    <p class="home-oos">We don't have a featured health product to show you yet. Stay tuned!</p>
+                    <p class="prod-oos">We don't have a featured health product to show you yet. Stay tuned!</p>
                 {% endif %}
             </div>
         </div>
