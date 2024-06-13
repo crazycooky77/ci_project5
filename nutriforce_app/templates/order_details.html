@@ -70,11 +70,20 @@
                 </tr>
                 {% for item, product in order_details %}
                     <tr>
-                        <td><a href="/products/id={{ product.product_id }}">{{ product.product_name }}</a></td>
-                        <td>{{ product.size }}</td>
+                        <td><a href="/products/id={{ item.product.product_id }}">
+                            <div class="order-prod">
+                                <img class="order-prod-img" src="{{ item.product.product.product_pic.url }}" alt="Product image">
+                                {% if item.product.flavour %}
+                                    <p>{{ item.product.product.brand }} {{ item.product.product.product_name }} {{ item.product.flavour }}</p>
+                                {% else %}
+                                    <p>{{ item.product.product.brand }} {{ item.product.product.product_name }}</p>
+                                {% endif %}
+                            </div>
+                        </a></td>
+                        <td>{{ item.product.size }} {{ item.product.size_unit }}</td>
                         <td>{{ item.quantity }}</td>
-                        <td>{{ product.price }}</td>
-                        <td>{{ product.price|mul:item.quantity }}</td>
+                        <td>{{ item.product.price }}</td>
+                        <td>{{ item.product.price|mul:item.quantity }}</td>
                     </tr>
                 {% endfor %}
                 <tr class="order-sums">

@@ -162,8 +162,9 @@ class Purchases(models.Model):
     purchase_id = models.AutoField(primary_key=True)
     order = models.ForeignKey(PurchaseHistory,
                               on_delete=models.RESTRICT)
-    product = models.ForeignKey(Products,
+    product = models.ForeignKey(ProductDetails,
                                 on_delete=models.RESTRICT)
+
     quantity = models.IntegerField()
 
     class Meta:

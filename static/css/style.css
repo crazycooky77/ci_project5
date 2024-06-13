@@ -240,6 +240,10 @@ main {
     padding: 5px;
 }
 
+.feat-prod-details-div input, #prod-cart input, .linked-other input {
+    min-width: 55px;
+}
+
 .home-row .feat-prod-div {
     width: 50%;
 }
@@ -460,6 +464,7 @@ input[name="default_addr"] {
     margin-top: 0;
     width: 80%;
 }
+
 .order-table table, .order-table-details table {
     text-align: center;
     border-collapse: collapse;
@@ -472,6 +477,22 @@ input[name="default_addr"] {
 
 .order-table table th:first-child, .order-table table td:first-child, .order-table-details table th:first-child, .order-table-details table td:first-child {
     border-left:0;
+}
+
+.order-prod {
+    display: flex;
+    flex-direction: row;
+}
+
+.order-prod p {
+    margin-left: 0;
+}
+
+.order-prod-img {
+    min-width: 75px;
+    max-width: 75px;
+    margin-right: 5px;
+    margin-left: 0;
 }
 
 .details-table {
