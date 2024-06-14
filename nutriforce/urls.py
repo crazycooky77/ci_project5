@@ -33,5 +33,5 @@ urlpatterns = [
     path('orders', profile_view, name='orders'),
     path('orders/id=<var>', profile_orders, name='order-details'),
     path('products/id=<var>', product_view, name='products'),
-    path('all', all_products, name='all-products')
+    path('products/all', all_products, name='all-products')
 ]
