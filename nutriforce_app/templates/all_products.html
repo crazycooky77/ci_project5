@@ -3,7 +3,7 @@
 {% load static %}
 
 {% block content %}
-    <div class="prod-div">
+    <div class="all-prod-div">
         {% if messages %}
             {% for message in messages %}
                 {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR or message.level == DEFAULT_MESSAGE_LEVELS.WARNING %}
@@ -17,21 +17,20 @@
                 {% endif %}
             {% endfor %}
         {% endif %}
-
-        <div class="prod-page">
+        <div class="all-prod-page">
             {% if products %}
-                {% for prod in products_distinct %}
-                    <div class="prod-ver">
+                {% for prod in products_distinct|dictsortreversed:"stock_count" %}
+                    <div class="all-prod-ver">
                         <a href="/products/id={{ prod.product.product_id }}">
-                            <img class="prod-img" src="{{ prod.product.product_pic.url }}" alt="Product image">
+                            <img class="all-prod-img" src="{{ prod.product.product_pic.url }}" alt="Product image">
                         </a>
-                        <div class="prod-details">
-                            <div class="prod-name">
+                        <div class="all-prod-details">
+                            <div class="all-prod-name">
                                 <a href="/products/id={{ prod.product.product_id }}">
                                     {{ prod.product.brand }} {{ prod.product.product_name }}
                                 </a>
                             </div>
-                            <div class="prod-other">
+                            <div class="all-prod-other">
                                 {% if prod.flavour %}
                                     <p>
                                         <label for="{{ prod.product_id }}-prod-flavours">Flavour:</label>
@@ -58,7 +57,7 @@
                                 <p id="{{ prod.product_id }}-prod-cart">
                                     <label for="{{ prod.product_id }}-prod-quantity" aria-label="Quantity"></label>
                                     <input type="number" id="{{ prod.product_id }}-prod-quantity" name="{{ prod.product_id }}-prod-quantity" min="1" max="{{ prod.stock_count }}">
-                                    <button class="prod-button">Add to Cart</button>
+                                    <button class="all-prod-button">Add to Cart</button>
                                 </p>
                             </div>
                         </div>

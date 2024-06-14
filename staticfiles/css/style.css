@@ -227,7 +227,10 @@ main {
 
 .prod-oos {
     padding: 15px;
+    margin: 20px;
     text-align: center;
+    border: solid 1px black;
+    border-radius: 7px;
 }
 
 .feat-prod-div {
@@ -415,12 +418,12 @@ main {
     margin-right: 300px;
   }
 
-.add-addr select, #prod-sizes, #prod-flavours, .feat-prod-details select, .linked-other select {
+.add-addr select, #prod-sizes, #prod-flavours, .feat-prod-details select, .linked-other select, .all-prod-other select {
     border-radius: 5px;
     background-color: #9FFFB8;
 }
 
-.linked-other select {
+.linked-other select, .all-prod-other select {
     width: 100%;
 }
 
@@ -558,37 +561,54 @@ input[name="default_addr"] {
     flex-direction: column;
     width: 20%;
     min-width: 200px;
-    margin: 20px 7px auto 7px;
+    margin: 20px 15px auto 15px;
 }
 
-.linked-img {
-    max-height: 150px;
+.linked-img, .all-prod-img {
+    height: 150px;
     margin-bottom: 10px;
 }
 
-.linked-details {
+.linked-details, .all-prod-details {
     display: flex;
     flex-direction: column;
-    height: 250px;
-    margin-left: 0;
+    width: 100%;
 }
 
-.linked-name {
+.linked-name, .all-prod-name {
     margin-bottom: 20px;
     text-align: center;
     flex: 1;
 }
 
-.linked-other {
+.linked-other, .all-prod-other {
+    width: 100%;
     margin-left: 0;
 }
 
-.linked-other p {
+.linked-other p, .all-prod-other p {
     margin-bottom: 10px;
 }
 
-.linked-other button {
+.linked-other button, .all-prod-other button {
     margin-left: 5px;
+}
+
+.all-prod-div {
+    width: 80%;
+}
+
+.all-prod-page {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.all-prod-ver {
+    flex: 1 0 20%;
+    display: flex;
+    flex-direction: column;
+    min-width: 200px;
+    margin: 50px 15px auto 15px;
 }
 
 .errorlist * {

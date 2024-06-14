@@ -172,6 +172,7 @@ function prodAvailability(json, price, quantity, psize, cart, stock) {
         } else {
             psize.parentElement.style.display = 'none'
             cart.textContent = "Out Of Stock"
+            cart.parentElement.style.textAlign = 'center'
         }
     }
 }
@@ -184,6 +185,35 @@ function availabilityScenarios(json, ssize, pflavour, sflavour, price, quantity,
             (json[i].fields.size === Number(ssize) && json[i].fields.flavour === sflavour) ||
             (ssize === undefined)) {
             prodAvailability(json[i], price, quantity, psize, cart, stock)
+        }
+    }
+}
+
+
+/* Function to dynamically set the height for products in lists */
+function prodElSizes(prodClass) {
+    let prodList = document.getElementsByClassName(prodClass)
+    for (let i = 0; i < prodList.length; i++) {
+        if (typeof prodList[i] === 'object') {
+            if (i !== 0 && prodList[i].getBoundingClientRect().top === prodList[i - 1].getBoundingClientRect().top) {
+                if (prodList[i].clientHeight < prodList[i - 1].clientHeight) {
+                    prodList[i].style.height = prodList[i - 1].clientHeight + 'px'
+                }
+                else if (prodList[i].clientHeight > prodList[i - 1].clientHeight) {
+                    prodList[i - 1].style.height = prodList[i].clientHeight + 'px'
+                    for (let x = 0; x < prodList.length; x++) {
+                        if (typeof prodList[x] === 'object') {
+                            if (prodList[i].getBoundingClientRect().top === prodList[x].getBoundingClientRect().top) {
+                                prodList[x].style.height = prodList[i].clientHeight + 'px'
+                            }
+                        }
+                    }
+                }
+
+                if (prodList[i].children[1].innerText === 'Out Of Stock') {
+                    prodList[i].children[1].style.height = prodList[i - 1].children[1].getBoundingClientRect().height + 'px'
+                }
+            }
         }
     }
 }
@@ -284,12 +314,14 @@ function productOptions() {
 /* For linked products, when changing product dropdown options, disable out of stock flavours */
 function linkedOptions() {
     multiProd(json_linked_prods)
+    prodElSizes('linked-details')
 }
 
 
 /* When changing product dropdown options, disable out of stock flavours */
 function allOptions() {
     multiProd(json_prods)
+    prodElSizes('all-prod-details')
 }
 
 
@@ -302,7 +334,7 @@ if (window.location.pathname === "/") {
 
 
 /* On product page load, hide duplicate and out of stock flavours in dropdowns */
-if (window.location.pathname.indexOf("/products/") !== -1) {
+if (window.location.pathname.split('=')[0] === '/products/id') {
     $(document).ready(function () {
         productOptions()
         linkedOptions()
@@ -311,7 +343,7 @@ if (window.location.pathname.indexOf("/products/") !== -1) {
 
 
 /* On product page load, hide duplicate and out of stock flavours in dropdowns */
-if (window.location.pathname === "/all") {
+if (window.location.pathname === "/products/all") {
     $(document).ready(function () {
         allOptions()
     })
