@@ -227,7 +227,7 @@ main {
 
 .prod-oos {
     padding: 15px;
-    margin: 20px;
+    margin: auto;
     text-align: center;
     border: solid 1px black;
     border-radius: 7px;
@@ -243,7 +243,7 @@ main {
     padding: 5px;
 }
 
-.feat-prod-details-div input, #prod-cart input, .linked-other input {
+.feat-prod-details-div input, #prod-cart input, .linked-other input, .prod-other input {
     min-width: 55px;
 }
 
@@ -601,7 +601,6 @@ input[name="default_addr"] {
 .all-prod-page {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
 }
 
 .all-prod-ver {
@@ -609,7 +608,22 @@ input[name="default_addr"] {
     display: flex;
     flex-direction: column;
     min-width: 200px;
+    max-width: 25%;
     margin: 50px 15px auto 15px;
+}
+
+.add-cart {
+    display: flex;
+    flex-direction: row;
+}
+
+.add-cart input {
+    width: 25%;
+}
+
+.add-cart button {
+    margin-left: 5%;
+    width: 70%
 }
 
 .errorlist * {

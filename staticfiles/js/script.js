@@ -172,7 +172,7 @@ function prodAvailability(json, price, quantity, psize, cart, stock) {
         } else {
             psize.parentElement.style.display = 'none'
             cart.textContent = "Out Of Stock"
-            cart.parentElement.style.textAlign = 'center'
+            cart.style.justifyContent = 'center'
         }
     }
 }
@@ -195,6 +195,11 @@ function prodElSizes(prodClass) {
     let prodList = document.getElementsByClassName(prodClass)
     for (let i = 0; i < prodList.length; i++) {
         if (typeof prodList[i] === 'object') {
+            if (i !== 0 && prodList[i].clientWidth > prodList[i - 1].clientWidth) {
+                prodList[i].parentElement.style.width = prodList[i - 1].clientWidth + 'px'
+                prodList[i].parentElement.style.flex = '0 0 auto'
+            }
+
             if (i !== 0 && prodList[i].getBoundingClientRect().top === prodList[i - 1].getBoundingClientRect().top) {
                 if (prodList[i].clientHeight < prodList[i - 1].clientHeight) {
                     prodList[i].style.height = prodList[i - 1].clientHeight + 'px'
@@ -325,6 +330,27 @@ function allOptions() {
 }
 
 
+/* When changing product dropdown options, disable out of stock flavours */
+function sportsOptions() {
+    multiProd(json_sports_prods)
+    prodElSizes('all-prod-details')
+}
+
+
+/* When changing product dropdown options, disable out of stock flavours */
+function healthOptions() {
+    multiProd(json_health_prods)
+    prodElSizes('all-prod-details')
+}
+
+
+/* When changing product dropdown options, disable out of stock flavours */
+function newOptions() {
+    multiProd(json_new_prods)
+    prodElSizes('all-prod-details')
+}
+
+
 /* On homepage load, disable the product dropdown options for out of stock products */
 if (window.location.pathname === "/") {
     $(document).ready(function () {
@@ -342,9 +368,33 @@ if (window.location.pathname.split('=')[0] === '/products/id') {
 }
 
 
-/* On product page load, hide duplicate and out of stock flavours in dropdowns */
+/* On all product page load, hide duplicate and out of stock flavours in dropdowns */
 if (window.location.pathname === "/products/all") {
     $(document).ready(function () {
         allOptions()
+    })
+}
+
+
+/* On sports product page load, hide duplicate and out of stock flavours in dropdowns */
+if (window.location.pathname === "/products/sports") {
+    $(document).ready(function () {
+        sportsOptions()
+    })
+}
+
+
+/* On health product page load, hide duplicate and out of stock flavours in dropdowns */
+if (window.location.pathname === "/products/health") {
+    $(document).ready(function () {
+        healthOptions()
+    })
+}
+
+
+/* On new product page load, hide duplicate and out of stock flavours in dropdowns */
+if (window.location.pathname === "/products/new") {
+    $(document).ready(function () {
+        newOptions()
     })
 }

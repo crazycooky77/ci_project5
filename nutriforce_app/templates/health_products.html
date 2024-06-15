@@ -18,8 +18,8 @@
             {% endfor %}
         {% endif %}
         <div class="all-prod-page">
-            {% if products %}
-                {% for prod in products_distinct|dictsortreversed:"stock_count" %}
+            {% if health_prods %}
+                {% for prod in health_products_distinct|dictsortreversed:"stock_count" %}
                     <div class="all-prod-ver">
                         <a href="/products/id={{ prod.product.product_id }}">
                             <img class="all-prod-img" src="{{ prod.product.product_pic.url }}" alt="Product image">
@@ -34,8 +34,8 @@
                                 {% if prod.flavour %}
                                     <p>
                                         <label for="{{ prod.product_id }}-prod-flavours">Flavour:</label>
-                                        <select name="{{ prod.product_id }}-prod-flavours" id="{{ prod.product_id }}-prod-flavours" onChange=allOptions()>
-                                            {% for option in products %}
+                                        <select name="{{ prod.product_id }}-prod-flavours" id="{{ prod.product_id }}-prod-flavours" onChange=healthOptions()>
+                                            {% for option in health_prods %}
                                                 {% if prod.product_id == option.product.product_id %}
                                                     <option value="{{ option.flavour }}">{{ option.flavour }}</option>
                                                 {% endif %}
@@ -45,8 +45,8 @@
                                 {% endif %}
                                 <p>
                                     <label for="{{ prod.product_id }}-prod-sizes">Size:</label>
-                                    <select name="{{ prod.product_id }}-prod-sizes" id="{{ prod.product_id }}-prod-sizes" onChange=allOptions()>
-                                        {% for option in products|dictsort:'size' %}
+                                    <select name="{{ prod.product_id }}-prod-sizes" id="{{ prod.product_id }}-prod-sizes" onChange=healthOptions()>
+                                        {% for option in health_prods|dictsort:'size' %}
                                             {% if prod.product_id == option.product.product_id %}
                                                 <option value="{{ option.size }}">{{ option.size }} {{ option.size_unit }}</option>
                                             {% endif %}
@@ -65,15 +65,15 @@
                 {% endfor %}
             {% else %}
                 <div class="prod-oos">
-                    <p>We don't have products to show you yet. Stay tuned!</p>
+                    <p>We don't have health products to show you yet. Stay tuned!</p>
                 </div>
             {% endif %}
         </div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script>
-        const js_prods = "{{ js_products }}".replace(/&quot;/ig,'"')
-        json_prods = JSON.parse(js_prods)
+        const js_health_prods = "{{ js_health_products }}".replace(/&quot;/ig,'"')
+        json_health_prods = JSON.parse(js_health_prods)
     </script>
     <script src="{% static 'js/script.js' %}"></script>
 {% endblock %}

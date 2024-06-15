@@ -50,11 +50,11 @@
                         </select>
                     </p>
                     <p id="prod-price"></p>
-                    <p id="prod-cart">
+                    <div id="prod-cart">
                         <label for="prod-quantity">Quantity: </label>
                         <input type="number" id="prod-quantity" name="prod-quantity" min="1">
                         <button>Add to Cart</button>
-                    </p>
+                    </div>
                     <p id="prod-stock"></p>
                 </div>
             </div>
@@ -104,11 +104,11 @@
                                             </select>
                                         </p>
                                         <p id="{{ item.product_id }}-prod-price"></p>
-                                        <p id="{{ item.product_id }}-prod-cart">
+                                        <div id="{{ item.product_id }}-prod-cart" class="add-cart">
                                             <label for="{{ item.product_id }}-prod-quantity" aria-label="Quantity"></label>
                                             <input type="number" id="{{ item.product_id }}-prod-quantity" name="{{ item.product_id }}-prod-quantity" min="1" max="{{ item.stock_count }}">
                                             <button class="linked-button">Add to Cart</button>
-                                        </p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

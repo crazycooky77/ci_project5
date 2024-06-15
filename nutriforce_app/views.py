@@ -8,6 +8,7 @@ from django.views.generic.edit import CreateView
 from django.contrib import messages
 from django.contrib.auth import logout
 import operator
+import datetime
 from django.db.models import Q
 from functools import reduce
 from .forms import *
@@ -293,6 +294,52 @@ def all_products(request):
     json_serializer = serializers.get_serializer("json")()
     js_products = json_serializer.serialize(products.order_by('-stock_count'),
                                             ensure_ascii=False)
-    return render(request, 'all_products.html', {'products': products,
-                                                 'products_distinct': products_distinct,
-                                                 'js_products': js_products})
+    return render(request, 'all_products.html',
+                  {'products': products,
+                   'products_distinct': products_distinct,
+                   'js_products': js_products})
+
+
+def sports_products(request):
+    sports_prods = ProductDetails.objects.all().exclude(active=False).filter(
+        product__categories__icontains='sports')
+    sports_products_distinct = sports_prods.distinct('product_id')
+    json_serializer = serializers.get_serializer("json")()
+    js_sports_products = json_serializer.serialize(sports_prods.order_by(
+        '-stock_count'),
+        ensure_ascii=False)
+    return render(request, 'sports_products.html',
+                  {'sports_prods': sports_prods,
+                   'sports_products_distinct': sports_products_distinct,
+                   'js_sports_products': js_sports_products})
+
+
+def health_products(request):
+    health_prods = ProductDetails.objects.all().exclude(active=False).filter(
+        product__categories__icontains='health')
+    health_products_distinct = health_prods.distinct('product_id')
+    json_serializer = serializers.get_serializer("json")()
+    js_health_products = json_serializer.serialize(health_prods.order_by(
+        '-stock_count'),
+        ensure_ascii=False)
+    return render(request, 'health_products.html',
+                  {'health_prods': health_prods,
+                   'health_products_distinct': health_products_distinct,
+                   'js_health_products': js_health_products})
+
+
+def new_products(request):
+    prv_mo = datetime.datetime.now() - datetime.timedelta(days=30)
+    new_prods = ProductDetails.objects.all().exclude(
+        active=False).exclude(
+        stock_count__lte=0).filter(created_ts__gte=prv_mo)
+    new_products_distinct = new_prods.distinct(
+        'product_id')[:15]
+    json_serializer = serializers.get_serializer("json")()
+    js_new_products = json_serializer.serialize(new_prods.order_by(
+        '-stock_count'),
+        ensure_ascii=False)
+    return render(request, 'new_products.html',
+                  {'new_prods': new_prods,
+                   'new_products_distinct': new_products_distinct,
+                   'js_new_products': js_new_products})
