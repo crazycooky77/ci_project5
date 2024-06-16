@@ -93,6 +93,9 @@ h3 {
 
 label[for="id_email"], #id_email {
     margin-top: 20px;
+}
+
+label[for="id_email2"], #id_email2 {
     margin-bottom: 10px;
 }
 
@@ -106,6 +109,10 @@ label[for="id_email"], #id_email {
 
 .pass-req p {
     margin-bottom: 10px;
+}
+
+.pass-req li {
+    overflow: unset;
 }
 
 .pass-req button {
@@ -128,6 +135,10 @@ label[for="id_email"], #id_email {
     border-radius: 20px;
     display: block;
     margin: auto;
+}
+
+.nav-left a {
+    display: block;
 }
 
 .nav-middle {
@@ -247,7 +258,7 @@ main {
     padding: 5px;
 }
 
-.feat-prod-details-div input, #prod-cart input, .linked-other input, .prod-other input {
+.feat-prod-details-div input, .linked-other input, .prod-other input {
     min-width: 55px;
 }
 
@@ -628,6 +639,46 @@ input[name="default_addr"] {
 .add-cart button {
     margin-left: 5%;
     width: 70%
+}
+
+.prod-sort {
+    margin-left: 15px;
+}
+
+.sort-dd {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    margin-top: 10px;
+    text-align: left;
+    background: #9FFFB8;
+    border-radius: 5px;
+}
+
+.sort-dd a {
+    text-align: left;
+    margin-left: 0;
+    margin-top: 5px;
+    padding: 0 10px;
+    background: #9FFFB8;
+    text-decoration: underline;
+    color: black;
+}
+
+.sort-dd a:hover {
+    color: white;
+}
+
+.sort-dd a:active {
+    font-weight: bold;
+}
+
+.sort-dd:first-child {
+    padding-top: 10px;
+}
+
+.sort-dd:last-child {
+    padding-bottom: 10px;
 }
 
 .errorlist * {
