@@ -34,12 +34,12 @@ a:active {
 }
 
 button {
-    background: #6DB1FC;
+    background-color: #6DB1FC;
     border-radius: 5px;
 }
 
 button:hover {
-    background: #90CD94;
+    background-color: #90CD94;
 }
 
 button:active {
@@ -611,6 +611,8 @@ input[name="default_addr"] {
 
 .all-prod-div {
     width: 80%;
+    display: flex;
+    flex-direction: column;
 }
 
 .all-prod-page {
@@ -643,6 +645,7 @@ input[name="default_addr"] {
 
 .prod-sort {
     margin-left: 15px;
+    padding-bottom: 20px;
 }
 
 .sort-dd {
@@ -651,7 +654,7 @@ input[name="default_addr"] {
     position: absolute;
     margin-top: 10px;
     text-align: left;
-    background: #9FFFB8;
+    background-color: #9FFFB8;
     border-radius: 5px;
 }
 
@@ -660,7 +663,7 @@ input[name="default_addr"] {
     margin-left: 0;
     margin-top: 5px;
     padding: 0 10px;
-    background: #9FFFB8;
+    background-color: #9FFFB8;
     text-decoration: underline;
     color: black;
 }
