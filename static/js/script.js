@@ -1,3 +1,10 @@
+/* Restrict the width of the hyperlink element on the logo to the logo image width */
+$(document).ready(function () {
+    let logo = document.getElementsByClassName("nav-left")[0].firstElementChild
+    logo.style.width = window.getComputedStyle(logo.firstChild).getPropertyValue("width")
+})
+
+
 /* Function to sort json data by product flavours */
 function jsonSort(json) {
     json.sort((a, b) => {
@@ -199,14 +206,13 @@ function prodElSizes(prodClass) {
                 prodList[i].parentElement.style.width = prodList[i - 1].clientWidth + 'px'
                 prodList[i].parentElement.style.flex = '0 0 auto'
             }
-
             if (i !== 0 && prodList[i].getBoundingClientRect().top === prodList[i - 1].getBoundingClientRect().top) {
                 if (prodList[i].clientHeight < prodList[i - 1].clientHeight) {
                     prodList[i].style.height = prodList[i - 1].clientHeight + 'px'
                 }
                 else if (prodList[i].clientHeight > prodList[i - 1].clientHeight) {
                     prodList[i - 1].style.height = prodList[i].clientHeight + 'px'
-                    for (let x = 0; x < prodList.length; x++) {
+                    for (let x = 0; x < i; x++) {
                         if (typeof prodList[x] === 'object') {
                             if (prodList[i].getBoundingClientRect().top === prodList[x].getBoundingClientRect().top) {
                                 prodList[x].style.height = prodList[i].clientHeight + 'px'
@@ -316,10 +322,32 @@ function productOptions() {
 }
 
 
+function sortProds() {
+    let prodSort = document.getElementsByClassName("prod-sort")
+    let sortOpts = document.getElementsByClassName("sort-dd")
+    let sortStyle = window.getComputedStyle(sortOpts[0]).getPropertyValue("display")
+
+    if (sortStyle === "none") {
+        sortOpts[0].style.display = "flex"
+    }
+    else {
+        sortOpts[0].style.display = "none"
+    }
+
+    document.body.addEventListener('click', function (e) {
+        if (!(sortOpts[0].contains(e.target)) && !(prodSort[0]).contains(e.target)) {
+            sortOpts[0].style.display = "none"
+        }
+    })
+}
+
+
 /* For linked products, when changing product dropdown options, disable out of stock flavours */
 function linkedOptions() {
-    multiProd(json_linked_prods)
-    prodElSizes('linked-details')
+    if (typeof json_linked_prods !== 'undefined') {
+        multiProd(json_linked_prods)
+        prodElSizes('linked-details')
+    }
 }
 
 
@@ -379,7 +407,7 @@ if (window.location.pathname === "/products/all") {
 /* On sports product page load, hide duplicate and out of stock flavours in dropdowns */
 if (window.location.pathname === "/products/sports") {
     $(document).ready(function () {
-        sportsOptions()
+        allOptions()
     })
 }
 
@@ -387,7 +415,7 @@ if (window.location.pathname === "/products/sports") {
 /* On health product page load, hide duplicate and out of stock flavours in dropdowns */
 if (window.location.pathname === "/products/health") {
     $(document).ready(function () {
-        healthOptions()
+        allOptions()
     })
 }
 
@@ -395,6 +423,6 @@ if (window.location.pathname === "/products/health") {
 /* On new product page load, hide duplicate and out of stock flavours in dropdowns */
 if (window.location.pathname === "/products/new") {
     $(document).ready(function () {
-        newOptions()
+        allOptions()
     })
 }
