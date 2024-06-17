@@ -483,30 +483,30 @@ input[name="default_addr"] {
     width: 80%;
 }
 
-.order-table table, .order-table-details table {
+.prod-table table, .prod-table-details table {
     text-align: center;
     border-collapse: collapse;
 }
 
-.order-table table th, .order-table table td, .order-table-details table th, .order-table-details table td {
+.prod-table table th, .prod-table table td, .prod-table-details table th, .prod-table-details table td {
     border-left: 1px solid;
     padding: 10px;
 }
 
-.order-table table th:first-child, .order-table table td:first-child, .order-table-details table th:first-child, .order-table-details table td:first-child {
+.prod-table table th:first-child, .prod-table table td:first-child, .prod-table-details table th:first-child, .prod-table-details table td:first-child {
     border-left:0;
 }
 
-.order-prod {
+.order-prod, .cart-prod {
     display: flex;
     flex-direction: row;
 }
 
-.order-prod p {
+.order-prod p, .cart-prod p {
     margin-left: 0;
 }
 
-.order-prod-img {
+.order-prod-img, .cart-prod-img {
     min-width: 75px;
     max-width: 75px;
     margin-right: 5px;
@@ -521,7 +521,7 @@ input[name="default_addr"] {
     font-weight: bold;
 }
 
-.order-table-details table td:first-child {
+.prod-table-details table td:first-child {
     text-align: left !important;
 }
 
@@ -682,6 +682,13 @@ input[name="default_addr"] {
 
 .sort-dd:last-child {
     padding-bottom: 10px;
+}
+
+.cart {
+    width: 80%;
+    border: 1px solid black;
+    padding: 20px;
+    border-radius: 7px;
 }
 
 .errorlist * {
