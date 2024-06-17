@@ -500,6 +500,7 @@ input[name="default_addr"] {
 .order-prod, .cart-prod {
     display: flex;
     flex-direction: row;
+    text-align: left;
 }
 
 .order-prod p, .cart-prod p {
@@ -509,7 +510,7 @@ input[name="default_addr"] {
 .order-prod-img, .cart-prod-img {
     min-width: 75px;
     max-width: 75px;
-    margin-right: 5px;
+    margin-right: 10px;
     margin-left: 0;
 }
 
