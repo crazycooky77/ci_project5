@@ -450,22 +450,30 @@ def add_cart(request, product_id):
 
 
 def cart_view(request):
-    cart = request.session['cart']
-    cart_prods = list()
-    total = 0
+    try:
+        cart = request.session['cart']
+    except KeyError:
+        cart = request.session.get('cart', {})
 
-    for product in cart:
-        cart_prods.append(ProductDetails.objects.filter(pk=product)[0])
+    if cart:
+        cart_prods = list()
+        total = 0
 
-    if total < settings.FREE_SHIPPING_THRESHOLD:
-        shipping = total * Decimal(settings.STANDARD_SHIPPING_PERCENTAGE / 100)
+        for product in cart:
+            cart_prods.append(ProductDetails.objects.filter(pk=product)[0])
+
+        if total < settings.FREE_SHIPPING_THRESHOLD:
+            shipping = total * Decimal(settings.STANDARD_SHIPPING_PERCENTAGE / 100)
+        else:
+            shipping = 0
+
+        grand_total = shipping + total
+
+        return render(request, 'cart.html',
+                      {'cart_prods': zip(cart_prods, cart.values()),
+                       'total': total,
+                       'shipping': shipping,
+                       'grand_total': grand_total})
+
     else:
-        shipping = 0
-
-    grand_total = shipping + total
-
-    return render(request, 'cart.html',
-                  {'cart_prods': zip(cart_prods, cart.values()),
-                   'total': total,
-                   'shipping': shipping,
-                   'grand_total': grand_total})
+        return render(request, 'cart.html')

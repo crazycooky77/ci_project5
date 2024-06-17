@@ -43,7 +43,9 @@
                         <th>Quantity</th>
                         <th>Individual Price</th>
                         <th>Sum</th>
-                        <th></th>
+                        {% if request.user.is_authenticated %}
+                            <th></th>
+                        {% endif %}
                     </tr>
                     {% for product, quantity in cart_prods %}
                         <tr>
