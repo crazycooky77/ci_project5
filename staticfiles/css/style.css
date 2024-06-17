@@ -34,12 +34,12 @@ a:active {
 }
 
 button {
-    background: #6DB1FC;
+    background-color: #6DB1FC;
     border-radius: 5px;
 }
 
 button:hover {
-    background: #90CD94;
+    background-color: #90CD94;
 }
 
 button:active {
@@ -93,6 +93,9 @@ h3 {
 
 label[for="id_email"], #id_email {
     margin-top: 20px;
+}
+
+label[for="id_email2"], #id_email2 {
     margin-bottom: 10px;
 }
 
@@ -106,6 +109,10 @@ label[for="id_email"], #id_email {
 
 .pass-req p {
     margin-bottom: 10px;
+}
+
+.pass-req li {
+    overflow: unset;
 }
 
 .pass-req button {
@@ -128,6 +135,10 @@ label[for="id_email"], #id_email {
     border-radius: 20px;
     display: block;
     margin: auto;
+}
+
+.nav-left a {
+    display: block;
 }
 
 .nav-middle {
@@ -247,7 +258,7 @@ main {
     padding: 5px;
 }
 
-.feat-prod-details-div input, #prod-cart input, .linked-other input, .prod-other input {
+.feat-prod-details-div input, .linked-other input, .prod-other input {
     min-width: 55px;
 }
 
@@ -472,30 +483,30 @@ input[name="default_addr"] {
     width: 80%;
 }
 
-.order-table table, .order-table-details table {
+.prod-table table, .prod-table-details table {
     text-align: center;
     border-collapse: collapse;
 }
 
-.order-table table th, .order-table table td, .order-table-details table th, .order-table-details table td {
+.prod-table table th, .prod-table table td, .prod-table-details table th, .prod-table-details table td {
     border-left: 1px solid;
     padding: 10px;
 }
 
-.order-table table th:first-child, .order-table table td:first-child, .order-table-details table th:first-child, .order-table-details table td:first-child {
+.prod-table table th:first-child, .prod-table table td:first-child, .prod-table-details table th:first-child, .prod-table-details table td:first-child {
     border-left:0;
 }
 
-.order-prod {
+.order-prod, .cart-prod {
     display: flex;
     flex-direction: row;
 }
 
-.order-prod p {
+.order-prod p, .cart-prod p {
     margin-left: 0;
 }
 
-.order-prod-img {
+.order-prod-img, .cart-prod-img {
     min-width: 75px;
     max-width: 75px;
     margin-right: 5px;
@@ -510,7 +521,7 @@ input[name="default_addr"] {
     font-weight: bold;
 }
 
-.order-table-details table td:first-child {
+.prod-table-details table td:first-child {
     text-align: left !important;
 }
 
@@ -600,6 +611,8 @@ input[name="default_addr"] {
 
 .all-prod-div {
     width: 80%;
+    display: flex;
+    flex-direction: column;
 }
 
 .all-prod-page {
@@ -628,6 +641,54 @@ input[name="default_addr"] {
 .add-cart button {
     margin-left: 5%;
     width: 70%
+}
+
+.prod-sort {
+    margin-left: 15px;
+    padding-bottom: 20px;
+}
+
+.sort-dd {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    margin-top: 10px;
+    text-align: left;
+    background-color: #9FFFB8;
+    border-radius: 5px;
+}
+
+.sort-dd a {
+    text-align: left;
+    margin-left: 0;
+    margin-top: 5px;
+    padding: 0 10px;
+    background-color: #9FFFB8;
+    text-decoration: underline;
+    color: black;
+}
+
+.sort-dd a:hover {
+    color: white;
+}
+
+.sort-dd a:active {
+    font-weight: bold;
+}
+
+.sort-dd:first-child {
+    padding-top: 10px;
+}
+
+.sort-dd:last-child {
+    padding-bottom: 10px;
+}
+
+.cart {
+    width: 80%;
+    border: 1px solid black;
+    padding: 20px;
+    border-radius: 7px;
 }
 
 .errorlist * {

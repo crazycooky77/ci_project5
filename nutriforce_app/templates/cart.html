@@ -1,0 +1,75 @@
+<!-- Load the base html file -->
+{% extends "base.html" %}
+{% load mathfilters %}
+
+{% block content %}
+    <div class="cart">
+        <h2>Cart</h2>
+        {% if form.errors %}
+            {% for field in form %}
+                {% for error in field.errors %}
+                    <div class="form-error">
+                        {{ error|escape }}
+                    </div>
+                {% endfor %}
+            {% endfor %}
+            {% for error in form.non_field_errors %}
+                <div class="form-error">
+                    {{ error|escape }}
+                </div>
+            {% endfor %}
+            <br>
+        {% endif %}
+        {% if messages %}
+            {% for message in messages %}
+                {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR or message.level == DEFAULT_MESSAGE_LEVELS.WARNING %}
+                    <div class="form-error">
+                        {{ message }}
+                    </div>
+                {% elif message.level == DEFAULT_MESSAGE_LEVELS.INFO or message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+                    <div class="form-confirm">
+                        {{ message }}
+                    </div>
+                {% endif %}
+            {% endfor %}
+            <br>
+        {% endif %}
+        <div class="prod-table">
+            {% if cart_prods %}
+                <table>
+                    <tr>
+                        <th>Product</th>
+                        <th>Size</th>
+                        <th>Quantity</th>
+                        <th>Individual Price</th>
+                        <th>Sum</th>
+                        <th></th>
+                    </tr>
+                    {% for product, quantity in cart_prods %}
+                        <tr>
+                            <td><a href="/products/id={{ product.product.product_id }}">
+                                <div class="cart-prod">
+                                    <img class="cart-prod-img" src="{{ product.product.product_pic.url }}" alt="Product image">
+                                    {% if product.flavour %}
+                                        <p>{{ product.product.brand }} {{ product.product.product_name }} {{ product.flavour }}</p>
+                                    {% else %}
+                                        <p>{{ product.product.brand }} {{ product.product.product_name }}</p>
+                                    {% endif %}
+                                </div>
+                            </a></td>
+                            <td>{{ product.size }} {{ product.size_unit }}</td>
+                            <td>{{ quantity }}</td>
+                            <td>{{ product.price }}</td>
+                            <td>{{ product.price|mul:quantity }}</td>
+                            {% if request.user.is_authenticated %}
+                                <td><button>Save for Later</button></td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                </table>
+            {% else %}
+                <p>You don't have any items in your cart. <a href="/products/all">Start shopping now!</a></p>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

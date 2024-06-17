@@ -1,8 +1,12 @@
+from decimal import Decimal
+
 import pytz
 from django.core import serializers
 from allauth.account.views import PasswordChangeView, EmailView, \
     ConfirmEmailView, EmailVerificationSentView
 from django.urls import reverse_lazy
+
+from nutriforce import settings
 from .models import *
 from django.shortcuts import render, redirect
 from django.views.generic.edit import CreateView
@@ -417,3 +421,51 @@ def new_products(request):
                   {'products': products,
                    'products_distinct': products_distinct,
                    'js_products': js_products})
+
+
+def add_cart(request, product_id):
+    flavour = request.POST.get(product_id + '-prod-flavours')
+    size = request.POST.get(product_id + '-prod-sizes')
+    quantity = int(request.POST.get(product_id + '-prod-quantity'))
+
+    if flavour:
+        details_pk = str(ProductDetails.objects.filter(
+            product__product_id=product_id).filter(
+            flavour=flavour).filter(size=size)[0].pk)
+    else:
+        details_pk = str(ProductDetails.objects.filter(
+            product__product_id=product_id).filter(
+            size=size)[0].pk)
+
+    redirect_url = request.POST.get('redirect_url')
+    cart = request.session.get('cart', {})
+
+    if details_pk in list(cart.keys()):
+        cart[details_pk] += quantity
+    else:
+        cart[details_pk] = quantity
+
+    request.session['cart'] = cart
+    return redirect(redirect_url)
+
+
+def cart_view(request):
+    cart = request.session['cart']
+    cart_prods = list()
+    total = 0
+
+    for product in cart:
+        cart_prods.append(ProductDetails.objects.filter(pk=product)[0])
+
+    if total < settings.FREE_SHIPPING_THRESHOLD:
+        shipping = total * Decimal(settings.STANDARD_SHIPPING_PERCENTAGE / 100)
+    else:
+        shipping = 0
+
+    grand_total = shipping + total
+
+    return render(request, 'cart.html',
+                  {'cart_prods': zip(cart_prods, cart.values()),
+                   'total': total,
+                   'shipping': shipping,
+                   'grand_total': grand_total})

@@ -36,5 +36,7 @@ urlpatterns = [
     path('products/all', all_products, name='all-products'),
     path('products/sports', sports_products, name='sports-products'),
     path('products/health', health_products, name='health-products'),
-    path('products/new', new_products, name='new-products')
+    path('products/new', new_products, name='new-products'),
+    path('cart', cart_view, name='cart'),
+    path('add/<product_id>', add_cart, name='add-cart')
 ]
