@@ -33,34 +33,38 @@
                                     </a>
                                 </div>
                                 <div class="all-prod-other">
-                                    {% if prod.flavour %}
+                                    <form action="{% url 'add-cart' prod.product_id %}" method="POST">
+                                    {% csrf_token %}
+                                        {% if prod.flavour %}
+                                            <p>
+                                                <label for="{{ prod.product_id }}-prod-flavours">Flavour:</label>
+                                                <select name="{{ prod.product_id }}-prod-flavours" id="{{ prod.product_id }}-prod-flavours" onChange=allOptions()>
+                                                    {% for option in products %}
+                                                        {% if prod.product_id == option.product.product_id %}
+                                                            <option value="{{ option.flavour }}">{{ option.flavour }}</option>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </select>
+                                            </p>
+                                        {% endif %}
                                         <p>
-                                            <label for="{{ prod.product_id }}-prod-flavours">Flavour:</label>
-                                            <select name="{{ prod.product_id }}-prod-flavours" id="{{ prod.product_id }}-prod-flavours" onChange=allOptions()>
-                                                {% for option in products %}
+                                            <label for="{{ prod.product_id }}-prod-sizes">Size:</label>
+                                            <select name="{{ prod.product_id }}-prod-sizes" id="{{ prod.product_id }}-prod-sizes" onChange=allOptions()>
+                                                {% for option in products|dictsort:'size' %}
                                                     {% if prod.product_id == option.product.product_id %}
-                                                        <option value="{{ option.flavour }}">{{ option.flavour }}</option>
+                                                        <option value="{{ option.size }}">{{ option.size }} {{ option.size_unit }}</option>
                                                     {% endif %}
                                                 {% endfor %}
                                             </select>
                                         </p>
-                                    {% endif %}
-                                    <p>
-                                        <label for="{{ prod.product_id }}-prod-sizes">Size:</label>
-                                        <select name="{{ prod.product_id }}-prod-sizes" id="{{ prod.product_id }}-prod-sizes" onChange=allOptions()>
-                                            {% for option in products|dictsort:'size' %}
-                                                {% if prod.product_id == option.product.product_id %}
-                                                    <option value="{{ option.size }}">{{ option.size }} {{ option.size_unit }}</option>
-                                                {% endif %}
-                                            {% endfor %}
-                                        </select>
-                                    </p>
-                                    <p id="{{ prod.product_id }}-prod-price"></p>
-                                    <div id="{{ prod.product_id }}-prod-cart" class="add-cart">
-                                        <label for="{{ prod.product_id }}-prod-quantity" aria-label="Quantity"></label>
-                                        <input type="number" id="{{ prod.product_id }}-prod-quantity" name="{{ prod.product_id }}-prod-quantity" value="1" min="1" max="{{ prod.stock_count }}">
-                                        <button class="all-prod-button">Add to Cart</button>
-                                    </div>
+                                        <p id="{{ prod.product_id }}-prod-price"></p>
+                                        <div id="{{ prod.product_id }}-prod-cart" class="add-cart">
+                                            <label for="{{ prod.product_id }}-prod-quantity" aria-label="Quantity"></label>
+                                            <input type="number" id="{{ prod.product_id }}-prod-quantity" name="{{ prod.product_id }}-prod-quantity" value="1" min="1" max="{{ prod.stock_count }}">
+                                            <button class="all-prod-button">Add to Cart</button>
+                                        </div>
+                                        <input type="hidden" name="redirect_url" value="{{ request.path }}">
+                                    </form>
                                 </div>
                             </div>
                         </div>

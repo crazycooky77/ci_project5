@@ -258,8 +258,8 @@ main {
     padding: 5px;
 }
 
-.feat-prod-details-div input, .linked-other input, .prod-other input {
-    min-width: 55px;
+.feat-prod-details-div input, .linked-other input, .prod-other input, .cart-quantity-input {
+    width: 50px;
 }
 
 .home-row .feat-prod-div {
@@ -518,19 +518,17 @@ input[name="default_addr"] {
     margin: 50px auto;
 }
 
-.order-sums {
+.order-sums, .cart-totals {
     font-weight: bold;
-}
-
-.prod-table-details table td:first-child {
-    text-align: left !important;
+    white-space: nowrap;
 }
 
 .sum-title {
-    padding: 20px 10px !important;
+    padding: 20px 10px 0 10px !important;
+    text-align: left;
 }
 
-.order-sums td {
+.order-sums td, .cart-totals td {
     border-left: none !important;
 }
 
@@ -690,6 +688,32 @@ input[name="default_addr"] {
     border: 1px solid black;
     padding: 20px;
     border-radius: 7px;
+}
+
+.cart-prod-del {
+    color: red;
+    font-weight: bold;
+    margin-right: -5px;
+    cursor: pointer;
+    min-width: unset;
+    background-color: unset;
+    border: unset;
+}
+
+.cart-buttons {
+    margin-top: 30px;
+}
+
+.update-buttons {
+    float: left;
+}
+
+.update-buttons button:first-child {
+    margin-right: 20px;
+}
+
+.checkout-button {
+    float: right;
 }
 
 .errorlist * {

@@ -460,10 +460,12 @@ def cart_view(request):
         total = 0
 
         for product in cart:
-            cart_prods.append(ProductDetails.objects.filter(pk=product)[0])
+            prod_details = ProductDetails.objects.filter(pk=product)[0]
+            cart_prods.append(prod_details)
+            total += prod_details.price * cart[product]
 
         if total < settings.FREE_SHIPPING_THRESHOLD:
-            shipping = total * Decimal(settings.STANDARD_SHIPPING_PERCENTAGE / 100)
+            shipping = round(total * Decimal(settings.STANDARD_SHIPPING_PERCENTAGE)/100, 2)
         else:
             shipping = 0
 
@@ -477,3 +479,41 @@ def cart_view(request):
 
     else:
         return render(request, 'cart.html')
+
+
+def update_cart(request):
+    try:
+        cart = request.session['cart']
+    except KeyError:
+        cart = request.session.get('cart', {})
+
+    loop_count = 0
+
+    for i in request.POST:
+        if request.POST.get("update-cart-button"):
+            if '-prod-quantity' in i:
+                details_pk = i.split('-prod-quantity')[0]
+                for prod in cart:
+                    if prod == details_pk:
+                        quantity = int(request.POST.get(i))
+                        cart[details_pk] = quantity
+                        loop_count += 1
+                        if loop_count == 1:
+                            messages.success(
+                                request, 'You successfully updated your cart')
+        elif '-prod-del' in i:
+            details_pk = i.split('-prod-del')[0]
+            del cart[details_pk]
+            loop_count += 1
+            if loop_count == 1:
+                messages.success(
+                    request, 'You successfully removed the item from your cart')
+        request.session['cart'] = cart
+
+    if request.POST.get("empty-cart-button"):
+        del request.session['cart']
+        messages.success(
+            request, 'You successfully emptied your cart')
+
+    redirect_url = request.POST.get('redirect_url')
+    return redirect(redirect_url)
