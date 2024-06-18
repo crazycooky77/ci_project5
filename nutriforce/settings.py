@@ -61,7 +61,7 @@ cloudinary.config(secure=True)
 SITE_ID = 1
 LOGIN_URL = '/login'
 LOGIN_REDIRECT_URL = '/'
-LOGOUT_REDIRECT_URL = '/login'
+LOGOUT_REDIRECT_URL = '/'
 
 ACCOUNT_AUTHENTICATION_METHOD = "email"
 ACCOUNT_CHANGE_EMAIL = True

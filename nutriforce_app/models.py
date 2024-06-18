@@ -108,7 +108,7 @@ class ProductDetails(models.Model):
         verbose_name_plural = 'Product Details'
 
     def __str__(self):
-        return (f'{self.active} | {self.product} | {self.size} {self.size_unit}'
+        return (f'{self.pk} | {self.active} | {self.product} | {self.size} {self.size_unit}'
                 f' | {self.flavour} | {self.price} | {self.stock_count}')
 
 
@@ -185,7 +185,7 @@ class SavedItems(models.Model):
     list_id = models.AutoField(primary_key=True)
     owner = models.ForeignKey(User,
                               on_delete=models.CASCADE)
-    product = models.ForeignKey(Products,
+    product = models.ForeignKey(ProductDetails,
                                 on_delete=models.SET('0'))
     quantity = models.IntegerField()
     list_type = models.CharField(max_length=50,

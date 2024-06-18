@@ -1,11 +1,11 @@
 from decimal import Decimal
-
 import pytz
 from django.core import serializers
 from allauth.account.views import PasswordChangeView, EmailView, \
     ConfirmEmailView, EmailVerificationSentView
+from django.contrib.auth.signals import user_logged_in
+from django.dispatch import receiver
 from django.urls import reverse_lazy
-
 from nutriforce import settings
 from .models import *
 from django.shortcuts import render, redirect
@@ -14,10 +14,56 @@ from django.contrib import messages
 from django.contrib.auth import logout
 import operator
 import datetime
-from django.db.models import Q
+from django.db.models import Q, F
 from django.db.models.functions import Lower
 from functools import reduce
 from .forms import *
+
+
+@receiver(user_logged_in)
+def cart_merge(sender, user, request, **kwargs):
+    try:
+        cart = request.session['cart']
+    except KeyError:
+        cart = request.session.get('cart', {})
+
+    if request.user.is_authenticated:
+        user_cart = SavedItems.objects.filter(
+            owner=request.user,
+            list_type='CART').values_list(
+            'product__product_id', 'quantity')
+        user_cart_ids_set = set()
+        user_cart_quantity = list()
+        cart_ids_set = set()
+
+        for prod_id, quantity in user_cart:
+            user_cart_ids_set.add(str(prod_id))
+            user_cart_quantity.append(quantity)
+
+        for prod_id in cart:
+            cart_ids_set.add(str(prod_id))
+
+        for prod in cart:
+            if str(prod) not in user_cart_ids_set.intersection(cart_ids_set):
+                user_cart, created = SavedItems.objects.get_or_create(
+                    owner=request.user,
+                    list_type='CART',
+                    product=ProductDetails.objects.get(pk=prod),
+                    defaults={'quantity': cart[prod]})
+                if created:
+                    user_cart.quantity = F('quantity') + cart[prod]
+
+        updated_cart = SavedItems.objects.filter(owner=request.user,
+                                                 list_type='CART').values()
+        cart = {}
+        for prod in updated_cart:
+            cart[str(prod['product_id'])] = prod['quantity']
+        request.session['cart'] = cart
+
+        return cart
+
+    else:
+        return cart
 
 
 def product_sort(request, data):
@@ -437,15 +483,48 @@ def add_cart(request, product_id):
             product__product_id=product_id).filter(
             size=size)[0].pk)
 
-    redirect_url = request.POST.get('redirect_url')
-    cart = request.session.get('cart', {})
+    if request.user.is_authenticated:
+        user_cart, created = SavedItems.objects.get_or_create(
+            owner=request.user,
+            list_type='CART',
+            product=ProductDetails.objects.get(pk=int(details_pk)),
+            defaults={'quantity': quantity})
+        if not created:
+            user_cart.quantity = F('quantity') + quantity
+        user_cart.save()
+        if quantity > 1:
+            messages.success(
+                request,
+                f'You successfully added {quantity} items to your cart.')
+        else:
+            messages.success(
+                request,
+                f'You successfully added {quantity} item to your cart.')
 
-    if details_pk in list(cart.keys()):
-        cart[details_pk] += quantity
+        updated_cart = SavedItems.objects.filter(owner=request.user,
+                                                 list_type='CART').values()
+        cart = {}
+        for prod in updated_cart:
+            cart[str(prod['product_id'])] = prod['quantity']
+
     else:
-        cart[details_pk] = quantity
+        cart = request.session.get('cart', {})
+
+        if details_pk in list(cart.keys()):
+            cart[details_pk] += quantity
+        else:
+            cart[details_pk] = quantity
+        if quantity > 1:
+            messages.success(
+                request,
+                f'You successfully added {quantity} items to your cart.')
+        else:
+            messages.success(
+                request,
+                f'You successfully added {quantity} item to your cart.')
 
     request.session['cart'] = cart
+    redirect_url = request.POST.get('redirect_url')
     return redirect(redirect_url)
 
 
@@ -497,6 +576,13 @@ def update_cart(request):
                     if prod == details_pk:
                         quantity = int(request.POST.get(i))
                         cart[details_pk] = quantity
+                        if request.user.is_authenticated:
+                            user_cart = SavedItems.objects.get(
+                                owner=request.user,
+                                list_type='CART',
+                                product__pk=int(details_pk))
+                            user_cart.quantity = quantity
+                            user_cart.save()
                         loop_count += 1
                         if loop_count == 1:
                             messages.success(
@@ -504,6 +590,12 @@ def update_cart(request):
         elif '-prod-del' in i:
             details_pk = i.split('-prod-del')[0]
             del cart[details_pk]
+            if request.user.is_authenticated:
+                user_cart = SavedItems.objects.get(
+                    owner=request.user,
+                    list_type='CART',
+                    product__pk=int(details_pk))
+                user_cart.delete()
             loop_count += 1
             if loop_count == 1:
                 messages.success(
@@ -512,6 +604,11 @@ def update_cart(request):
 
     if request.POST.get("empty-cart-button"):
         del request.session['cart']
+        if request.user.is_authenticated:
+            user_cart = SavedItems.objects.filter(
+                owner=request.user,
+                list_type='CART')
+            user_cart.delete()
         messages.success(
             request, 'You successfully emptied your cart')
 

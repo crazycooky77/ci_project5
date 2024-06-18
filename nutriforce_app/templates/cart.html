@@ -51,7 +51,7 @@
                         </tr>
                         {% for product, quantity in cart_prods %}
                             <tr>
-                                <td><a href="/products/id={{ product.id }}">
+                                <td><a href="/products/id={{ product.product.product_id }}">
                                     <div class="cart-prod">
                                         <img class="cart-prod-img" src="{{ product.product.product_pic.url }}" alt="Product image">
                                         {% if product.flavour %}

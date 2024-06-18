@@ -725,7 +725,9 @@ input[name="default_addr"] {
 .form-error {
     color: red;
     text-align: center;
+    margin-bottom: 10px;
     margin-top: 0;
+    overflow: unset;
 }
 
 .form-confirm {
@@ -733,6 +735,7 @@ input[name="default_addr"] {
     text-align: center;
     margin-bottom: 10px;
     margin-top: 0;
+    overflow: unset;
 }
 
 .footer-split {
