@@ -620,7 +620,6 @@ input[name="default_addr"] {
 .all-prod-page {
     display: flex;
     flex-wrap: wrap;
-    margin-left: 0;
 }
 
 .all-prod-ver {
