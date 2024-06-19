@@ -17,6 +17,15 @@
                 {% endif %}
             {% endfor %}
         {% endif %}
+        {% if request.get_full_path == '/products/search' %}
+            <div class="search-results-div">
+                {% if search_term %}
+                    <p>Here are the products matching your search for "{{ search_term }}"</p>
+                {% else %}
+                    <p>Your search was made with an empty search term. Please try again or check out our <a href='/products/all'>list of products here</a></p>
+                {% endif %}
+            </div>
+        {% endif %}
         {% include "sorting.html" %}
         <div class="all-prod-page">
             {% if products %}
@@ -71,12 +80,20 @@
                     {% endfor %}
                 {% else %}
                     <div class="prod-oos">
-                        <p>We currently don't have products on sale to show you. Stay tuned!</p>
+                        <p>We currently don't have products on sale to show you in this category. Stay tuned!</p>
                     </div>
                 {% endif %}
             {% else %}
                 <div class="prod-oos">
-                    <p>We don't have products to show you yet. Stay tuned!</p>
+                    {% if request.get_full_path == '/products/search' %}
+                        {% if search_term %}
+                            <p>We don't have products matching your search term(s). You can <a href="mailto:contact@test.com?subject=Product Request&body=Please add details for your request: '">email us</a> to request we add products to our stock.</p>
+                        {% else %}
+                            <p>No search results</p>
+                        {% endif %}
+                    {% else %}
+                        <p>We don't have products to show you yet in this category. Stay tuned!</p>
+                    {% endif %}
                 </div>
             {% endif %}
         </div>
@@ -84,7 +101,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script>
         const js_prods = "{{ js_products }}".replace(/&quot;/ig,'"')
+        const js_searched_prods = "{{ js_searched }}".replace(/&quot;/ig,'"')
         json_prods = JSON.parse(js_prods)
+        if (js_searched_prods) {
+            json_searched_prods = JSON.parse(js_searched_prods)
+        }
     </script>
     <script src="{% static 'js/script.js' %}"></script>
 {% endblock %}

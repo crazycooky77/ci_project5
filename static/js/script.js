@@ -74,6 +74,23 @@ function dupeSizes(idSize) {
         } else {
             dupeSizes[this.text] = this.value;
         }
+
+        if (dupeSizes[this.text]) {
+            if (($(this).prop('selected')) && ($(this).hasClass('hidden'))) {
+                let selectedSize = $(this).prop('innerText')
+                $("select[name=" + idSize + "] > option").each(function () {
+                    if ((!($(this).prop('selected'))) &&
+                        (!($(this).hasClass('hidden'))) &&
+                        ($(this).prop('innerText') === selectedSize)) {
+
+                        $(this).prop('selectedIndex', $(this).prop('index'))
+                        $(this).prop('selected', true)
+                    }
+                })
+                $(this).removeAttr('selected')
+                $(this).prop('selectedIndex', -1)
+            }
+        }
     })
 }
 
@@ -95,13 +112,15 @@ function flavourMatch(flavour, i) {
 
 /* Function to select the first eligible flavour if none is selected */
 function flavourSelect(flavour, json) {
-    if (flavour.selectedIndex === -1) {
-        for (let i = 0; i < json.length; i++) {
-            if (!($(flavour.options[i]).hasClass('hidden')) &&
-                !($(flavour.options[i]).hasClass('oos'))) {
-                flavour.selectedIndex = i
-                flavour.options[i].setAttribute('selected', true)
-                break
+    if (window.location.pathname !== "/products/search") {
+        if (flavour.selectedIndex === -1) {
+            for (let i = 0; i < json.length; i++) {
+                if (!($(flavour.options[i]).hasClass('hidden')) &&
+                    !($(flavour.options[i]).hasClass('oos'))) {
+                    flavour.selectedIndex = i
+                    flavour.options[i].setAttribute('selected', true)
+                    break
+                }
             }
         }
     }
@@ -342,6 +361,32 @@ function sortProds() {
 }
 
 
+function searchSelection() {
+    for (let prod in json_searched_prods) {
+        let prodId = json_searched_prods[prod].fields.product
+        let prodFlavours = document.getElementById(prodId + '-prod-flavours')
+        if (prodFlavours.options.length > 1) {
+            for (let i = 0; i < prodFlavours.options.length; i++) {
+                if ((!($(prodFlavours.options[i]).hasClass('hidden'))) &&
+                (json_searched_prods[prod].fields.flavour === prodFlavours.options[i].value) &&
+                    (json_searched_prods[prod].fields.stock_count > 0) &&
+                    (prodFlavours.options[i].selected !== true)) {
+                    let prodSizes = document.getElementById(prodId + '-prod-sizes')
+                    for (let j = 0; j < prodSizes.options.length; j++) {
+                        if (json_searched_prods[prod].fields.size === Number(prodSizes.options[j].value)) {
+                            prodFlavours.options[i].setAttribute('selected', true)
+                            prodFlavours.options[i].selectedIndex = i
+                            prodSizes.options[j].setAttribute('selected', true)
+                            prodSizes.options[j].selectedIndex = j
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+
 /* For linked products, when changing product dropdown options, disable out of stock flavours */
 function linkedOptions() {
     if (typeof json_linked_prods !== 'undefined') {
@@ -354,27 +399,6 @@ function linkedOptions() {
 /* When changing product dropdown options, disable out of stock flavours */
 function allOptions() {
     multiProd(json_prods)
-    prodElSizes('all-prod-details')
-}
-
-
-/* When changing product dropdown options, disable out of stock flavours */
-function sportsOptions() {
-    multiProd(json_sports_prods)
-    prodElSizes('all-prod-details')
-}
-
-
-/* When changing product dropdown options, disable out of stock flavours */
-function healthOptions() {
-    multiProd(json_health_prods)
-    prodElSizes('all-prod-details')
-}
-
-
-/* When changing product dropdown options, disable out of stock flavours */
-function newOptions() {
-    multiProd(json_new_prods)
     prodElSizes('all-prod-details')
 }
 
@@ -423,6 +447,15 @@ if (window.location.pathname === "/products/health") {
 /* On new product page load, hide duplicate and out of stock flavours in dropdowns */
 if (window.location.pathname === "/products/new") {
     $(document).ready(function () {
+        allOptions()
+    })
+}
+
+
+/* On search product page load, hide duplicate and out of stock flavours in dropdowns */
+if (window.location.pathname === "/products/search") {
+    $(document).ready(function () {
+        searchSelection()
         allOptions()
     })
 }

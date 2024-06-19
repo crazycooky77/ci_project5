@@ -469,6 +469,36 @@ def new_products(request):
                    'js_products': js_products})
 
 
+def search_results(request):
+    search_term = request.POST.get('nav-search')
+
+    if search_term:
+        product_filter = ProductDetails.objects.all().exclude(
+            active=False).filter(
+            Q(flavour__icontains=search_term) |
+            Q(product__brand__icontains=search_term) |
+            Q(product__product_name__icontains=search_term))
+        products = ProductDetails.objects.all().exclude().filter(
+            product__product_id__in=product_filter.values_list(
+                'product__product_id', flat=True))
+        products_distinct, js_products = product_pages(request, products)
+        product_filter, js_searched = product_pages(request, product_filter)
+
+    else:
+        search_term = None
+        products = None
+        products_distinct = None
+        js_products = None
+        js_searched = None
+
+    return render(request, 'all_products.html',
+                  {'search_term': search_term,
+                   'products': products,
+                   'products_distinct': products_distinct,
+                   'js_products': js_products,
+                   'js_searched': js_searched})
+
+
 def add_cart(request, product_id):
     flavour = request.POST.get(product_id + '-prod-flavours')
     size = request.POST.get(product_id + '-prod-sizes')

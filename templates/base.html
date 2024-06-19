@@ -29,7 +29,12 @@
                     <div class="nav-middle">
                         <div class="nav-search">
                             <!-- Search bar -->
-                            <label for="nav-search" aria-label="Search Bar"><input type="text" id="nav-search" placeholder="Search"></label>
+                            <form action="{% url 'search-results' %}" role="search" method="POST">
+                                {% csrf_token %}
+                                <label for="nav-search" aria-label="Search Bar"></label>
+                                <input type="search" id="nav-search" name="nav-search" placeholder="Search">
+                                <button type="submit">Search</button>
+                            </form>
                         </div>
                         <!-- Nav buttons -->
                         <div class="nav-buttons">
