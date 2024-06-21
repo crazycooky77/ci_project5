@@ -19,14 +19,17 @@
         {% endif %}
         {% if request.get_full_path == '/products/search' %}
             <div class="search-results-div">
-                {% if search_term %}
+                {% if search_term or sort_search %}
                     <p>Here are the products matching your search for "{{ search_term }}"</p>
                 {% else %}
                     <p>Your search was made with an empty search term. Please try again or check out our <a href='/products/all'>list of products here</a></p>
                 {% endif %}
             </div>
         {% endif %}
-        {% include "sorting.html" %}
+        {% if request.get_full_path == '/products/search' and search_term == None and sort_search == None %}
+        {% else %}
+            {% include "sorting.html" %}
+        {% endif %}
         <div class="all-prod-page">
             {% if products %}
                 {% if products_distinct %}
@@ -73,6 +76,7 @@
                                             <button class="all-prod-button">Add to Cart</button>
                                         </div>
                                         <input type="hidden" name="redirect_url" value="{{ request.path }}">
+                                        <input type="hidden" name="active_sort" value="{{ active_sort }}">
                                     </form>
                                 </div>
                             </div>
@@ -100,10 +104,12 @@
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script>
-        const js_prods = "{{ js_products }}".replace(/&quot;/ig,'"')
-        const js_searched_prods = "{{ js_searched }}".replace(/&quot;/ig,'"')
-        json_prods = JSON.parse(js_prods)
-        if (js_searched_prods) {
+        if ("{{ js_products }}") {
+            const js_prods = "{{ js_products }}".replace(/&quot;/ig,'"')
+            json_prods = JSON.parse(js_prods)
+        }
+        if ("{{ js_searched }}") {
+            const js_searched_prods = "{{ js_searched }}".replace(/&quot;/ig,'"')
             json_searched_prods = JSON.parse(js_searched_prods)
         }
     </script>

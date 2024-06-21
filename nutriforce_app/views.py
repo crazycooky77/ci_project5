@@ -1,9 +1,11 @@
+import json
 from decimal import Decimal
 import pytz
 from django.core import serializers
 from allauth.account.views import PasswordChangeView, EmailView, \
     ConfirmEmailView, EmailVerificationSentView
 from django.contrib.auth.signals import user_logged_in
+from django.db.models import Case, When
 from django.dispatch import receiver
 from django.urls import reverse_lazy
 from nutriforce import settings
@@ -66,94 +68,164 @@ def cart_merge(sender, user, request, **kwargs):
         return cart
 
 
-def product_sort(request, data):
-    sorted_data = data.order_by(
-        '-stock_count').values_list(
-        'product__product_id', flat=True)
-    if request.GET:
-        if 'sort' in request.GET:
-            sort = request.GET['sort']
+def product_sort(request, data, active_sort):
+    if request.POST.get('brand-asc') or active_sort == 'brand-asc':
+        active_sort = 'brand-asc'
+        request.session['active_sort'] = active_sort
+        sorted_data = data.order_by(
+            Lower('product__brand')).values_list(
+            'product__product_id', flat=True)
+    elif request.POST.get('brand-desc') or active_sort == 'brand-desc':
+        active_sort = 'brand-desc'
+        request.session['active_sort'] = active_sort
+        sorted_data = data.order_by(
+            Lower('product__brand').desc()).values_list(
+            'product__product_id', flat=True)
+    elif request.POST.get('prod-asc') or active_sort == 'prod-asc':
+        active_sort = 'prod-asc'
+        request.session['active_sort'] = active_sort
+        sorted_data = data.order_by(
+            Lower('product__product_name')).values_list(
+            'product__product_id', flat=True)
+    elif request.POST.get('prod-desc') or active_sort == 'prod-desc':
+        active_sort = 'prod-desc'
+        request.session['active_sort'] = active_sort
+        sorted_data = data.order_by(
+            Lower('product__product_name').desc()).values_list(
+            'product__product_id', flat=True)
+    elif request.POST.get('price-asc') or active_sort == 'price-asc':
+        active_sort = 'price-asc'
+        request.session['active_sort'] = active_sort
+        sorted_data = data.order_by(
+            'price').values_list(
+            'product__product_id', flat=True)
+    elif request.POST.get('price-desc') or active_sort == 'price-desc':
+        active_sort = 'price-desc'
+        request.session['active_sort'] = active_sort
+        sorted_data = data.order_by(
+            '-price').values_list(
+            'product__product_id', flat=True)
+    elif request.POST.get('sale') or active_sort == 'sale':
+        active_sort = 'sale'
+        request.session['active_sort'] = active_sort
+        sorted_data = data.filter(
+            product__categories__icontains='sale').values_list(
+            'product__product_id', flat=True)
+    else:
+        try:
+            del request.session['active_sort']
+            active_sort = None
+        except KeyError:
+            active_sort = None
 
-            if sort == 'sale':
-                sorted_data = data.filter(
-                    product__categories__icontains='sale').values_list(
-                    'product__product_id', flat=True)
+        sorted_data = data.order_by(
+            '-stock_count').values_list(
+            'product__product_id', flat=True)
 
-            if 'dirn' in request.GET:
-                dirn = request.GET['dirn']
-                if sort == 'brand':
-                    if dirn == 'asc':
-                        sorted_data = data.order_by(
-                            Lower('product__brand')).values_list(
-                            'product__product_id', flat=True)
-                    elif dirn == 'desc':
-                        sorted_data = data.order_by(
-                            Lower('product__brand').desc()).values_list(
-                            'product__product_id', flat=True)
-                if sort == 'prod':
-                    if dirn == 'asc':
-                        sorted_data = data.order_by(
-                            Lower('product__product_name')).values_list(
-                            'product__product_id', flat=True)
-                    elif dirn == 'desc':
-                        sorted_data = data.order_by(
-                            Lower('product__product_name').desc()).values_list(
-                            'product__product_id', flat=True)
-                if sort == 'price':
-                    if dirn == 'asc':
-                        sorted_data = data.order_by(
-                            'price').values_list(
-                            'product__product_id', flat=True)
-                    elif dirn == 'desc':
-                        sorted_data = data.order_by(
-                            '-price').values_list(
-                            'product__product_id', flat=True)
-
-            sorted_data = list(dict.fromkeys(sorted_data))
-            return sorted_data
-        else:
-            sorted_data = list(dict.fromkeys(sorted_data))
-            return sorted_data
-
+    js_products = json_serialise(sorted_data)
     sorted_data = list(dict.fromkeys(sorted_data))
-    return sorted_data
+    return [sorted_data, js_products, active_sort]
 
 
-def product_pages(request, qs):
-    json_serializer = serializers.get_serializer("json")()
-    js_products = json_serializer.serialize(qs.order_by('-stock_count'),
-                                            ensure_ascii=False)
-    products_sorted = product_sort(request, qs)
+def json_serialise(sorted_data):
+    if sorted_data:
+        preserved_list = Case(*[When(pk=pk, then=pos) for pos, pk in enumerate(sorted_data)])
+        qs = ProductDetails.objects.all().exclude(active=False).filter(
+            product__product_id__in=sorted_data).order_by(preserved_list)
+
+    else:
+        qs = ProductDetails.objects.none()
+
+    js_products = serializers.serialize('json', qs,
+                                        ensure_ascii=False,
+                                        fields=('pk', 'size', 'size_unit',
+                                                'flavour', 'price',
+                                                'stock_count',
+                                                'product'))
+
+    return js_products
+
+
+def product_pages(request, qs, active_sort):
+    products_sorted, js_products, active_sort = product_sort(request, qs, active_sort)
     product_list = ProductDetails.objects.filter(
         product_id__in=products_sorted).distinct('product_id')
     products_distinct = list()
     for product_id in products_sorted:
         products_distinct.append(product_list.get(product_id=product_id))
 
-    return products_distinct, js_products
+    return products_distinct, js_products, active_sort
+
+
+def search_sort(request, term):
+    product_filter = ProductDetails.objects.all().exclude(
+        active=False).filter(
+        Q(flavour__icontains=term) |
+        Q(product__brand__icontains=term) |
+        Q(product__product_name__icontains=term))
+    products = ProductDetails.objects.all().exclude(active=False).filter(
+        product__product_id__in=product_filter.values_list(
+            'product__product_id',
+            flat=True))
+
+    flavour_searched = []
+    for prod in product_filter:
+        if prod.flavour:
+            if prod.flavour.lower() == term.lower():
+                if prod.pk not in flavour_searched:
+                    flavour_searched.append(prod.pk)
+
+    if flavour_searched:
+        product_searched = ProductDetails.objects.all().exclude(active=False).filter(
+            pk__in=flavour_searched)
+    else:
+        product_searched = ProductDetails.objects.none()
+
+    return [products, product_searched]
+
+
+def get_active_sort(request):
+    active_sort = request.POST.get('active_sort')
+    if active_sort:
+        request.session['active_sort'] = active_sort
+    else:
+        try:
+            active_sort = request.session['active_sort']
+        except KeyError:
+            request.session['active_sort'] = None
+            active_sort = None
+
+    return active_sort
+
+
+def del_active_sort(request):
+    try:
+        del request.session['active_sort']
+    except KeyError:
+        pass
 
 
 def homepage_view(request):
     products = ProductDetails.objects.all().exclude(active=False)
     json_serializer = serializers.get_serializer("json")()
 
-    if ProductDetails.objects.all().exclude(pk=0).filter(stock_count__gte=10):
-        new_product = ProductDetails.objects.all().exclude(pk=0).filter(
+    if ProductDetails.objects.all().exclude(active=False).exclude(pk=0).filter(stock_count__gte=10):
+        new_product = ProductDetails.objects.all().exclude(active=False).exclude(pk=0).filter(
             stock_count__gte=10).latest('created_ts')
-    elif ProductDetails.objects.all().exclude(pk=0):
-        new_product = ProductDetails.objects.all().exclude(pk=0).latest(
+    elif ProductDetails.objects.all().exclude(active=False).exclude(pk=0):
+        new_product = ProductDetails.objects.all().exclude(active=False).exclude(pk=0).latest(
             'created_ts')
     else:
-        new_product = ProductDetails.objects.all().exclude(pk=0)
-    sports_product = ProductDetails.objects.all().exclude(pk=0).filter(
+        new_product = ProductDetails.objects.all().exclude(active=False).exclude(pk=0)
+    sports_product = ProductDetails.objects.all().exclude(active=False).exclude(pk=0).filter(
         product__categories__icontains='sports').order_by(
         '-stock_count').first()
-    health_product = ProductDetails.objects.all().exclude(pk=0).filter(
+    health_product = ProductDetails.objects.all().exclude(active=False).exclude(pk=0).filter(
         product__categories__icontains='health').order_by(
         '-stock_count').first()
 
     if new_product:
-        new_product_extras = ProductDetails.objects.all().filter(
+        new_product_extras = ProductDetails.objects.all().exclude(active=False).filter(
             product__product_id=new_product.product_id)
         js_new_product = json_serializer.serialize(
             new_product_extras.order_by('flavour'),
@@ -163,7 +235,7 @@ def homepage_view(request):
         js_new_product = ''
 
     if sports_product:
-        sports_product_extras = ProductDetails.objects.all().filter(
+        sports_product_extras = ProductDetails.objects.all().exclude(active=False).filter(
             product__product_id=sports_product.product_id)
         js_sports_product = json_serializer.serialize(
             sports_product_extras.order_by('flavour'),
@@ -172,7 +244,7 @@ def homepage_view(request):
         sports_product_extras = ''
         js_sports_product = ''
     if health_product:
-        health_product_extras = ProductDetails.objects.all().filter(
+        health_product_extras = ProductDetails.objects.all().exclude(active=False).filter(
             product__product_id=health_product.product_id)
         js_health_product = json_serializer.serialize(
             health_product_extras.order_by('flavour'),
@@ -182,16 +254,16 @@ def homepage_view(request):
         js_health_product = ''
 
     if new_product == sports_product and new_product != '' and sports_product != '':
-        sports_product = ProductDetails.objects.all().exclude(pk=0).filter(
+        sports_product = ProductDetails.objects.all().exclude(active=False).exclude(pk=0).filter(
             product__categories__icontains='sports').order_by(
             '-stock_count')[1]
-        sports_product_extras = ProductDetails.objects.all().filter(
+        sports_product_extras = ProductDetails.objects.all().exclude(active=False).filter(
             product__product_id=sports_product.product_id)
     if new_product == health_product and new_product != '' and health_product != '':
-        health_product = ProductDetails.objects.all().exclude(pk=0).filter(
+        health_product = ProductDetails.objects.all().exclude(active=False).exclude(pk=0).filter(
             product__categories__icontains='health').order_by(
             '-stock_count')[1]
-        health_product_extras = ProductDetails.objects.all().filter(
+        health_product_extras = ProductDetails.objects.all().exclude(active=False).filter(
             product__product_id=health_product.product_id)
 
     return render(request, 'index.html',
@@ -288,7 +360,7 @@ def profile_vars(request):
     other_address = Addresses.objects.filter(
         user=request.user,
         default_addr=False).order_by('pk')
-    orders = PurchaseHistory.objects.all().filter(
+    orders = PurchaseHistory.objects.all().exclude(active=False).filter(
         purchaser=request.user).order_by('-order_dt')
     return default_address, other_address, orders
 
@@ -409,11 +481,11 @@ def profile_edit_addr(request, var):
 
 def profile_orders(request, var):
     if request.user.is_authenticated:
-        order = PurchaseHistory.objects.all().filter(
+        order = PurchaseHistory.objects.all().exclude(active=False).filter(
             purchaser=request.user,
             pk=var)
         if order:
-            order_details = Purchases.objects.all().filter(
+            order_details = Purchases.objects.all().exclude(active=False).filter(
                 order=order[0]).order_by('product__product_id')
             products = ProductDetails.objects.filter(
                 product__product_id__in=order_details.values(
@@ -425,81 +497,95 @@ def profile_orders(request, var):
 
 
 def all_products(request):
+    active_sort = get_active_sort(request)
     products = ProductDetails.objects.all().exclude(active=False)
-    products_distinct, js_products = product_pages(request, products)
+    products_distinct, js_products, active_sort = product_pages(request, products, active_sort)
+    del_active_sort(request)
 
     return render(request, 'all_products.html',
-                  {'products': products,
+                  {'active_sort': active_sort,
+                   'products': products,
                    'products_distinct': products_distinct,
                    'js_products': js_products})
 
 
 def sports_products(request):
+    active_sort = get_active_sort(request)
     products = ProductDetails.objects.all().exclude(active=False).filter(
         product__categories__icontains='sports')
-    products_distinct, js_products = product_pages(request, products)
+    products_distinct, js_products, active_sort = product_pages(request, products, active_sort)
+    del_active_sort(request)
 
     return render(request, 'all_products.html',
-                  {'products': products,
+                  {'active_sort': active_sort,
+                   'products': products,
                    'products_distinct': products_distinct,
                    'js_products': js_products})
 
 
 def health_products(request):
+    active_sort = get_active_sort(request)
     products = ProductDetails.objects.all().exclude(active=False).filter(
         product__categories__icontains='health')
-    products_distinct, js_products = product_pages(request, products)
+    products_distinct, js_products, active_sort = product_pages(request, products, active_sort)
+    del_active_sort(request)
 
     return render(request, 'all_products.html',
-                  {'products': products,
+                  {'active_sort': active_sort,
+                   'products': products,
                    'products_distinct': products_distinct,
                    'js_products': js_products})
 
 
 def new_products(request):
+    active_sort = get_active_sort(request)
     prv_mo = datetime.datetime.now(pytz.UTC) - datetime.timedelta(days=30)
     products = ProductDetails.objects.all().exclude(
         active=False).exclude(
         stock_count__lte=0).filter(created_ts__gte=prv_mo)
-    products_distinct, js_products = product_pages(request, products)
+    products_distinct, js_products, active_sort = product_pages(request, products, active_sort)
+    del_active_sort(request)
 
     return render(request, 'all_products.html',
-                  {'products': products,
+                  {'active_sort': active_sort,
+                   'products': products,
                    'products_distinct': products_distinct,
                    'js_products': js_products})
 
 
 def search_results(request):
-    search_term = request.POST.get('nav-search')
+    active_sort = get_active_sort(request)
+    if request.method == 'POST':
+        search_term = request.POST.get('nav-search')
+        sort_search = request.POST.get('sort-search')
 
-    if search_term:
-        product_filter = ProductDetails.objects.all().exclude(
-            active=False).filter(
-            Q(flavour__icontains=search_term) |
-            Q(product__brand__icontains=search_term) |
-            Q(product__product_name__icontains=search_term))
-        products = ProductDetails.objects.all().exclude().filter(
-            product__product_id__in=product_filter.values_list(
-                'product__product_id', flat=True))
-        products_distinct, js_products = product_pages(request, products)
-        product_filter, js_searched = product_pages(request, product_filter)
+        if search_term:
+            products, product_searched = search_sort(request, search_term)
+        elif sort_search:
+            products, product_searched = search_sort(request, sort_search)
+            search_term = sort_search
+        else:
+            search_term = None
+            product_searched = ProductDetails.objects.none()
+            products = ProductDetails.objects.none()
 
-    else:
-        search_term = None
-        products = None
-        products_distinct = None
-        js_products = None
-        js_searched = None
+        products_distinct, js_products, active_sort = product_pages(request, products, active_sort)
+        product_searched, js_searched, searched_sort = product_pages(request, product_searched, active_sort)
+        del_active_sort(request)
 
-    return render(request, 'all_products.html',
-                  {'search_term': search_term,
-                   'products': products,
-                   'products_distinct': products_distinct,
-                   'js_products': js_products,
-                   'js_searched': js_searched})
+        return render(request, 'all_products.html',
+                      {'active_sort': active_sort,
+                       'search_term': search_term,
+                       'sort_search': sort_search,
+                       'products': products,
+                       'products_distinct': products_distinct,
+                       'js_products': js_products,
+                       'js_searched': js_searched})
 
 
 def add_cart(request, product_id):
+    request.session['active_sort'] = request.POST.get('active_sort')
+
     flavour = request.POST.get(product_id + '-prod-flavours')
     size = request.POST.get(product_id + '-prod-sizes')
     quantity = int(request.POST.get(product_id + '-prod-quantity'))
