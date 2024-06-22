@@ -589,6 +589,7 @@ def add_cart(request, product_id):
     flavour = request.POST.get(product_id + '-prod-flavours')
     size = request.POST.get(product_id + '-prod-sizes')
     quantity = int(request.POST.get(product_id + '-prod-quantity'))
+    adjusted_quantity = None
 
     if flavour:
         details_pk = str(ProductDetails.objects.filter(
@@ -606,17 +607,12 @@ def add_cart(request, product_id):
             product=ProductDetails.objects.get(pk=int(details_pk)),
             defaults={'quantity': quantity})
         if not created:
-            user_cart.quantity = F('quantity') + quantity
+            if user_cart.quantity + quantity <= user_cart.product.stock_count:
+                user_cart.quantity = F('quantity') + quantity
+            else:
+                adjusted_quantity = user_cart.product.stock_count - user_cart.quantity
+                user_cart.quantity = F('quantity') + adjusted_quantity
         user_cart.save()
-        if quantity > 1:
-            messages.success(
-                request,
-                f'You successfully added {quantity} items to your cart.')
-        else:
-            messages.success(
-                request,
-                f'You successfully added {quantity} item to your cart.')
-
         updated_cart = SavedItems.objects.filter(owner=request.user,
                                                  list_type='CART').values()
         cart = {}
@@ -625,15 +621,42 @@ def add_cart(request, product_id):
 
     else:
         cart = request.session.get('cart', {})
+        prod_stock = ProductDetails.objects.filter(pk=int(details_pk)).values_list('stock_count', flat=True)[0]
 
         if details_pk in list(cart.keys()):
-            cart[details_pk] += quantity
+            if cart[details_pk] + quantity <= prod_stock:
+                cart[details_pk] += quantity
+            else:
+                adjusted_quantity = prod_stock - cart[details_pk]
+                cart[details_pk] += adjusted_quantity
         else:
             cart[details_pk] = quantity
-        if quantity > 1:
+
+    if quantity > 1:
+        if adjusted_quantity == 0:
+            messages.error(
+                request,
+                f'The item was not added to your cart. ' +
+                'You already have the maximum possible for ' +
+                'this item in your cart.')
+        elif not adjusted_quantity:
             messages.success(
                 request,
                 f'You successfully added {quantity} items to your cart.')
+        else:
+            messages.success(
+                request,
+                f'You successfully added {adjusted_quantity} items to ' +
+                'your cart. The quantity was reduced, as the items ' +
+                'already in your cart, plus those you added, ' +
+                'exceeded our stock.')
+    else:
+        if adjusted_quantity or adjusted_quantity == 0:
+            messages.error(
+                request,
+                f'The item was not added to your cart. ' +
+                'You already have the maximum possible for ' +
+                'this item in your cart.')
         else:
             messages.success(
                 request,

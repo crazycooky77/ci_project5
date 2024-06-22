@@ -340,21 +340,22 @@ function featOptions() {
 
 /* When changing product dropdown options, disable out of stock flavours */
 function productOptions() {
+    let prodId = json_prod[0].fields.product
     /* For the main product on the page */
-    dupeSizes('prod-sizes')
+    dupeSizes(prodId + '-prod-sizes')
 
-    let prodFlavour = document.getElementById("prod-flavours");
+    let prodFlavour = document.getElementById(prodId + "-prod-flavours");
     let sortedProdFlavour = sortFlavours(prodFlavour)
-    var selectedSize = $("#prod-sizes :selected").val()
+    var selectedSize = $("#" + prodId + "-prod-sizes :selected").val()
     oosProducts(prodFlavour, selectedSize, json_prod)
 
-    var selectedSize = $("#prod-sizes :selected").val()
-    let selectedFlavour = $("#prod-flavours :selected").val()
-    let prodPrice = document.getElementById("prod-price");
-    let prodQuantity = document.getElementById("prod-quantity");
-    let prodSize = document.getElementById("prod-sizes");
-    let prodCart = document.getElementById("prod-cart");
-    let prodStock = document.getElementById("prod-stock");
+    var selectedSize = $("#" + prodId + "-prod-sizes :selected").val()
+    let selectedFlavour = $("#" + prodId + "-prod-flavours :selected").val()
+    let prodPrice = document.getElementById(prodId + "-prod-price");
+    let prodQuantity = document.getElementById(prodId + "-prod-quantity");
+    let prodSize = document.getElementById(prodId + "-prod-sizes");
+    let prodCart = document.getElementById(prodId + "-prod-cart");
+    let prodStock = document.getElementById(prodId + "-prod-stock");
     availabilityScenarios(json_prod, selectedSize, sortedProdFlavour, selectedFlavour, prodPrice, prodQuantity, prodSize, prodCart, prodStock)
 }
 

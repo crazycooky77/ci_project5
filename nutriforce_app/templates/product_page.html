@@ -27,8 +27,8 @@
                     {% csrf_token %}
                         {% if product.first.flavour %}
                             <p>
-                                <label for="prod-flavours">Flavour:</label>
-                                <select name="prod-flavours" id="prod-flavours" onChange=productOptions()>
+                                <label for="{{ product.first.product.product_id }}-prod-flavours">Flavour:</label>
+                                <select name="{{ product.first.product.product_id }}-prod-flavours" id="{{ product.first.product.product_id }}-prod-flavours" onChange=productOptions()>
                                     {% for option in product|dictsort:"flavour" %}
                                         {% if option.stock_count < 1 %}
                                             <option value="{{ option.flavour }}" class="oos" disabled>{{ option.flavour }}</option>
@@ -40,8 +40,8 @@
                             </p>
                         {% endif %}
                         <p>
-                            <label for="prod-sizes">Size:</label>
-                            <select name="prod-sizes" id="prod-sizes" onChange=productOptions()>
+                            <label for="{{ product.first.product.product_id }}-prod-sizes">Size:</label>
+                            <select name="{{ product.first.product.product_id }}-prod-sizes" id="{{ product.first.product.product_id }}-prod-sizes" onChange=productOptions()>
                                 {% for option in product|dictsort:"size" %}
                                     {% if option.stock_count < 1 %}
                                         <option value="{{ option.size }}" class="oos" disabled>{{ option.size }} {{ option.size_unit }}</option>
@@ -51,15 +51,15 @@
                                 {% endfor %}
                             </select>
                         </p>
-                        <p id="prod-price"></p>
-                        <div id="prod-cart">
-                            <label for="prod-quantity">Quantity: </label>
-                            <input type="number" id="prod-quantity" name="prod-quantity" value="1" min="1">
+                        <p id="{{ product.first.product.product_id }}-prod-price"></p>
+                        <div id="{{ product.first.product.product_id }}-prod-cart">
+                            <label for="{{ product.first.product.product_id }}-prod-quantity">Quantity: </label>
+                            <input type="number" id="{{ product.first.product.product_id }}-prod-quantity" name="{{ product.first.product.product_id }}-prod-quantity" value="1" min="1">
                             <button>Add to Cart</button>
                         </div>
                         <input type="hidden" name="redirect_url" value="{{ request.path }}">
                     </form>
-                    <p id="prod-stock"></p>
+                    <p id="{{ product.first.product.product_id }}-prod-stock"></p>
                 </div>
             </div>
             <div class="prod-details">

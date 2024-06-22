@@ -436,7 +436,7 @@ main {
     margin-right: 300px;
   }
 
-.add-addr select, #prod-sizes, #prod-flavours, .feat-prod-details select, .linked-other select, .all-prod-other select {
+.add-addr select, .prod-actions select, .feat-prod-details select, .linked-other select, .all-prod-other select {
     border-radius: 5px;
     background-color: #9FFFB8;
 }
