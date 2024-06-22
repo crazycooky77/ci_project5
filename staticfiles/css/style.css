@@ -238,6 +238,14 @@ main {
     flex-direction: row;
 }
 
+.home-row .prod-oos:first-child {
+    margin-right: 10px;
+}
+
+.home-row .prod-oos:last-child {
+    margin-left: 10px;
+}
+
 .prod-oos, .search-results-div {
     padding: 15px;
     margin-bottom: 20px;
