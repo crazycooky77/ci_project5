@@ -34,7 +34,7 @@
             {% endfor %}
             <br>
         {% endif %}
-        <div class="prod-table">
+        <div class="prod-table-details">
             {% if cart_prods %}
                 <form action="{% url 'update-cart' %}" method="POST" class="update-cart">
                     {% csrf_token %}

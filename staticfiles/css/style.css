@@ -496,8 +496,12 @@ input[name="default_addr"] {
     padding: 10px;
 }
 
-.prod-table table th:first-child, .prod-table table td:first-child, .prod-table-details table th:first-child, .prod-table-details table td:first-child {
+.prod-table table th:first-child, .prod-table table td:first-child, .prod-table-details table th:first-child, .prod-table-details table td:first-child, .prod-table-details table tr:nth-last-child(-n+2) td {
     border-left:0;
+}
+
+.prod-table-details table tr:nth-last-child(-n+2) td {
+    padding: 20px 10px 0 10px;
 }
 
 .order-prod, .cart-prod {
@@ -526,13 +530,12 @@ input[name="default_addr"] {
     white-space: nowrap;
 }
 
-.sum-title {
-    padding: 20px 10px 0 10px !important;
-    text-align: left;
+.order-sums td {
+    padding: 20px 10px 0 10px;
 }
 
-.order-sums td, .cart-totals td {
-    border-left: none !important;
+.sum-title {
+    text-align: left;
 }
 
 .prod-div {
