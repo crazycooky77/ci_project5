@@ -1,8 +1,63 @@
-/* Restrict the width of the hyperlink element on the logo to the logo image width */
 $(document).ready(function () {
+    // Restrict the width of the hyperlink element on the logo to the logo image width
     let logo = document.getElementsByClassName("nav-left")[0].firstElementChild
     logo.style.width = window.getComputedStyle(logo.firstChild).getPropertyValue("width")
 })
+
+
+function syncScroll(ele) {
+    jQuery.fn.exists = function () {
+        return this.length > 0
+    }
+    let args = Array.prototype.slice.call(arguments);
+    args = args.filter(a => a !== ele)
+
+    let combined = $(ele)
+    combined.length = args.length + 1
+    for (let a = 0; a < args.length; a++) {
+        combined[a+1] = $(args[a])[0]
+    }
+    if (combined.exists()) {
+        combined.on("scroll", function () {
+            combined.scrollTop($(this).scrollTop());
+        });
+    }
+}
+
+
+if (window.location.pathname.split('/')[1] === "products") {
+    $(document).ready(function () {
+        syncScroll('body', '#container', '.all-prod-page')
+    })
+}
+
+
+if (window.location.pathname === "/cart") {
+    $(document).ready(function () {
+        syncScroll('body', '#container', '.cart', '.update-cart')
+    })
+}
+
+
+if (window.location.pathname === "/profile/addresses") {
+    $(document).ready(function () {
+        syncScroll('body', '#container', '.other-addr-list')
+    })
+}
+
+
+if (window.location.pathname === "/profile/orders") {
+    $(document).ready(function () {
+        syncScroll('body', '#container', '.orders', 'prod-table')
+    })
+}
+
+
+if (window.location.pathname.split('=')[0] === "/profile/orders/id") {
+    $(document).ready(function () {
+        syncScroll('body', '#container', '.orders', '.prod-table-details')
+    })
+}
 
 
 /* Function to sort json data by product flavours */
