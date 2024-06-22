@@ -2,12 +2,10 @@
 
 * {
     max-width: 1920px;
-    max-height: 1080px;
     margin: auto;
     background-color: #F5FEFD;
     font-family: "Montserrat", sans-serif;
     font-size: 18px;
-    overflow: auto;
 }
 
 body {
@@ -111,10 +109,6 @@ label[for="id_email2"], #id_email2 {
     margin-bottom: 10px;
 }
 
-.pass-req li {
-    overflow: unset;
-}
-
 .pass-req button {
     margin-top: 20px;
 }
@@ -214,6 +208,7 @@ label[for="id_email2"], #id_email2 {
 main {
     max-width: 90%;
     margin-top: 30px;
+    padding-bottom: 60px;
 }
 
 #container {
@@ -406,7 +401,6 @@ main {
 
 .other-addr-list {
     flex: 1;
-    overflow-y: auto;
     margin: 0;
 }
 
@@ -734,7 +728,6 @@ input[name="default_addr"] {
     text-align: center;
     margin-bottom: 10px;
     margin-top: 0;
-    overflow: unset;
 }
 
 .form-confirm {
@@ -742,15 +735,35 @@ input[name="default_addr"] {
     text-align: center;
     margin-bottom: 10px;
     margin-top: 0;
-    overflow: unset;
 }
 
 .footer-split {
-    margin-bottom: 15px;
+    margin-bottom: 5px;
 }
 
 footer {
-    margin-top: 50px;
     text-align: center;
-    font-size: 16px;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+}
+
+.footer-content {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 5px;
+}
+
+footer * {
+    font-size: 14px;
+}
+
+.footer-links {
+    width: 70%;
+    margin-left: 15%;
+}
+
+.footer-top-link {
+    width: 15%;
 }
