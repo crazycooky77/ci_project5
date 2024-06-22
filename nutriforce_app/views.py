@@ -1,4 +1,3 @@
-import json
 from decimal import Decimal
 import pytz
 from django.core import serializers
@@ -33,17 +32,17 @@ def cart_merge(sender, user, request, **kwargs):
         user_cart = SavedItems.objects.filter(
             owner=request.user,
             list_type='CART').values_list(
-            'product__product_id', 'quantity')
+            'product__pk', 'quantity')
         user_cart_ids_set = set()
         user_cart_quantity = list()
         cart_ids_set = set()
 
-        for prod_id, quantity in user_cart:
-            user_cart_ids_set.add(str(prod_id))
+        for pk, quantity in user_cart:
+            user_cart_ids_set.add(str(pk))
             user_cart_quantity.append(quantity)
 
-        for prod_id in cart:
-            cart_ids_set.add(str(prod_id))
+        for pk in cart:
+            cart_ids_set.add(str(pk))
 
         for prod in cart:
             if str(prod) not in user_cart_ids_set.intersection(cart_ids_set):
@@ -52,7 +51,7 @@ def cart_merge(sender, user, request, **kwargs):
                     list_type='CART',
                     product=ProductDetails.objects.get(pk=prod),
                     defaults={'quantity': cart[prod]})
-                if created:
+                if not created:
                     user_cart.quantity = F('quantity') + cart[prod]
 
         updated_cart = SavedItems.objects.filter(owner=request.user,
@@ -68,7 +67,7 @@ def cart_merge(sender, user, request, **kwargs):
         return cart
 
 
-def product_sort(request, data, active_sort):
+def product_sort(request, data, active_sort, *args):
     if request.POST.get('brand-asc') or active_sort == 'brand-asc':
         active_sort = 'brand-asc'
         request.session['active_sort'] = active_sort
@@ -122,17 +121,29 @@ def product_sort(request, data, active_sort):
             '-stock_count').values_list(
             'product__product_id', flat=True)
 
-    js_products = json_serialise(sorted_data)
+    if args:
+        search_term = args[0]
+        sorted_data = data.filter(
+            flavour__icontains=search_term).values_list(
+            'id', flat=True)
+        js_products = json_serialise(sorted_data, search_term)
+    else:
+        js_products = json_serialise(sorted_data)
+
     sorted_data = list(dict.fromkeys(sorted_data))
     return [sorted_data, js_products, active_sort]
 
 
-def json_serialise(sorted_data):
+def json_serialise(sorted_data, *args):
     if sorted_data:
-        preserved_list = Case(*[When(pk=pk, then=pos) for pos, pk in enumerate(sorted_data)])
-        qs = ProductDetails.objects.all().exclude(active=False).filter(
-            product__product_id__in=sorted_data).order_by(preserved_list)
-
+        preserved_list = Case(
+            *[When(pk=pk, then=pos) for pos, pk in enumerate(sorted_data)])
+        if args:
+            qs = ProductDetails.objects.all().exclude(active=False).filter(
+                pk__in=sorted_data).order_by(preserved_list)
+        else:
+            qs = ProductDetails.objects.all().exclude(active=False).filter(
+                product__product_id__in=sorted_data).order_by(preserved_list)
     else:
         qs = ProductDetails.objects.none()
 
@@ -146,13 +157,23 @@ def json_serialise(sorted_data):
     return js_products
 
 
-def product_pages(request, qs, active_sort):
-    products_sorted, js_products, active_sort = product_sort(request, qs, active_sort)
-    product_list = ProductDetails.objects.filter(
-        product_id__in=products_sorted).distinct('product_id')
-    products_distinct = list()
-    for product_id in products_sorted:
-        products_distinct.append(product_list.get(product_id=product_id))
+def product_pages(request, qs, active_sort, *args):
+    if args:
+        search_term = args[0]
+        products_sorted, js_products, active_sort = product_sort(request, qs, active_sort, search_term)
+        product_list = ProductDetails.objects.filter(
+            pk__in=products_sorted).distinct(
+            'product__product_id')
+        products_distinct = list()
+        for product_id in products_sorted:
+            products_distinct.append(product_list.get(pk=product_id))
+    else:
+        products_sorted, js_products, active_sort = product_sort(request, qs, active_sort)
+        product_list = ProductDetails.objects.filter(
+            product__product_id__in=products_sorted).distinct('product__product_id')
+        products_distinct = list()
+        for product_id in products_sorted:
+            products_distinct.append(product_list.get(product_id=product_id))
 
     return products_distinct, js_products, active_sort
 
@@ -176,8 +197,8 @@ def search_sort(request, term):
                     flavour_searched.append(prod.pk)
 
     if flavour_searched:
-        product_searched = ProductDetails.objects.all().exclude(active=False).filter(
-            pk__in=flavour_searched)
+        product_searched = ProductDetails.objects.all().exclude(
+            active=False).filter(pk__in=flavour_searched)
     else:
         product_searched = ProductDetails.objects.none()
 
@@ -570,7 +591,8 @@ def search_results(request):
             products = ProductDetails.objects.none()
 
         products_distinct, js_products, active_sort = product_pages(request, products, active_sort)
-        product_searched, js_searched, searched_sort = product_pages(request, product_searched, active_sort)
+        product_searched, js_searched, searched_sort = product_pages(request, product_searched, active_sort, search_term)
+
         del_active_sort(request)
 
         return render(request, 'all_products.html',
@@ -619,18 +641,17 @@ def add_cart(request, product_id):
         for prod in updated_cart:
             cart[str(prod['product_id'])] = prod['quantity']
 
-    else:
-        cart = request.session.get('cart', {})
-        prod_stock = ProductDetails.objects.filter(pk=int(details_pk)).values_list('stock_count', flat=True)[0]
+    cart = request.session.get('cart', {})
+    prod_stock = ProductDetails.objects.filter(pk=int(details_pk)).values_list('stock_count', flat=True)[0]
 
-        if details_pk in list(cart.keys()):
-            if cart[details_pk] + quantity <= prod_stock:
-                cart[details_pk] += quantity
-            else:
-                adjusted_quantity = prod_stock - cart[details_pk]
-                cart[details_pk] += adjusted_quantity
+    if details_pk in list(cart.keys()):
+        if cart[details_pk] + quantity <= prod_stock:
+            cart[details_pk] += quantity
         else:
-            cart[details_pk] = quantity
+            adjusted_quantity = prod_stock - cart[details_pk]
+            cart[details_pk] += adjusted_quantity
+    else:
+        cart[details_pk] = quantity
 
     if quantity > 1:
         if adjusted_quantity == 0:
@@ -668,10 +689,20 @@ def add_cart(request, product_id):
 
 
 def cart_view(request):
-    try:
-        cart = request.session['cart']
-    except KeyError:
-        cart = request.session.get('cart', {})
+    if request.user.is_authenticated:
+        user_cart = SavedItems.objects.filter(
+            owner=request.user,
+            list_type='CART')
+        cart = {}
+        for prod in user_cart:
+            cart[str(prod.product.pk)] = prod.quantity
+        request.session['cart'] = cart
+
+    else:
+        try:
+            cart = request.session['cart']
+        except KeyError:
+            cart = request.session.get('cart', {})
 
     if cart:
         cart_prods = list()
