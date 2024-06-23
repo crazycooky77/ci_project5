@@ -58,6 +58,9 @@ def cart_merge(sender, user, request, **kwargs):
             cart[str(prod['product_id'])] = prod['quantity']
         request.session['cart'] = cart
 
+        messages.success(
+            request, 'Your guest and account cart contents have been merged.')
+
         return cart
 
     else:
