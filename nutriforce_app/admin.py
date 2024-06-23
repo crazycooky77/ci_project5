@@ -7,6 +7,6 @@ admin.site.register([User,
                      Addresses,
                      Products,
                      ProductDetails,
-                     PurchaseHistory,
+                     OrderHistory,
                      Purchases,
                      SavedItems])

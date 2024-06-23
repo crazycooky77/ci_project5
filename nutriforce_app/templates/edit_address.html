@@ -38,23 +38,23 @@
         <input type="text" name="last_name" id="id_last_name" required value="{{ addr_to_edit.last_name }}">
     </div>
     <div class="label-input">
-        <label for="id_addr_line_1" aria-label="Address Line 1">Address Line 1:</label>
-        <input type="text" name="addr_line_1" id="id_addr_line_1" required value="{{ addr_to_edit.addr_line_1 }}">
+        <label for="id_addr_line1" aria-label="Address Line 1">Address Line 1:</label>
+        <input type="text" name="addr_line1" id="id_addr_line1" required value="{{ addr_to_edit.addr_line1 }}">
     </div>
     <div class="label-input">
-        <label for="id_addr_line_2" aria-label="Address Line 2">Address Line 2:</label>
-        {% if addr_to_edit.addr_line_2 %}
-            <input type="text" name="addr_line_2" id="id_addr_line_2" value="{{ addr_to_edit.addr_line_2 }}">
+        <label for="id_addr_line2" aria-label="Address Line 2">Address Line 2:</label>
+        {% if addr_to_edit.addr_line2 %}
+            <input type="text" name="addr_line2" id="id_addr_line2" value="{{ addr_to_edit.addr_line2 }}">
         {% else %}
-            {{ edit_addr_form.addr_line_2 }}
+            {{ edit_addr_form.addr_line2 }}
         {% endif %}
     </div>
     <div class="label-input">
-        <label for="id_addr_line_3" aria-label="Address Line 3">Address Line 3:</label>
-        {% if addr_to_edit.addr_line_3 %}
-            <input type="text" name="addr_line_3" id="id_addr_line_3" value="{{ addr_to_edit.addr_line_3 }}">
+        <label for="id_addr_line3" aria-label="Address Line 3">Address Line 3:</label>
+        {% if addr_to_edit.addr_line3 %}
+            <input type="text" name="addr_line3" id="id_addr_line3" value="{{ addr_to_edit.addr_line3 }}">
         {% else %}
-            {{ edit_addr_form.addr_line_3 }}
+            {{ edit_addr_form.addr_line3 }}
         {% endif %}
     </div>
     <div class="label-input">

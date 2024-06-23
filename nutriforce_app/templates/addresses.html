@@ -35,12 +35,12 @@
                 <div class="addr-view">
                     <p>{{ default_address.first.first_name }}
                     {{ default_address.first.last_name }}</p>
-                    <p>{{ default_address.first.addr_line_1 }}<p>
-                    {% if default_address.first.addr_line_2 %}
-                        <p>{{ default_address.first.addr_line_2 }}<p>
+                    <p>{{ default_address.first.addr_line1 }}<p>
+                    {% if default_address.first.addr_line2 %}
+                        <p>{{ default_address.first.addr_line2 }}<p>
                     {% endif %}
-                    {% if default_address.first.addr_line_3 %}
-                        <p>{{ default_address.first.addr_line_3 }}<p>
+                    {% if default_address.first.addr_line3 %}
+                        <p>{{ default_address.first.addr_line3 }}<p>
                     {% endif %}
                     <p>{{ default_address.first.city }}
                     {{ default_address.first.eir_code }}<p>
@@ -68,12 +68,12 @@
                             <h3>Address {{ forloop.counter }}</h3>
                             <p>{{ addr.first_name }}
                             {{ addr.last_name }}</p>
-                            <p>{{ addr.addr_line_1 }}<p>
-                            {% if addr.addr_line_2 %}
-                                <p>{{ addr.addr_line_2 }}<p>
+                            <p>{{ addr.addr_line1 }}<p>
+                            {% if addr.addr_line2 %}
+                                <p>{{ addr.addr_line2 }}<p>
                             {% endif %}
-                            {% if addr.addr_line_3 %}
-                                <p>{{ addr.addr_line_3 }}<p>
+                            {% if addr.addr_line3 %}
+                                <p>{{ addr.addr_line3 }}<p>
                             {% endif %}
                             <p>{{ addr.city }}
                             {{ addr.eir_code }}<p>
