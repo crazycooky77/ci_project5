@@ -6,13 +6,13 @@ from allauth.account.views import PasswordChangeView, EmailView, \
 from django.contrib.auth.signals import user_logged_in
 from django.db.models import Case, When
 from django.dispatch import receiver
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from nutriforce import settings
 from .models import *
 from django.shortcuts import render, redirect
 from django.views.generic.edit import CreateView
 from django.contrib import messages
-from django.contrib.auth import logout
+from django.contrib.auth import logout, authenticate, login
 import operator
 import datetime
 from django.db.models import Q, F
@@ -23,10 +23,7 @@ from .forms import *
 
 @receiver(user_logged_in)
 def cart_merge(sender, user, request, **kwargs):
-    try:
-        cart = request.session['cart']
-    except KeyError:
-        cart = request.session.get('cart', {})
+    cart = request.session.get('cart', {})
 
     if request.user.is_authenticated:
         user_cart = SavedItems.objects.filter(
@@ -381,7 +378,7 @@ def profile_vars(request):
     other_address = Addresses.objects.filter(
         user=request.user,
         default_addr=False).order_by('pk')
-    orders = PurchaseHistory.objects.all().filter(
+    orders = OrderHistory.objects.all().filter(
         purchaser=request.user).order_by('-order_dt')
     return default_address, other_address, orders
 
@@ -458,6 +455,7 @@ def profile_addr(request):
                     if default and obj.default_addr:
                         default.update(default_addr=False)
                     obj.user = request.user
+                    obj.email = request.user.email
                     obj.save()
                     messages.success(
                         request,
@@ -502,7 +500,7 @@ def profile_edit_addr(request, var):
 
 def profile_orders(request, var):
     if request.user.is_authenticated:
-        order = PurchaseHistory.objects.all().filter(
+        order = OrderHistory.objects.all().filter(
             purchaser=request.user,
             pk=var)
         if order:
@@ -699,10 +697,7 @@ def cart_view(request):
         request.session['cart'] = cart
 
     else:
-        try:
-            cart = request.session['cart']
-        except KeyError:
-            cart = request.session.get('cart', {})
+        cart = request.session.get('cart', {})
 
     if cart:
         cart_prods = list()
@@ -731,10 +726,7 @@ def cart_view(request):
 
 
 def update_cart(request):
-    try:
-        cart = request.session['cart']
-    except KeyError:
-        cart = request.session.get('cart', {})
+    cart = request.session.get('cart', {})
 
     loop_count = 0
 
@@ -784,3 +776,38 @@ def update_cart(request):
 
     redirect_url = request.POST.get('redirect_url')
     return redirect(redirect_url)
+
+
+def checkout_view(request):
+    cart = request.session.get('cart', {})
+    if not cart:
+        messages.error(request,
+                       "You don't have anything in your cart at the moment.")
+        return redirect(reverse('all-products'))
+    else:
+        order_form = OrderFormAddr()
+        if request.user.is_authenticated or request.POST.get(
+                "checkout-guest-button"):
+            return render(request, 'checkout_addr.html',
+                          {'order_form': order_form})
+        elif request.POST.get("checkout-signin-button"):
+            user = authenticate(request, email=request.POST["login"],
+                                password=request.POST["password"])
+            if user:
+                login(request, user)
+                messages.success(request, 'Logged in successfully')
+                SavedItems.objects.filter(owner=request.user,
+                                          list_type='CART').delete()
+                for prod in cart:
+                    SavedItems.objects.create(
+                        owner=request.user,
+                        list_type='CART',
+                        product=ProductDetails.objects.get(pk=prod),
+                        quantity=cart[prod])
+                return render(request, 'checkout_addr.html',
+                              {'order_form': order_form})
+            else:
+                messages.error(request, 'Login failed')
+        else:
+            return render(request, 'checkout_signin.html',
+                          {'order_form': order_form})

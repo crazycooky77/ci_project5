@@ -112,7 +112,7 @@
                             <button type="submit" name="empty-cart-button" value="empty-cart-button" onclick="return confirm('Are you sure you want to completely empty your cart? This cannot be undone')">Empty Cart</button>
                         </div>
                         <div class="checkout-button">
-                            <button type="submit" name="checkout-button" value="checkout-button">Check Out</button>
+                            <button onclick="location.href='/checkout'" type="button" name="checkout-button" value="checkout-button">Check Out</button>
                         </div>
                     </div>
                     <input type="hidden" name="redirect_url" value="{{ request.path }}">

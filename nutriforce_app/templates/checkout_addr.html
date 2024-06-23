@@ -1,0 +1,68 @@
+<!-- Load the base html file -->
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="checkout">
+        <h2>Checkout</h2>
+        {% if form.errors %}
+            {% for field in form %}
+                {% for error in field.errors %}
+                    <div class="form-error">
+                        {{ error|escape }}
+                    </div>
+                {% endfor %}
+            {% endfor %}
+            {% for error in form.non_field_errors %}
+                <div class="form-error">
+                    {{ error|escape }}
+                </div>
+            {% endfor %}
+            <br>
+        {% endif %}
+        {% if messages %}
+            {% for message in messages %}
+                {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR or message.level == DEFAULT_MESSAGE_LEVELS.WARNING %}
+                    <div class="form-error">
+                        {{ message }}
+                    </div>
+                {% elif message.level == DEFAULT_MESSAGE_LEVELS.INFO or message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+                    <div class="form-confirm">
+                        {{ message }}
+                    </div>
+                {% endif %}
+            {% endfor %}
+            <br>
+        {% endif %}
+
+
+
+
+        <form method="POST" class="checkout-addr-form">
+            <div class="checkout-addr">
+                <div class="addr-form-div">
+                    <div class="shipping-addr-h3">
+                        <h3>Shipping Address</h3>
+                    </div>
+                    <div class="shipping-addr-form">
+                        {{ order_form }}
+                    </div>
+                </div>
+                <div class="addr-form-div">
+                    <div class="billing-addr-h3">
+                        <h3>Billing Address</h3>
+                    </div>
+                    <div class="billing-addr-form">
+                        <button type="button">Same as Shipping</button>
+                        {{ order_form }}
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="addr-form-button" name="addr-form-button" value="addr-form-button">Next</button>
+        </form>
+
+
+
+
+
+    </div>
+{% endblock %}
