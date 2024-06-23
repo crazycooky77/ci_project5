@@ -1,7 +1,10 @@
 from cloudinary.models import CloudinaryField
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.db import models
+from django.db.models import Sum, F
 from django.utils.translation import gettext_lazy as _
+import uuid
+from django.conf import settings
 
 
 class UserManager(BaseUserManager):
@@ -47,19 +50,20 @@ class Addresses(models.Model):
                              on_delete=models.CASCADE)
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
-    addr_line_1 = models.CharField(max_length=50)
-    addr_line_2 = models.CharField(max_length=50,
-                                   null=True,
-                                   blank=True)
-    addr_line_3 = models.CharField(max_length=50,
-                                   null=True,
-                                   blank=True)
+    addr_line1 = models.CharField(max_length=50)
+    addr_line2 = models.CharField(max_length=50,
+                                  null=True,
+                                  blank=True)
+    addr_line3 = models.CharField(max_length=50,
+                                  null=True,
+                                  blank=True)
     city = models.CharField(max_length=50)
     eir_code = models.CharField(max_length=50)
     county = models.CharField(max_length=50)
     country = models.CharField(max_length=50,
                                choices=Countries.choices,
                                default=Countries.IE)
+    email = models.EmailField()
     phone_nr = models.IntegerField()
     default_addr = models.BooleanField(default=True)
 
@@ -112,7 +116,7 @@ class ProductDetails(models.Model):
                 f' | {self.flavour} | {self.price} | {self.stock_count}')
 
 
-class PurchaseHistory(models.Model):
+class OrderHistory(models.Model):
 
     class PaymentType(models.TextChoices):
         VISA = 'VISA', _('Visa')
@@ -129,6 +133,10 @@ class PurchaseHistory(models.Model):
         DELIVERED = 'DLV', _('Delivered')
 
     order_id = models.AutoField(primary_key=True)
+    order_number = models.CharField(max_length=32,
+                                    unique=True,
+                                    null=False,
+                                    editable=False)
     order_dt = models.DateTimeField(auto_now_add=True)
     billing_addr = models.ForeignKey(Addresses,
                                      related_name='billing_addr',
@@ -150,18 +158,36 @@ class PurchaseHistory(models.Model):
     tracking_link = models.TextField(blank=True,
                                      null=True)
 
+    def _generate_order_number(self):
+        return uuid.uuid4().hex.upper()
+
+    def update_total(self):
+        self.total_cost = self.order_purchases.aggregate(Sum(F('order_purchases_product_price') * F('order_purchases_quantity')))
+
+        if self.total_cost < settings.FREE_SHIPPING_THRESHOLD:
+            self.shipping_cost = self.total_cost * settings.STANDARD_SHIPPING_PERCENTAGE / 100
+        else:
+            self.shipping_cost = 0
+        self.save()
+
+    def save(self, *args, **kwargs):
+        if not self.order_number:
+            self.order_number = self._generate_order_number()
+            super().save(*args, **kwargs)
+
     class Meta:
         ordering = ['-order_dt', 'status']
-        verbose_name_plural = 'Purchase Histories'
+        verbose_name_plural = 'Order Histories'
 
     def __str__(self):
-        return f'{self.status} | {self.order_dt}'
+        return f'{self.order_number} | {self.status} | {self.order_dt}'
 
 
 class Purchases(models.Model):
     purchase_id = models.AutoField(primary_key=True)
-    order = models.ForeignKey(PurchaseHistory,
-                              on_delete=models.RESTRICT)
+    order = models.ForeignKey(OrderHistory,
+                              on_delete=models.RESTRICT,
+                              related_name='order_purchases')
     product = models.ForeignKey(ProductDetails,
                                 on_delete=models.RESTRICT)
 
