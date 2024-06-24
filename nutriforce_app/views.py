@@ -781,6 +781,33 @@ def update_cart(request):
     return redirect(redirect_url)
 
 
+def checkout_addr(request, order_addr_form):
+    def_addr = Addresses.objects.all().filter(
+        user=request.user,
+        default_addr=True)[0]
+    if def_addr:
+        order_addr_form = OrderFormAddr(initial={
+            'first_name': def_addr.first_name,
+            'last_name': def_addr.last_name,
+            'email': def_addr.user.email,
+            'phone_nr': def_addr.phone_nr,
+            'addr_line1': def_addr.addr_line1,
+            'addr_line2': def_addr.addr_line2,
+            'addr_line3': def_addr.addr_line3,
+            'city': def_addr.city,
+            'eir_code': def_addr.eir_code,
+            'county': def_addr.county,
+            'country': def_addr.country},
+            user_auth=True)
+        addr_list = Addresses.objects.all().filter(
+            user=request.user)
+        return order_addr_form, addr_list
+    else:
+        addr_list = Addresses.objects.all().filter(
+            user=request.user)
+        return order_addr_form, addr_list
+
+
 def checkout_view(request):
     cart = request.session.get('cart', {})
     if not cart:
@@ -788,11 +815,15 @@ def checkout_view(request):
                        "You don't have anything in your cart at the moment.")
         return redirect(reverse('all-products'))
     else:
-        order_form = OrderFormAddr()
-        if request.user.is_authenticated or request.POST.get(
-                "checkout-guest-button"):
+        order_addr_form = OrderFormAddr()
+        if request.user.is_authenticated:
+            order_addr_form, addr_list = checkout_addr(request, order_addr_form)
             return render(request, 'checkout_addr.html',
-                          {'order_form': order_form})
+                          {'order_addr_form': order_addr_form,
+                           'addr_list': addr_list})
+        elif request.POST.get( "checkout-guest-button"):
+            return render(request, 'checkout_addr.html',
+                          {'order_addr_form': order_addr_form})
         elif request.POST.get("checkout-signin-button"):
             user = authenticate(request, email=request.POST["login"],
                                 password=request.POST["password"])
@@ -807,10 +838,11 @@ def checkout_view(request):
                         list_type='CART',
                         product=ProductDetails.objects.get(pk=prod),
                         quantity=cart[prod])
+                order_addr_form, addr_list = checkout_addr(request, order_addr_form)
                 return render(request, 'checkout_addr.html',
-                              {'order_form': order_form})
+                              {'order_addr_form': order_addr_form,
+                               'addr_list': addr_list})
             else:
                 messages.error(request, 'Login failed')
         else:
-            return render(request, 'checkout_signin.html',
-                          {'order_form': order_form})
+            return render(request, 'checkout_signin.html')

@@ -20,6 +20,18 @@ function topScroll() {
 }
 
 
+function resizeCheckoutFields() {
+    let formInputs = document.getElementsByClassName('stripe-input')
+    let mainWidth = $(formInputs[0].parentElement).outerWidth()
+    let astWidth = window.getComputedStyle(formInputs[0].parentElement, '::after').width.split('px', 1)[0]
+    let widthDelta = mainWidth - (astWidth * 2)
+
+    for (let i = 0; i < formInputs.length; i++) {
+        $(formInputs[i]).outerWidth(widthDelta)
+    }
+}
+
+
 /* Function to sort json data by product flavours */
 function jsonSort(json) {
     json.sort((a, b) => {
@@ -460,6 +472,9 @@ if (window.location.pathname.split('=')[0] === '/products/id') {
     $(document).ready(function () {
         productOptions()
         linkedOptions()
+        window.onresize = function() {
+            prodElSizes('linked-details')
+        }
     })
 }
 
@@ -471,6 +486,9 @@ if ((window.location.pathname === "/products/health") ||
 (window.location.pathname === "/products/all")) {
     $(document).ready(function () {
         allOptions()
+        window.onresize = function() {
+            prodElSizes('all-prod-details')
+        }
     })
 }
 
@@ -481,6 +499,9 @@ if (window.location.pathname === "/products/search") {
         if (json_prods !== null) {
             searchSelection(json_searched_prods)
             allOptions()
+            window.onresize = function() {
+                prodElSizes('all-prod-details')
+            }
         }
     })
 }
@@ -499,5 +520,15 @@ if ((window.location.pathname.split('/')[1] === "products") ||
         $(prodPage).scroll(function() {
             sortDD(sortForm)
         })
+    })
+}
+
+
+if (window.location.pathname === "/checkout") {
+    $(document).ready(function() {
+        resizeCheckoutFields()
+        window.onresize = function() {
+            resizeCheckoutFields()
+        }
     })
 }

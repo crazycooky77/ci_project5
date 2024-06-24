@@ -1,5 +1,6 @@
 <!-- Load the base html file -->
 {% extends "base.html" %}
+{% load static %}
 
 {% block content %}
     <div class="checkout">
@@ -33,10 +34,6 @@
             {% endfor %}
             <br>
         {% endif %}
-
-
-
-
         <form method="POST" class="checkout-addr-form">
             <div class="checkout-addr">
                 <div class="addr-form-div">
@@ -44,7 +41,19 @@
                         <h3>Shipping Address</h3>
                     </div>
                     <div class="shipping-addr-form">
-                        {{ order_form }}
+                        {% if addr_list %}
+                            <label for="shipping-addr-list" aria-label="Saved Addresses"></label>
+                            <select name="shipping-addr-list" id="shipping-addr-list">
+                                {% for addr in addr_list %}
+                                    {% if addr.default_addr %}
+                                        <option selected value="addr">{{ addr.addr_line1 }} | {{ addr.city }} | {{ addr.eir_code }}</option>
+                                    {% else %}
+                                        <option value="addr">{{ addr.addr_line1 }} | {{ addr.city }} | {{ addr.eir_code }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        {% endif %}
+                        {{ order_addr_form.as_p }}
                     </div>
                 </div>
                 <div class="addr-form-div">
@@ -53,16 +62,25 @@
                     </div>
                     <div class="billing-addr-form">
                         <button type="button">Same as Shipping</button>
-                        {{ order_form }}
+                        {% if addr_list %}
+                            <label for="billing-addr-list" aria-label="Saved Addresses"></label>
+                            <select name="billing-addr-list" id="billing-addr-list">
+                                {% for addr in addr_list %}
+                                    {% if addr.default_addr %}
+                                        <option selected value="addr">{{ addr.addr_line1 }} | {{ addr.city }} | {{ addr.eir_code }}</option>
+                                    {% else %}
+                                        <option value="addr">{{ addr.addr_line1 }} | {{ addr.city }} | {{ addr.eir_code }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        {% endif %}
+                        {{ order_addr_form.as_p }}
                     </div>
                 </div>
             </div>
             <button type="submit" class="addr-form-button" name="addr-form-button" value="addr-form-button">Next</button>
         </form>
-
-
-
-
-
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="{% static 'js/script.js' %}"></script>
 {% endblock %}

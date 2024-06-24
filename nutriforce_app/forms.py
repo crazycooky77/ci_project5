@@ -1,4 +1,6 @@
 from django import forms
+from django.forms import HiddenInput
+
 from .models import Addresses, OrderHistory
 
 
@@ -16,6 +18,7 @@ class OrderFormAddr(forms.ModelForm):
                   'eir_code', 'county', 'country')
 
     def __init__(self, *args, **kwargs):
+        user_auth = kwargs.pop('user_auth', None)
         super().__init__(*args, **kwargs)
         placeholders = {
             'first_name': 'First Name',
@@ -30,11 +33,13 @@ class OrderFormAddr(forms.ModelForm):
             'county': 'County',
             'country': 'Country'
         }
-
         self.fields['first_name'].widget.attrs['autofocus'] = True
         self.fields['country'].widget.attrs['disabled'] = True
+        if user_auth:
+            self.fields['email'].widget = HiddenInput()
         for field in self.fields:
             placeholder = placeholders[field]
             self.fields[field].widget.attrs['placeholder'] = placeholder
             self.fields[field].widget.attrs['class'] = 'stripe-input'
+            self.fields[field].widget.attrs['aria-label'] = placeholder
             self.fields[field].label = False

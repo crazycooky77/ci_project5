@@ -444,7 +444,7 @@ main {
     background-color: #9FFFB8;
 }
 
-.linked-other select, .all-prod-other select, .shipping-addr-form select, .billing-addr-form select {
+.linked-other select, .all-prod-other select {
     width: 100%;
 }
 
@@ -774,8 +774,12 @@ input[name="default_addr"] {
 
 .billing-addr-form button {
     margin-top: 20px;
-    margin-bottom: 20px;
+    margin-bottom: 5px;
     width: 100%;
+}
+
+#billing-addr-list, #shipping-addr-list {
+    margin-bottom: 30px;
 }
 
 .addr-form-button {
@@ -801,14 +805,27 @@ input[name="default_addr"] {
 .addr-form-div {
     display: flex;
     flex-direction: column;
-    width: 35%;
+    width: 40%;
     margin: 0 auto;
 }
 
 .shipping-addr-form, .billing-addr-form {
     display: flex;
     flex-direction: column;
+    width: 100%;
     margin-bottom: 0;
+}
+
+.billing-addr-form p, .shipping-addr-form p {
+    width: 100%;
+    margin: 0;
+}
+
+.addr-form-div p:has(>input:required)::after {
+    content: '*';
+    color: red;
+    margin: 0;
+    display: inline-block;
 }
 
 .errorlist * {
