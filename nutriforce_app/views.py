@@ -801,11 +801,13 @@ def checkout_addr(request, order_addr_form):
             user_auth=True)
         addr_list = Addresses.objects.all().filter(
             user=request.user)
-        return order_addr_form, addr_list
     else:
         addr_list = Addresses.objects.all().filter(
             user=request.user)
-        return order_addr_form, addr_list
+    js_addr = serializers.serialize('json', addr_list,
+                                    ensure_ascii=False)
+
+    return order_addr_form, addr_list, js_addr
 
 
 def checkout_view(request):
@@ -817,10 +819,11 @@ def checkout_view(request):
     else:
         order_addr_form = OrderFormAddr()
         if request.user.is_authenticated:
-            order_addr_form, addr_list = checkout_addr(request, order_addr_form)
+            order_addr_form, addr_list, js_addr = checkout_addr(request, order_addr_form)
             return render(request, 'checkout_addr.html',
                           {'order_addr_form': order_addr_form,
-                           'addr_list': addr_list})
+                           'addr_list': addr_list,
+                           'js_addr': js_addr})
         elif request.POST.get( "checkout-guest-button"):
             return render(request, 'checkout_addr.html',
                           {'order_addr_form': order_addr_form})
@@ -838,10 +841,11 @@ def checkout_view(request):
                         list_type='CART',
                         product=ProductDetails.objects.get(pk=prod),
                         quantity=cart[prod])
-                order_addr_form, addr_list = checkout_addr(request, order_addr_form)
+                order_addr_form, addr_list, js_addr = checkout_addr(request, order_addr_form)
                 return render(request, 'checkout_addr.html',
                               {'order_addr_form': order_addr_form,
-                               'addr_list': addr_list})
+                               'addr_list': addr_list,
+                               'js_addr': js_addr})
             else:
                 messages.error(request, 'Login failed')
         else:

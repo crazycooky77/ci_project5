@@ -43,12 +43,12 @@
                     <div class="shipping-addr-form">
                         {% if addr_list %}
                             <label for="shipping-addr-list" aria-label="Saved Addresses"></label>
-                            <select name="shipping-addr-list" id="shipping-addr-list">
+                            <select name="shipping-addr-list" id="shipping-addr-list" onchange="shipAddrSelection(this)">
                                 {% for addr in addr_list %}
                                     {% if addr.default_addr %}
-                                        <option selected value="addr">{{ addr.addr_line1 }} | {{ addr.city }} | {{ addr.eir_code }}</option>
+                                        <option selected value="{{ addr.address_id }}-addr">{{ addr.addr_line1 }} | {{ addr.city }} | {{ addr.eir_code }}</option>
                                     {% else %}
-                                        <option value="addr">{{ addr.addr_line1 }} | {{ addr.city }} | {{ addr.eir_code }}</option>
+                                        <option value="{{ addr.address_id }}-addr">{{ addr.addr_line1 }} | {{ addr.city }} | {{ addr.eir_code }}</option>
                                     {% endif %}
                                 {% endfor %}
                             </select>
@@ -61,15 +61,15 @@
                         <h3>Billing Address</h3>
                     </div>
                     <div class="billing-addr-form">
-                        <button type="button">Same as Shipping</button>
+                        <button type="button" onclick="addrMatch()">Same as Shipping</button>
                         {% if addr_list %}
                             <label for="billing-addr-list" aria-label="Saved Addresses"></label>
-                            <select name="billing-addr-list" id="billing-addr-list">
+                            <select name="billing-addr-list" id="billing-addr-list" onchange="billAddrSelection(this)">
                                 {% for addr in addr_list %}
                                     {% if addr.default_addr %}
-                                        <option selected value="addr">{{ addr.addr_line1 }} | {{ addr.city }} | {{ addr.eir_code }}</option>
+                                        <option selected value="{{ addr.address_id }}-addr">{{ addr.addr_line1 }} | {{ addr.city }} | {{ addr.eir_code }}</option>
                                     {% else %}
-                                        <option value="addr">{{ addr.addr_line1 }} | {{ addr.city }} | {{ addr.eir_code }}</option>
+                                        <option value="{{ addr.address_id }}-addr">{{ addr.addr_line1 }} | {{ addr.city }} | {{ addr.eir_code }}</option>
                                     {% endif %}
                                 {% endfor %}
                             </select>
@@ -82,5 +82,11 @@
         </form>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+        if ("{{ js_addr }}") {
+            const js_address = "{{ js_addr }}".replace(/&quot;/ig,'"')
+            json_addr = JSON.parse(js_address)
+        }
+    </script>
     <script src="{% static 'js/script.js' %}"></script>
 {% endblock %}
