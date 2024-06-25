@@ -35,18 +35,18 @@
                 <div class="addr-view">
                     <p>{{ default_address.first.first_name }}
                     {{ default_address.first.last_name }}</p>
-                    <p>{{ default_address.first.addr_line1 }}<p>
+                    <p>{{ default_address.first.addr_line1 }}</p>
                     {% if default_address.first.addr_line2 %}
-                        <p>{{ default_address.first.addr_line2 }}<p>
+                        <p>{{ default_address.first.addr_line2 }}</p>
                     {% endif %}
                     {% if default_address.first.addr_line3 %}
-                        <p>{{ default_address.first.addr_line3 }}<p>
+                        <p>{{ default_address.first.addr_line3 }}</p>
                     {% endif %}
                     <p>{{ default_address.first.city }}
-                    {{ default_address.first.eir_code }}<p>
+                    {{ default_address.first.eir_code }}</p>
                     <p>{{ default_address.first.county }},
-                    {{ default_address.first.get_country_display }}<p>
-                    <p>0{{ default_address.first.phone_nr }}<p>
+                    {{ default_address.first.get_country_display }}</p>
+                    <p>0{{ default_address.first.phone_nr }}</p>
                     <form method="POST" action="" class="addr-buttons">
                         {% csrf_token %}
                         <button type="submit" name="edit-addr-button" value="{{ default_address.first.pk }}">Edit Address</button>
@@ -68,18 +68,18 @@
                             <h3>Address {{ forloop.counter }}</h3>
                             <p>{{ addr.first_name }}
                             {{ addr.last_name }}</p>
-                            <p>{{ addr.addr_line1 }}<p>
+                            <p>{{ addr.addr_line1 }}</p>
                             {% if addr.addr_line2 %}
-                                <p>{{ addr.addr_line2 }}<p>
+                                <p>{{ addr.addr_line2 }}</p>
                             {% endif %}
                             {% if addr.addr_line3 %}
-                                <p>{{ addr.addr_line3 }}<p>
+                                <p>{{ addr.addr_line3 }}</p>
                             {% endif %}
                             <p>{{ addr.city }}
-                            {{ addr.eir_code }}<p>
+                            {{ addr.eir_code }}</p>
                             <p>{{ addr.county }},
-                            {{ addr.get_country_display }}<p>
-                            <p>0{{ addr.phone_nr }}<p>
+                            {{ addr.get_country_display }}</p>
+                            <p>0{{ addr.phone_nr }}</p>
                             <form method="POST" action="" class="addr-buttons">
                                 {% csrf_token %}
                                 <button type="submit" name="mk-default-button" value="{{ addr.pk }}">Make Default</button>
