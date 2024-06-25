@@ -33,7 +33,7 @@
     <div class="profile-buttons">
         <button class="prof-button" onclick="location.href='/email'">Change Email</button>
         <button class="prof-button" onclick="location=/password\change/">Change Password</button>
-        <form method="POST">
+        <form method="POST" action="">
             {% csrf_token %}
             <button type="submit" name="del-acc-button" value="del-acc-button" class="del-button" onclick="return confirm('Are you sure you want to delete your account? This cannot be undone')">Delete Account</button>
         </form>

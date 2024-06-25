@@ -1,4 +1,4 @@
-<form method="POST" class="add-addr">
+<form method="POST" action="" class="add-addr">
     {% csrf_token %}
     {% if form.errors %}
         {% for field in form %}

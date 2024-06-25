@@ -47,7 +47,7 @@
                     <p>{{ default_address.first.county }},
                     {{ default_address.first.get_country_display }}<p>
                     <p>0{{ default_address.first.phone_nr }}<p>
-                    <form method="POST" class="addr-buttons">
+                    <form method="POST" action="" class="addr-buttons">
                         {% csrf_token %}
                         <button type="submit" name="edit-addr-button" value="{{ default_address.first.pk }}">Edit Address</button>
                     </form>
@@ -80,7 +80,7 @@
                             <p>{{ addr.county }},
                             {{ addr.get_country_display }}<p>
                             <p>0{{ addr.phone_nr }}<p>
-                            <form method="POST" class="addr-buttons">
+                            <form method="POST" action="" class="addr-buttons">
                                 {% csrf_token %}
                                 <button type="submit" name="mk-default-button" value="{{ addr.pk }}">Make Default</button>
                                 <button type="submit" name="edit-addr-button" value="{{ addr.pk }}">Edit Address</button>
