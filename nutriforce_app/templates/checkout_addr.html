@@ -35,9 +35,10 @@
             <br>
         {% endif %}
         <form method="POST" class="checkout-addr-form">
+            {% csrf_token %}
             <div class="checkout-addr">
                 <div class="addr-form-div">
-                    <div class="shipping-addr-h3">
+                    <div class="checkout-h3">
                         <h3>Shipping Address</h3>
                     </div>
                     <div class="shipping-addr-form">
@@ -57,7 +58,7 @@
                     </div>
                 </div>
                 <div class="addr-form-div">
-                    <div class="billing-addr-h3">
+                    <div class="checkout-h3">
                         <h3>Billing Address</h3>
                     </div>
                     <div class="billing-addr-form">
