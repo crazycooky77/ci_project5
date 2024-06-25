@@ -5,7 +5,7 @@
     <div class="mid-content">
         <h2>Checkout</h2>
         {% if form.errors %}
-            {% for field in form %}
+                {% for field in form %}
                 {% for error in field.errors %}
                     <div class="form-error">
                         {{ error|escape }}
@@ -57,6 +57,10 @@
                     <div class="form-div">
                         <button onclick="location=/password\reset/" type="button">Forgot Password</button>
                     </div>
+                </div>
+                <div class="checkout-signin-split">or</div>
+                <div class="checkout-create">
+                    <button type="button" onclick="location.href='/signup'">Create an Account</button>
                 </div>
             </form>
         </div>

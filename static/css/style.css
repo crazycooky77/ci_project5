@@ -724,7 +724,7 @@ input[name="default_addr"] {
     float: right;
 }
 
-.checkout-guest {
+.checkout-guest, .checkout-create {
     display: flex;
 }
 
@@ -776,10 +776,6 @@ input[name="default_addr"] {
     width: 100%;
 }
 
-#billing-addr-list, #shipping-addr-list {
-    margin-bottom: 30px;
-}
-
 .addr-form-button {
     width: 30%;
     margin-top: 30px;
@@ -814,6 +810,10 @@ input[name="default_addr"] {
 .billing-addr-form p, .shipping-addr-form p {
     width: 100%;
     margin: 0;
+}
+
+.billing-addr-form p:nth-of-type(1) {
+    margin-top: 30px;
 }
 
 .addr-form-div p:has(>input:required)::after {
