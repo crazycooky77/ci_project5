@@ -61,6 +61,19 @@ function billAddrSelection(select) {
 }
 
 
+function toggleCart() {
+    let cartTable = document.getElementsByClassName('cart-tbl-prod')
+    for (let i = 0; i < cartTable.length; i++) {
+        if (window.getComputedStyle(cartTable[i]).display === 'none') {
+            cartTable[i].style.display = 'table-row'
+        }
+        else {
+            cartTable[i].style.display = 'none'
+        }
+    }
+}
+
+
 function addrMatch() {
     let shipForm = document.getElementsByClassName('shipping-addr-form')[0]
     let billForm = document.getElementsByClassName('billing-addr-form')[0]
@@ -77,12 +90,14 @@ function addrMatch() {
 
 function resizeCheckoutFields() {
     let formInputs = document.getElementsByClassName('stripe-input')
-    let mainWidth = $(formInputs[0].parentElement).outerWidth()
-    let astWidth = window.getComputedStyle(formInputs[0].parentElement, '::after').width.split('px', 1)[0]
-    let widthDelta = mainWidth - (astWidth * 2)
+    if (formInputs.length > 0) {
+        let mainWidth = $(formInputs[0].parentElement).outerWidth()
+        let astWidth = window.getComputedStyle(formInputs[0].parentElement, '::after').width.split('px', 1)[0]
+        let widthDelta = mainWidth - (astWidth * 2)
 
-    for (let i = 0; i < formInputs.length; i++) {
-        $(formInputs[i]).outerWidth(widthDelta)
+        for (let i = 0; i < formInputs.length; i++) {
+            $(formInputs[i]).outerWidth(widthDelta)
+        }
     }
 }
 

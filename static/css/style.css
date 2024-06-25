@@ -533,6 +533,10 @@ input[name="default_addr"] {
     white-space: nowrap;
 }
 
+.cart-totals td {
+    text-align: left;
+}
+
 .order-sums td {
     padding: 20px 10px 0 10px;
 }
@@ -825,6 +829,63 @@ input[name="default_addr"] {
     color: red;
     margin: 0;
     display: inline-block;
+}
+
+.checkout-summary {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.checkout-summary .prod-table-details {
+    width: 100%;
+}
+
+.summ-split {
+    width: 100%;
+    margin: 20px auto;
+}
+
+.cart-toggle-div {
+    width: 80%;
+}
+
+.checkout .cart-tbl-prod {
+    display: none;
+}
+
+.checkout-summ-addr-outer {
+    display: flex;
+    flex-direction: row;
+    gap: 80px;
+}
+
+.checkout-summ-addr-div {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+}
+
+.checkout-summ-h3 {
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+.checkout-summ-addr-view {
+    margin-top: 0;
+}
+
+#payment-button {
+    margin-top: 15px;
+}
+
+.confirm-checkout {
+    display: flex;
+    flex-direction: column;
+}
+
+.confirm-checkout span {
+    color: red;
 }
 
 .errorlist * {

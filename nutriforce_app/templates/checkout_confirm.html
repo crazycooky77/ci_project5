@@ -1,0 +1,110 @@
+<!-- Load the base html file -->
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+    <div class="checkout">
+        <h2>Confirm and Complete Purchase</h2>
+        {% if form.errors %}
+            {% for field in form %}
+                {% for error in field.errors %}
+                    <div class="form-error">
+                        {{ error|escape }}
+                    </div>
+                {% endfor %}
+            {% endfor %}
+            {% for error in form.non_field_errors %}
+                <div class="form-error">
+                    {{ error|escape }}
+                </div>
+            {% endfor %}
+            <br>
+        {% endif %}
+        {% if messages %}
+            {% for message in messages %}
+                {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR or message.level == DEFAULT_MESSAGE_LEVELS.WARNING %}
+                    <div class="form-error">
+                        {{ message }}
+                    </div>
+                {% elif message.level == DEFAULT_MESSAGE_LEVELS.INFO or message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+                    <div class="form-confirm">
+                        {{ message }}
+                    </div>
+                {% endif %}
+            {% endfor %}
+            <br>
+        {% endif %}
+        <div class="checkout-summary">
+            <div class="prod-table-details">
+                <div class="cart-toggle-div">
+                    <a href="javascript:toggleCart()">Show/Hide Cart</a>
+                </div>
+                {% include 'cart_contents.html' %}
+            </div>
+            <div class="summ-split">
+                <hr>
+            </div>
+            <div class="checkout-summ-addr-outer">
+                <div class="checkout-summ-addr-div">
+                    <div class="checkout-summ-h3">
+                        <h3>Shipping Address</h3>
+                    </div>
+                    <div class="checkout-summ-addr-view">
+                        <p>{{ shipping_addr.first_name }} {{ shipping_addr.last_name }}</p>
+                        <p>{{ shipping_addr.addr_line1 }}</p>
+                        {% if shipping_addr.addr_line2 %}
+                            <p>{{ shipping_addr.addr_line2 }}</p>
+                        {% endif %}
+                        {% if shipping_addr.addr_line3 %}
+                            <p>{{ shipping_addr.addr_line3 }}</p>
+                        {% endif %}
+                        <p>{{ shipping_addr.city }}
+                        {{ shipping_addr.eir_code }}</p>
+                        <p>{{ shipping_addr.county }},
+                        {{ shipping_addr.country }}</p>
+                        <p>0{{ shipping_addr.phone_nr }}</p>
+                    </div>
+                </div>
+                <div class="checkout-summ-addr-div">
+                    <div class="checkout-summ-h3">
+                        <h3>Billing Address</h3>
+                    </div>
+                    <div class="checkout-summ-addr-view">
+                        <p>{{ billing_addr.first_name }} {{ billing_addr.last_name }}</p>
+                        <p>{{ billing_addr.addr_line1 }}</p>
+                        {% if billing_addr.addr_line2 %}
+                            <p>{{ billing_addr.addr_line2 }}</p>
+                        {% endif %}
+                        {% if billing_addr.addr_line3 %}
+                            <p>{{ billing_addr.addr_line3 }}</p>
+                        {% endif %}
+                        <p>{{ billing_addr.city }}
+                        {{ billing_addr.eir_code }}</p>
+                        <p>{{ billing_addr.county }},
+                        {{ billing_addr.country }}</p>
+                        <p>0{{ billing_addr.phone_nr }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="summ-split">
+                <hr>
+            </div>
+
+
+
+
+            <form method="POST" action="">
+                {% csrf_token %}
+                <div class="mb-3" id="card-element"></div>
+                <div class="mb-3 text-danger" id="card-errors" role="alert"></div>
+                <div class="confirm-checkout">
+                    <span>Your card will be charged € {{ grand_total }} once you confirm your purchase.</span>
+                    <button id="payment-button" type="submit">Confirm Purchase</button>
+                </div>
+            </form>
+            <button type="button" class="cart-back-button" onclick="location.href='/cart'">Back to Cart</button>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="{% static 'js/script.js' %}"></script>
+{% endblock %}

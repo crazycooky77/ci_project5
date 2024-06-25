@@ -25,7 +25,7 @@ from .forms import *
 def cart_merge(sender, user, request, **kwargs):
     cart = request.session.get('cart', {})
 
-    if request.user.is_authenticated:
+    if request.user.is_authenticated and cart:
         user_cart = SavedItems.objects.filter(
             owner=request.user,
             list_type='CART').values_list(
@@ -689,7 +689,7 @@ def add_cart(request, product_id):
     return redirect(redirect_url)
 
 
-def cart_view(request):
+def cart_contents(request):
     if request.user.is_authenticated:
         user_cart = SavedItems.objects.filter(
             owner=request.user,
@@ -718,12 +718,17 @@ def cart_view(request):
 
         grand_total = shipping + total
 
+        return cart_prods, cart, total, shipping, grand_total
+
+
+def cart_view(request):
+    cart_prods, cart, total, shipping, grand_total = cart_contents(request)
+    if cart:
         return render(request, 'cart.html',
                       {'cart_prods': zip(cart_prods, cart.values()),
                        'total': total,
                        'shipping': shipping,
                        'grand_total': grand_total})
-
     else:
         return render(request, 'cart.html')
 
@@ -784,8 +789,9 @@ def update_cart(request):
 def checkout_addr(request, order_addr_form):
     def_addr = Addresses.objects.all().filter(
         user=request.user,
-        default_addr=True)[0]
+        default_addr=True)
     if def_addr:
+        def_addr = def_addr[0]
         order_addr_form = OrderFormAddr(initial={
             'first_name': def_addr.first_name,
             'last_name': def_addr.last_name,
@@ -812,41 +818,76 @@ def checkout_addr(request, order_addr_form):
 
 def checkout_view(request):
     cart = request.session.get('cart', {})
-    if not cart:
-        messages.error(request,
-                       "You don't have anything in your cart at the moment.")
-        return redirect(reverse('all-products'))
-    else:
-        order_addr_form = OrderFormAddr()
-        if request.user.is_authenticated:
-            order_addr_form, addr_list, js_addr = checkout_addr(request, order_addr_form)
-            return render(request, 'checkout_addr.html',
-                          {'order_addr_form': order_addr_form,
-                           'addr_list': addr_list,
-                           'js_addr': js_addr})
-        elif request.POST.get( "checkout-guest-button"):
-            return render(request, 'checkout_addr.html',
-                          {'order_addr_form': order_addr_form})
-        elif request.POST.get("checkout-signin-button"):
-            user = authenticate(request, email=request.POST["login"],
-                                password=request.POST["password"])
-            if user:
-                login(request, user)
-                messages.success(request, 'Logged in successfully')
-                SavedItems.objects.filter(owner=request.user,
-                                          list_type='CART').delete()
-                for prod in cart:
-                    SavedItems.objects.create(
-                        owner=request.user,
-                        list_type='CART',
-                        product=ProductDetails.objects.get(pk=prod),
-                        quantity=cart[prod])
+
+    if request.POST.get("checkout-button"):
+        if not cart:
+            messages.error(request,
+                           "You don't have anything in your cart at the moment.")
+            return redirect(reverse('all-products'))
+        else:
+            order_addr_form = OrderFormAddr()
+            if request.user.is_authenticated:
                 order_addr_form, addr_list, js_addr = checkout_addr(request, order_addr_form)
                 return render(request, 'checkout_addr.html',
                               {'order_addr_form': order_addr_form,
                                'addr_list': addr_list,
                                'js_addr': js_addr})
+            elif request.POST.get( "checkout-guest-button"):
+                return render(request, 'checkout_addr.html',
+                              {'order_addr_form': order_addr_form})
+            elif request.POST.get("checkout-signin-button"):
+                user = authenticate(request, email=request.POST["login"],
+                                    password=request.POST["password"])
+                if user:
+                    login(request, user)
+                    messages.success(request, 'Logged in successfully')
+                    SavedItems.objects.filter(owner=request.user,
+                                              list_type='CART').delete()
+                    for prod in cart:
+                        SavedItems.objects.create(
+                            owner=request.user,
+                            list_type='CART',
+                            product=ProductDetails.objects.get(pk=prod),
+                            quantity=cart[prod])
+                    order_addr_form, addr_list, js_addr = checkout_addr(request, order_addr_form)
+                    return render(request, 'checkout_addr.html',
+                                  {'order_addr_form': order_addr_form,
+                                   'addr_list': addr_list,
+                                   'js_addr': js_addr})
+                else:
+                    messages.error(request, 'Login failed')
             else:
-                messages.error(request, 'Login failed')
-        else:
-            return render(request, 'checkout_signin.html')
+                return render(request, 'checkout_signin.html')
+
+    elif request.POST.get("addr-form-button"):
+        if OrderFormAddr().is_valid:
+            shipping_addr = {
+                'first_name': request.POST.getlist('first_name')[0],
+                'last_name': request.POST.getlist('last_name')[0],
+                'addr_line1': request.POST.getlist('addr_line1')[0],
+                'addr_line2': request.POST.getlist('addr_line2')[0],
+                'addr_line3': request.POST.getlist('addr_line3')[0],
+                'city': request.POST.getlist('city')[0],
+                'eir_code': request.POST.getlist('eir_code')[0],
+                'county': request.POST.getlist('county')[0],
+                'country': 'Ireland',
+                'phone_nr': request.POST.getlist('phone_nr')[0]}
+            billing_addr = {
+                'first_name': request.POST.getlist('first_name')[1],
+                'last_name': request.POST.getlist('last_name')[1],
+                'addr_line1': request.POST.getlist('addr_line1')[1],
+                'addr_line2': request.POST.getlist('addr_line2')[1],
+                'addr_line3': request.POST.getlist('addr_line3')[1],
+                'city': request.POST.getlist('city')[1],
+                'eir_code': request.POST.getlist('eir_code')[1],
+                'county': request.POST.getlist('county')[1],
+                'country': 'Ireland',
+                'phone_nr': request.POST.getlist('phone_nr')[1]}
+            cart_prods, cart, total, shipping, grand_total = cart_contents(request)
+            return render(request, 'checkout_confirm.html',
+                          {'shipping_addr': shipping_addr,
+                           'billing_addr': billing_addr,
+                           'cart_prods': zip(cart_prods, cart.values()),
+                           'total': total,
+                           'shipping': shipping,
+                           'grand_total': grand_total})

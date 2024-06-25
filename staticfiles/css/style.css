@@ -533,6 +533,10 @@ input[name="default_addr"] {
     white-space: nowrap;
 }
 
+.cart-totals td {
+    text-align: left;
+}
+
 .order-sums td {
     padding: 20px 10px 0 10px;
 }
@@ -710,11 +714,8 @@ input[name="default_addr"] {
     border: unset;
 }
 
-.cart-buttons {
-    margin-top: 30px;
-}
-
 .update-buttons {
+    margin-top: 30px;
     float: left;
 }
 
@@ -723,10 +724,11 @@ input[name="default_addr"] {
 }
 
 .checkout-button {
+    margin-top: 30px;
     float: right;
 }
 
-.checkout-guest {
+.checkout-guest, .checkout-create {
     display: flex;
 }
 
@@ -778,8 +780,8 @@ input[name="default_addr"] {
     width: 100%;
 }
 
-#billing-addr-list, #shipping-addr-list {
-    margin-bottom: 30px;
+.cart-back-button {
+    margin-left: 0;
 }
 
 .addr-form-button {
@@ -794,11 +796,8 @@ input[name="default_addr"] {
     width: 100%;
 }
 
-.checkout-addr h3 {
+.checkout-h3 {
     font-weight: bold;
-}
-
-.shipping-addr-h3, .billing-addr-h3 {
     margin-top: 0;
 }
 
@@ -821,11 +820,72 @@ input[name="default_addr"] {
     margin: 0;
 }
 
+.billing-addr-form p:nth-of-type(1), .shipping-addr-form p:nth-of-type(1) {
+    margin-top: 30px;
+}
+
 .addr-form-div p:has(>input:required)::after {
     content: '*';
     color: red;
     margin: 0;
     display: inline-block;
+}
+
+.checkout-summary {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.checkout-summary .prod-table-details {
+    width: 100%;
+}
+
+.summ-split {
+    width: 100%;
+    margin: 20px auto;
+}
+
+.cart-toggle-div {
+    width: 80%;
+}
+
+.checkout .cart-tbl-prod {
+    display: none;
+}
+
+.checkout-summ-addr-outer {
+    display: flex;
+    flex-direction: row;
+    gap: 80px;
+}
+
+.checkout-summ-addr-div {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+}
+
+.checkout-summ-h3 {
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+.checkout-summ-addr-view {
+    margin-top: 0;
+}
+
+#payment-button {
+    margin-top: 15px;
+}
+
+.confirm-checkout {
+    display: flex;
+    flex-direction: column;
+}
+
+.confirm-checkout span {
+    color: red;
 }
 
 .errorlist * {
