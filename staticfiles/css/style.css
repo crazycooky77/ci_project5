@@ -503,11 +503,15 @@ input[name="default_addr"] {
     padding: 10px;
 }
 
-.prod-table table th:first-child, .prod-table table td:first-child, .prod-table-details table th:first-child, .prod-table-details table td:first-child, .prod-table-details table tr:nth-last-child(-n+2) td {
-    border-left:0;
+.prod-table table th:first-child, .prod-table table td:first-child, .prod-table-details table th:first-child, .prod-table-details table td:first-child, .prod-table-details table .cart-totals td {
+    border-left: 0;
 }
 
-.prod-table-details table tr:nth-last-child(-n+2) td {
+:nth-last-child(1 of .cart-tbl-prod) {
+    border-bottom: 1px solid black;
+}
+
+.prod-table-details table .cart-totals td {
     padding: 20px 10px 0 10px;
 }
 
