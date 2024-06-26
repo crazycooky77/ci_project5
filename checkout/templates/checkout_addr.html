@@ -54,7 +54,11 @@
                                 {% endfor %}
                             </select>
                         {% endif %}
-                        {{ order_addr_form.as_p }}
+                        {% if order_addr_form %}
+                            {{ order_addr_form.as_p }}
+                        {% else %}
+                            {{ ship_order_addr_form.as_p }}
+                        {% endif %}
                     </div>
                 </div>
                 <div class="addr-form-div">
@@ -75,7 +79,11 @@
                                 {% endfor %}
                             </select>
                         {% endif %}
-                        {{ order_addr_form.as_p }}
+                        {% if order_addr_form %}
+                            {{ order_addr_form.as_p }}
+                        {% else %}
+                            {{ bill_order_addr_form.as_p }}
+                        {% endif %}
                     </div>
                 </div>
             </div>

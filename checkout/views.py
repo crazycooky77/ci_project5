@@ -1,3 +1,5 @@
+import json
+
 from products.models import ProductDetails
 from django.shortcuts import render, redirect
 from django.dispatch import receiver
@@ -248,34 +250,50 @@ def update_cart(request):
     return redirect(redirect_url)
 
 
+def dual_addr_form(request):
+    shipping_addr = json.loads(request.POST.getlist(
+        'shipping-addr')[0].replace("'", '"'))
+    billing_addr = json.loads(request.POST.getlist(
+        'billing-addr')[0].replace("'", '"'))
+    ship_order_addr_form = OrderFormAddr(
+        initial=shipping_addr, user_auth=True)
+    bill_order_addr_form = OrderFormAddr(
+        initial=billing_addr, user_auth=True)
+    return ship_order_addr_form, bill_order_addr_form
+
+
 def checkout_addr(request, order_addr_form):
-    def_addr = Addresses.objects.all().filter(
-        user=request.user,
-        default_addr=True)
-    if def_addr:
-        def_addr = def_addr[0]
-        order_addr_form = OrderFormAddr(initial={
-            'first_name': def_addr.first_name,
-            'last_name': def_addr.last_name,
-            'email': def_addr.user.email,
-            'phone_nr': def_addr.phone_nr,
-            'addr_line1': def_addr.addr_line1,
-            'addr_line2': def_addr.addr_line2,
-            'addr_line3': def_addr.addr_line3,
-            'city': def_addr.city,
-            'eir_code': def_addr.eir_code,
-            'county': def_addr.county,
-            'country': def_addr.country},
-            user_auth=True)
-        addr_list = Addresses.objects.all().filter(
-            user=request.user)
-    else:
-        addr_list = Addresses.objects.all().filter(
-            user=request.user)
+    addr_list = Addresses.objects.all().filter(
+        user=request.user)
     js_addr = serializers.serialize('json', addr_list,
                                     ensure_ascii=False)
 
-    return order_addr_form, addr_list, js_addr
+    if request.POST.get('shipping-addr'):
+        ship_order_addr_form, bill_order_addr_form = dual_addr_form(request)
+
+        return ship_order_addr_form, bill_order_addr_form, addr_list, js_addr
+
+    else:
+        def_addr = Addresses.objects.all().filter(
+            user=request.user,
+            default_addr=True)
+        if def_addr:
+            def_addr = def_addr[0]
+            order_addr_form = OrderFormAddr(initial={
+                'first_name': def_addr.first_name,
+                'last_name': def_addr.last_name,
+                'email': def_addr.user.email,
+                'phone_nr': def_addr.phone_nr,
+                'addr_line1': def_addr.addr_line1,
+                'addr_line2': def_addr.addr_line2,
+                'addr_line3': def_addr.addr_line3,
+                'city': def_addr.city,
+                'eir_code': def_addr.eir_code,
+                'county': def_addr.county,
+                'country': def_addr.country},
+                user_auth=True)
+
+        return order_addr_form, addr_list, js_addr
 
 
 def checkout_view(request):
@@ -289,7 +307,26 @@ def checkout_view(request):
             return redirect(reverse('all-products'))
         else:
             order_addr_form = OrderFormAddr()
-            if request.user.is_authenticated:
+            if request.POST.get('shipping-addr'):
+                if request.user.is_authenticated:
+                    (ship_order_addr_form, bill_order_addr_form,
+                     addr_list, js_addr) = checkout_addr(
+                        request, order_addr_form)
+                    return render(request,
+                                  'checkout_addr.html',
+                                  {'ship_order_addr_form': ship_order_addr_form,
+                                   'bill_order_addr_form': bill_order_addr_form,
+                                   'addr_list': addr_list,
+                                   'js_addr': js_addr})
+                else:
+                    ship_order_addr_form, bill_order_addr_form = (
+                        dual_addr_form(request))
+                    return render(
+                        request, 'checkout_addr.html',
+                        {'ship_order_addr_form': ship_order_addr_form,
+                         'bill_order_addr_form': bill_order_addr_form})
+
+            elif request.user.is_authenticated:
                 order_addr_form, addr_list, js_addr = checkout_addr(
                     request, order_addr_form)
                 return render(request,
@@ -298,7 +335,8 @@ def checkout_view(request):
                                'addr_list': addr_list,
                                'js_addr': js_addr})
             elif (request.POST.get("checkout-guest-button")
-                  or request.POST.get("checkout-edit-addr")):
+                  or (request.POST.get("checkout-edit-addr")
+                      and not request.POST.get('shipping-addr'))):
                 return render(request,
                               'checkout_addr.html',
                               {'order_addr_form': order_addr_form})
@@ -316,13 +354,25 @@ def checkout_view(request):
                             list_type='CART',
                             product=ProductDetails.objects.get(pk=prod),
                             quantity=cart[prod])
-                    order_addr_form, addr_list, js_addr = checkout_addr(
-                        request, order_addr_form)
-                    return render(request,
-                                  'checkout_addr.html',
-                                  {'order_addr_form': order_addr_form,
-                                   'addr_list': addr_list,
-                                   'js_addr': js_addr})
+
+                    if request.POST.get('shipping-addr'):
+                        (ship_order_addr_form, bill_order_addr_form,
+                         addr_list, js_addr) = checkout_addr(
+                            request, order_addr_form)
+                        return render(
+                            request, 'checkout_addr.html',
+                            {'ship_order_addr_form': ship_order_addr_form,
+                             'bill_order_addr_form': bill_order_addr_form,
+                             'addr_list': addr_list,
+                             'js_addr': js_addr})
+                    else:
+                        order_addr_form, addr_list, js_addr = checkout_addr(
+                            request, order_addr_form)
+                        return render(request,
+                                      'checkout_addr.html',
+                                      {'order_addr_form': order_addr_form,
+                                       'addr_list': addr_list,
+                                       'js_addr': js_addr})
                 else:
                     messages.error(request, 'Login failed')
             else:

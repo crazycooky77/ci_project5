@@ -49,6 +49,8 @@
                     {% csrf_token %}
                     <a href="javascript:checkoutEditAddr()">Edit Address</a>
                     <input type="hidden" name="checkout-edit-addr" value="checkout-edit-addr">
+                    <input type="hidden" name="shipping-addr" value="{{ shipping_addr }}">
+                    <input type="hidden" name="billing-addr" value="{{ billing_addr }}">
                 </form>
             </div>
             <div class="checkout-summ-addr-outer">
