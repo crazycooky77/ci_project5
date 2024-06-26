@@ -31,8 +31,7 @@ class ProductDetails(models.Model):
     product = models.ForeignKey(Products,
                                 on_delete=models.CASCADE)
     on_sale = models.BooleanField(default=False)
-    size = models.DecimalField(max_digits=6,
-                               decimal_places=2)
+    size = models.IntegerField()
     size_unit = models.CharField(max_length=50)
     flavour = models.CharField(max_length=600,
                                blank=True,
