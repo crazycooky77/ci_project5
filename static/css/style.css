@@ -247,6 +247,10 @@ main {
     margin-left: 10px;
 }
 
+.all-prod-page:has(.prod-oos) {
+    margin-left: auto;
+}
+
 .prod-oos, .search-results-div {
     padding: 15px;
     margin-bottom: 20px;

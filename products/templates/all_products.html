@@ -20,7 +20,11 @@
         {% if request.get_full_path == '/products/search' %}
             <div class="search-results-div">
                 {% if search_term or sort_search %}
-                    <p>Here are the products matching your search for "{{ search_term }}"</p>
+                    {% if products %}
+                        <p>Here are the products matching your search for "{{ search_term }}"</p>
+                    {% else %}
+                        <p>We don't have products matching your search for "{{ search_term }}". You can <a href="mailto:contact@test.com?subject=Product Request&body=Please add details for your request: '">email us</a> to request we add products to our stock.</p>
+                    {% endif %}
                 {% else %}
                     <p>Your search was made with an empty search term. Please try again or check out our <a href='/products/all'>list of products here</a></p>
                 {% endif %}
@@ -84,23 +88,13 @@
                             </div>
                         </div>
                     {% endfor %}
-                {% else %}
-                    <div class="prod-oos">
-                        <p>We currently don't have products on sale to show you in this category. Stay tuned!</p>
-                    </div>
                 {% endif %}
             {% else %}
-                <div class="prod-oos">
-                    {% if request.get_full_path == '/products/search' %}
-                        {% if search_term %}
-                            <p>We don't have products matching your search term(s). You can <a href="mailto:contact@test.com?subject=Product Request&body=Please add details for your request: '">email us</a> to request we add products to our stock.</p>
-                        {% else %}
-                            <p>No search results</p>
-                        {% endif %}
-                    {% else %}
-                        <p>We don't have products to show you yet in this category. Stay tuned!</p>
-                    {% endif %}
-                </div>
+                {% if request.get_full_path != '/products/search' %}
+                    <div class="prod-oos">
+                        <p>We currently don't have products to show you in this category. Stay tuned!</p>
+                    </div>
+                {% endif %}
             {% endif %}
         </div>
     </div>
