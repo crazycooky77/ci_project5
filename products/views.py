@@ -394,10 +394,32 @@ def search_results(request):
 
         products_distinct, js_products, active_sort = product_pages(
             request, products, active_sort)
-        product_searched, js_searched, searched_sort = product_pages(
-            request, product_searched, active_sort, search_term)
+
+        if search_term:
+            product_searched, js_searched, searched_sort = product_pages(
+                request, product_searched, active_sort, search_term)
+        else:
+            product_searched, js_searched, searched_sort = product_pages(
+                request, product_searched, active_sort)
 
         del_active_sort(request)
+
+        return render(request, 'all_products.html',
+                      {'active_sort': active_sort,
+                       'search_term': search_term,
+                       'sort_search': sort_search,
+                       'products': products,
+                       'products_distinct': products_distinct,
+                       'js_products': js_products,
+                       'js_searched': js_searched})
+
+    else:
+        search_term = None
+        sort_search = None
+        products = ProductDetails.objects.none()
+        products_distinct = ProductDetails.objects.none()
+        js_products = None
+        js_searched = None
 
         return render(request, 'all_products.html',
                       {'active_sort': active_sort,
