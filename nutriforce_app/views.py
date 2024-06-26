@@ -819,7 +819,7 @@ def checkout_addr(request, order_addr_form):
 def checkout_view(request):
     cart = request.session.get('cart', {})
 
-    if request.POST.get("checkout-button"):
+    if request.POST.get("checkout-button") or request.POST.get("checkout-edit-addr"):
         if not cart:
             messages.error(request,
                            "You don't have anything in your cart at the moment.")
@@ -832,7 +832,7 @@ def checkout_view(request):
                               {'order_addr_form': order_addr_form,
                                'addr_list': addr_list,
                                'js_addr': js_addr})
-            elif request.POST.get( "checkout-guest-button"):
+            elif request.POST.get( "checkout-guest-button") or request.POST.get("checkout-edit-addr"):
                 return render(request, 'checkout_addr.html',
                               {'order_addr_form': order_addr_form})
             elif request.POST.get("checkout-signin-button"):

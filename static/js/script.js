@@ -74,6 +74,11 @@ function toggleCart() {
 }
 
 
+function checkoutEditAddr() {
+    document.getElementById('checkout-edit-addr').submit()
+}
+
+
 function addrMatch() {
     let shipForm = document.getElementsByClassName('shipping-addr-form')[0]
     let billForm = document.getElementsByClassName('billing-addr-form')[0]
