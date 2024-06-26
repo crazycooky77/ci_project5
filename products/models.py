@@ -20,7 +20,7 @@ class Products(models.Model):
                                   null=True)
 
     class Meta:
-        ordering = ['product_name']
+        ordering = ['brand', 'product_name']
         verbose_name_plural = 'Products'
 
     def __str__(self):
@@ -45,7 +45,7 @@ class ProductDetails(models.Model):
     created_ts = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        ordering = ['product__product_id']
+        ordering = ['product__brand', 'product__product_name']
         verbose_name_plural = 'Product Details'
 
     def __str__(self):
