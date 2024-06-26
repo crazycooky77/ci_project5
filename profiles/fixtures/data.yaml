@@ -1,0 +1,17 @@
+- model: profiles.User
+  pk: 0
+  fields:
+    email: deleted@test.com
+- model: profiles.Addresses
+  pk: 0
+  fields:
+    user: 0
+    first_name: DELETED
+    last_name: DELETED
+    addr_line1: DELETED
+    city: DELETED
+    eir_code: DELETED
+    county: DELETED
+    country: IE
+    phone_nr: 0
+    default_addr: True

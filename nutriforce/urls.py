@@ -16,15 +16,21 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include, re_path
-from nutriforce_app.views import *
+from products.views import *
+from profiles.views import *
+from checkout.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', homepage_view, name='home'),
-    path('email/', CustomEmailChangeView.as_view(), name='email-change'),
-    path('confirm-email/', CustomEmailVerificationSent.as_view(), name='verify-email'),
-    re_path(r"^confirm-email/(?P<key>[-:\w]+)/$", CustomEmailConfirmView.as_view(), name='email-confirm'),
-    path('password/change/', CustomPasswordChangeView.as_view(), name='pw-change'),
+    path('email/', CustomEmailChangeView.as_view(),
+         name='email-change'),
+    path('confirm-email/', CustomEmailVerificationSent.as_view(),
+         name='verify-email'),
+    re_path(r"^confirm-email/(?P<key>[-:\w]+)/$",
+            CustomEmailConfirmView.as_view(), name='email-confirm'),
+    path('password/change/', CustomPasswordChangeView.as_view(),
+         name='pw-change'),
     path('', include('allauth.urls'), name='login'),
     path('profile', profile_view, name='profile'),
     path('profile/addresses', profile_view, name='addresses'),

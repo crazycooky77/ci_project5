@@ -875,6 +875,10 @@ input[name="default_addr"] {
     margin-top: 0;
 }
 
+.edit-addr-div {
+    width: 80%;
+}
+
 #payment-button {
     margin-top: 15px;
 }

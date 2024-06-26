@@ -51,7 +51,9 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-    'nutriforce_app',
+    'products',
+    'profiles',
+    'checkout',
     'mathfilters'
 ]
 
@@ -135,7 +137,7 @@ if 'test' in sys.argv:
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
-AUTH_USER_MODEL = 'nutriforce_app.User'
+AUTH_USER_MODEL = 'profiles.User'
 
 AUTH_PASSWORD_VALIDATORS = [
     {
