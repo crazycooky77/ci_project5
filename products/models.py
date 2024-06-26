@@ -1,13 +1,21 @@
 from django.db import models
 from cloudinary.models import CloudinaryField
+from django.utils.translation import gettext_lazy as _
 
 
 class Products(models.Model):
+
+    class MainCategory(models.TextChoices):
+        SPORTS = 'SPORTS', _('Sports')
+        HEALTH = 'HEALTH', _('Health')
+
     product_id = models.AutoField(primary_key=True)
     brand = models.CharField(max_length=50)
     product_name = models.CharField(max_length=50)
     product_pic = CloudinaryField('image')
     description = models.TextField()
+    main_cat = models.CharField(max_length=50,
+                                choices=MainCategory.choices)
     categories = models.TextField(blank=True,
                                   null=True)
 
@@ -22,6 +30,7 @@ class Products(models.Model):
 class ProductDetails(models.Model):
     product = models.ForeignKey(Products,
                                 on_delete=models.CASCADE)
+    on_sale = models.BooleanField(default=False)
     size = models.IntegerField()
     size_unit = models.CharField(max_length=50)
     flavour = models.CharField(max_length=600,

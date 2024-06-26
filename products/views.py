@@ -11,6 +11,7 @@ import datetime
 
 
 def product_sort(request, data, active_sort, *args):
+    sale_flag = False
     if request.POST.get('brand-asc') or active_sort == 'brand-asc':
         active_sort = 'brand-asc'
         request.session['active_sort'] = active_sort
@@ -51,8 +52,9 @@ def product_sort(request, data, active_sort, *args):
         active_sort = 'sale'
         request.session['active_sort'] = active_sort
         sorted_data = data.filter(
-            product__categories__icontains='sale').values_list(
-            'product__product_id', flat=True)
+            on_sale=True).values_list(
+            'id', flat=True)
+        sale_flag = True
     else:
         try:
             del request.session['active_sort']
@@ -74,7 +76,7 @@ def product_sort(request, data, active_sort, *args):
         js_products = json_serialise(sorted_data)
 
     sorted_data = list(dict.fromkeys(sorted_data))
-    return [sorted_data, js_products, active_sort]
+    return [sorted_data, js_products, active_sort, sale_flag]
 
 
 def json_serialise(sorted_data, *args):
@@ -103,8 +105,13 @@ def json_serialise(sorted_data, *args):
 def product_pages(request, qs, active_sort, *args):
     if args:
         search_term = args[0]
-        products_sorted, js_products, active_sort = product_sort(
+        products_sorted, js_products, active_sort, sale_flag = product_sort(
             request, qs, active_sort, search_term)
+    else:
+        products_sorted, js_products, active_sort, sale_flag = product_sort(
+            request, qs, active_sort)
+
+    if args or sale_flag:
         product_list = ProductDetails.objects.filter(
             pk__in=products_sorted).distinct(
             'product__product_id')
@@ -112,8 +119,6 @@ def product_pages(request, qs, active_sort, *args):
         for product_id in products_sorted:
             products_distinct.append(product_list.get(pk=product_id))
     else:
-        products_sorted, js_products, active_sort = product_sort(
-            request, qs, active_sort)
         product_list = ProductDetails.objects.filter(
             product__product_id__in=products_sorted).distinct(
             'product__product_id')
@@ -191,11 +196,11 @@ def homepage_view(request):
             active=False).exclude(pk=0)
     sports_product = ProductDetails.objects.all().exclude(
         active=False).exclude(pk=0).filter(
-        product__categories__icontains='sports').order_by(
+        product__main_cat='SPORTS').order_by(
         '-stock_count').first()
     health_product = ProductDetails.objects.all().exclude(
         active=False).exclude(pk=0).filter(
-        product__categories__icontains='health').order_by(
+        product__main_cat='HEALTH').order_by(
         '-stock_count').first()
 
     if new_product:
@@ -235,7 +240,7 @@ def homepage_view(request):
             and sports_product != ''):
         sports_product = ProductDetails.objects.all().exclude(
             active=False).exclude(pk=0).filter(
-            product__categories__icontains='sports').order_by(
+            product__main_cat='SPORTS').order_by(
             '-stock_count')[1]
         sports_product_extras = ProductDetails.objects.all().exclude(
             active=False).filter(
@@ -245,7 +250,7 @@ def homepage_view(request):
             and health_product != ''):
         health_product = ProductDetails.objects.all().exclude(
             active=False).exclude(pk=0).filter(
-            product__categories__icontains='health').order_by(
+            product__main_cat='HEALTH').order_by(
             '-stock_count')[1]
         health_product_extras = ProductDetails.objects.all().exclude(
             active=False).filter(
@@ -277,10 +282,6 @@ def product_view(request, var):
         categories = [cat.strip(' ') for cat in categories]
         for cat in categories:
             cat.strip()
-        if 'health' in categories:
-            categories.remove('health')
-        if 'sports' in categories:
-            categories.remove('sports')
 
         if categories:
             linked_products = ProductDetails.objects.all().exclude(
@@ -332,7 +333,7 @@ def all_products(request):
 def sports_products(request):
     active_sort = get_active_sort(request)
     products = ProductDetails.objects.all().exclude(active=False).filter(
-        product__categories__icontains='sports')
+        product__main_cat='SPORTS')
     products_distinct, js_products, active_sort = product_pages(
         request, products, active_sort)
     del_active_sort(request)
@@ -347,7 +348,7 @@ def sports_products(request):
 def health_products(request):
     active_sort = get_active_sort(request)
     products = ProductDetails.objects.all().exclude(active=False).filter(
-        product__categories__icontains='health')
+        product__main_cat='HEALTH')
     products_distinct, js_products, active_sort = product_pages(
         request, products, active_sort)
     del_active_sort(request)
