@@ -364,15 +364,15 @@ main {
 }
 
 .email-change label[for="id_email"] {
-    margin-right: 30px;
+    margin-right: 40px;
 }
 
-#new_email {
+.email-change #id_email {
     margin-top: 15px;
     margin-bottom: 10px;
 }
 
-.email-change label[for="new_email"] {
+.email-change label[for="current_email"] {
     margin-right: 10px;
 }
 
@@ -589,6 +589,7 @@ input[name="default_addr"] {
 .linked-hor {
     display: flex;
     flex-direction: row;
+    overflow: auto;
 }
 
 .linked-ver {
@@ -596,7 +597,7 @@ input[name="default_addr"] {
     flex-direction: column;
     width: 20%;
     min-width: 200px;
-    margin: 20px 15px auto 15px;
+    margin: 20px 15px;
 }
 
 .linked-img, .all-prod-img {

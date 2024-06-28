@@ -71,15 +71,15 @@ def product_sort(request, data, active_sort, *args):
         sorted_data = data.filter(
             flavour__icontains=search_term).values_list(
             'id', flat=True)
-        js_products = json_serialise(sorted_data, search_term)
+        js_products = json_sorted_serialise(sorted_data, search_term)
     else:
-        js_products = json_serialise(sorted_data)
+        js_products = json_sorted_serialise(sorted_data)
 
     sorted_data = list(dict.fromkeys(sorted_data))
     return [sorted_data, js_products, active_sort, sale_flag]
 
 
-def json_serialise(sorted_data, *args):
+def json_sorted_serialise(sorted_data, *args):
     if sorted_data:
         preserved_list = Case(
             *[When(pk=pk, then=pos) for pos, pk in enumerate(sorted_data)])
@@ -98,7 +98,31 @@ def json_serialise(sorted_data, *args):
                                                 'flavour', 'price',
                                                 'stock_count',
                                                 'product'))
+    return js_products
 
+
+def json_serialise(data, *args):
+    json_serializer = serializers.get_serializer("json")()
+
+    if args:
+        list_args = [a for a in args]
+        js_products = json_serializer.serialize(
+            data.order_by(*list_args, 'flavour', 'size'),
+            ensure_ascii=False,
+            fields=('pk', 'size', 'size_unit',
+                    'flavour', 'price',
+                    'stock_count',
+                    'product')
+        )
+    else:
+        js_products = json_serializer.serialize(
+            data.order_by('flavour', 'size'),
+            ensure_ascii=False,
+            fields=('pk', 'size', 'size_unit',
+                    'flavour', 'price',
+                    'stock_count',
+                    'product')
+        )
     return js_products
 
 
@@ -179,7 +203,6 @@ def del_active_sort(request):
 
 def homepage_view(request):
     products = ProductDetails.objects.all().exclude(active=False)
-    json_serializer = serializers.get_serializer("json")()
 
     if ProductDetails.objects.all().exclude(
             active=False).exclude(pk=0).filter(stock_count__gte=10):
@@ -207,9 +230,7 @@ def homepage_view(request):
         new_product_extras = ProductDetails.objects.all().exclude(
             active=False).filter(
             product__product_id=new_product.product_id)
-        js_new_product = json_serializer.serialize(
-            new_product_extras.order_by('flavour'),
-            ensure_ascii=False)
+        js_new_product = json_serialise(new_product_extras)
     else:
         new_product_extras = ''
         js_new_product = ''
@@ -218,9 +239,7 @@ def homepage_view(request):
         sports_product_extras = ProductDetails.objects.all().exclude(
             active=False).filter(
             product__product_id=sports_product.product_id)
-        js_sports_product = json_serializer.serialize(
-            sports_product_extras.order_by('flavour'),
-            ensure_ascii=False)
+        js_sports_product = json_serialise(sports_product_extras)
     else:
         sports_product_extras = ''
         js_sports_product = ''
@@ -228,9 +247,7 @@ def homepage_view(request):
         health_product_extras = ProductDetails.objects.all().exclude(
             active=False).filter(
             product__product_id=health_product.product_id)
-        js_health_product = json_serializer.serialize(
-            health_product_extras.order_by('flavour'),
-            ensure_ascii=False)
+        js_health_product = json_serialise(health_product_extras)
     else:
         health_product_extras = ''
         js_health_product = ''
@@ -282,9 +299,7 @@ def homepage_view(request):
 def product_view(request, var):
     product = ProductDetails.objects.all().exclude(active=False).filter(
         product__product_id=var)
-    json_serializer = serializers.get_serializer("json")()
-    js_product = json_serializer.serialize(product.order_by('size', 'flavour'),
-                                           ensure_ascii=False)
+    js_product = json_serialise(product)
     product_cats = Products.objects.all().filter(product_id=var)
 
     if product_cats:
@@ -305,8 +320,7 @@ def product_view(request, var):
                 'product_id', 'flavour').order_by('product_id', 'flavour')
             linked_distinct_size = linked_products.distinct(
                 'product_id', 'size').order_by('product_id', 'size')
-            js_linked_sorted = json_serializer.serialize(linked_sorted.order_by(
-                '-stock_count', 'product_id', 'flavour'), ensure_ascii=False)
+            js_linked_sorted = json_serialise(linked_sorted, '-stock_count', 'product_id')
 
             return render(request, 'product_page.html',
                           {'product': product,
@@ -373,9 +387,12 @@ def health_products(request):
 def new_products(request):
     active_sort = get_active_sort(request)
     prv_mo = datetime.datetime.now(pytz.UTC) - datetime.timedelta(days=30)
-    products = ProductDetails.objects.all().exclude(
+    products_init = ProductDetails.objects.all().exclude(
         active=False).exclude(
         stock_count__lte=0).filter(created_ts__gte=prv_mo)
+    products = ProductDetails.objects.all().filter(
+        product__product_id__in=products_init.values_list(
+            'product_id', flat=True))
     products_distinct, js_products, active_sort = product_pages(
         request, products, active_sort)
     del_active_sort(request)

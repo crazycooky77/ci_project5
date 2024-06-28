@@ -9,7 +9,7 @@
             <div class="profile-menu">
                 <a href="/profile">Account Details</a>
                 <a href="/profile/addresses">Addresses</a>
-                <a href="/orders">Orders</a>
+                <a href="/profile/orders">Orders</a>
                 <a href="">Watchlist</a>
                 <a href="">Saved for Later</a>
             </div>
@@ -27,7 +27,7 @@
                 {% include 'add_address.html' %}
             {% elif request.get_full_path|slice:"0:22" == '/profile/edit-address/' %}
                 {% include 'edit_address.html' %}
-            {% elif request.get_full_path == '/orders' %}
+            {% elif request.get_full_path == '/profile/orders' %}
                 {% include 'orders.html' %}
             {% elif request.get_full_path|slice:"0:13" == '/orders/id%3D' %}
                 {% include 'order_details.html' %}
