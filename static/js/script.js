@@ -107,21 +107,6 @@ function resizeCheckoutFields() {
 }
 
 
-/* Function to sort json data by product flavours */
-function jsonSort(json) {
-    json.sort((a, b) => {
-        const aValue = JSON.stringify(Object.values(a.fields.flavour).sort());
-        const bValue = JSON.stringify(Object.values(b.fields.flavour).sort());
-        if (aValue < bValue)
-            return -1;
-        if (aValue > bValue)
-            return 1;
-        return 0;
-    })
-    return json
-}
-
-
 /* Function to reposition dynamic sort window dropdown */
 function sortDD(sortForm) {
     let buttonPosition = sortForm.children[1].getBoundingClientRect().bottom
@@ -130,199 +115,6 @@ function sortDD(sortForm) {
 
     if (sortPosition && !(sortPosition === buttonPosition + 10)) {
         sortWindow.style.top = buttonPosition + 'px'
-    }
-}
-
-
-function sortFlavours(flavour) {
-    if (flavour !== null) {
-        let jqFlavour = "#" + flavour.id
-        let options = $(jqFlavour + " option")
-
-        options.sort(function (a, b) {
-            if (a.text.toUpperCase() > b.text.toUpperCase()) return 1;
-            else if (a.text.toUpperCase() < b.text.toUpperCase()) return -1;
-            else return 0;
-        });
-
-        $(jqFlavour).empty().append(options);
-
-        return document.getElementById(flavour.id);
-    }
-    else {
-        return flavour
-    }
-}
-
-
-/* Get current selections */
-function currentSelections(prodId) {
-    let selectedSize = $("#" + prodId + "-prod-sizes :selected").val()
-    let selectedFlavour = $("#" + prodId + "-prod-flavours :selected").val()
-
-    return [selectedSize, selectedFlavour]
-}
-
-
-/* Get main elements for functions */
-function initVars(prodId) {
-    let prodFlavour = document.getElementById(prodId + "-prod-flavours");
-    let price = document.getElementById(prodId + "-prod-price");
-    let quantity = document.getElementById(prodId + "-prod-quantity");
-    let size = document.getElementById(prodId + "-prod-sizes");
-    let cart = document.getElementById(prodId + "-prod-cart");
-
-    let sortedProdFlavour = sortFlavours(prodFlavour)
-    return [sortedProdFlavour, price, quantity, size, cart]
-}
-
-
-/* Check for and hide duplicate sizes */
-function dupeSizes(idSize) {
-    let dupeSizes = {};
-    $("select[name=" + idSize + "] > option").each(function () {
-        if (dupeSizes[this.text]) {
-            $(this).hide();
-            $(this).addClass('hidden')
-        } else {
-            dupeSizes[this.text] = this.value;
-        }
-
-        if (($(this).prop('selected')) && ($(this).hasClass('hidden'))) {
-            let selectedSize = $(this).prop('innerText')
-            $("select[name=" + idSize + "] > option").each(function () {
-                if ((!($(this).prop('selected'))) &&
-                    (!($(this).hasClass('hidden'))) &&
-                    ($(this).prop('innerText') === selectedSize)) {
-
-                    $(this).prop('selectedIndex', $(this).prop('index'))
-                    $(this).prop('selected', true)
-                }
-            })
-            $(this).removeAttr('selected')
-            $(this).prop('selectedIndex', -1)
-        }
-    })
-}
-
-
-/* Function to check for duplicate flavours and hide the duplicates */
-function flavourMatch(flavour, i) {
-    let flavourCheck = flavour.innerText.match(new RegExp(flavour[i].value, 'g'))
-    if (flavourCheck.length > 1) {
-        if (flavour[i].disabled === true) {
-            flavour.options[i].style.display = "none"
-            flavour.options[i].classList.add('hidden')
-            flavour.options[i].classList.remove('oos')
-            flavour.options[i].removeAttribute('selected')
-            flavour[i].disabled = false
-        }
-    }
-}
-
-
-/* Function to select the first eligible flavour if none is selected */
-function flavourSelect(flavour, json) {
-    if (window.location.pathname !== "/products/search") {
-        if (flavour.selectedIndex === -1) {
-            for (let i = 0; i < json.length; i++) {
-                if (!($(flavour.options[i]).hasClass('hidden')) &&
-                    !($(flavour.options[i]).hasClass('oos'))) {
-                    flavour.selectedIndex = i
-                    flavour.options[i].setAttribute('selected', true)
-                    break
-                }
-            }
-        }
-    }
-}
-
-
-/* Function to check for out of stock flavours and disable the dropdown options */
-function oosProducts(flavour, size, json) {
-    if (flavour) {
-        jsonProdSorted = jsonSort(json)
-        for (let i = 0; i < jsonProdSorted.length; i++) {
-            let obj = jsonProdSorted[i]
-            if (flavour.options.selectedIndex !== -1) {
-                flavour.options[flavour.options.selectedIndex].setAttribute('selected', true)
-            }
-            if (Number(size) === obj.fields.size) {
-                if (flavour[i].value !== obj.fields.flavour) {
-                    flavour.options[i].disabled = true
-                    flavour.options[i].classList.add('oos')
-                    flavour.options[i].removeAttribute('selected')
-                    if (flavour.selectedIndex === i) {
-                        flavour.selectedIndex = -1
-                    }
-                } else {
-                    flavour.options[i].disabled = false
-                    flavour.options[i].classList.remove('hidden')
-                    flavour.options[i].classList.remove('oos')
-                    flavour.options[i].style.display = 'unset'
-                    if (flavour.selectedIndex === -1) {
-                        flavour.options[i].setAttribute('selected', true)
-                    }
-                    else {
-                        flavour.options[flavour.selectedIndex].setAttribute('selected', true)
-                    }
-                    if (i !== flavour.selectedIndex) {
-                        flavour.options[i].removeAttribute('selected')
-                    }
-                }
-            }
-            else {
-                flavour.options[i].disabled = true
-                flavour.options[i].classList.add('oos')
-                flavour.options[i].removeAttribute('selected')
-                if (flavour.selectedIndex === i) {
-                    flavour.selectedIndex = -1
-                }
-            }
-
-            // Hide duplicate flavour options
-            flavourMatch(flavour, i)
-        }
-        // If no option is selected, select the first eligible option
-        flavourSelect(flavour, jsonProdSorted)
-    }
-}
-
-
-/* Function to show the prices and availability for selected products */
-function prodAvailability(json, price, quantity, psize, cart, stock) {
-    if (stock !== undefined) {
-        if (json.fields.stock_count > 0) {
-            price.textContent = "Price: € " + json.fields.price
-            quantity.setAttribute('max', json.fields.stock_count)
-            stock.textContent = "Availability: In Stock"
-        } else {
-            psize.parentElement.style.display = 'none'
-            cart.style.display = 'none'
-            stock.textContent = "Availability: Out Of Stock"
-        }
-    }
-    else {
-        if (json.fields.stock_count > 0) {
-            price.textContent = "€ " + json.fields.price
-            quantity.setAttribute('max', json.fields.stock_count)
-        } else {
-            psize.parentElement.style.display = 'none'
-            cart.textContent = "Out Of Stock"
-            cart.style.justifyContent = 'center'
-        }
-    }
-}
-
-
-/* Function accompanying prodAvailability */
-function availabilityScenarios(json, ssize, pflavour, sflavour, price, quantity, psize, cart, stock) {
-    for (let i = 0; i < json.length; i++) {
-        if ((json[i].fields.size === Number(ssize) && pflavour === null) ||
-            (json[i].fields.size === Number(ssize) && json[i].fields.flavour === sflavour) ||
-            (ssize === undefined)) {
-            prodAvailability(json[i], price, quantity, psize, cart, stock)
-        }
     }
 }
 
@@ -357,108 +149,6 @@ function prodElSizes(prodClass) {
             }
         }
     }
-}
-
-
-function multiProd(json) {
-    // Check if any products are visible on the page
-    let noResults = document.getElementsByClassName('prod-oos')
-    if (noResults.length > 0) {
-        // Center content for no results
-        let prodPage = document.getElementsByClassName('all-prod-page')[0]
-        prodPage.style.marginLeft = 'auto'
-    }
-
-    else {
-        // Remove duplicate sizes in linked products
-        let sizeIds = []
-        for (let i = 0; i < json.length; i++) {
-            let sizeId = json[i].fields.product
-            if (!(sizeIds.includes(sizeId))) {
-                sizeIds.push(sizeId)
-                let sizeElement = sizeId + "-prod-sizes"
-                dupeSizes(sizeElement)
-            }
-        }
-
-        let multiJson = {}
-        json.forEach(function (splitJson) {
-            let pid = splitJson.fields.product;
-            if (!multiJson[pid]) {
-                multiJson[pid] = []
-            }
-            multiJson[pid].push(splitJson)
-        })
-
-        // Disable/enable product flavours, based on stock, for products
-        for (let j in multiJson) {
-            let prodFlavour = document.getElementById(multiJson[j][0].fields.product + "-prod-flavours");
-            let sortedProdFlavour = sortFlavours(prodFlavour)
-            let selectedSize = $("#" + multiJson[j][0].fields.product + "-prod-sizes :selected").val()
-            // Disable/enable products in dropdowns according to stock
-            oosProducts(sortedProdFlavour, selectedSize, multiJson[j])
-        }
-
-        for (let j in multiJson) {
-            let [selectedSize, selectedFlavour] = currentSelections(multiJson[j][0].fields.product)
-            let [prodFlavour, price, quantity, size, cart] = initVars(multiJson[j][0].fields.product)
-            availabilityScenarios(multiJson[j], selectedSize, prodFlavour,
-                selectedFlavour, price, quantity, size, cart)
-        }
-    }
-}
-
-
-/* When selecting other dropdown options on the homepage, check for stock and disable out of stock options */
-function featOptions() {
-    dupeSizes(json_new_prod[0].fields.product + '-prod-sizes')
-    dupeSizes(json_sports_prod[0].fields.product + '-prod-sizes')
-    dupeSizes(json_health_prod[0].fields.product + '-prod-sizes')
-
-    let [newFlavour, newPrice, newQuantity, newSize, newCart] = initVars(json_new_prod[0].fields.product)
-    let [sportsFlavour, sportsPrice, sportsQuantity, sportsSize, sportsCart] = initVars(json_sports_prod[0].fields.product)
-    let [healthFlavour, healthPrice, healthQuantity, healthSize, healthCart] = initVars(json_health_prod[0].fields.product)
-
-    var [newSelectedSize, newSelectedFlavour] = currentSelections(json_new_prod[0].fields.product)
-    var [sportsSelectedSize, sportsSelectedFlavour] = currentSelections(json_sports_prod[0].fields.product)
-    var [healthSelectedSize, healthSelectedFlavour] = currentSelections(json_health_prod[0].fields.product)
-
-    oosProducts(newFlavour, newSelectedSize,json_new_prod)
-    oosProducts(sportsFlavour, sportsSelectedSize,json_sports_prod)
-    oosProducts(healthFlavour, healthSelectedSize,json_health_prod)
-
-    var [newSelectedSize, newSelectedFlavour] = currentSelections(json_new_prod[0].fields.product)
-    var [sportsSelectedSize, sportsSelectedFlavour] = currentSelections(json_sports_prod[0].fields.product)
-    var [healthSelectedSize, healthSelectedFlavour] = currentSelections(json_health_prod[0].fields.product)
-
-    availabilityScenarios(json_new_prod, newSelectedSize, newFlavour,
-        newSelectedFlavour, newPrice, newQuantity, newSize, newCart)
-    availabilityScenarios(json_sports_prod, sportsSelectedSize, sportsFlavour,
-        sportsSelectedFlavour, sportsPrice, sportsQuantity, sportsSize, sportsCart)
-    availabilityScenarios(json_health_prod, healthSelectedSize, healthFlavour,
-        healthSelectedFlavour, healthPrice, healthQuantity, healthSize, healthCart)
-}
-
-
-/* When changing product dropdown options, disable out of stock flavours */
-function productOptions() {
-    let prodId = json_prod[0].fields.product
-    /* For the main product on the page */
-    dupeSizes(prodId + '-prod-sizes')
-
-    let prodFlavour = document.getElementById(prodId + "-prod-flavours");
-    let sortedProdFlavour = sortFlavours(prodFlavour)
-    var selectedSize = $("#" + prodId + "-prod-sizes :selected").val()
-    oosProducts(prodFlavour, selectedSize, json_prod)
-
-    var selectedSize = $("#" + prodId + "-prod-sizes :selected").val()
-    let selectedFlavour = $("#" + prodId + "-prod-flavours :selected").val()
-    let prodPrice = document.getElementById(prodId + "-prod-price");
-    let prodQuantity = document.getElementById(prodId + "-prod-quantity");
-    let prodSize = document.getElementById(prodId + "-prod-sizes");
-    let prodCart = document.getElementById(prodId + "-prod-cart");
-    let prodStock = document.getElementById(prodId + "-prod-stock");
-    availabilityScenarios(json_prod, selectedSize, sortedProdFlavour, selectedFlavour, prodPrice, prodQuantity, prodSize, prodCart, prodStock)
 }
 
 
@@ -502,7 +192,7 @@ function searchSelection(json) {
                             (prodFlavours.options[i].selected !== true)) {
                             let prodSizes = document.getElementById(prodId + '-prod-sizes')
                             for (let j = 0; j < prodSizes.options.length; j++) {
-                                if (json[prod].fields.size === Number(prodSizes.options[j].value)) {
+                                if (Number(json[prod].fields.size) === Number(prodSizes.options[j].value)) {
                                     prodFlavours.options[i].setAttribute('selected', true)
                                     prodFlavours.options[i].selectedIndex = i
                                     prodSizes.options[j].setAttribute('selected', true)
@@ -518,7 +208,293 @@ function searchSelection(json) {
 }
 
 
-/* For linked products, when changing product dropdown options, disable out of stock flavours */
+function sortScroll() {
+    let sortForm = document.getElementById('sort-form')
+    $(document).scroll(function() {
+        sortDD(sortForm)
+    })
+}
+
+
+function removeClasses(json) {
+    for (let i = 0; i < json.length; i++) {
+        let prodId = json[i].fields.product
+        let flavours = document.getElementById(prodId + '-prod-flavours')
+        let sizes = document.getElementById(prodId + '-prod-sizes')
+        $($(sizes)[0].options).removeClass()
+        if (flavours) {
+            $($(flavours)[0].options).removeClass()
+        }
+    }
+}
+
+
+function sortFlavours(json) {
+	for (let i = 0; i < json.length; i++) {
+		let prodId = json[i].fields.product
+	    if (json[i].fields.flavour !== null) {
+	        let flavours = "#" + prodId + '-prod-flavours'
+	        let options = $(flavours + " option")
+
+	        options.sort(function (a, b) {
+	            if (a.text.toUpperCase() > b.text.toUpperCase()) return 1;
+	            else if (a.text.toUpperCase() < b.text.toUpperCase()) return -1;
+	            else return 0;
+	        });
+
+	        $(flavours).empty().append(options);
+	    }
+	}
+}
+
+
+function SizeSelect(sizes) {
+    for (let s = 0; s < sizes.length; s++) {
+        if (sizes.selectedIndex === -1) {
+            if (!($(sizes.options[s]).hasClass('hidden')) &&
+                !($(sizes.options[s]).hasClass('oos'))) {
+                sizes.selectedIndex = s
+                sizes.options[s].setAttribute('selected', true)
+            }
+        } else {
+            sizes.options[sizes.selectedIndex].setAttribute('selected', true)
+        }
+    }
+}
+
+
+function flavourSelect(json) {
+	if (window.location.pathname !== "/products/search") {
+        for (let i = 0; i < json.length; i++) {
+            let flavours = document.getElementById(json[i].fields.product + '-prod-flavours')
+            let selectedSize = $("#" + json[i].fields.product + "-prod-sizes :selected").val()
+            if (flavours) {
+                for (let f = 0; f < flavours.length; f++) {
+                    flavours.options[f].removeAttribute('selected')
+                    if (json[i].fields.flavour === flavours.options[f].value &&
+                        Number(json[i].fields.size) === Number(selectedSize)) {
+                        if (flavours.selectedIndex === -1) {
+                            if (!($(flavours.options[f]).hasClass('hidden')) &&
+                                !($(flavours.options[f]).hasClass('oos')) &&
+                                !($(flavours.options[f]).hasClass('na')) &&
+                                flavours.options[f].disabled === false) {
+                                $(flavours.options[f]).removeClass()
+                                flavours.selectedIndex = f
+                                flavours.options[f].classList.add('stock')
+                                flavours.options[f].setAttribute('selected', true)
+                            }
+                            else if ($(flavours.options[f]).hasClass('hidden')) {
+                                $(flavours.options[f]).removeClass()
+                                flavours.options[f].disabled = false
+                                flavours.selectedIndex = f
+                                flavours.options[f].classList.add('stock')
+                                flavours.options[f].setAttribute('selected', true)
+                            }
+                        }
+                        else if (flavours.selectedIndex !== -1 &&
+                            flavours.options[flavours.selectedIndex].disabled === false) {
+                            flavours.options[flavours.selectedIndex].setAttribute('selected', true)
+                        }
+                    }
+                    else if (flavours.selectedIndex !== -1 &&
+                        flavours.options[flavours.selectedIndex].disabled === true) {
+                        flavours.selectedIndex = -1
+                    }
+                }
+            }
+        }
+	}
+}
+
+
+function oosFlavours(flavours, obj) {
+    let selectedSize = $("#" + obj.fields.product + "-prod-sizes :selected").val()
+    for (let f = 0; f < flavours.length; f++) {
+        if (Number(obj.fields.size) === Number(selectedSize)) {
+            if (flavours.options[f].value === obj.fields.flavour &&
+                obj.fields.stock_count === 0) {
+                flavours.options[f].disabled = true
+                flavours.options[f].classList.add('oos')
+                flavours.options[f].removeAttribute('selected')
+                if (flavours.selectedIndex === f) {
+                    flavours.selectedIndex = -1
+                }
+            } else if (flavours.options[f].value === obj.fields.flavour &&
+                obj.fields.stock_count > 0) {
+                flavours.options[f].disabled = false
+                flavours.options[f].classList.add('stock')
+                if (flavours.selectedIndex === -1 || flavours.options[flavours.selectedIndex].disabled) {
+                    flavours.selectedIndex = f
+                    flavours.options[f].setAttribute('selected', true)
+                }
+            }
+        }
+    }
+}
+
+
+function oosProducts(json) {
+	for (let i = 0; i < json.length; i++) {
+		let obj = json[i]
+		let sizes = document.getElementById(obj.fields.product + "-prod-sizes")
+        let flavours = document.getElementById(obj.fields.product + "-prod-flavours")
+
+        for (let s = 0; s < sizes.length; s++) {
+            if (Number(obj.fields.size) === Number(sizes.options[s].value) &&
+                (obj.fields.flavour === null || (flavours && flavours.options[s].value === obj.fields.flavour))) {
+                if (obj.fields.stock_count === 0) {
+                    sizes.options[s].disabled = true
+                    sizes.options[s].classList.add('oos')
+                    sizes.options[s].removeAttribute('selected')
+                    if (sizes.selectedIndex === s) {
+                        sizes.selectedIndex = -1
+                    }
+                }
+            }
+        }
+        SizeSelect(sizes)
+        if (flavours) {
+            oosFlavours(flavours, obj)
+        }
+    }
+    for (let i = 0; i < json.length; i++) {
+        let obj = json[i]
+        let flavours = document.getElementById(obj.fields.product + "-prod-flavours")
+        if (flavours) {
+            for (let f = 0; f < flavours.length; f++) {
+                if (flavours.options[f].classList.length === 0) {
+                    flavours.options[f].disabled = true
+                    flavours.options[f].classList.add('na')
+                    flavours.options[f].removeAttribute('selected')
+                    if (flavours.selectedIndex === f) {
+                        flavours.selectedIndex = -1
+                    }
+                }
+            }
+        }
+    }
+    flavourSelect(json)
+}
+
+
+function prodDetails(json) {
+	for (let i = 0; i < json.length; i++) {
+		let obj = json[i]
+        let selectedFlavour = $("#" + obj.fields.product + "-prod-flavours :selected").val()
+        let selectedSize = $("#" + obj.fields.product + "-prod-sizes :selected").val()
+		let flavours = document.getElementById(obj.fields.product + "-prod-flavours");
+		let sizes = document.getElementById(obj.fields.product + "-prod-sizes");
+	    let price = document.getElementById(obj.fields.product + "-prod-price");
+	    let quantity = document.getElementById(obj.fields.product + "-prod-quantity");
+	    let cart = document.getElementById(obj.fields.product + "-prod-cart");
+        let stock = document.getElementById(obj.fields.product + "-prod-stock");
+
+
+		if (obj.fields.stock_count > 0 &&
+            (obj.fields.flavour === null || obj.fields.flavour === selectedFlavour) &&
+            Number(obj.fields.size) === Number(selectedSize)) {
+			price.textContent = "€ " + obj.fields.price
+	        quantity.setAttribute('max', obj.fields.stock_count)
+	        if (stock !== null) {
+	            stock.textContent = "Availability: In Stock"
+	        }
+	    }
+        let disabledOpts = 0;
+	    for (let s = 0; s < sizes.length; s++) {
+	        if (sizes.options[s].disabled) {
+	            disabledOpts++
+	        }
+	    }
+	    if (sizes.length === disabledOpts) {
+	        if (stock !== null) {
+                sizes.parentElement.style.display = 'none'
+	            cart.style.display = 'none'
+	            stock.textContent = "Availability: Out Of Stock"
+	        }
+	        else {
+	            sizes.parentElement.style.display = 'none'
+	            cart.textContent = "Out Of Stock"
+	            cart.style.justifyContent = 'center'
+	            if (flavours) {
+	                flavours.parentElement.style.display = 'none'
+	            }
+	        }
+	    }
+	}
+}
+
+
+function dupeOpts(json, option) {
+    for (let i = 0; i < json.length; i++) {
+        let fieldId = json[i].fields.product + "-prod-" + option
+        let dupeOpts = {};
+        $("select[name=" + fieldId + "] > option").each(function () {
+            if (dupeOpts[this.text]) {
+                $(this).hide();
+                $(this).addClass('hidden')
+                $(this).removeClass('oos')
+                $(this).removeClass('stock')
+                $(this).removeClass('na')
+                $(this).prop('disabled', false)
+            } else {
+                dupeOpts[this.text] = this.value;
+            }
+
+            if (($(this).prop('selected')) && ($(this).hasClass('hidden'))) {
+                let selectedOpt = $(this).prop('innerText')
+                $("select[name=" + fieldId + "] > option").each(function () {
+                    if ((!($(this).prop('selected'))) &&
+                        (!($(this).hasClass('hidden'))) &&
+                        ($(this).prop('innerText') === selectedOpt)) {
+
+                        $(this).prop('selectedIndex', $(this).prop('index'))
+                        $(this).prop('selected', true)
+                    }
+                })
+                $(this).removeAttr('selected')
+                $(this).prop('selectedIndex', -1)
+            }
+        })
+    }
+}
+
+
+function prodFunctions(json) {
+    removeClasses(json)
+    sortFlavours(json)
+    oosProducts(json)
+    dupeOpts(json, 'flavours')
+    dupeOpts(json, 'sizes')
+    prodDetails(json)
+}
+
+
+function multiProd(json) {
+    // Check if any products are visible on the page
+    let noResults = document.getElementsByClassName('prod-oos')
+    if (noResults.length > 0) {
+        // Center content for no results
+        let prodPage = document.getElementsByClassName('all-prod-page')[0]
+        prodPage.style.marginLeft = 'auto'
+    }
+    else {
+        prodFunctions(json)
+    }
+}
+
+
+function featOptions() {
+    prodFunctions(json_new_prod)
+    prodFunctions(json_sports_prod)
+    prodFunctions(json_health_prod)
+}
+
+
+function productOptions() {
+    prodFunctions(json_prod)
+}
+
+
 function linkedOptions() {
     if (typeof json_linked_prods !== 'undefined') {
         multiProd(json_linked_prods)
@@ -527,7 +503,6 @@ function linkedOptions() {
 }
 
 
-/* When changing product dropdown options, disable out of stock flavours */
 function allOptions() {
     multiProd(json_prods)
     prodElSizes('all-prod-details')
@@ -538,6 +513,7 @@ function allOptions() {
 if (window.location.pathname === "/") {
     $(document).ready(function () {
         featOptions()
+        sortScroll()
     })
 }
 
@@ -564,6 +540,7 @@ if ((window.location.pathname === "/products/health") ||
         window.onresize = function() {
             prodElSizes('all-prod-details')
         }
+        sortScroll()
     })
 }
 
@@ -577,24 +554,8 @@ if (window.location.pathname === "/products/search") {
             window.onresize = function() {
                 prodElSizes('all-prod-details')
             }
+            sortScroll()
         }
-    })
-}
-
-
-if ((window.location.pathname.split('/')[1] === "products") ||
-(window.location.pathname === "/")) {
-    $(document).ready(function() {
-        let prodPage = document.getElementsByClassName("all-prod-page")[0]
-        let sortForm = document.getElementById('sort-form')
-
-        $('body').scroll(function() {
-            sortDD(sortForm)
-        })
-
-        $(prodPage).scroll(function() {
-            sortDD(sortForm)
-        })
     })
 }
 
