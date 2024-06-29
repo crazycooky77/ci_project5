@@ -33,6 +33,5 @@ class OrderFormAddr(forms.ModelForm):
         for field in self.fields:
             placeholder = placeholders[field]
             self.fields[field].widget.attrs['placeholder'] = placeholder
-            self.fields[field].widget.attrs['class'] = 'stripe-input'
             self.fields[field].widget.attrs['aria-label'] = placeholder
             self.fields[field].label = False
