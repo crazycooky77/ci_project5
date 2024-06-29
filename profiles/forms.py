@@ -1,5 +1,11 @@
 from django import forms
-from .models import Addresses
+from .models import Addresses, Newsletter
+
+
+class NewsletterForm(forms.ModelForm):
+    class Meta:
+        model = Newsletter
+        fields = ['news_email']
 
 
 class AddressForm(forms.ModelForm):

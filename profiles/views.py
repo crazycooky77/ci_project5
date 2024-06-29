@@ -33,6 +33,26 @@ class CustomPasswordChangeView(PasswordChangeView):
     template_name = 'profile.html'
 
 
+def newsletter_signup(request):
+    if request.method == 'POST':
+        redirect_url = request.POST.get('redirect_url')
+        news_email = request.POST.get('news_email')
+        newsletter_form = NewsletterForm(
+            {'news_email': news_email})
+        signed_up = Newsletter.objects.filter(news_email__iexact=news_email)
+        if newsletter_form.is_valid() and not signed_up:
+            newsletter_form.save()
+            messages.success(
+                request, 'Thank you for signing up to our newsletter!')
+        elif signed_up:
+            messages.success(
+                request, "Good news, you're already signed up!")
+        else:
+            messages.error(
+                request, "Please enter a valid email address")
+        return redirect(redirect_url)
+
+
 def profile_vars(request):
     default_address = Addresses.objects.filter(
         user=request.user,
@@ -42,10 +62,18 @@ def profile_vars(request):
         default_addr=False).order_by('pk')
     orders = OrderHistory.objects.all().filter(
         purchaser=request.user).order_by('-order_dt')
-    return default_address, other_address, orders
+    signed_up = Newsletter.objects.filter(news_email__iexact=request.user.email)
+    return default_address, other_address, orders, signed_up
 
 
-def delete_acc(request):
+def unsub_news(request, signed_up):
+    signed_up.delete()
+    messages.success(request,
+                     'You successfully unsubscribed from our newsletter')
+
+
+def delete_acc(request, signed_up):
+    signed_up.delete()
     User.delete(request.user)
     logout(request)
     messages.success(request, 'Account successfully deleted')
@@ -82,10 +110,14 @@ def delete_addr(request):
 
 def profile_view(request):
     if request.user.is_authenticated:
-        default_address, other_address, orders = profile_vars(request)
+        default_address, other_address, orders, signed_up \
+            = profile_vars(request)
         if request.method == 'POST':
+            if request.POST.get('unsub-news-button'):
+                unsub_news(request, signed_up)
+                return redirect('profile')
             if request.POST.get("del-acc-button"):
-                delete_acc(request)
+                delete_acc(request, signed_up)
                 return redirect(homepage_view)
             if request.POST.get("mk-default-button"):
                 default_addr(request)
@@ -100,7 +132,8 @@ def profile_view(request):
             return render(request, 'profile.html',
                           {'default_address': default_address,
                            'other_address': other_address,
-                           'orders': orders})
+                           'orders': orders,
+                           'signed_up': signed_up})
     else:
         return render(request, 'profile.html')
 
@@ -139,7 +172,9 @@ def profile_edit_addr(request, var):
         addr_to_edit = Addresses.objects.filter(user=request.user,
                                                 pk=var)
         if request.method == 'POST':
-            edit_addr_form = AddressForm(request.POST,
+            updated_request = request.POST.copy()
+            updated_request.update({'country': 'IE'})
+            edit_addr_form = AddressForm(updated_request,
                                          instance=addr_to_edit[0])
             if edit_addr_form.is_valid():
                 if request.POST.get("save-edit-addr-button"):

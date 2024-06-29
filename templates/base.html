@@ -37,6 +37,8 @@
             <script src="https://kit.fontawesome.com/3e8d6f7307.js" crossorigin="anonymous"></script>
             <!-- Stripe script -->
             <script src="https://js.stripe.com/v3/"></script>
+            <!-- Base project JS -->
+            <script src="{% static 'js/base.js' %}"></script>
         {% endblock %}
     </head>
     <body>
@@ -68,13 +70,23 @@
                             <button onclick="location.href='/products/new'">What's New</button>
                         </div>
                     </div>
-                    <div class="nav-support">
-                        <!-- Contact details -->
-                        <p class="support-details">
-                            Support
-                            <br>
-                            <a href="mailto:contact@test.com"><i class="fa-solid fa-envelope"></i> contact@test.com</a>
-                        </p>
+                    <div class="nav-sup-news">
+                        <div class="nav-news">
+                            <form action="/newsletter" method="POST" id="news-signup-form">
+                                {% csrf_token %}
+                                <!-- Newsletter signup -->
+                                <a href="javascript:newSignup()">Newsletter Signup</a>
+                                <input type="hidden" name="redirect_url" value="{{ request.path }}">
+                            </form>
+                        </div>
+                        <div class="nav-support">
+                            <!-- Contact details -->
+                            <p class="support-details">
+                                Support
+                                <br>
+                                <a href="mailto:contact@test.com"><i class="fa-solid fa-envelope"></i> contact@test.com</a>
+                            </p>
+                        </div>
                     </div>
                     <div class="nav-right">
                         <a href="/cart"><i class="fa-solid fa-cart-shopping"></i> View Cart</a>
@@ -130,7 +142,6 @@
             {% endblock copyright %}
         </footer>
         {% block postloadjs %}
-            <script src="{% static 'js/base.js' %}"></script>
         {% endblock %}
     </body>
 </html>

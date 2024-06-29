@@ -189,3 +189,10 @@ class Purchases(models.Model):
 
     def __str__(self):
         return f'{self.purchase_id} | {Products.product_name} | {self.quantity}'
+
+
+class Newsletter(models.Model):
+    news_email = models.EmailField(unique=True)
+
+    def __str__(self):
+        return f'{self.news_email}'

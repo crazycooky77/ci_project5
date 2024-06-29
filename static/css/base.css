@@ -126,7 +126,7 @@ label:has(+input:required):after {
     display: flex;
     flex-direction: column;
     margin: auto;
-    width: 50%;
+    width: 40%;
 }
 
 .nav-search input {
@@ -161,9 +161,19 @@ label:has(+input:required):after {
     color: white;
 }
 
+.nav-sup-news {
+    display: flex;
+    flex-direction: column;
+}
+
+.nav-news {
+    margin-bottom: 15px;
+}
+
 .nav-support {
+    display: flex;
+    flex-direction: column;
     text-align: center;
-    width: 15%;
 }
 
 .support-details {

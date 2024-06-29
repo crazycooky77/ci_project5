@@ -47,5 +47,6 @@ urlpatterns = [
     path('cart', cart_view, name='cart'),
     path('add/<product_id>', add_cart, name='add-cart'),
     path('update', update_cart, name='update-cart'),
-    path('checkout', checkout_view, name='checkout')
+    path('checkout', checkout_view, name='checkout'),
+    path('newsletter', newsletter_signup, name='newsletter')
 ]
