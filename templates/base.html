@@ -4,19 +4,33 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <!-- Metadata for the site -->
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <meta name="description" content="A shop for all your sports and health nutrition needs">
-        <!-- Link to the stylesheet -->
-        <link rel="stylesheet" href="{% static 'css/style.css' %}">
-        <!-- Site title -->
-        <title>NutriForce</title>
-        <!-- Load favicon -->
-        <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
-        <!-- Font Awesome script -->
-        <script src="https://kit.fontawesome.com/3e8d6f7307.js" crossorigin="anonymous"></script>
+
+        {% block meta %}
+            <!-- Metadata for the site -->
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width">
+            <meta http-equiv="X-UA-Compatible" content="ie=edge">
+            <meta name="description" content="A shop for all your sports and health nutrition needs">
+        {% endblock %}
+
+        {% block corecss %}
+            <!-- Link to the stylesheet -->
+            <link rel="stylesheet" href="{% static 'css/style.css' %}">
+        {% endblock %}
+
+        {% block extras %}
+            <!-- Site title -->
+            <title>NutriForce</title>
+            <!-- Load favicon -->
+            <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+        {% endblock %}
+
+        {% block corejs %}
+            <!-- Font Awesome script -->
+            <script src="https://kit.fontawesome.com/3e8d6f7307.js" crossorigin="anonymous"></script>
+            <script src="https://js.stripe.com/v3/"></script>
+        {% endblock
+        %}
     </head>
     <body>
         <nav>
