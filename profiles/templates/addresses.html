@@ -1,33 +1,5 @@
 <div class="addr-msg">
-    {% if form.errors %}
-        {% for field in form %}
-            {% for error in field.errors %}
-                <div class="form-error">
-                    {{ error|escape }}
-                </div>
-            {% endfor %}
-        {% endfor %}
-        {% for error in form.non_field_errors %}
-            <div class="form-error">
-                {{ error|escape }}
-            </div>
-        {% endfor %}
-        <br>
-    {% endif %}
-    {% if messages %}
-        {% for message in messages %}
-            {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR or message.level == DEFAULT_MESSAGE_LEVELS.WARNING %}
-                <div class="form-error">
-                    {{ message }}
-                </div>
-            {% elif message.level == DEFAULT_MESSAGE_LEVELS.INFO or message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
-                <div class="form-confirm">
-                    {{ message }}
-                </div>
-            {% endif %}
-        {% endfor %}
-        <br>
-    {% endif %}
+    {% include 'form_responses.html' %}
     <div class="addresses">
         <div class="default-addr">
             <h2>Default Address</h2>
