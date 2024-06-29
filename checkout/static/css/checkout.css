@@ -245,6 +245,15 @@
     width: 80%;
 }
 
+.StripeElement {
+    background-color: #9FFFB8;
+    border: 1px solid black;
+    border-radius: 5px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    padding: 5px;
+}
+
 #payment-button {
     margin-top: 15px;
 }

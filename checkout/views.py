@@ -1,5 +1,5 @@
 import json
-
+import os
 from products.models import ProductDetails
 from django.shortcuts import render, redirect
 from django.dispatch import receiver
@@ -412,4 +412,6 @@ def checkout_view(request):
                            'cart_prods': zip(cart_prods, cart.values()),
                            'total': total,
                            'shipping': shipping,
-                           'grand_total': grand_total})
+                           'grand_total': grand_total,
+                           'stripe_public_key': 'pk_test_51PWzpqLkS7FY3Mm8RZ5janqu3DWNvUsBzpJ0w1fhbtmStTcoShW6kZXCssHw0CrUWZVyDQw7tEi0omc7UmXzcjfH00dZfWYt44',
+                           'client_secret': os.environ.get('STRIPE_SECRET')})
