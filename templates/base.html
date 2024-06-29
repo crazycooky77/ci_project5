@@ -31,8 +31,11 @@
         {% endblock %}
 
         {% block corejs %}
+            <!-- Jquery script -->
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
             <!-- Font Awesome script -->
             <script src="https://kit.fontawesome.com/3e8d6f7307.js" crossorigin="anonymous"></script>
+            <!-- Stripe script -->
             <script src="https://js.stripe.com/v3/"></script>
         {% endblock %}
     </head>
@@ -127,6 +130,7 @@
             {% endblock copyright %}
         </footer>
         {% block postloadjs %}
+            <script src="{% static 'js/base.js' %}"></script>
         {% endblock %}
     </body>
 </html>

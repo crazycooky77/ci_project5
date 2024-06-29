@@ -186,7 +186,6 @@
 {% endblock %}
 
 {% block postloadjs %}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script>
         const js_new_prod = "{{ js_new_product }}".replace(/&quot;/ig,'"')
         const js_sports_prod = "{{ js_sports_product }}".replace(/&quot;/ig,'"')
@@ -195,5 +194,5 @@
         json_sports_prod = JSON.parse(js_sports_prod)
         json_health_prod = JSON.parse(js_health_prod)
     </script>
-    <script src="{% static 'js/script.js' %}"></script>
+    <script src="{% static 'js/products.js' %}"></script>
 {% endblock %}

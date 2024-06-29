@@ -137,7 +137,6 @@
 {% endblock %}
 
 {% block postloadjs %}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script>
         const js_prod = "{{ js_product }}".replace(/&quot;/ig,'"')
         const js_linked_prods = "{{ js_linked_sorted }}".replace(/&quot;/ig,'"')
@@ -146,5 +145,5 @@
             json_linked_prods = JSON.parse(js_linked_prods)
         }
     </script>
-    <script src="{% static 'js/script.js' %}"></script>
+    <script src="{% static 'js/products.js' %}"></script>
 {% endblock %}

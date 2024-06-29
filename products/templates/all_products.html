@@ -109,7 +109,6 @@
 {% endblock %}
 
 {% block postloadjs %}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script>
         if ("{{ js_products }}") {
             const js_prods = "{{ js_products }}".replace(/&quot;/ig,'"')
@@ -120,5 +119,5 @@
             json_searched_prods = JSON.parse(js_searched_prods)
         }
     </script>
-    <script src="{% static 'js/script.js' %}"></script>
+    <script src="{% static 'js/products.js' %}"></script>
 {% endblock %}

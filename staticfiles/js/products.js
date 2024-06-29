@@ -1,124 +1,3 @@
-$(document).ready(function () {
-    // Restrict the width of the hyperlink element on the logo to the logo image width
-    let logo = document.getElementsByClassName("nav-left")[0].firstElementChild
-    logo.style.width = window.getComputedStyle(logo.firstChild).getPropertyValue("width")
-
-    let scrollBtn = document.getElementById("footer-top-link");
-    window.onscroll = function() {
-        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-            scrollBtn.style.visibility = "unset";
-        } else {
-            scrollBtn.style.visibility = "hidden";
-        }
-    }
-})
-
-
-function topScroll() {
-    document.body.scrollTop = 0; // For Safari
-    document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
-}
-
-
-function addressSelection(select, addrForm) {
-    let selectedAddr = select.options[select.options.selectedIndex]
-    let selectedAddrId = Number(selectedAddr.value.split('-')[0])
-    addrForm.querySelectorAll('input').forEach(
-    e => json_addr.forEach(
-        a =>  { if (a.pk === selectedAddrId) {
-            if (e.name === 'first_name')
-                e.value = a.fields.first_name
-            else if (e.name === 'last_name')
-                e.value = a.fields.last_name
-            else if (e.name === 'phone_nr')
-                e.value = a.fields.phone_nr
-            else if (e.name === 'addr_line1')
-                e.value = a.fields.addr_line1
-            else if (e.name === 'addr_line2')
-                e.value = a.fields.addr_line2
-            else if (e.name === 'addr_line3')
-                e.value = a.fields.addr_line3
-            else if (e.name === 'city')
-                e.value = a.fields.city
-            else if (e.name === 'eir_code')
-                e.value = a.fields.eir_code
-            else if (e.name === 'county')
-                e.value = a.fields.county
-        }})
-    )
-}
-
-
-function shipAddrSelection(select) {
-    let shipForm = document.getElementsByClassName('shipping-addr-form')[0]
-    addressSelection(select, shipForm)
-}
-
-
-function billAddrSelection(select) {
-    let billForm = document.getElementsByClassName('billing-addr-form')[0]
-    addressSelection(select, billForm)
-}
-
-
-function toggleCart() {
-    let cartTable = document.getElementsByClassName('cart-tbl-prod')
-    for (let i = 0; i < cartTable.length; i++) {
-        if (window.getComputedStyle(cartTable[i]).display === 'none') {
-            cartTable[i].style.display = 'table-row'
-        }
-        else {
-            cartTable[i].style.display = 'none'
-        }
-    }
-}
-
-
-function checkoutEditAddr() {
-    document.getElementById('checkout-edit-addr').submit()
-}
-
-
-function addrMatch() {
-    let shipForm = document.getElementsByClassName('shipping-addr-form')[0]
-    let billForm = document.getElementsByClassName('billing-addr-form')[0]
-    shipForm.querySelectorAll('input').forEach(
-        sInput => billForm.querySelectorAll('input').forEach(
-            bInput =>
-            { if (sInput.id === bInput.id)
-                bInput.value = sInput.value
-            }
-        )
-    )
-}
-
-
-function resizeCheckoutFields() {
-    let formInputs = document.getElementsByClassName('stripe-input')
-    if (formInputs.length > 0) {
-        let mainWidth = $(formInputs[0].parentElement).outerWidth()
-        let astWidth = window.getComputedStyle(formInputs[0].parentElement, '::after').width.split('px', 1)[0]
-        let widthDelta = mainWidth - (astWidth * 2)
-
-        for (let i = 0; i < formInputs.length; i++) {
-            $(formInputs[i]).outerWidth(widthDelta)
-        }
-    }
-}
-
-
-/* Function to reposition dynamic sort window dropdown */
-function sortDD(sortForm) {
-    let buttonPosition = sortForm.children[1].getBoundingClientRect().bottom
-    let sortWindow = document.getElementsByClassName("sort-dd")[0]
-    let sortPosition = sortWindow.getBoundingClientRect().top
-
-    if (sortPosition && !(sortPosition === buttonPosition + 10)) {
-        sortWindow.style.top = buttonPosition + 'px'
-    }
-}
-
-
 /* Function to dynamically set the height for products in lists */
 function prodElSizes(prodClass) {
     let prodList = document.getElementsByClassName(prodClass)
@@ -149,6 +28,26 @@ function prodElSizes(prodClass) {
             }
         }
     }
+}
+
+
+/* Function to reposition dynamic sort window dropdown */
+function sortDD(sortForm) {
+    let buttonPosition = sortForm.children[1].getBoundingClientRect().bottom
+    let sortWindow = document.getElementsByClassName("sort-dd")[0]
+    let sortPosition = sortWindow.getBoundingClientRect().top
+
+    if (sortPosition && !(sortPosition === buttonPosition + 10)) {
+        sortWindow.style.top = buttonPosition + 'px'
+    }
+}
+
+
+function sortScroll() {
+    let sortForm = document.getElementById('sort-form')
+    $(document).scroll(function() {
+        sortDD(sortForm)
+    })
 }
 
 
@@ -208,14 +107,6 @@ function searchSelection(json) {
 }
 
 
-function sortScroll() {
-    let sortForm = document.getElementById('sort-form')
-    $(document).scroll(function() {
-        sortDD(sortForm)
-    })
-}
-
-
 function removeClasses(json) {
     for (let i = 0; i < json.length; i++) {
         let prodId = json[i].fields.product
@@ -230,21 +121,21 @@ function removeClasses(json) {
 
 
 function sortFlavours(json) {
-	for (let i = 0; i < json.length; i++) {
-		let prodId = json[i].fields.product
-	    if (json[i].fields.flavour !== null) {
-	        let flavours = "#" + prodId + '-prod-flavours'
-	        let options = $(flavours + " option")
+    for (let i = 0; i < json.length; i++) {
+        let prodId = json[i].fields.product
+        if (json[i].fields.flavour !== null) {
+            let flavours = "#" + prodId + '-prod-flavours'
+            let options = $(flavours + " option")
 
-	        options.sort(function (a, b) {
-	            if (a.text.toUpperCase() > b.text.toUpperCase()) return 1;
-	            else if (a.text.toUpperCase() < b.text.toUpperCase()) return -1;
-	            else return 0;
-	        });
+            options.sort(function (a, b) {
+                if (a.text.toUpperCase() > b.text.toUpperCase()) return 1;
+                else if (a.text.toUpperCase() < b.text.toUpperCase()) return -1;
+                else return 0;
+            });
 
-	        $(flavours).empty().append(options);
-	    }
-	}
+            $(flavours).empty().append(options);
+        }
+    }
 }
 
 
@@ -264,7 +155,7 @@ function SizeSelect(sizes) {
 
 
 function flavourSelect(json) {
-	if (window.location.pathname !== "/products/search") {
+    if (window.location.pathname !== "/products/search") {
         for (let i = 0; i < json.length; i++) {
             let flavours = document.getElementById(json[i].fields.product + '-prod-flavours')
             let selectedSize = $("#" + json[i].fields.product + "-prod-sizes :selected").val()
@@ -303,7 +194,7 @@ function flavourSelect(json) {
                 }
             }
         }
-	}
+    }
 }
 
 
@@ -334,9 +225,9 @@ function oosFlavours(flavours, obj) {
 
 
 function oosProducts(json) {
-	for (let i = 0; i < json.length; i++) {
-		let obj = json[i]
-		let sizes = document.getElementById(obj.fields.product + "-prod-sizes")
+    for (let i = 0; i < json.length; i++) {
+        let obj = json[i]
+        let sizes = document.getElementById(obj.fields.product + "-prod-sizes")
         let flavours = document.getElementById(obj.fields.product + "-prod-flavours")
 
         for (let s = 0; s < sizes.length; s++) {
@@ -378,49 +269,49 @@ function oosProducts(json) {
 
 
 function prodDetails(json) {
-	for (let i = 0; i < json.length; i++) {
-		let obj = json[i]
+    for (let i = 0; i < json.length; i++) {
+        let obj = json[i]
         let selectedFlavour = $("#" + obj.fields.product + "-prod-flavours :selected").val()
         let selectedSize = $("#" + obj.fields.product + "-prod-sizes :selected").val()
-		let flavours = document.getElementById(obj.fields.product + "-prod-flavours");
-		let sizes = document.getElementById(obj.fields.product + "-prod-sizes");
-	    let price = document.getElementById(obj.fields.product + "-prod-price");
-	    let quantity = document.getElementById(obj.fields.product + "-prod-quantity");
-	    let cart = document.getElementById(obj.fields.product + "-prod-cart");
+        let flavours = document.getElementById(obj.fields.product + "-prod-flavours");
+        let sizes = document.getElementById(obj.fields.product + "-prod-sizes");
+        let price = document.getElementById(obj.fields.product + "-prod-price");
+        let quantity = document.getElementById(obj.fields.product + "-prod-quantity");
+        let cart = document.getElementById(obj.fields.product + "-prod-cart");
         let stock = document.getElementById(obj.fields.product + "-prod-stock");
 
 
-		if (obj.fields.stock_count > 0 &&
+        if (obj.fields.stock_count > 0 &&
             (obj.fields.flavour === null || obj.fields.flavour === selectedFlavour) &&
             Number(obj.fields.size) === Number(selectedSize)) {
-			price.textContent = "€ " + obj.fields.price
-	        quantity.setAttribute('max', obj.fields.stock_count)
-	        if (stock !== null) {
-	            stock.textContent = "Availability: In Stock"
-	        }
-	    }
+            price.textContent = "€ " + obj.fields.price
+            quantity.setAttribute('max', obj.fields.stock_count)
+            if (stock !== null) {
+                stock.textContent = "Availability: In Stock"
+            }
+        }
         let disabledOpts = 0;
-	    for (let s = 0; s < sizes.length; s++) {
-	        if (sizes.options[s].disabled) {
-	            disabledOpts++
-	        }
-	    }
-	    if (sizes.length === disabledOpts) {
-	        if (stock !== null) {
+        for (let s = 0; s < sizes.length; s++) {
+            if (sizes.options[s].disabled) {
+                disabledOpts++
+            }
+        }
+        if (sizes.length === disabledOpts) {
+            if (stock !== null) {
                 sizes.parentElement.style.display = 'none'
-	            cart.style.display = 'none'
-	            stock.textContent = "Availability: Out Of Stock"
-	        }
-	        else {
-	            sizes.parentElement.style.display = 'none'
-	            cart.textContent = "Out Of Stock"
-	            cart.style.justifyContent = 'center'
-	            if (flavours) {
-	                flavours.parentElement.style.display = 'none'
-	            }
-	        }
-	    }
-	}
+                cart.style.display = 'none'
+                stock.textContent = "Availability: Out Of Stock"
+            }
+            else {
+                sizes.parentElement.style.display = 'none'
+                cart.textContent = "Out Of Stock"
+                cart.style.justifyContent = 'center'
+                if (flavours) {
+                    flavours.parentElement.style.display = 'none'
+                }
+            }
+        }
+    }
 }
 
 
@@ -555,30 +446,6 @@ if (window.location.pathname === "/products/search") {
                 prodElSizes('all-prod-details')
             }
             sortScroll()
-        }
-    })
-}
-
-
-if (window.location.pathname === '/profile/add-address') {
-    $(document).ready(function () {
-        let selectBox = document.getElementById('id_country')
-        let inputBox = document.getElementById('id_county')
-        selectBox.style.width = (inputBox.getBoundingClientRect().width + 2) + 'px'
-        window.onresize = function() {
-            let selectBox = document.getElementById('id_country')
-            let inputBox = document.getElementById('id_county')
-            selectBox.style.width = (inputBox.getBoundingClientRect().width + 2) + 'px'
-        }
-    })
-}
-
-
-if (window.location.pathname === "/checkout") {
-    $(document).ready(function() {
-        resizeCheckoutFields()
-        window.onresize = function() {
-            resizeCheckoutFields()
         }
     })
 }
