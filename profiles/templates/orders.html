@@ -32,7 +32,7 @@
     {% if orders %}
         <div class="prod-table">
             <table>
-                <tr>
+                <tr class="cart-tbl-prod">
                     <th>Date</th>
                     <th>Order #</th>
                     <th>Tracking</th>
@@ -40,7 +40,7 @@
                     <th>View</th>
                 </tr>
                 {% for order in orders %}
-                    <tr>
+                    <tr class="cart-tbl-prod">
                         <td>{{ order.order_dt|date:'Y-m-d' }}</td>
                         <td>{{ order.order_id }}</td>
                         {% if order.tracking_link %}

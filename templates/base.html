@@ -14,8 +14,13 @@
         {% endblock %}
 
         {% block corecss %}
+            <!-- Google fonts -->
+            <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap">
             <!-- Link to the stylesheet -->
-            <link rel="stylesheet" href="{% static 'css/style.css' %}">
+            <link rel="stylesheet" href="{% static 'css/base.css' %}">
+        {% endblock %}
+
+        {% block extracss %}
         {% endblock %}
 
         {% block extras %}

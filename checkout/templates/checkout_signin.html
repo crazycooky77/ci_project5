@@ -1,6 +1,10 @@
 <!-- Load the base html file -->
 {% extends "base.html" %}
 
+{% block extracss %}
+    <link rel="stylesheet" href="{% static 'css/checkout.css' %}">
+{% endblock %}
+
 {% block content %}
     <div class="mid-content">
         <h2>Checkout</h2>

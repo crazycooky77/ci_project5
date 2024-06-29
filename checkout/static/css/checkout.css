@@ -1,0 +1,259 @@
+.cart {
+    width: 80%;
+    border: 1px solid black;
+    padding: 20px;
+    border-radius: 7px;
+}
+
+.cart-prod-img {
+    min-width: 75px;
+    max-width: 75px;
+    margin-right: 10px;
+    margin-left: 0;
+}
+
+.cart-prod {
+    display: flex;
+    flex-direction: row;
+    text-align: left;
+}
+
+.cart-prod p {
+    margin-left: 0;
+}
+
+.cart-quantity-input {
+    width: 50px;
+}
+
+.cart-totals {
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.cart-totals td {
+    text-align: left;
+}
+
+.cart-totals {
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.prod-table-details table .cart-totals td {
+    padding: 20px 10px 0 10px;
+}
+
+.cart-totals .sum-title {
+    text-align: left;
+}
+
+.cart-prod-del {
+    color: red;
+    font-weight: bold;
+    margin-right: -5px;
+    cursor: pointer;
+    min-width: unset;
+    background-color: unset;
+    border: unset;
+}
+
+.update-buttons {
+    margin-top: 30px;
+    float: left;
+}
+
+.update-buttons button:first-child {
+    margin-right: 20px;
+}
+
+.checkout-button {
+    margin-top: 30px;
+    float: right;
+}
+
+.checkout-guest, .checkout-create {
+    display: flex;
+}
+
+.checkout-signin-split {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-style: italic;
+}
+
+.checkout-signin-split::before, .checkout-signin-split::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid black;
+}
+
+.checkout-signin-split:not(:empty)::before {
+    margin-right: .5em;
+}
+
+.checkout-signin-split:not(:empty)::after {
+    margin-left: .5em;
+}
+
+.checkout {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    border: 1px solid black;
+    padding: 20px;
+    border-radius: 7px;
+}
+
+.checkout h2 {
+    margin-left: 0;
+}
+
+.checkout-h3 {
+    font-weight: bold;
+    margin-top: 0;
+}
+
+.checkout-addr-form {
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+}
+
+.billing-addr-form button {
+    margin-top: 20px;
+    margin-bottom: 5px;
+    width: 100%;
+}
+
+.cart-back-button {
+    margin-left: 0;
+}
+
+.addr-form-button {
+    width: 30%;
+    margin-top: 30px;
+}
+
+.checkout-addr {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+}
+
+.addr-form-div {
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+    margin: 0 auto;
+}
+
+.addr-form-div p:has(>input:required)::after {
+    content: '*';
+    color: red;
+    margin: 0;
+    display: inline-block;
+}
+
+.shipping-addr-form, .billing-addr-form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-bottom: 0;
+}
+
+.billing-addr-form p, .shipping-addr-form p {
+    width: 100%;
+    margin: 0;
+}
+
+.billing-addr-form p:nth-of-type(1), .shipping-addr-form p:nth-of-type(1) {
+    margin-top: 30px;
+}
+
+.checkout-addr input, .checkout-addr select {
+    margin: 5px 0;
+}
+
+.checkout-summary {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.cart-toggle-div {
+    width: 80%;
+}
+
+.checkout .cart-tbl-prod {
+    display: none;
+}
+
+.checkout-summary .prod-table-details {
+    width: 100%;
+}
+
+.cart .prod-table table, .cart .prod-table-details table, .checkout-summary .prod-table table, .checkout-summary .prod-table-details table {
+    text-align: center;
+    border-collapse: collapse;
+}
+
+.cart .prod-table table th, .cart .prod-table table td, .cart .prod-table-details table th, .cart .prod-table-details table td, .checkout-summary .prod-table table th, .checkout-summary .prod-table table td, .checkout-summary .prod-table-details table th, .checkout-summary .prod-table-details table td {
+    border-left: 1px solid;
+    padding: 10px;
+}
+
+.cart .prod-table table th:first-child, .cart .prod-table table td:first-child, .cart .prod-table-details table th:first-child, .cart .prod-table-details table td:first-child, .prod-table-details table .cart-totals td, .checkout-summary .prod-table table th:first-child, .checkout-summary .prod-table table td:first-child, .checkout-summary .prod-table-details table th:first-child, .checkout-summary .prod-table-details table td:first-child {
+    border-left: 0;
+}
+
+.cart :nth-last-child(1 of .cart-tbl-prod), .checkout-summary :nth-last-child(1 of .cart-tbl-prod) {
+    border-bottom: 1px solid black;
+}
+
+.summ-split {
+    width: 100%;
+    margin: 20px auto;
+}
+
+.checkout-summ-h3 {
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+.checkout-summ-addr-outer {
+    display: flex;
+    flex-direction: row;
+    gap: 80px;
+}
+
+.checkout-summ-addr-div {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+}
+
+.checkout-summ-addr-view {
+    margin-top: 0;
+}
+
+.edit-addr-div {
+    width: 80%;
+}
+
+#payment-button {
+    margin-top: 15px;
+}
+
+.confirm-checkout {
+    display: flex;
+    flex-direction: column;
+}
+
+.confirm-checkout span {
+    color: red;
+}

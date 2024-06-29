@@ -34,14 +34,14 @@
     {% if order %}
         <div class="prod-table">
             <table>
-                <tr>
+                <tr class="cart-tbl-prod">
                     <th>Date</th>
                     <th>Order #</th>
                     <th>Tracking</th>
                     <th>Order Status</th>
                     <th>Action</th>
                 </tr>
-                <tr>
+                <tr class="cart-tbl-prod">
                     <td>{{ order.order_dt|date:'Y-m-d' }}</td>
                     <td>{{ order.order_id }}</td>
                     {% if order.tracking_link %}
@@ -61,7 +61,7 @@
         <hr class="details-table">
         <div class="prod-table-details">
             <table>
-                <tr>
+                <tr class="cart-tbl-prod">
                     <th>Product</th>
                     <th>Size</th>
                     <th>Quantity</th>
@@ -69,7 +69,7 @@
                     <th>Sum</th>
                 </tr>
                 {% for item, product in order_details %}
-                    <tr>
+                    <tr class="cart-tbl-prod">
                         <td><a href="/products/id={{ item.product.product_id }}">
                             <div class="order-prod">
                                 <img class="order-prod-img" src="{{ item.product.product.product_pic.url }}" alt="Product image">

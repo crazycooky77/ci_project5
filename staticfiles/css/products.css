@@ -1,0 +1,225 @@
+.home-div {
+    display: flex;
+    flex-direction: column;
+}
+
+.home-div {
+    margin: 20px;
+}
+
+.home-row {
+    display: flex;
+    flex-direction: row;
+}
+
+.home-row .prod-oos:first-child {
+    margin-right: 10px;
+}
+
+.home-row .prod-oos:last-child {
+    margin-left: 10px;
+}
+
+.all-prod-page:has(.prod-oos) {
+    margin-left: auto;
+}
+
+.prod-oos, .search-results-div {
+    padding: 15px;
+    margin-bottom: 20px;
+    text-align: center;
+    border: solid 1px black;
+    border-radius: 7px;
+}
+
+.feat-prod-div {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    border: solid 1px black;
+    border-radius: 7px;
+    margin: 20px;
+    padding: 5px;
+}
+
+.feat-prod-details-div input, .linked-other input, .prod-other input {
+    width: 50px;
+}
+
+.home-row .feat-prod-div {
+    width: 50%;
+}
+
+.feat-img-div {
+    max-width: 35%;
+}
+
+.feat-img {
+    max-width: 100%;
+    max-height: 300px;
+}
+
+.feat-prod-details-div {
+    padding: 10px;
+}
+
+.feat-prod-details {
+    margin-bottom: 10px;
+}
+
+.prod-div {
+    width: 80%;
+}
+
+.hor-prod-div {
+    display: flex;
+    flex-direction: row;
+}
+
+.prod-actions p {
+    margin: 5px auto;
+}
+
+.prod-actions input {
+    margin-right: 10px;
+}
+
+.hor-prod-div .prod-img, .all-prod-div .prod-img, .order-prod .prod-img {
+    max-height: 300px;
+}
+
+.prod-details {
+    margin: 30px auto;
+}
+
+.prod-split {
+    margin: 15px auto;
+}
+
+.similar-prod {
+    margin-top: 100px;
+}
+
+.linked-hor {
+    display: flex;
+    flex-direction: row;
+    overflow: auto;
+}
+
+.linked-ver {
+    display: flex;
+    flex-direction: column;
+    width: 20%;
+    min-width: 200px;
+    margin: 20px 15px;
+}
+
+.linked-img, .all-prod-img {
+    height: 150px;
+    margin-bottom: 10px;
+}
+
+.linked-details, .all-prod-details {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.linked-name, .all-prod-name {
+    margin-bottom: 20px;
+    text-align: center;
+    flex: 1;
+}
+
+.linked-other, .all-prod-other {
+    width: 100%;
+    margin-left: 0;
+}
+
+.linked-other p, .all-prod-other p {
+    margin-bottom: 10px;
+}
+
+.linked-other select, .all-prod-other select {
+    width: 100%;
+}
+
+.linked-other button, .all-prod-other button {
+    margin-left: 5px;
+}
+
+.all-prod-div {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+}
+
+.all-prod-page {
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: 0;
+}
+
+.all-prod-ver {
+    flex: 1 0 20%;
+    display: flex;
+    flex-direction: column;
+    min-width: 200px;
+    max-width: 25%;
+    margin: 50px 15px auto 15px;
+}
+
+.prod-sort {
+    margin-left: 15px;
+    padding-bottom: 20px;
+}
+
+.sort-dd {
+    display: none;
+    flex-direction: column;
+    position: fixed;
+    margin-top: 10px;
+    text-align: left;
+    background-color: #9FFFB8;
+    border-radius: 5px;
+    width: 190px;
+}
+
+.sort-dd input {
+    text-align: left;
+    margin-left: 0;
+    margin-top: 5px;
+    padding: 0 10px;
+    text-decoration: underline;
+    border: none;
+}
+
+.sort-dd input:hover {
+    color: white;
+}
+
+.sort-dd input:active {
+    font-weight: bold;
+}
+
+.sort-dd:first-child {
+    padding-top: 10px;
+}
+
+.sort-dd:last-child {
+    padding-bottom: 10px;
+}
+
+.add-cart {
+    display: flex;
+    flex-direction: row;
+}
+
+.add-cart input {
+    width: 25%;
+}
+
+.add-cart button {
+    margin-left: 5%;
+    width: 70%
+}

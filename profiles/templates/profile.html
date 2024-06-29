@@ -1,6 +1,10 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block extracss %}
+    <link rel="stylesheet" href="{% static 'css/profiles.css' %}">
+{% endblock %}
+
 {% block content %}
     <div class="profile">
         {% if request.get_full_path|slice:"0:15" == '/confirm-email/' and not request.user.is_authenticated %}

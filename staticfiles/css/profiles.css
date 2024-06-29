@@ -1,0 +1,280 @@
+.profile {
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+    align-items: flex-start;
+    width: 80%;
+    border: 1px solid black;
+    padding: 20px;
+    border-radius: 7px;
+}
+
+.profile-menu {
+    display: flex;
+    flex-direction: column;
+    width: 20%;
+    margin: 0;
+}
+
+.profile-menu * {
+    width: 100%;
+    margin: 3px auto;
+}
+
+.profile-buttons {
+    width: 25%;
+    margin-right: 75%;
+}
+
+.prof-button {
+    width: 100%;
+    margin-top: 10px;
+}
+
+.del-button {
+    width: 100%;
+    margin-top: 30px;
+}
+
+.acc-details, .pw-change, .email-change, .email-confirm {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    margin: 0;
+}
+
+.acc-details * {
+    margin-left: 0;
+}
+
+.acc-details p, .pw-change ul {
+    margin-bottom: 15px;
+}
+
+.pw-change *, .email-change * {
+    margin-left: 0;
+}
+
+.pw-change button {
+    width: 35%;
+    margin-right: 65%;
+    margin-top: 10px;
+}
+
+.email-change button {
+    width: 50%;
+    margin-right: 65%;
+    margin-top: 15px;
+}
+
+.email-change label[for="id_email"] {
+    margin-right: 40px;
+}
+
+.email-change #id_email {
+    margin-top: 15px;
+    margin-bottom: 10px;
+}
+
+.email-change label[for="current_email"] {
+    margin-right: 10px;
+}
+
+label[for="id_email"], .label-input #id_email {
+    margin-top: 20px;
+}
+
+label[for="id_email2"], #id_email2 {
+    margin-bottom: 10px;
+}
+
+.pass-req {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 10px;
+    width: auto;
+}
+
+.pass-req p {
+    margin-bottom: 10px;
+}
+
+.pass-req button {
+    margin-top: 20px;
+}
+
+.addresses {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    margin: 0;
+}
+
+.addr-msg {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+}
+
+.addresses h2 {
+    margin-left: 0;
+    margin-top: 0;
+}
+
+.addr-view h3 {
+    text-decoration: underline;
+    font-weight: normal;
+    margin-bottom: 10px;
+    margin-left: 0;
+}
+
+.default-addr {
+    display: flex;
+    flex-direction: column;
+    align-content: flex-start;
+    flex-wrap: wrap;
+    width: 50%;
+    border-left: 1px solid black;
+    margin: 0;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.other-addr {
+    display: flex;
+    flex-direction: column;
+    align-content: flex-start;
+    width: 50%;
+    border-left: 1px solid black;
+    margin: 0;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.other-addr-list {
+    flex: 1;
+    margin: 0;
+}
+
+.addr-view {
+    display: flex;
+    flex-direction: column;
+    margin-top: 0;
+    margin-left: 0;
+}
+
+.addr-view p {
+    margin-left: 0;
+    margin-bottom: 1px;
+}
+
+.addr-view button {
+    margin-top: 15px;
+}
+
+.addr-buttons {
+    display: flex;
+    flex-direction: column;
+    margin-left: 0;
+    margin-bottom: 30px;
+}
+
+.addr-buttons button {
+    width: 100%;
+}
+
+.addresses button {
+    margin-top: 0;
+    margin-left: 0;
+}
+
+.add-addr {
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+    margin: 0;
+}
+
+.add-addr > .label-input {
+    margin: 5px 0;
+}
+
+.add-addr label {
+    margin-left: 0;
+}
+
+.add-addr input, .add-addr select {
+    margin-right: 0;
+  }
+
+.add-addr button {
+    width: 140px;
+    margin: 20px 0 10px auto;
+}
+
+.add-addr-button {
+    margin-bottom: 30px;
+}
+
+.orders {
+    margin-left: 0;
+    margin-top: 0;
+    width: 80%;
+}
+
+.orders .prod-table table, .orders .prod-table-details table {
+    text-align: center;
+    border-collapse: collapse;
+}
+
+.orders .prod-table table th, .orders .prod-table table td, .orders .prod-table-details table th, .orders .prod-table-details table td {
+    border-left: 1px solid;
+    padding: 10px;
+}
+
+.orders .prod-table table th:first-child, .orders .prod-table table td:first-child, .orders .prod-table-details table th:first-child, .orders .prod-table-details table td:first-child, .prod-table-details table .order-sums td {
+    border-left: 0;
+}
+
+.orders :nth-last-child(1 of .cart-tbl-prod) {
+    border-bottom: 1px solid black;
+}
+
+.prod-table-details table .order-sums td {
+    padding: 20px 10px 0 10px;
+}
+
+.order-prod {
+    display: flex;
+    flex-direction: row;
+    text-align: left;
+}
+
+.order-prod p {
+    margin-left: 0;
+}
+
+.order-prod-img {
+    min-width: 75px;
+    max-width: 75px;
+    margin-right: 10px;
+    margin-left: 0;
+}
+
+.details-table {
+    margin: 50px auto;
+}
+
+.order-sums {
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.order-sums td {
+    padding: 20px 10px 0 10px;
+}
+
+.order-sums .sum-title {
+    text-align: left;
+}
