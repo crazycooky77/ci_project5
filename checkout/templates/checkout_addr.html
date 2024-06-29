@@ -91,6 +91,9 @@
         </form>
         <button type="button" class="cart-back-button" onclick="location.href='/cart'">Back to Cart</button>
     </div>
+{% endblock %}
+
+{% block postloadjs %}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script>
         if ("{{ js_addr }}") {

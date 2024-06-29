@@ -179,6 +179,9 @@
             {% endif %}
         </div>
     </div>
+{% endblock %}
+
+{% block postloadjs %}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script>
         const js_new_prod = "{{ js_new_product }}".replace(/&quot;/ig,'"')

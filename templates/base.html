@@ -29,8 +29,7 @@
             <!-- Font Awesome script -->
             <script src="https://kit.fontawesome.com/3e8d6f7307.js" crossorigin="anonymous"></script>
             <script src="https://js.stripe.com/v3/"></script>
-        {% endblock
-        %}
+        {% endblock %}
     </head>
     <body>
         <nav>
@@ -122,5 +121,7 @@
                 </div>
             {% endblock copyright %}
         </footer>
+        {% block postloadjs %}
+        {% endblock %}
     </body>
 </html>
