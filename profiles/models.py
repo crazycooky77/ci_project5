@@ -129,6 +129,8 @@ class OrderHistory(models.Model):
     shipping_addr = models.ForeignKey(Addresses,
                                       related_name='shipping_addr',
                                       on_delete=models.SET('0'))
+    order_note = models.TextField(blank=True,
+                                  null=True)
     shipping_cost = models.DecimalField(max_digits=6,
                                         decimal_places=2)
     total_cost = models.DecimalField(max_digits=6,

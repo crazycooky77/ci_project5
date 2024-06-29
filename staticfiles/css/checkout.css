@@ -245,6 +245,14 @@
     width: 80%;
 }
 
+.order-note {
+    margin-top: 10px;
+}
+
+#checkout-order-note {
+    background-color: #9FFFB8;
+}
+
 .StripeElement {
     background-color: #9FFFB8;
     border: 1px solid black;
