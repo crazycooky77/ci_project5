@@ -108,9 +108,11 @@ def profile_view(request):
 def profile_addr(request):
     if request.user.is_authenticated:
         if request.method == 'POST':
-            addr_form = AddressForm(request.POST)
-            if addr_form.is_valid():
-                if request.POST.get("save-addr-button"):
+            updated_request = request.POST.copy()
+            updated_request.update({'country': 'IE'})
+            addr_form = AddressForm(updated_request)
+            if request.POST.get("save-addr-button"):
+                if addr_form.is_valid():
                     default = Addresses.objects.filter(user=request.user,
                                                        default_addr=True)
                     obj = addr_form.save(commit=False)

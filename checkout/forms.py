@@ -16,15 +16,15 @@ class OrderFormAddr(forms.ModelForm):
         placeholders = {
             'first_name': 'First Name',
             'last_name': 'Last Name',
-            'email': 'Email Address',
-            'phone_nr': 'Phone Number',
             'addr_line1': 'Address Line 1',
             'addr_line2': 'Address Line 2',
             'addr_line3': 'Address Line 3',
             'city': 'City',
             'eir_code': 'Eir Code',
             'county': 'County',
-            'country': 'Country'
+            'country': 'Country',
+            'email': 'Email Address',
+            'phone_nr': 'Phone Number'
         }
         self.fields['first_name'].widget.attrs['autofocus'] = True
         self.fields['country'].widget.attrs['disabled'] = True

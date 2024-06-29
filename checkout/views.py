@@ -282,15 +282,15 @@ def checkout_addr(request, order_addr_form):
             order_addr_form = OrderFormAddr(initial={
                 'first_name': def_addr.first_name,
                 'last_name': def_addr.last_name,
-                'email': def_addr.user.email,
-                'phone_nr': def_addr.phone_nr,
                 'addr_line1': def_addr.addr_line1,
                 'addr_line2': def_addr.addr_line2,
                 'addr_line3': def_addr.addr_line3,
                 'city': def_addr.city,
                 'eir_code': def_addr.eir_code,
                 'county': def_addr.county,
-                'country': def_addr.country},
+                'country': def_addr.country,
+                'email': def_addr.user.email,
+                'phone_nr': def_addr.phone_nr},
                 user_auth=True)
 
         return order_addr_form, addr_list, js_addr
@@ -334,9 +334,9 @@ def checkout_view(request):
                               {'order_addr_form': order_addr_form,
                                'addr_list': addr_list,
                                'js_addr': js_addr})
-            elif (request.POST.get("checkout-guest-button")
-                  or (request.POST.get("checkout-edit-addr")
-                      and not request.POST.get('shipping-addr'))):
+            elif ((request.POST.get("checkout-guest-button")
+                  or request.POST.get("checkout-edit-addr"))
+                  and not request.POST.get('shipping-addr')):
                 return render(request,
                               'checkout_addr.html',
                               {'order_addr_form': order_addr_form})

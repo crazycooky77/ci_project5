@@ -95,6 +95,10 @@
                         </div>
                     {% endif %}
                 {% endif %}
+            {% elif not products and not products_distinct and request.get_full_path != '/products/search' %}
+                <div class="prod-oos">
+                    <p>We currently don't have products to show you in this category. Stay tuned!</p>
+                </div>
             {% endif %}
         </div>
     </div>

@@ -317,7 +317,7 @@ main {
     margin: 3px auto;
 }
 
-.acc-details, .pw-change, .email-change, .email-confirm, .add-addr {
+.acc-details, .pw-change, .email-change, .email-confirm {
     display: flex;
     flex-direction: column;
     width: 80%;
@@ -427,6 +427,13 @@ main {
     margin-left: 0;
 }
 
+.add-addr {
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+    margin: 0;
+}
+
 .add-addr-button {
     margin-bottom: 30px;
 }
@@ -440,7 +447,7 @@ main {
 }
 
 .add-addr input, .add-addr select {
-    margin-right: 300px;
+    margin-right: 0;
   }
 
 .add-addr select, .prod-actions select, .feat-prod-details select, .linked-other select, .all-prod-other select, .checkout-addr-form select {
@@ -452,12 +459,9 @@ main {
     width: 100%;
 }
 
-input[name="default_addr"] {
-    margin-right: 495px;
-}
-
 .add-addr button {
-    margin: 20px auto 30px 0;
+    width: 140px;
+    margin: 20px 0 10px auto;
 }
 
 .addr-view {
