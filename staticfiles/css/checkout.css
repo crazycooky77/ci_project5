@@ -179,6 +179,10 @@
     margin: 5px 0;
 }
 
+#payment-form {
+    width: 100%;
+}
+
 .checkout-summary {
     width: 100%;
     display: flex;
@@ -228,6 +232,7 @@
 .checkout-summ-addr-outer {
     display: flex;
     flex-direction: row;
+    justify-content: center;
     gap: 80px;
 }
 
@@ -246,20 +251,43 @@
 }
 
 .order-note {
+    max-width: 40%;
     margin-top: 10px;
+}
+
+.order-note-h3 {
+    display: flex;
+}
+
+button.hidden-submit {
+    display: none;
 }
 
 #checkout-order-note {
     background-color: #9FFFB8;
+    border-radius: 5px;
+    width: 100%;
 }
 
 .StripeElement {
+    width: 40%;
     background-color: #9FFFB8;
     border: 1px solid black;
     border-radius: 5px;
     margin-top: 10px;
     margin-bottom: 20px;
     padding: 5px;
+}
+
+.StripeElement--focus {
+    box-shadow: 0 1px 3px 0 #cfd7df;
+}
+
+#card-errors {
+    text-align: center;
+    color:red;
+    font-weight: bold;
+    margin-bottom: 20px;
 }
 
 #payment-button {

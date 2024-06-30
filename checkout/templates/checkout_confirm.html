@@ -21,10 +21,10 @@
                 <hr>
             </div>
             <div class="edit-addr-div">
-                <form id="checkout-edit-addr" action="{% url 'checkout' %}" method="POST">
+                <form id="checkout-edit-addr" action="" method="POST">
                     {% csrf_token %}
-                    <a href="javascript:checkoutEditAddr()">Edit Address</a>
-                    <input type="hidden" name="checkout-edit-addr" value="checkout-edit-addr">
+                    <a href="javascript:checkoutEditAddr()" class="hidden-submit">Edit Address</a>
+                    <button type="submit" class="hidden-submit" name="checkout-edit-addr" value="checkout-edit-addr" formaction="{% url 'checkout' %}"></button>
                     <input type="hidden" name="shipping-addr" value="{{ shipping_addr }}">
                     <input type="hidden" name="billing-addr" value="{{ billing_addr }}">
                 </form>
@@ -48,6 +48,9 @@
                         <p>{{ shipping_addr.county }},
                         {{ shipping_addr.country }}</p>
                         <p>0{{ shipping_addr.phone_nr }}</p>
+                        {% if not user.is_authenticated %}
+                            <p>{{ shipping_addr.email }}</p>
+                        {% endif %}
                     </div>
                 </div>
                 <div class="checkout-summ-addr-div">
@@ -68,29 +71,37 @@
                         <p>{{ billing_addr.county }},
                         {{ billing_addr.country }}</p>
                         <p>0{{ billing_addr.phone_nr }}</p>
+                        {% if not user.is_authenticated %}
+                            <p>{{ billing_addr.email }}</p>
+                        {% endif %}
                     </div>
                 </div>
             </div>
             <div class="summ-split">
                 <hr>
             </div>
-            <div class="order-note-h3">
-                <h3>Note to Seller</h3>
-            </div>
-            <div class="order-note">
-                <label for="checkout-order-note" aria-label="Note to Seller"></label>
-                <textarea id="checkout-order-note"></textarea>
-            </div>
-            <div class="summ-split">
-                <hr>
-            </div>
-            <form method="POST" action="">
+            <form method="POST" action="{% url 'checkout-success' %}" id="payment-form">
                 {% csrf_token %}
+                <div class="order-note-h3">
+                    <h3>Note to Seller</h3>
+                </div>
+                <div class="order-note">
+                    <label for="checkout-order-note" aria-label="Note to Seller"></label>
+                    <textarea id="checkout-order-note" name="checkout-order-note"></textarea>
+                </div>
+                <div class="summ-split">
+                    <hr>
+                </div>
                 <div class="mb-3" id="card-element"></div>
                 <div class="mb-3 text-danger" id="card-errors" role="alert"></div>
                 <div class="confirm-checkout">
                     <span>Your card will be charged € {{ grand_total }} once you confirm your purchase.</span>
                     <button id="payment-button" type="submit">Confirm Purchase</button>
+                    <input type="hidden" name="shipping-addr" value="{{ shipping_addr }}">
+                    <input type="hidden" name="billing-addr" value="{{ billing_addr }}">
+                    <input type="hidden" name="cart-prods" value="{{ cart_prods }}">
+                    <input type="hidden" name="shipping" value="{{ shipping }}">
+                    <input type="hidden" name="subtotal" value="{{ subtotal }}">
                 </div>
             </form>
             <button type="button" class="cart-back-button" onclick="location.href='/cart'">Back to Cart</button>

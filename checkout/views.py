@@ -1,17 +1,20 @@
 import json
-import os
 from products.models import ProductDetails
 from django.shortcuts import render, redirect
 from django.dispatch import receiver
 from django.contrib.auth.signals import user_logged_in
 from profiles.models import SavedItems
 from django.contrib import messages
-from django.db.models import F
+from django.db.models import F, Q
+from django.db import models as dmodels
 from decimal import Decimal
 from django.urls import reverse
-from nutriforce import settings
+from django.conf import settings
 from django.contrib.auth import authenticate, login
 from django.core import serializers
+import stripe
+from profiles.forms import AddressForm
+from profiles.models import OrderHistory, Purchases
 from .forms import *
 
 
@@ -161,36 +164,36 @@ def cart_contents(request):
 
     if cart:
         cart_prods = list()
-        total = 0
+        subtotal = 0
 
         for product in cart:
             prod_details = ProductDetails.objects.filter(pk=product)[0]
             cart_prods.append(prod_details)
-            total += prod_details.price * cart[product]
+            subtotal += prod_details.price * cart[product]
 
-        if total < settings.FREE_SHIPPING_THRESHOLD:
-            shipping = round(total * Decimal(
+        if subtotal < settings.FREE_SHIPPING_THRESHOLD:
+            shipping = round(subtotal * Decimal(
                 settings.STANDARD_SHIPPING_PERCENTAGE)/100, 2)
         else:
             shipping = 0
 
-        grand_total = shipping + total
+        grand_total = shipping + subtotal
 
     else:
         cart_prods = None
-        total = None
+        subtotal = None
         shipping = None
         grand_total = None
 
-    return cart_prods, cart, total, shipping, grand_total
+    return cart_prods, cart, subtotal, shipping, grand_total
 
 
 def cart_view(request):
-    cart_prods, cart, total, shipping, grand_total = cart_contents(request)
+    cart_prods, cart, subtotal, shipping, grand_total = cart_contents(request)
     if cart:
         return render(request, 'cart.html',
                       {'cart_prods': zip(cart_prods, cart.values()),
-                       'total': total,
+                       'subtotal': subtotal,
                        'shipping': shipping,
                        'grand_total': grand_total})
     else:
@@ -263,7 +266,7 @@ def dual_addr_form(request):
 
 
 def checkout_addr(request, order_addr_form):
-    addr_list = Addresses.objects.all().filter(
+    addr_list = Addresses.objects.filter(
         user=request.user)
     js_addr = serializers.serialize('json', addr_list,
                                     ensure_ascii=False)
@@ -274,7 +277,7 @@ def checkout_addr(request, order_addr_form):
         return ship_order_addr_form, bill_order_addr_form, addr_list, js_addr
 
     else:
-        def_addr = Addresses.objects.all().filter(
+        def_addr = Addresses.objects.filter(
             user=request.user,
             default_addr=True)
         if def_addr:
@@ -290,7 +293,7 @@ def checkout_addr(request, order_addr_form):
                 'county': def_addr.county,
                 'country': def_addr.country,
                 'email': def_addr.user.email,
-                'phone_nr': def_addr.phone_nr},
+                'phone_nr': '0' + str(def_addr.phone_nr)},
                 user_auth=True)
 
         return order_addr_form, addr_list, js_addr
@@ -380,6 +383,9 @@ def checkout_view(request):
                               'checkout_signin.html')
 
     elif request.POST.get("addr-form-button"):
+        stripe_public_key = settings.STRIPE_PUBLIC_KEY
+        stripe_secret_key = settings.STRIPE_SECRET_KEY
+
         if OrderFormAddr().is_valid:
             shipping_addr = {
                 'first_name': request.POST.getlist('first_name')[0],
@@ -403,15 +409,122 @@ def checkout_view(request):
                 'county': request.POST.getlist('county')[1],
                 'country': 'Ireland',
                 'phone_nr': request.POST.getlist('phone_nr')[1]}
-            cart_prods, cart, total, shipping, grand_total = cart_contents(
+
+            cart_prods, cart, subtotal, shipping, grand_total = cart_contents(
                 request)
+            stripe_total = round(grand_total * 100)
+            stripe.api_key = stripe_secret_key
+            intent = stripe.PaymentIntent.create(
+                amount=stripe_total,
+                currency=settings.STRIPE_CURRENCY)
+
+            if not stripe_public_key:
+                messages.warning(request, 'Stripe public key is missing.'
+                                          'Did you forget to set it?')
+
             return render(request,
                           'checkout_confirm.html',
                           {'shipping_addr': shipping_addr,
                            'billing_addr': billing_addr,
                            'cart_prods': zip(cart_prods, cart.values()),
-                           'total': total,
+                           'subtotal': subtotal,
                            'shipping': shipping,
                            'grand_total': grand_total,
-                           'stripe_public_key': 'pk_test_51PWzpqLkS7FY3Mm8RZ5janqu3DWNvUsBzpJ0w1fhbtmStTcoShW6kZXCssHw0CrUWZVyDQw7tEi0omc7UmXzcjfH00dZfWYt44',
-                           'client_secret': os.environ.get('STRIPE_SECRET')})
+                           'stripe_public_key': stripe_public_key,
+                           'client_secret': intent.client_secret})
+    return render(request, 'checkout_addr.html')
+
+
+def format_addresses(request, addr_field):
+    addr = json.loads(request.POST.get(
+        addr_field).replace("'", '"'))
+    addr['country'] = 'IE'
+
+    if request.user.is_authenticated:
+        addr_id = get_addresses(request.user, addr)
+    else:
+        addr_id = None
+
+    return addr_id, addr
+
+
+def get_addresses(user, addr):
+    filters = dmodels.Q(user=user) & dmodels.Q(
+        first_name__iexact=addr['first_name']) & dmodels.Q(
+        last_name__iexact=addr['last_name']) & dmodels.Q(
+        addr_line1__iexact=addr['addr_line1']) & dmodels.Q(
+        city__iexact=addr['city']) & dmodels.Q(
+        eir_code__iexact=addr['eir_code']) & dmodels.Q(
+        county__iexact=addr['county']) & dmodels.Q(
+        phone_nr=addr['phone_nr'])
+
+    if addr['addr_line2']:
+        filters &= dmodels.Q(addr_line2__iexact=addr['addr_line2'])
+
+    if addr['addr_line3']:
+        filters &= dmodels.Q(addr_line3__iexact=addr['addr_line3'])
+    addr_id = Addresses.objects.filter(filters)[:1].values_list(
+        'address_id', flat=True)
+
+    return addr_id
+
+
+def save_order_addr(request, addr):
+    ship_addr_form = AddressForm(addr)
+    obj = ship_addr_form.save(commit=False)
+    if request.user.is_authenticated:
+        obj.user = request.user
+        obj.email = request.user.email
+    else:
+        obj.email = addr['email']
+    obj.default_addr = False
+    obj.save()
+    user_addr_id = obj.pk
+
+    return user_addr_id
+
+
+def checkout_complete(request):
+    if request.method == 'POST':
+        user_ship_addr_id, post_shipping = format_addresses(
+            request, 'shipping-addr')
+        user_bill_addr_id, post_billing = format_addresses(
+            request, 'billing-addr')
+        order_note = request.POST.get('checkout-order-note')
+        shipping_cost = request.POST.get('shipping')
+        cart_prods, cart, subtotal, shipping, grand_total = (
+            cart_contents(request))
+
+        if request.user.is_authenticated:
+            if not user_ship_addr_id:
+                user_ship_addr_id = save_order_addr(request, post_shipping)
+            if not user_bill_addr_id:
+                user_bill_addr_id = save_order_addr(request, post_billing)
+
+            user_order = OrderHistory.objects.create(
+                purchaser=request.user,
+                purchaser_email=request.user.email,
+                billing_addr=Addresses.objects.get(pk=user_bill_addr_id),
+                shipping_addr=Addresses.objects.get(pk=user_ship_addr_id),
+                order_note=order_note,
+                shipping_cost=shipping_cost,
+                subtotal=subtotal,
+                status='PEND')
+        else:
+            user_ship_addr_id = save_order_addr(request, post_shipping)
+            user_bill_addr_id = save_order_addr(request, post_billing)
+
+            user_order = OrderHistory.objects.create(
+                purchaser_email=post_billing['email'],
+                billing_addr=Addresses.objects.get(pk=user_bill_addr_id),
+                shipping_addr=Addresses.objects.get(pk=user_ship_addr_id),
+                order_note=order_note,
+                shipping_cost=shipping_cost,
+                subtotal=subtotal,
+                status='PEND')
+
+        for product, quantity in zip(cart_prods, cart):
+            Purchases.objects.create(
+                order=OrderHistory.objects.get(pk=user_order.pk),
+                product=product,
+                quantity=quantity)

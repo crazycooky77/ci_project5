@@ -9,7 +9,7 @@ function addressSelection(select, addrForm) {
             else if (e.name === 'last_name')
                 e.value = a.fields.last_name
             else if (e.name === 'phone_nr')
-                e.value = a.fields.phone_nr
+                e.value = '0' + a.fields.phone_nr
             else if (e.name === 'addr_line1')
                 e.value = a.fields.addr_line1
             else if (e.name === 'addr_line2')
@@ -53,7 +53,20 @@ function toggleCart() {
 
 
 function checkoutEditAddr() {
-    document.getElementById('checkout-edit-addr').submit()
+    let shippingAddr = document.querySelector('input[name="shipping-addr"]').value
+    let billingAddr = document.querySelector('input[name="billing-addr"]').value
+
+    $.ajax({
+        method: "POST",
+        url: $('button.hidden-submit').attr('formaction'),
+        data: {'csrfmiddlewaretoken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+            'checkout-edit-addr': 'checkout-edit-addr',
+            'billing-addr': billingAddr,
+            'shipping-addr': shippingAddr},
+        success: function() {
+            $('button.hidden-submit').click()
+        }
+    })
 }
 
 

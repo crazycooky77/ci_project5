@@ -179,5 +179,10 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# Stripe settings
+
 FREE_SHIPPING_THRESHOLD = 50
 STANDARD_SHIPPING_PERCENTAGE = 10
+STRIPE_CURRENCY = 'eur'
+STRIPE_PUBLIC_KEY = os.environ.get('STRIPE_PUBLIC', '')
+STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET', '')
