@@ -47,13 +47,13 @@
             {% endif %}
         </tr>
     {% endfor %}
-    {% if total != grand_total %}
+    {% if subtotal != grand_total %}
         <tr class="cart-totals">
             <td class="sum-title">Subtotal</td>
             <td></td>
             <td></td>
             <td></td>
-            <td>€ {{ total }}</td>
+            <td>€ {{ subtotal }}</td>
         </tr>
     {% endif %}
     <tr class="cart-totals">

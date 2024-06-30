@@ -84,10 +84,10 @@ def json_sorted_serialise(sorted_data, *args):
         preserved_list = Case(
             *[When(pk=pk, then=pos) for pos, pk in enumerate(sorted_data)])
         if args:
-            qs = ProductDetails.objects.all().exclude(active=False).filter(
+            qs = ProductDetails.objects.exclude(active=False).filter(
                 pk__in=sorted_data).order_by(preserved_list)
         else:
-            qs = ProductDetails.objects.all().exclude(active=False).filter(
+            qs = ProductDetails.objects.exclude(active=False).filter(
                 product__product_id__in=sorted_data).order_by(preserved_list)
     else:
         qs = ProductDetails.objects.none()
@@ -154,12 +154,12 @@ def product_pages(request, qs, active_sort, *args):
 
 
 def search_sort(request, term):
-    product_filter = ProductDetails.objects.all().exclude(
+    product_filter = ProductDetails.objects.exclude(
         active=False).filter(
         Q(flavour__icontains=term) |
         Q(product__brand__icontains=term) |
         Q(product__product_name__icontains=term))
-    products = ProductDetails.objects.all().exclude(active=False).filter(
+    products = ProductDetails.objects.exclude(active=False).filter(
         product__product_id__in=product_filter.values_list(
             'product__product_id',
             flat=True))
@@ -172,7 +172,7 @@ def search_sort(request, term):
                     flavour_searched.append(prod.pk)
 
     if flavour_searched:
-        product_searched = ProductDetails.objects.all().exclude(
+        product_searched = ProductDetails.objects.exclude(
             active=False).filter(pk__in=flavour_searched)
     else:
         product_searched = ProductDetails.objects.none()
@@ -204,9 +204,9 @@ def del_active_sort(request):
 def homepage_view(request):
     products = ProductDetails.objects.all().exclude(active=False)
 
-    if ProductDetails.objects.all().exclude(
+    if ProductDetails.objects.exclude(
             active=False).exclude(pk=0).filter(stock_count__gte=10):
-        new_product = ProductDetails.objects.all().exclude(
+        new_product = ProductDetails.objects.exclude(
             active=False).exclude(pk=0).filter(
             stock_count__gte=10).latest('created_ts')
     elif ProductDetails.objects.all().exclude(
@@ -217,17 +217,17 @@ def homepage_view(request):
     else:
         new_product = ProductDetails.objects.all().exclude(
             active=False).exclude(pk=0)
-    sports_product = ProductDetails.objects.all().exclude(
+    sports_product = ProductDetails.objects.exclude(
         active=False).exclude(pk=0).filter(
         product__main_cat='SPORTS').order_by(
         '-stock_count').first()
-    health_product = ProductDetails.objects.all().exclude(
+    health_product = ProductDetails.objects.exclude(
         active=False).exclude(pk=0).filter(
         product__main_cat='HEALTH').order_by(
         '-stock_count').first()
 
     if new_product:
-        new_product_extras = ProductDetails.objects.all().exclude(
+        new_product_extras = ProductDetails.objects.exclude(
             active=False).filter(
             product__product_id=new_product.product_id)
         js_new_product = json_serialise(new_product_extras)
@@ -236,7 +236,7 @@ def homepage_view(request):
         js_new_product = ''
 
     if sports_product:
-        sports_product_extras = ProductDetails.objects.all().exclude(
+        sports_product_extras = ProductDetails.objects.exclude(
             active=False).filter(
             product__product_id=sports_product.product_id)
         js_sports_product = json_serialise(sports_product_extras)
@@ -244,7 +244,7 @@ def homepage_view(request):
         sports_product_extras = ''
         js_sports_product = ''
     if health_product:
-        health_product_extras = ProductDetails.objects.all().exclude(
+        health_product_extras = ProductDetails.objects.exclude(
             active=False).filter(
             product__product_id=health_product.product_id)
         js_health_product = json_serialise(health_product_extras)
@@ -261,7 +261,7 @@ def homepage_view(request):
             '-stock_count')
         if all_sports.count() > 1:
             sports_product = all_sports[1]
-            sports_product_extras = ProductDetails.objects.all().exclude(
+            sports_product_extras = ProductDetails.objects.exclude(
                 active=False).filter(
                 product__product_id=sports_product.product_id)
         else:
@@ -270,13 +270,13 @@ def homepage_view(request):
     if (new_product == health_product
             and new_product != ''
             and health_product != ''):
-        all_health = ProductDetails.objects.all().exclude(
+        all_health = ProductDetails.objects.exclude(
             active=False).exclude(pk=0).filter(
             product__main_cat='HEALTH').order_by(
             '-stock_count')
         if all_health.count() > 1:
             health_product = all_health[1]
-            health_product_extras = ProductDetails.objects.all().exclude(
+            health_product_extras = ProductDetails.objects.exclude(
                 active=False).filter(
                 product__product_id=health_product.product_id)
         else:
@@ -297,10 +297,10 @@ def homepage_view(request):
 
 
 def product_view(request, var):
-    product = ProductDetails.objects.all().exclude(active=False).filter(
+    product = ProductDetails.objects.exclude(active=False).filter(
         product__product_id=var)
     js_product = json_serialise(product)
-    product_cats = Products.objects.all().filter(product_id=var)
+    product_cats = Products.objects.filter(product_id=var)
 
     if product_cats:
         categories = product_cats[0].categories.split(',')
@@ -309,7 +309,7 @@ def product_view(request, var):
             cat.strip()
 
         if categories:
-            linked_products = ProductDetails.objects.all().exclude(
+            linked_products = ProductDetails.objects.exclude(
                 active=False).exclude(stock_count__lt=1).exclude(
                 product__product_id=var).filter(
                 reduce(operator.or_, (Q(
@@ -356,7 +356,7 @@ def all_products(request):
 
 def sports_products(request):
     active_sort = get_active_sort(request)
-    products = ProductDetails.objects.all().exclude(active=False).filter(
+    products = ProductDetails.objects.exclude(active=False).filter(
         product__main_cat='SPORTS')
     products_distinct, js_products, active_sort = product_pages(
         request, products, active_sort)
@@ -371,7 +371,7 @@ def sports_products(request):
 
 def health_products(request):
     active_sort = get_active_sort(request)
-    products = ProductDetails.objects.all().exclude(active=False).filter(
+    products = ProductDetails.objects.exclude(active=False).filter(
         product__main_cat='HEALTH')
     products_distinct, js_products, active_sort = product_pages(
         request, products, active_sort)
@@ -387,10 +387,10 @@ def health_products(request):
 def new_products(request):
     active_sort = get_active_sort(request)
     prv_mo = datetime.datetime.now(pytz.UTC) - datetime.timedelta(days=30)
-    products_init = ProductDetails.objects.all().exclude(
+    products_init = ProductDetails.objects.exclude(
         active=False).exclude(
         stock_count__lte=0).filter(created_ts__gte=prv_mo)
-    products = ProductDetails.objects.all().filter(
+    products = ProductDetails.objects.filter(
         product__product_id__in=products_init.values_list(
             'product_id', flat=True))
     products_distinct, js_products, active_sort = product_pages(

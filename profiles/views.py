@@ -60,7 +60,7 @@ def profile_vars(request):
     other_address = Addresses.objects.filter(
         user=request.user,
         default_addr=False).order_by('pk')
-    orders = OrderHistory.objects.all().filter(
+    orders = OrderHistory.objects.filter(
         purchaser=request.user).order_by('-order_dt')
     signed_up = Newsletter.objects.filter(news_email__iexact=request.user.email)
     return default_address, other_address, orders, signed_up
@@ -199,11 +199,11 @@ def profile_edit_addr(request, var):
 
 def profile_orders(request, var):
     if request.user.is_authenticated:
-        order = OrderHistory.objects.all().filter(
+        order = OrderHistory.objects.filter(
             purchaser=request.user,
             pk=var)
         if order:
-            order_details = Purchases.objects.all().filter(
+            order_details = Purchases.objects.filter(
                 order=order[0]).order_by('product__product_id')
             products = ProductDetails.objects.filter(
                 product__product_id__in=order_details.values(

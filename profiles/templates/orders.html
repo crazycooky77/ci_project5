@@ -14,7 +14,7 @@
                 {% for order in orders %}
                     <tr class="cart-tbl-prod">
                         <td>{{ order.order_dt|date:'Y-m-d' }}</td>
-                        <td>{{ order.order_id }}</td>
+                        <td>{{ order.order_number }}</td>
                         {% if order.tracking_link %}
                             <td><a href="{{ order.tracking_link }}" target="_blank">Click here</a></td>
                         {% else %}

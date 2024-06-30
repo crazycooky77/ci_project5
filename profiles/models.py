@@ -47,7 +47,9 @@ class Addresses(models.Model):
 
     address_id = models.AutoField(primary_key=True)
     user = models.ForeignKey(User,
-                             on_delete=models.CASCADE)
+                             on_delete=models.CASCADE,
+                             null=True,
+                             blank=True)
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     addr_line1 = models.CharField(max_length=50)
@@ -103,13 +105,6 @@ class SavedItems(models.Model):
 
 class OrderHistory(models.Model):
 
-    class PaymentType(models.TextChoices):
-        VISA = 'VISA', _('Visa')
-        MC = 'MC', _('mastercard')
-        PP = 'PP', _('PayPal')
-        GP = 'GP', _('GooglePay')
-        AP = 'AP', _('ApplePay')
-
     class Status(models.TextChoices):
         PEND = 'PEND', _('Pending')
         PROCESS = 'PROC', _('Processing')
@@ -133,12 +128,13 @@ class OrderHistory(models.Model):
                                   null=True)
     shipping_cost = models.DecimalField(max_digits=6,
                                         decimal_places=2)
-    total_cost = models.DecimalField(max_digits=6,
-                                     decimal_places=2)
-    payment_type = models.CharField(max_length=50,
-                                    choices=PaymentType.choices)
+    subtotal = models.DecimalField(max_digits=6,
+                                   decimal_places=2)
     purchaser = models.ForeignKey(User,
-                                  on_delete=models.SET('0'))
+                                  on_delete=models.SET('0'),
+                                  blank=True,
+                                  null=True)
+    purchaser_email = models.EmailField()
     status = models.CharField(max_length=50,
                               choices=Status.choices,
                               default=Status.PEND)
@@ -147,18 +143,6 @@ class OrderHistory(models.Model):
 
     def _generate_order_number(self):
         return uuid.uuid4().hex.upper()
-
-    def update_total(self):
-        self.total_cost = self.order_purchases.aggregate(
-            Sum(F('order_purchases_product_price') *
-                F('order_purchases_quantity')))
-
-        if self.total_cost < settings.FREE_SHIPPING_THRESHOLD:
-            self.shipping_cost = (self.total_cost *
-                                  settings.STANDARD_SHIPPING_PERCENTAGE / 100)
-        else:
-            self.shipping_cost = 0
-        self.save()
 
     def save(self, *args, **kwargs):
         if not self.order_number:
