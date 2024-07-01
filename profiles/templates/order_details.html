@@ -15,7 +15,7 @@
                 </tr>
                 <tr class="cart-tbl-prod">
                     <td>{{ order.order_dt|date:'Y-m-d' }}</td>
-                    <td>{{ order.order_number }}</td>
+                    <td>{{ order.order_id }}</td>
                     {% if order.tracking_link %}
                         <td><a href="{{ order.tracking_link }}" target="_blank">Click here</a></td>
                     {% else %}
@@ -23,14 +23,13 @@
                     {% endif %}
                     <td>{{ order.get_status_display }}</td>
                 {% if order.status in 'PEND,PROC,RDY' %}
-                    <td><button type="button" onclick="location.href='mailto:contact@test.com?subject=Cancellation Request for Order {{ order.order_number }}&body=Please add details for your request: '">Request Cancellation</button></td>
+                    <td><button type="button" onclick="location.href='mailto:contact@test.com?subject=Cancellation Request for Order {{ order.order_id }}&body=Please add details for your request: '">Request Cancellation</button></td>
                 {% else %}
-                    <td><button type="button" onclick="location.href='mailto:contact@test.com?subject=Refund Request for Order {{ order.order_number }}&body=Please add details for your request: '">Request Refund</button></td>
+                    <td><button type="button" onclick="location.href='mailto:contact@test.com?subject=Refund Request for Order {{ order.order_id }}&body=Please add details for your request: '">Request Refund</button></td>
                 {% endif %}
                 </tr>
             </table>
         </div>
-        <hr class="details-table">
         <div class="prod-table-details">
             <table>
                 <tr class="cart-tbl-prod">
@@ -70,7 +69,7 @@
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td>€ {{ order.subtotal|add:order.shipping_cost }}</td>
+                    <td>€ {{ order.grand_total }}</td>
                 </tr>
             </table>
         </div>

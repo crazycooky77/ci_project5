@@ -111,10 +111,6 @@ class OrderHistory(models.Model):
         DELIVERED = 'DLV', _('Delivered')
 
     order_id = models.AutoField(primary_key=True)
-    order_number = models.CharField(max_length=32,
-                                    unique=True,
-                                    null=False,
-                                    editable=False)
     order_dt = models.DateTimeField(auto_now_add=True)
     billing_addr = models.ForeignKey(Addresses,
                                      related_name='billing_addr',
@@ -124,10 +120,12 @@ class OrderHistory(models.Model):
                                       on_delete=models.SET('0'))
     order_note = models.TextField(blank=True,
                                   null=True)
-    shipping_cost = models.DecimalField(max_digits=6,
-                                        decimal_places=2)
     subtotal = models.DecimalField(max_digits=6,
                                    decimal_places=2)
+    shipping_cost = models.DecimalField(max_digits=6,
+                                        decimal_places=2)
+    grand_total = models.DecimalField(max_digits=6,
+                                      decimal_places=2)
     purchaser = models.ForeignKey(User,
                                   on_delete=models.SET('0'),
                                   blank=True,
@@ -139,20 +137,12 @@ class OrderHistory(models.Model):
     tracking_link = models.TextField(blank=True,
                                      null=True)
 
-    def _generate_order_number(self):
-        return uuid.uuid4().hex.upper()
-
-    def save(self, *args, **kwargs):
-        if not self.order_number:
-            self.order_number = self._generate_order_number()
-            super().save(*args, **kwargs)
-
     class Meta:
         ordering = ['-order_dt', 'status']
         verbose_name_plural = 'Order Histories'
 
     def __str__(self):
-        return f'{self.order_number} | {self.status} | {self.order_dt}'
+        return f'{self.order_id} | {self.status} | {self.order_dt}'
 
 
 class Purchases(models.Model):

@@ -17,7 +17,6 @@ class Migration(migrations.Migration):
             name='OrderHistory',
             fields=[
                 ('order_id', models.AutoField(primary_key=True, serialize=False)),
-                ('order_number', models.CharField(editable=False, max_length=32, unique=True)),
                 ('order_dt', models.DateTimeField(auto_now_add=True)),
                 ('shipping_cost', models.DecimalField(decimal_places=2, max_digits=6)),
                 ('total_cost', models.DecimalField(decimal_places=2, max_digits=6)),

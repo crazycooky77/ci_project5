@@ -33,7 +33,7 @@
                 {% include 'edit_address.html' %}
             {% elif request.get_full_path == '/profile/orders' %}
                 {% include 'orders.html' %}
-            {% elif request.get_full_path|slice:"0:13" == '/orders/id%3D' %}
+            {% elif request.get_full_path|slice:"0:21" == '/profile/orders/id%3D' %}
                 {% include 'order_details.html' %}
             {% endif %}
         {% else %}

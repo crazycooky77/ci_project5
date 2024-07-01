@@ -5,7 +5,7 @@ from django.dispatch import receiver
 from django.contrib.auth.signals import user_logged_in
 from profiles.models import SavedItems
 from django.contrib import messages
-from django.db.models import F, Q
+from django.db.models import F
 from django.db import models as dmodels
 from decimal import Decimal
 from django.urls import reverse
@@ -459,15 +459,16 @@ def checkout_view(request):
                            'order_note': order_note,
                            'stripe_public_key': stripe_public_key,
                            'client_secret': intent.client_secret})
-    return render(request, 'checkout_addr.html',
-                  {'order_note': order_note})
+
+    if request.POST.get("shipping_addr"):
+        return render(request, 'checkout_addr.html',
+                      {'order_note': order_note})
 
 
 def format_addresses(request, addr_field):
     addr = json.loads(request.POST.get(
         addr_field).replace("'", '"'))
     addr['country'] = 'IE'
-    print(addr)
 
     if request.user.is_authenticated:
         addr_id = get_addresses(request.user, addr)
@@ -524,6 +525,8 @@ def checkout_complete(request):
         cart_prods, cart, subtotal, shipping, grand_total = (
             cart_contents(request))
 
+        if not cart_prods:
+            return render(request, 'checkout_error.html')
         if request.user.is_authenticated:
             if not user_ship_addr_id:
                 user_ship_addr_id = save_order_addr(request, post_shipping)
@@ -536,8 +539,9 @@ def checkout_complete(request):
                 billing_addr=Addresses.objects.get(pk=user_bill_addr_id),
                 shipping_addr=Addresses.objects.get(pk=user_ship_addr_id),
                 order_note=order_note,
-                shipping_cost=shipping_cost,
                 subtotal=subtotal,
+                shipping_cost=shipping_cost,
+                grand_total=grand_total,
                 status='PEND')
         else:
             user_ship_addr_id = save_order_addr(request, post_shipping)
@@ -548,15 +552,16 @@ def checkout_complete(request):
                 billing_addr=Addresses.objects.get(pk=user_bill_addr_id),
                 shipping_addr=Addresses.objects.get(pk=user_ship_addr_id),
                 order_note=order_note,
-                shipping_cost=shipping_cost,
                 subtotal=subtotal,
+                shipping_cost=shipping_cost,
+                grand_total = grand_total,
                 status='PEND')
 
         for product, quantity in zip(cart_prods, cart):
             Purchases.objects.create(
                 order=OrderHistory.objects.get(pk=user_order.pk),
                 product=product,
-                quantity=quantity)
+                quantity=cart[quantity])
 
         del request.session['cart']
         if request.user.is_authenticated:
@@ -574,3 +579,5 @@ def checkout_complete(request):
                        'subtotal': subtotal,
                        'shipping': shipping,
                        'grand_total': grand_total})
+    else:
+        return render(request, 'checkout_error.html')

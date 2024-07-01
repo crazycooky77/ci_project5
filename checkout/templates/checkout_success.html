@@ -11,7 +11,7 @@
         <h2>Order Summary</h2>
         {% include 'form_responses.html' %}
         <div class="order-confirm">
-            <p>Your order #{{ completed_order.order_id }} has been submitted! You should receive a confirmation email shortly. You will receive an additional email, once your order has shipped.</p>
+            <p>Your order #{{ completed_order.order_id }} has been submitted! You should receive a confirmation email shortly to {{ completed_order.purchaser_email }}. You will receive an additional email, once your order has shipped.</p>
         </div>
         <div class="summ-split">
             <hr>

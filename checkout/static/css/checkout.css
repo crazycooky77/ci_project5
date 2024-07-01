@@ -303,6 +303,7 @@ button.hidden-submit {
     color: red;
 }
 
-.order-confirm {
+.order-confirm, .checkout-error {
     text-align: center;
 }
+

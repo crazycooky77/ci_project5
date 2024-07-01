@@ -1,0 +1,25 @@
+<!-- Load the base html file -->
+{% extends "base.html" %}
+{% load static %}
+
+{% block extracss %}
+    <link rel="stylesheet" href="{% static 'css/checkout.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="checkout">
+        <h2>Error</h2>
+        {% include 'form_responses.html' %}
+        <div class="checkout-error">
+            {% if request.get_full_path == '/checkout/success' %}
+                {% if request.user.is_authenticated %}
+                    <p>You cannot access your checkout summary via direct link or after refreshing the page. This is to prevent duplicate purchases and charges. You can view your order summary in your order confirmation email, or <a href="/profile/orders">in your profile</a>.</p>
+                {% else %}
+                    <p>You cannot access your checkout summary via direct link or after refreshing the page. This is to prevent duplicate purchases and charges. You can view your order summary in your order confirmation email.</p>
+                {% endif %}
+            {% else %}
+                <p>You cannot access the checkout pages via direct link. Please <a href="/cart">go back to your cart</a> to start the checkout process, or <a href="/products/all">start shopping now.</a></p>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
