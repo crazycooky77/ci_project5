@@ -1,9 +1,7 @@
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from products.models import Products, ProductDetails
 from django.db import models
-from django.db.models import Sum, F
 import uuid
-from django.conf import settings
 from django.utils.translation import gettext_lazy as _
 
 
