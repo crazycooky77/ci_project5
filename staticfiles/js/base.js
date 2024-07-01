@@ -15,6 +15,9 @@ $(document).ready(function () {
     $("input[type='number']").each(function(){
         $(this).attr("onkeydown", "return event.keyCode !== 69")
     })
+    $("input[name='phone_nr']").each(function(){
+        document.querySelector("input[name='phone_nr']").max = 2147483647
+    })
 })
 
 

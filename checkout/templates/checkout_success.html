@@ -1,0 +1,95 @@
+<!-- Load the base html file -->
+{% extends "base.html" %}
+{% load static %}
+
+{% block extracss %}
+    <link rel="stylesheet" href="{% static 'css/checkout.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="checkout">
+        <h2>Order Summary</h2>
+        {% include 'form_responses.html' %}
+        <div class="order-confirm">
+            <p>Your order #{{ completed_order.order_id }} has been submitted! You should receive a confirmation email shortly. You will receive an additional email, once your order has shipped.</p>
+        </div>
+        <div class="summ-split">
+            <hr>
+        </div>
+        <div class="checkout-summary">
+            <div class="prod-table-details">
+                <div class="cart-toggle-div">
+                    <a href="javascript:toggleCart()">Show/Hide Cart</a>
+                </div>
+                {% include 'cart_contents.html' %}
+            </div>
+            <div class="summ-split">
+                <hr>
+            </div>
+            <div class="checkout-summ-addr-outer">
+                <div class="checkout-summ-addr-div">
+                    <div class="checkout-summ-h3">
+                        <h3>Shipping Address</h3>
+                    </div>
+                    <div class="checkout-summ-addr-view">
+                        <p>{{ completed_order.shipping_addr.first_name }} {{ completed_order.shipping_addr.last_name }}</p>
+                        <p>{{ completed_order.shipping_addr.addr_line1 }}</p>
+                        {% if completed_order.shipping_addr.addr_line2 %}
+                            <p>{{ completed_order.shipping_addr.addr_line2 }}</p>
+                        {% endif %}
+                        {% if completed_order.shipping_addr.addr_line3 %}
+                            <p>{{ completed_order.shipping_addr.addr_line3 }}</p>
+                        {% endif %}
+                        <p>{{ completed_order.shipping_addr.city }}
+                        {{ completed_order.shipping_addr.eir_code }}</p>
+                        <p>{{ completed_order.shipping_addr.county }},
+                        {{ completed_order.shipping_addr.country }}</p>
+                        <p>0{{ completed_order.shipping_addr.phone_nr }}</p>
+                        {% if not user.is_authenticated %}
+                            <p>{{ completed_order.shipping_addr.email }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="checkout-summ-addr-div">
+                    <div class="checkout-summ-h3">
+                        <h3>Billing Address</h3>
+                    </div>
+                    <div class="checkout-summ-addr-view">
+                        <p>{{ completed_order.billing_addr.first_name }} {{ completed_order.billing_addr.last_name }}</p>
+                        <p>{{ completed_order.billing_addr.addr_line1 }}</p>
+                        {% if completed_order.billing_addr.addr_line2 %}
+                            <p>{{ completed_order.billing_addr.addr_line2 }}</p>
+                        {% endif %}
+                        {% if completed_order.billing_addr.addr_line3 %}
+                            <p>{{ completed_order.billing_addr.addr_line3 }}</p>
+                        {% endif %}
+                        <p>{{ completed_order.billing_addr.city }}
+                        {{ completed_order.billing_addr.eir_code }}</p>
+                        <p>{{ completed_order.billing_addr.county }},
+                        {{ completed_order.billing_addr.country }}</p>
+                        <p>0{{ completed_order.billing_addr.phone_nr }}</p>
+                        {% if not user.is_authenticated %}
+                            <p>{{ completed_order.billing_addr.email }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% if completed_order.order_note %}
+                <div class="summ-split">
+                    <hr>
+                </div>
+                <div class="order-note-h3">
+                    <h3>Note to Seller</h3>
+                </div>
+                <div class="order-note">
+                    <label for="checkout-order-note" aria-label="Note to Seller"></label>
+                    {{ completed_order.order_note }}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block postloadjs %}
+    <script src="{% static 'js/checkout.js' %}"></script>
+{% endblock %}

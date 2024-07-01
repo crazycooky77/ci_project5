@@ -27,6 +27,7 @@
                     <button type="submit" class="hidden-submit" name="checkout-edit-addr" value="checkout-edit-addr" formaction="{% url 'checkout' %}"></button>
                     <input type="hidden" name="shipping-addr" value="{{ shipping_addr }}">
                     <input type="hidden" name="billing-addr" value="{{ billing_addr }}">
+                    <input type="hidden" name="checkout-order-note">
                 </form>
             </div>
             <div class="checkout-summ-addr-outer">
@@ -87,7 +88,11 @@
                 </div>
                 <div class="order-note">
                     <label for="checkout-order-note" aria-label="Note to Seller"></label>
-                    <textarea id="checkout-order-note" name="checkout-order-note"></textarea>
+                    {% if order_note and order_note != 'None' %}
+                        <textarea id="checkout-order-note" name="checkout-order-note">{{ order_note }}</textarea>
+                    {% else %}
+                        <textarea id="checkout-order-note" name="checkout-order-note"></textarea>
+                    {% endif %}
                 </div>
                 <div class="summ-split">
                     <hr>

@@ -20,48 +20,61 @@ from .forms import *
 
 @receiver(user_logged_in)
 def cart_merge(sender, user, request, **kwargs):
-    cart = request.session.get('cart', {})
-
-    if request.user.is_authenticated and cart:
-        user_cart = SavedItems.objects.filter(
+    if request.POST.get('checkout-signin-button'):
+        cart = request.session.get('cart', {})
+        SavedItems.objects.filter(
             owner=request.user,
-            list_type='CART').values_list(
-            'product__pk', 'quantity')
-        user_cart_ids_set = set()
-        user_cart_quantity = list()
-        cart_ids_set = set()
-
-        for pk, quantity in user_cart:
-            user_cart_ids_set.add(str(pk))
-            user_cart_quantity.append(quantity)
-
-        for pk in cart:
-            cart_ids_set.add(str(pk))
-
+            list_type='CART').delete()
         for prod in cart:
-            if str(prod) not in user_cart_ids_set.intersection(cart_ids_set):
-                user_cart, created = SavedItems.objects.get_or_create(
-                    owner=request.user,
-                    list_type='CART',
-                    product=ProductDetails.objects.get(pk=prod),
-                    defaults={'quantity': cart[prod]})
-                if not created:
-                    user_cart.quantity = F('quantity') + cart[prod]
-
-        updated_cart = SavedItems.objects.filter(owner=request.user,
-                                                 list_type='CART').values()
-        cart = {}
-        for prod in updated_cart:
-            cart[str(prod['product_id'])] = prod['quantity']
-        request.session['cart'] = cart
-
-        messages.success(
-            request, 'Your guest and account cart contents have been merged.')
-
+            SavedItems.objects.create(
+                owner=request.user,
+                list_type='CART',
+                product=ProductDetails.objects.get(pk=prod),
+                quantity=cart[prod])
         return cart
-
     else:
-        return cart
+        cart = request.session.get('cart', {})
+
+        if request.user.is_authenticated and cart:
+            user_cart = SavedItems.objects.filter(
+                owner=request.user,
+                list_type='CART').values_list(
+                'product__pk', 'quantity')
+            user_cart_ids_set = set()
+            user_cart_quantity = list()
+            cart_ids_set = set()
+
+            for pk, quantity in user_cart:
+                user_cart_ids_set.add(str(pk))
+                user_cart_quantity.append(quantity)
+
+            for pk in cart:
+                cart_ids_set.add(str(pk))
+
+            for prod in cart:
+                if str(prod) not in user_cart_ids_set.intersection(cart_ids_set):
+                    user_cart, created = SavedItems.objects.get_or_create(
+                        owner=request.user,
+                        list_type='CART',
+                        product=ProductDetails.objects.get(pk=prod),
+                        defaults={'quantity': cart[prod]})
+                    if not created:
+                        user_cart.quantity = F('quantity') + cart[prod]
+
+            updated_cart = SavedItems.objects.filter(owner=request.user,
+                                                     list_type='CART').values()
+            cart = {}
+            for prod in updated_cart:
+                cart[str(prod['product_id'])] = prod['quantity']
+            request.session['cart'] = cart
+
+            messages.success(
+                request, 'Your guest and account cart contents have been merged.')
+
+            return cart
+
+        else:
+            return cart
 
 
 def add_cart(request, product_id):
@@ -258,10 +271,17 @@ def dual_addr_form(request):
         'shipping-addr')[0].replace("'", '"'))
     billing_addr = json.loads(request.POST.getlist(
         'billing-addr')[0].replace("'", '"'))
-    ship_order_addr_form = OrderFormAddr(
-        initial=shipping_addr, user_auth=True)
-    bill_order_addr_form = OrderFormAddr(
-        initial=billing_addr, user_auth=True)
+
+    if request.user.is_authenticated:
+        ship_order_addr_form = OrderFormAddr(
+            initial=shipping_addr, user_auth=True)
+        bill_order_addr_form = OrderFormAddr(
+            initial=billing_addr, user_auth=True)
+    else:
+        ship_order_addr_form = OrderFormAddr(
+            initial=shipping_addr)
+        bill_order_addr_form = OrderFormAddr(
+            initial=billing_addr)
     return ship_order_addr_form, bill_order_addr_form
 
 
@@ -292,8 +312,8 @@ def checkout_addr(request, order_addr_form):
                 'eir_code': def_addr.eir_code,
                 'county': def_addr.county,
                 'country': def_addr.country,
-                'email': def_addr.user.email,
-                'phone_nr': '0' + str(def_addr.phone_nr)},
+                'phone_nr': '0' + str(def_addr.phone_nr),
+                'email': def_addr.user.email},
                 user_auth=True)
 
         return order_addr_form, addr_list, js_addr
@@ -301,6 +321,7 @@ def checkout_addr(request, order_addr_form):
 
 def checkout_view(request):
     cart = request.session.get('cart', {})
+    order_note = request.POST.get('checkout-order-note')
 
     if request.POST.get("checkout-button") or request.POST.get(
             "checkout-edit-addr"):
@@ -320,14 +341,16 @@ def checkout_view(request):
                                   {'ship_order_addr_form': ship_order_addr_form,
                                    'bill_order_addr_form': bill_order_addr_form,
                                    'addr_list': addr_list,
-                                   'js_addr': js_addr})
+                                   'js_addr': js_addr,
+                                   'order_note': order_note})
                 else:
                     ship_order_addr_form, bill_order_addr_form = (
                         dual_addr_form(request))
                     return render(
                         request, 'checkout_addr.html',
                         {'ship_order_addr_form': ship_order_addr_form,
-                         'bill_order_addr_form': bill_order_addr_form})
+                         'bill_order_addr_form': bill_order_addr_form,
+                         'order_note': order_note})
 
             elif request.user.is_authenticated:
                 order_addr_form, addr_list, js_addr = checkout_addr(
@@ -336,13 +359,15 @@ def checkout_view(request):
                               'checkout_addr.html',
                               {'order_addr_form': order_addr_form,
                                'addr_list': addr_list,
-                               'js_addr': js_addr})
+                               'js_addr': js_addr,
+                               'order_note': order_note})
             elif ((request.POST.get("checkout-guest-button")
                   or request.POST.get("checkout-edit-addr"))
                   and not request.POST.get('shipping-addr')):
                 return render(request,
                               'checkout_addr.html',
-                              {'order_addr_form': order_addr_form})
+                              {'order_addr_form': order_addr_form,
+                               'order_note': order_note})
             elif request.POST.get("checkout-signin-button"):
                 user = authenticate(request, email=request.POST["login"],
                                     password=request.POST["password"])
@@ -367,7 +392,8 @@ def checkout_view(request):
                             {'ship_order_addr_form': ship_order_addr_form,
                              'bill_order_addr_form': bill_order_addr_form,
                              'addr_list': addr_list,
-                             'js_addr': js_addr})
+                             'js_addr': js_addr,
+                             'order_note': order_note})
                     else:
                         order_addr_form, addr_list, js_addr = checkout_addr(
                             request, order_addr_form)
@@ -375,7 +401,8 @@ def checkout_view(request):
                                       'checkout_addr.html',
                                       {'order_addr_form': order_addr_form,
                                        'addr_list': addr_list,
-                                       'js_addr': js_addr})
+                                       'js_addr': js_addr,
+                                       'order_note': order_note})
                 else:
                     messages.error(request, 'Login failed')
             else:
@@ -383,6 +410,7 @@ def checkout_view(request):
                               'checkout_signin.html')
 
     elif request.POST.get("addr-form-button"):
+        order_note = request.POST.get('checkout-order-note')
         stripe_public_key = settings.STRIPE_PUBLIC_KEY
         stripe_secret_key = settings.STRIPE_SECRET_KEY
 
@@ -397,7 +425,8 @@ def checkout_view(request):
                 'eir_code': request.POST.getlist('eir_code')[0],
                 'county': request.POST.getlist('county')[0],
                 'country': 'Ireland',
-                'phone_nr': request.POST.getlist('phone_nr')[0]}
+                'phone_nr': request.POST.getlist('phone_nr')[0],
+                'email': request.POST.getlist('email')[0]}
             billing_addr = {
                 'first_name': request.POST.getlist('first_name')[1],
                 'last_name': request.POST.getlist('last_name')[1],
@@ -408,7 +437,8 @@ def checkout_view(request):
                 'eir_code': request.POST.getlist('eir_code')[1],
                 'county': request.POST.getlist('county')[1],
                 'country': 'Ireland',
-                'phone_nr': request.POST.getlist('phone_nr')[1]}
+                'phone_nr': request.POST.getlist('phone_nr')[1],
+                'email': request.POST.getlist('email')[1]}
 
             cart_prods, cart, subtotal, shipping, grand_total = cart_contents(
                 request)
@@ -418,10 +448,6 @@ def checkout_view(request):
                 amount=stripe_total,
                 currency=settings.STRIPE_CURRENCY)
 
-            if not stripe_public_key:
-                messages.warning(request, 'Stripe public key is missing.'
-                                          'Did you forget to set it?')
-
             return render(request,
                           'checkout_confirm.html',
                           {'shipping_addr': shipping_addr,
@@ -430,15 +456,18 @@ def checkout_view(request):
                            'subtotal': subtotal,
                            'shipping': shipping,
                            'grand_total': grand_total,
+                           'order_note': order_note,
                            'stripe_public_key': stripe_public_key,
                            'client_secret': intent.client_secret})
-    return render(request, 'checkout_addr.html')
+    return render(request, 'checkout_addr.html',
+                  {'order_note': order_note})
 
 
 def format_addresses(request, addr_field):
     addr = json.loads(request.POST.get(
         addr_field).replace("'", '"'))
     addr['country'] = 'IE'
+    print(addr)
 
     if request.user.is_authenticated:
         addr_id = get_addresses(request.user, addr)
@@ -470,8 +499,8 @@ def get_addresses(user, addr):
 
 
 def save_order_addr(request, addr):
-    ship_addr_form = AddressForm(addr)
-    obj = ship_addr_form.save(commit=False)
+    addr_form = AddressForm(addr)
+    obj = addr_form.save(commit=False)
     if request.user.is_authenticated:
         obj.user = request.user
         obj.email = request.user.email
@@ -528,3 +557,20 @@ def checkout_complete(request):
                 order=OrderHistory.objects.get(pk=user_order.pk),
                 product=product,
                 quantity=quantity)
+
+        del request.session['cart']
+        if request.user.is_authenticated:
+            SavedItems.objects.filter(
+                owner=request.user,
+                list_type='CART').delete()
+        completed_purchases = Purchases.objects.filter(
+            order__order_id=user_order.pk)
+        completed_order = OrderHistory.objects.get(pk=user_order.pk)
+
+        return render(request, 'checkout_success.html',
+                      {'completed_purchases': completed_purchases,
+                       'completed_order': completed_order,
+                       'cart_prods': zip(cart_prods, cart.values()),
+                       'subtotal': subtotal,
+                       'shipping': shipping,
+                       'grand_total': grand_total})

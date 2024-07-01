@@ -55,6 +55,8 @@ function toggleCart() {
 function checkoutEditAddr() {
     let shippingAddr = document.querySelector('input[name="shipping-addr"]').value
     let billingAddr = document.querySelector('input[name="billing-addr"]').value
+    let checkoutNote = $('#checkout-order-note').val()
+    document.querySelector("input[name='checkout-order-note']").value = checkoutNote
 
     $.ajax({
         method: "POST",
@@ -62,7 +64,8 @@ function checkoutEditAddr() {
         data: {'csrfmiddlewaretoken': document.querySelector('[name=csrfmiddlewaretoken]').value,
             'checkout-edit-addr': 'checkout-edit-addr',
             'billing-addr': billingAddr,
-            'shipping-addr': shippingAddr},
+            'shipping-addr': shippingAddr,
+            'checkout-order-note': checkoutNote},
         success: function() {
             $('button.hidden-submit').click()
         }

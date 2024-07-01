@@ -302,3 +302,7 @@ button.hidden-submit {
 .confirm-checkout span {
     color: red;
 }
+
+.order-confirm {
+    text-align: center;
+}
