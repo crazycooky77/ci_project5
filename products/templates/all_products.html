@@ -98,11 +98,11 @@
 
 {% block postloadjs %}
     <script>
-        if ("{{ js_products }}") {
+        if ("{{ js_products }}" !== "") {
             const js_prods = "{{ js_products }}".replace(/&quot;/ig,'"')
             json_prods = JSON.parse(js_prods)
         }
-        if ("{{ js_searched }}") {
+        if ("{{ js_searched }}" !== "") {
             const js_searched_prods = "{{ js_searched }}".replace(/&quot;/ig,'"')
             json_searched_prods = JSON.parse(js_searched_prods)
         }

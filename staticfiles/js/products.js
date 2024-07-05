@@ -155,42 +155,40 @@ function SizeSelect(sizes) {
 
 
 function flavourSelect(json) {
-    if (window.location.pathname !== "/products/search") {
-        for (let i = 0; i < json.length; i++) {
-            let flavours = document.getElementById(json[i].fields.product + '-prod-flavours')
-            let selectedSize = $("#" + json[i].fields.product + "-prod-sizes :selected").val()
-            if (flavours) {
-                for (let f = 0; f < flavours.length; f++) {
-                    flavours.options[f].removeAttribute('selected')
-                    if (json[i].fields.flavour === flavours.options[f].value &&
-                        Number(json[i].fields.size) === Number(selectedSize)) {
-                        if (flavours.selectedIndex === -1) {
-                            if (!($(flavours.options[f]).hasClass('hidden')) &&
-                                !($(flavours.options[f]).hasClass('oos')) &&
-                                !($(flavours.options[f]).hasClass('na')) &&
-                                flavours.options[f].disabled === false) {
-                                $(flavours.options[f]).removeClass()
-                                flavours.selectedIndex = f
-                                flavours.options[f].classList.add('stock')
-                                flavours.options[f].setAttribute('selected', true)
-                            }
-                            else if ($(flavours.options[f]).hasClass('hidden')) {
-                                $(flavours.options[f]).removeClass()
-                                flavours.options[f].disabled = false
-                                flavours.selectedIndex = f
-                                flavours.options[f].classList.add('stock')
-                                flavours.options[f].setAttribute('selected', true)
-                            }
+    for (let i = 0; i < json.length; i++) {
+        let flavours = document.getElementById(json[i].fields.product + '-prod-flavours')
+        let selectedSize = $("#" + json[i].fields.product + "-prod-sizes :selected").val()
+        if (flavours) {
+            for (let f = 0; f < flavours.length; f++) {
+                flavours.options[f].removeAttribute('selected')
+                if (json[i].fields.flavour === flavours.options[f].value &&
+                    Number(json[i].fields.size) === Number(selectedSize)) {
+                    if (flavours.selectedIndex === -1) {
+                        if (!($(flavours.options[f]).hasClass('hidden')) &&
+                            !($(flavours.options[f]).hasClass('oos')) &&
+                            !($(flavours.options[f]).hasClass('na')) &&
+                            flavours.options[f].disabled === false) {
+                            $(flavours.options[f]).removeClass()
+                            flavours.selectedIndex = f
+                            flavours.options[f].classList.add('stock')
+                            flavours.options[f].setAttribute('selected', true)
                         }
-                        else if (flavours.selectedIndex !== -1 &&
-                            flavours.options[flavours.selectedIndex].disabled === false) {
-                            flavours.options[flavours.selectedIndex].setAttribute('selected', true)
+                        else if ($(flavours.options[f]).hasClass('hidden')) {
+                            $(flavours.options[f]).removeClass()
+                            flavours.options[f].disabled = false
+                            flavours.selectedIndex = f
+                            flavours.options[f].classList.add('stock')
+                            flavours.options[f].setAttribute('selected', true)
                         }
                     }
                     else if (flavours.selectedIndex !== -1 &&
-                        flavours.options[flavours.selectedIndex].disabled === true) {
-                        flavours.selectedIndex = -1
+                        flavours.options[flavours.selectedIndex].disabled === false) {
+                        flavours.options[flavours.selectedIndex].setAttribute('selected', true)
                     }
+                }
+                else if (flavours.selectedIndex !== -1 &&
+                    flavours.options[flavours.selectedIndex].disabled === true) {
+                    flavours.selectedIndex = -1
                 }
             }
         }
@@ -229,7 +227,6 @@ function oosProducts(json) {
         let obj = json[i]
         let sizes = document.getElementById(obj.fields.product + "-prod-sizes")
         let flavours = document.getElementById(obj.fields.product + "-prod-flavours")
-
         for (let s = 0; s < sizes.length; s++) {
             if (Number(obj.fields.size) === Number(sizes.options[s].value) &&
                 (obj.fields.flavour === null || (flavours && flavours.options[s].value === obj.fields.flavour))) {
@@ -244,6 +241,10 @@ function oosProducts(json) {
             }
         }
         SizeSelect(sizes)
+    }
+    for (let i = 0; i < json.length; i++) {
+        let obj = json[i]
+        let flavours = document.getElementById(obj.fields.product + "-prod-flavours")
         if (flavours) {
             oosFlavours(flavours, obj)
         }
@@ -439,7 +440,7 @@ if ((window.location.pathname === "/products/health") ||
 /* On search product page load, select the searched flavour, and hide duplicate and out of stock flavours in dropdowns */
 if (window.location.pathname === "/products/search") {
     $(document).ready(function () {
-        if (json_prods !== null) {
+        if (window.json_prods && json_prods) {
             searchSelection(json_searched_prods)
             allOptions()
             window.onresize = function() {
