@@ -406,9 +406,16 @@ def new_products(request):
 
 def search_results(request):
     active_sort = get_active_sort(request)
-    if request.method == 'POST':
-        search_term = request.POST.get('nav-search')
-        sort_search = request.POST.get('sort-search')
+    if (request.method == 'POST'
+            or request.get_full_path() == '/products/search'):
+        if request.method == 'POST':
+            search_term = request.POST.get('nav-search')
+            sort_search = request.POST.get('sort-search')
+            request.session['search_term'] = search_term
+            request.session['sort_search'] = sort_search
+        else:
+            search_term = request.session.get('search_term', '')
+            sort_search = request.session.get('sort_search', '')
 
         if search_term:
             products, product_searched = search_sort(request, search_term)
