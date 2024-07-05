@@ -261,8 +261,8 @@ label[for="id_email2"], #id_email2 {
     margin-left: 0;
 }
 
-.details-table {
-    margin: 50px auto;
+.orders .prod-table-details {
+    margin: 60px auto 20px auto;
 }
 
 .order-sums {
