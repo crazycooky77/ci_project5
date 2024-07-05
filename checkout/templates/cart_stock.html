@@ -1,0 +1,25 @@
+<div class="stock-update-div">
+    {% for product in stock_change %}
+        {% if product.flavour %}
+            {% if product.stock_count > 0 %}
+                <li class="form-error">{{ product.product.brand }} {{ product.product.product_name }} {{ product.flavour }} {{ product.size }} {{ product.size_unit }}</li>
+            {% else %}
+                {% if checkout_empty %}
+                    <li class="form-error">{{ product.product.brand }} {{ product.product.product_name }} {{ product.flavour }} {{ product.size }} {{ product.size_unit }}</li>
+                {% else %}
+                    <li class="form-error"><strong>Removed (out of stock):</strong> {{ product.product.brand }} {{ product.product.product_name }} {{ product.flavour }} {{ product.size }} {{ product.size_unit }}</li>
+                {% endif %}
+            {% endif %}
+        {% else %}
+            {% if product.stock_count > 0 %}
+                <li class="form-error">{{ product.product.brand }} {{ product.product.product_name }} {{ product.size }} {{ product.size_unit }}</li>
+            {% else %}
+                {% if checkout_empty %}
+                    <li class="form-error">{{ product.product.brand }} {{ product.product.product_name }} {{ product.size }} {{ product.size_unit }}</li>
+                {% else %}
+                    <li class="form-error"><strong>Removed (out of stock):</strong> {{ product.product.brand }} {{ product.product.product_name }} {{ product.size }} {{ product.size_unit }}</li>
+                {% endif %}
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+</div>

@@ -19,6 +19,7 @@ from django.urls import path, include, re_path
 from products.views import *
 from profiles.views import *
 from checkout.views import *
+from checkout.webhooks import webhook
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -49,5 +50,6 @@ urlpatterns = [
     path('update', update_cart, name='update-cart'),
     path('checkout', checkout_view, name='checkout'),
     path('checkout/success', checkout_complete, name='checkout-success'),
-    path('newsletter', newsletter_signup, name='newsletter')
+    path('newsletter', newsletter_signup, name='newsletter'),
+    path('wh/', webhook, name='webhook')
 ]

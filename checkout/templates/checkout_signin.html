@@ -15,7 +15,10 @@
                 {% csrf_token %}
                 <div class="checkout-guest">
                     <button type="submit" name="checkout-guest-button" value="checkout-guest-button">Check Out As Guest</button>
+                    <input type="hidden" name="checkout-button" value="checkout-button">
                 </div>
+            </form>
+            <form method="POST" action="">
                 <div class="checkout-signin-split">or</div>
                 <div class="checkout-signin">
                     <div class="form-div">

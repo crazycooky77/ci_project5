@@ -60,14 +60,14 @@ function checkoutEditAddr() {
 
     $.ajax({
         method: "POST",
-        url: $('button.hidden-submit').attr('formaction'),
+        url: $('button.hidden-addr-submit').attr('formaction'),
         data: {'csrfmiddlewaretoken': document.querySelector('[name=csrfmiddlewaretoken]').value,
             'checkout-edit-addr': 'checkout-edit-addr',
             'billing-addr': billingAddr,
             'shipping-addr': shippingAddr,
             'checkout-order-note': checkoutNote},
         success: function() {
-            $('button.hidden-submit').click()
+            $('button.hidden-addr-submit').click()
         }
     })
 }

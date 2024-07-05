@@ -72,7 +72,7 @@
 
 {% block postloadjs %}
     <script>
-        if ("{{ js_addr }}") {
+        if ("{{ js_addr }}" !== "") {
             const js_address = "{{ js_addr }}".replace(/&quot;/ig,'"')
             json_addr = JSON.parse(js_address)
         }

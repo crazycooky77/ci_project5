@@ -15,6 +15,12 @@
                 <div class="cart-toggle-div">
                     <a href="javascript:toggleCart()">Show/Hide Cart</a>
                 </div>
+                <div id="checkout-stock-change">
+                    {% if js_stock and not checkout_empty %}
+                        <p class="form-error">The quantity for the following items in your cart has changed, due to stock updates:</p>
+                        {% include 'cart_stock.html' %}
+                    {% endif %}
+                </div>
                 {% include 'cart_contents.html' %}
             </div>
             <div class="summ-split">
@@ -23,8 +29,8 @@
             <div class="edit-addr-div">
                 <form id="checkout-edit-addr" action="" method="POST">
                     {% csrf_token %}
-                    <a href="javascript:checkoutEditAddr()" class="hidden-submit">Edit Address</a>
-                    <button type="submit" class="hidden-submit" name="checkout-edit-addr" value="checkout-edit-addr" formaction="{% url 'checkout' %}"></button>
+                    <a href="javascript:checkoutEditAddr()" class="hidden-addr-submit">Edit Address</a>
+                    <button type="submit" class="hidden-addr-submit" name="checkout-edit-addr" value="checkout-edit-addr" formaction="{% url 'checkout' %}"></button>
                     <input type="hidden" name="shipping-addr" value="{{ shipping_addr }}">
                     <input type="hidden" name="billing-addr" value="{{ billing_addr }}">
                     <input type="hidden" name="checkout-order-note">
@@ -104,10 +110,13 @@
                     <button id="payment-button" name="payment-button" value="payment-button" type="submit">Confirm Purchase</button>
                     <input type="hidden" name="shipping-addr" value="{{ shipping_addr }}">
                     <input type="hidden" name="billing-addr" value="{{ billing_addr }}">
-                    <input type="hidden" name="cart-prods" value="{{ cart_prods }}">
-                    <input type="hidden" name="shipping" value="{{ shipping }}">
-                    <input type="hidden" name="subtotal" value="{{ subtotal }}">
+                    <input type="hidden" name="js-stock" value="{{ js_stock }}">
                 </div>
+            </form>
+            <form method="POST" action="{% url 'cart' %}" id="empty-cart-form" class="hidden-empty-submit">
+                {% csrf_token %}
+                <button type="submit" class="hidden-empty-submit" name="checkout-empty" value="checkout-empty"></button>
+                <input type="hidden" name="js-stock" value="{{ js_stock }}">
             </form>
             <button type="button" class="cart-back-button" onclick="location.href='/cart'">Back to Cart</button>
         </div>

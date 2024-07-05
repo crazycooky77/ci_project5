@@ -52,7 +52,8 @@ def cart_merge(sender, user, request, **kwargs):
                 cart_ids_set.add(str(pk))
 
             for prod in cart:
-                if str(prod) not in user_cart_ids_set.intersection(cart_ids_set):
+                if str(prod) not in user_cart_ids_set.intersection(
+                        cart_ids_set):
                     user_cart, created = SavedItems.objects.get_or_create(
                         owner=request.user,
                         list_type='CART',
@@ -69,7 +70,8 @@ def cart_merge(sender, user, request, **kwargs):
             request.session['cart'] = cart
 
             messages.success(
-                request, 'Your guest and account cart contents have been merged.')
+                request,
+                'Your guest and account cart contents have been merged.')
 
             return cart
 
@@ -163,6 +165,8 @@ def add_cart(request, product_id):
 
 
 def cart_contents(request):
+    stock_change = None
+    stock_list = list()
     if request.user.is_authenticated:
         user_cart = SavedItems.objects.filter(
             owner=request.user,
@@ -170,6 +174,18 @@ def cart_contents(request):
         cart = {}
         for prod in user_cart:
             cart[str(prod.product.pk)] = prod.quantity
+            if prod.quantity > prod.product.stock_count:
+                if prod.product.stock_count > 0:
+                    SavedItems.objects.filter(
+                        owner=request.user,
+                        list_type='CART',
+                        product__pk=prod.product.pk).update(
+                        quantity=prod.product.stock_count)
+                else:
+                    SavedItems.objects.filter(
+                        owner=request.user,
+                        list_type='CART',
+                        pk=prod.pk).delete()
         request.session['cart'] = cart
 
     else:
@@ -180,9 +196,18 @@ def cart_contents(request):
         subtotal = 0
 
         for product in cart:
-            prod_details = ProductDetails.objects.filter(pk=product)[0]
-            cart_prods.append(prod_details)
+            prod_details = ProductDetails.objects.get(pk=product)
+            if cart[product] > prod_details.stock_count:
+                cart[product] = prod_details.stock_count
+                stock_list.append(prod_details.pk)
             subtotal += prod_details.price * cart[product]
+            cart_prods.append(prod_details)
+
+        if stock_list:
+            stock_change = ProductDetails.objects.filter(pk__in=stock_list)
+            for prod in stock_change:
+                if prod.stock_count == 0:
+                    del cart[str(prod.pk)]
 
         if subtotal < settings.FREE_SHIPPING_THRESHOLD:
             shipping = round(subtotal * Decimal(
@@ -190,6 +215,7 @@ def cart_contents(request):
         else:
             shipping = 0
 
+        request.session['cart'] = cart
         grand_total = shipping + subtotal
 
     else:
@@ -198,17 +224,32 @@ def cart_contents(request):
         shipping = None
         grand_total = None
 
-    return cart_prods, cart, subtotal, shipping, grand_total
+    return (cart_prods, cart, stock_change, stock_list, subtotal, shipping,
+            grand_total)
 
 
 def cart_view(request):
-    cart_prods, cart, subtotal, shipping, grand_total = cart_contents(request)
+    (cart_prods, cart, stock_change, stock_list, subtotal, shipping,
+     grand_total) = (
+        cart_contents(request))
+    checkout_empty = request.POST.get('checkout-empty')
+
     if cart:
         return render(request, 'cart.html',
                       {'cart_prods': zip(cart_prods, cart.values()),
+                       'stock_change': stock_change,
                        'subtotal': subtotal,
                        'shipping': shipping,
                        'grand_total': grand_total})
+    if checkout_empty:
+        js_stock = json.loads(request.POST.get('js-stock'))
+        js_stock_list = []
+        for item in js_stock:
+            js_stock_list.append(item['pk'])
+        stock_change = ProductDetails.objects.filter(pk__in=js_stock_list)
+        return render(request, 'cart.html', {
+            'checkout_empty': checkout_empty,
+            'stock_change': stock_change})
     else:
         return render(request, 'cart.html')
 
@@ -300,20 +341,24 @@ def checkout_addr(request, order_addr_form):
         def_addr = Addresses.objects.filter(
             user=request.user,
             default_addr=True)
+        form_addr = None
         if def_addr:
-            def_addr = def_addr[0]
+            form_addr = def_addr[0]
+        elif not def_addr and addr_list:
+            form_addr = addr_list.last()
+        if form_addr:
             order_addr_form = OrderFormAddr(initial={
-                'first_name': def_addr.first_name,
-                'last_name': def_addr.last_name,
-                'addr_line1': def_addr.addr_line1,
-                'addr_line2': def_addr.addr_line2,
-                'addr_line3': def_addr.addr_line3,
-                'city': def_addr.city,
-                'eir_code': def_addr.eir_code,
-                'county': def_addr.county,
-                'country': def_addr.country,
-                'phone_nr': '0' + str(def_addr.phone_nr),
-                'email': def_addr.user.email},
+                'first_name': form_addr.first_name,
+                'last_name': form_addr.last_name,
+                'addr_line1': form_addr.addr_line1,
+                'addr_line2': form_addr.addr_line2,
+                'addr_line3': form_addr.addr_line3,
+                'city': form_addr.city,
+                'eir_code': form_addr.eir_code,
+                'county': form_addr.county,
+                'country': form_addr.country,
+                'phone_nr': '0' + str(form_addr.phone_nr),
+                'email': form_addr.user.email},
                 user_auth=True)
 
         return order_addr_form, addr_list, js_addr
@@ -325,134 +370,163 @@ def checkout_view(request):
 
     if request.POST.get("checkout-button") or request.POST.get(
             "checkout-edit-addr"):
-        if not cart:
-            messages.error(
-                request, "You don't have anything in your cart at the moment.")
-            return redirect(reverse('all-products'))
-        else:
-            order_addr_form = OrderFormAddr()
-            if request.POST.get('shipping-addr'):
-                if request.user.is_authenticated:
+        order_addr_form = OrderFormAddr()
+        if request.POST.get('shipping-addr'):
+            if request.user.is_authenticated:
+                (ship_order_addr_form, bill_order_addr_form,
+                 addr_list, js_addr) = checkout_addr(
+                    request, order_addr_form)
+                return render(request,
+                              'checkout_addr.html',
+                              {'ship_order_addr_form': ship_order_addr_form,
+                               'bill_order_addr_form': bill_order_addr_form,
+                               'addr_list': addr_list,
+                               'js_addr': js_addr,
+                               'order_note': order_note})
+            else:
+                ship_order_addr_form, bill_order_addr_form = (
+                    dual_addr_form(request))
+                return render(
+                    request, 'checkout_addr.html',
+                    {'ship_order_addr_form': ship_order_addr_form,
+                     'bill_order_addr_form': bill_order_addr_form,
+                     'order_note': order_note})
+
+        elif request.user.is_authenticated:
+            order_addr_form, addr_list, js_addr = checkout_addr(
+                request, order_addr_form)
+            return render(request,
+                          'checkout_addr.html',
+                          {'order_addr_form': order_addr_form,
+                           'addr_list': addr_list,
+                           'js_addr': js_addr,
+                           'order_note': order_note})
+        elif ((request.POST.get("checkout-guest-button")
+              or request.POST.get("checkout-edit-addr"))
+              and not request.POST.get('shipping-addr')):
+            return render(request,
+                          'checkout_addr.html',
+                          {'order_addr_form': order_addr_form,
+                           'order_note': order_note})
+        elif request.POST.get("checkout-signin-button"):
+            user = authenticate(request, email=request.POST["login"],
+                                password=request.POST["password"])
+            if user:
+                login(request, user)
+                messages.success(request, 'Logged in successfully')
+                SavedItems.objects.filter(owner=request.user,
+                                          list_type='CART').delete()
+                for prod in cart:
+                    SavedItems.objects.create(
+                        owner=request.user,
+                        list_type='CART',
+                        product=ProductDetails.objects.get(pk=prod),
+                        quantity=cart[prod])
+
+                if request.POST.get('shipping-addr'):
                     (ship_order_addr_form, bill_order_addr_form,
                      addr_list, js_addr) = checkout_addr(
                         request, order_addr_form)
-                    return render(request,
-                                  'checkout_addr.html',
-                                  {'ship_order_addr_form': ship_order_addr_form,
-                                   'bill_order_addr_form': bill_order_addr_form,
-                                   'addr_list': addr_list,
-                                   'js_addr': js_addr,
-                                   'order_note': order_note})
-                else:
-                    ship_order_addr_form, bill_order_addr_form = (
-                        dual_addr_form(request))
                     return render(
                         request, 'checkout_addr.html',
                         {'ship_order_addr_form': ship_order_addr_form,
                          'bill_order_addr_form': bill_order_addr_form,
+                         'addr_list': addr_list,
+                         'js_addr': js_addr,
                          'order_note': order_note})
-
-            elif request.user.is_authenticated:
-                order_addr_form, addr_list, js_addr = checkout_addr(
-                    request, order_addr_form)
-                return render(request,
-                              'checkout_addr.html',
-                              {'order_addr_form': order_addr_form,
-                               'addr_list': addr_list,
-                               'js_addr': js_addr,
-                               'order_note': order_note})
-            elif ((request.POST.get("checkout-guest-button")
-                  or request.POST.get("checkout-edit-addr"))
-                  and not request.POST.get('shipping-addr')):
-                return render(request,
-                              'checkout_addr.html',
-                              {'order_addr_form': order_addr_form,
-                               'order_note': order_note})
-            elif request.POST.get("checkout-signin-button"):
-                user = authenticate(request, email=request.POST["login"],
-                                    password=request.POST["password"])
-                if user:
-                    login(request, user)
-                    messages.success(request, 'Logged in successfully')
-                    SavedItems.objects.filter(owner=request.user,
-                                              list_type='CART').delete()
-                    for prod in cart:
-                        SavedItems.objects.create(
-                            owner=request.user,
-                            list_type='CART',
-                            product=ProductDetails.objects.get(pk=prod),
-                            quantity=cart[prod])
-
-                    if request.POST.get('shipping-addr'):
-                        (ship_order_addr_form, bill_order_addr_form,
-                         addr_list, js_addr) = checkout_addr(
-                            request, order_addr_form)
-                        return render(
-                            request, 'checkout_addr.html',
-                            {'ship_order_addr_form': ship_order_addr_form,
-                             'bill_order_addr_form': bill_order_addr_form,
-                             'addr_list': addr_list,
-                             'js_addr': js_addr,
-                             'order_note': order_note})
-                    else:
-                        order_addr_form, addr_list, js_addr = checkout_addr(
-                            request, order_addr_form)
-                        return render(request,
-                                      'checkout_addr.html',
-                                      {'order_addr_form': order_addr_form,
-                                       'addr_list': addr_list,
-                                       'js_addr': js_addr,
-                                       'order_note': order_note})
                 else:
-                    messages.error(request, 'Login failed')
+                    order_addr_form, addr_list, js_addr = checkout_addr(
+                        request, order_addr_form)
+                    return render(request,
+                                  'checkout_addr.html',
+                                  {'order_addr_form': order_addr_form,
+                                   'addr_list': addr_list,
+                                   'js_addr': js_addr,
+                                   'order_note': order_note})
             else:
-                return render(request,
-                              'checkout_signin.html')
+                messages.error(request, 'Login failed')
+        else:
+            return render(request,
+                          'checkout_signin.html')
 
-    elif request.POST.get("addr-form-button"):
+    elif (request.POST.get("addr-form-button")
+          or request.POST.get("check-stock")):
+        (cart_prods, cart, stock_change, stock_list, subtotal, shipping,
+         grand_total) = (
+            cart_contents(request))
+
+        if stock_change:
+            js_stock = serializers.serialize('json', stock_change,
+                                             ensure_ascii=False,
+                                             fields='pk')
+        else:
+            js_stock = ''
+
+        check_stock = request.POST.get("check-stock")
         order_note = request.POST.get('checkout-order-note')
         stripe_public_key = settings.STRIPE_PUBLIC_KEY
         stripe_secret_key = settings.STRIPE_SECRET_KEY
 
         if OrderFormAddr().is_valid:
-            shipping_addr = {
-                'first_name': request.POST.getlist('first_name')[0],
-                'last_name': request.POST.getlist('last_name')[0],
-                'addr_line1': request.POST.getlist('addr_line1')[0],
-                'addr_line2': request.POST.getlist('addr_line2')[0],
-                'addr_line3': request.POST.getlist('addr_line3')[0],
-                'city': request.POST.getlist('city')[0],
-                'eir_code': request.POST.getlist('eir_code')[0],
-                'county': request.POST.getlist('county')[0],
-                'country': 'Ireland',
-                'phone_nr': request.POST.getlist('phone_nr')[0],
-                'email': request.POST.getlist('email')[0]}
-            billing_addr = {
-                'first_name': request.POST.getlist('first_name')[1],
-                'last_name': request.POST.getlist('last_name')[1],
-                'addr_line1': request.POST.getlist('addr_line1')[1],
-                'addr_line2': request.POST.getlist('addr_line2')[1],
-                'addr_line3': request.POST.getlist('addr_line3')[1],
-                'city': request.POST.getlist('city')[1],
-                'eir_code': request.POST.getlist('eir_code')[1],
-                'county': request.POST.getlist('county')[1],
-                'country': 'Ireland',
-                'phone_nr': request.POST.getlist('phone_nr')[1],
-                'email': request.POST.getlist('email')[1]}
+            if request.POST.get('shipping-addr'):
+                shipping_addr = json.loads(request.POST.get(
+                    'shipping-addr').replace("'", '"'))
+                billing_addr = json.loads(request.POST.get(
+                    'billing-addr').replace("'", '"'))
+            else:
+                shipping_addr = {
+                    'first_name': request.POST.getlist('first_name')[0],
+                    'last_name': request.POST.getlist('last_name')[0],
+                    'addr_line1': request.POST.getlist('addr_line1')[0],
+                    'addr_line2': request.POST.getlist('addr_line2')[0],
+                    'addr_line3': request.POST.getlist('addr_line3')[0],
+                    'city': request.POST.getlist('city')[0],
+                    'eir_code': request.POST.getlist('eir_code')[0],
+                    'county': request.POST.getlist('county')[0],
+                    'country': 'Ireland',
+                    'phone_nr': request.POST.getlist('phone_nr')[0],
+                    'email': request.POST.getlist('email')[0]}
+                billing_addr = {
+                    'first_name': request.POST.getlist('first_name')[1],
+                    'last_name': request.POST.getlist('last_name')[1],
+                    'addr_line1': request.POST.getlist('addr_line1')[1],
+                    'addr_line2': request.POST.getlist('addr_line2')[1],
+                    'addr_line3': request.POST.getlist('addr_line3')[1],
+                    'city': request.POST.getlist('city')[1],
+                    'eir_code': request.POST.getlist('eir_code')[1],
+                    'county': request.POST.getlist('county')[1],
+                    'country': 'Ireland',
+                    'phone_nr': request.POST.getlist('phone_nr')[1],
+                    'email': request.POST.getlist('email')[1]}
 
-            cart_prods, cart, subtotal, shipping, grand_total = cart_contents(
-                request)
             stripe_total = round(grand_total * 100)
             stripe.api_key = stripe_secret_key
-            intent = stripe.PaymentIntent.create(
-                amount=stripe_total,
-                currency=settings.STRIPE_CURRENCY)
+
+            if stock_change and cart:
+                stock_change = ProductDetails.objects.filter(
+                    pk__in=stock_list)
+                intent = stripe.SetupIntent.create(
+                    description="stock_change",
+                    usage="on_session")
+            elif not cart:
+                intent = stripe.SetupIntent.create(
+                    description="empty_cart",
+                    usage="on_session")
+            elif check_stock and cart and not stock_change:
+                intent = stripe.PaymentIntent.create(
+                    amount=stripe_total,
+                    currency=settings.STRIPE_CURRENCY)
+            else:
+                intent = stripe.SetupIntent.create()
 
             return render(request,
                           'checkout_confirm.html',
                           {'shipping_addr': shipping_addr,
                            'billing_addr': billing_addr,
                            'cart_prods': zip(cart_prods, cart.values()),
+                           'stock_change': stock_change,
+                           'js_stock': js_stock,
+                           'check_stock': check_stock,
                            'subtotal': subtotal,
                            'shipping': shipping,
                            'grand_total': grand_total,
@@ -460,7 +534,7 @@ def checkout_view(request):
                            'stripe_public_key': stripe_public_key,
                            'client_secret': intent.client_secret})
 
-    if request.POST.get("shipping_addr"):
+    if request.POST.get("shipping-addr"):
         return render(request, 'checkout_addr.html',
                       {'order_note': order_note})
 
@@ -516,17 +590,20 @@ def save_order_addr(request, addr):
 
 def checkout_complete(request):
     if request.method == 'POST':
+        original_stock_change = request.POST.get('stock-change')
         user_ship_addr_id, post_shipping = format_addresses(
             request, 'shipping-addr')
         user_bill_addr_id, post_billing = format_addresses(
             request, 'billing-addr')
         order_note = request.POST.get('checkout-order-note')
-        shipping_cost = request.POST.get('shipping')
-        cart_prods, cart, subtotal, shipping, grand_total = (
+        shipping_cost = request.POST.get('shipping', 0)
+        (cart_prods, cart, stock_change, stock_list, subtotal, shipping,
+         grand_total) = (
             cart_contents(request))
 
         if not cart_prods:
-            return render(request, 'checkout_error.html')
+            return render(request, 'checkout_error.html',
+                          {'original_stock_change': original_stock_change})
         if request.user.is_authenticated:
             if not user_ship_addr_id:
                 user_ship_addr_id = save_order_addr(request, post_shipping)
@@ -554,27 +631,27 @@ def checkout_complete(request):
                 order_note=order_note,
                 subtotal=subtotal,
                 shipping_cost=shipping_cost,
-                grand_total = grand_total,
+                grand_total=grand_total,
                 status='PEND')
 
-        for product, quantity in zip(cart_prods, cart):
+        for product, cart_p in zip(cart_prods, cart):
             Purchases.objects.create(
                 order=OrderHistory.objects.get(pk=user_order.pk),
                 product=product,
-                quantity=cart[quantity])
+                quantity=cart[cart_p])
+            ProductDetails.objects.filter(
+                pk=cart_p).update(stock_count=F('stock_count') - cart[cart_p])
 
         del request.session['cart']
         if request.user.is_authenticated:
             SavedItems.objects.filter(
                 owner=request.user,
                 list_type='CART').delete()
-        completed_purchases = Purchases.objects.filter(
-            order__order_id=user_order.pk)
+
         completed_order = OrderHistory.objects.get(pk=user_order.pk)
 
         return render(request, 'checkout_success.html',
-                      {'completed_purchases': completed_purchases,
-                       'completed_order': completed_order,
+                      {'completed_order': completed_order,
                        'cart_prods': zip(cart_prods, cart.values()),
                        'subtotal': subtotal,
                        'shipping': shipping,

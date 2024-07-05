@@ -10,6 +10,15 @@
     <div class="cart">
         <h2>Cart</h2>
         {% include 'form_responses.html' %}
+        {% if checkout_empty %}
+            <p class="form-error">We could not continue the checkout process, as stock changes resulted in your cart being emptied. You have not been charged.</p>
+            <p class="form-error">The following items were removed:</p>
+            {% include 'cart_stock.html' %}
+        {% endif %}
+        {% if stock_change and not checkout_empty %}
+            <p class="form-error">The quantity for the following items in your cart has changed, due to stock updates:</p>
+            {% include 'cart_stock.html' %}
+        {% endif %}
         <div class="prod-table-details">
             {% if cart_prods %}
                 <form action="{% url 'update-cart' %}" method="POST" class="update-cart">
