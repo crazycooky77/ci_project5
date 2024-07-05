@@ -1,4 +1,6 @@
 from django.contrib.auth.models import AbstractUser, BaseUserManager
+from django.core.validators import MaxValueValidator
+
 from products.models import Products, ProductDetails
 from django.db import models
 import uuid
@@ -98,7 +100,7 @@ class SavedItems(models.Model):
         verbose_name_plural = 'Saved Items'
 
     def __str__(self):
-        return f'{self.list_type} | {Products.product_name} | {self.quantity}'
+        return f'{self.owner} | {self.list_type} | {self.product} | {self.quantity}'
 
 
 class OrderHistory(models.Model):
@@ -160,7 +162,7 @@ class Purchases(models.Model):
         verbose_name_plural = 'Purchases'
 
     def __str__(self):
-        return f'{self.purchase_id} | {Products.product_name} | {self.quantity}'
+        return f'{self.purchase_id} | {self.product} | {self.quantity}'
 
 
 class Newsletter(models.Model):
