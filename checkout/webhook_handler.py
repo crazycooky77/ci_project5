@@ -7,6 +7,9 @@ from django.http import HttpResponse
 from products.models import ProductDetails
 from profiles.forms import AddressForm
 from profiles.models import OrderHistory, Addresses, User, Purchases, SavedItems
+from django.conf import settings
+from django.template.loader import render_to_string
+from django.core.mail import send_mail
 
 
 def get_addresses(user, first_name, last_name, addr_details, addr_line3):
@@ -36,6 +39,21 @@ def get_addresses(user, first_name, last_name, addr_details, addr_line3):
 class StripeHWHandler:
     def __init__(self, request):
         self.request = request
+
+    def _send_confirmation_email(self, order):
+        cust_email = order.purchaser_email
+        subject = render_to_string(
+            'confirmation_emails/confirmation_email_subject.txt',
+            {'order': order})
+        body = render_to_string(
+            'confirmation_emails/confirmation_email_body.txt',
+            {'order': order, 'contact_email': settings.DEFAULT_FROM_EMAIL})
+
+        send_mail(
+            subject,
+            body,
+            settings.DEFAULT_FROM_EMAIL,
+            [cust_email])
 
     def handle_event(self, event):
         return HttpResponse(
@@ -160,6 +178,7 @@ class StripeHWHandler:
                 attempt += 1
                 time.sleep(1)
         if order_exists:
+            self._send_confirmation_email(order)
             return HttpResponse(
                 content=f'Webhook received: {event["type"]} '
                         f'| SUCCESS: Verified order already in database', status=200)
@@ -176,7 +195,8 @@ class StripeHWHandler:
                         subtotal=subtotal,
                         shipping_cost=shipping_cost,
                         grand_total=grand_total,
-                        status='PEND')
+                        status='PEND',
+                        stripe_pid=pid)
                 else:
                     order = OrderHistory.objects.create(
                         purchaser_email=billing_details['email'],
@@ -186,7 +206,8 @@ class StripeHWHandler:
                         subtotal=subtotal,
                         shipping_cost=shipping_cost,
                         grand_total=grand_total,
-                        status='PEND')
+                        status='PEND',
+                        stripe_pid=pid)
                 order.save()
                 for product, quantity in json.loads(cart).items():
                     Purchases.objects.create(
@@ -206,6 +227,8 @@ class StripeHWHandler:
                     order.delete()
                 return HttpResponse(content=f'Webhook received: {event["type"]}'
                                             f' | ERROR: {e}', status=500)
+
+        self._send_confirmation_email(order)
         return HttpResponse(
             content=f'Webhook received: {event["type"]}'
                     f' | SUCCESS: Created order in webhook', status=200)

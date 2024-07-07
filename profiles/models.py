@@ -138,7 +138,7 @@ class OrderHistory(models.Model):
                               default=Status.PEND)
     tracking_link = models.TextField(blank=True,
                                      null=True)
-    stripe_pid = models.CharField(max_length=254, default='')
+    stripe_pid = models.CharField(max_length=254)
 
     class Meta:
         ordering = ['-order_dt', 'status']

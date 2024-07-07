@@ -1,0 +1,33 @@
+Hello {{ order.shipping_addr.first_name }} {{ order.shipping_addr.last_name }}!
+
+Thank you for your purchase from NutriForce. We appreciate your custom. Your order details are as follows.
+
+Order Number: {{ order.order_id }}
+Order Date: {{ order.order_dt }}
+
+{% if order.shipping_cost %}
+    Subtotal: € {{ order.subtotal }}
+    Shipping: € {{ order.shipping_cost }}
+    Grand Total: € {{ order.grand_total }}
+{% else %}
+    Free Shipping
+    Grand Total: € {{ order.grand_total }}
+{% endif %}
+
+Shipping Address:
+{{ order.shipping_addr.addr_line1 }}
+{% if order.shipping_addr.addr_line2 %}
+    {{ order.shipping_addr.addr_line2 }}
+{% endif %}
+{% if order.shipping_addr.addr_line3 %}
+    {{ order.shipping_addr.addr_line3 }}
+{% endif %}
+{{ order.shipping_addr.city }}
+{{ order.shipping_addr.eir_code }}
+{{ order.shipping_addr.county }}, {{ order.shipping_addr.country }}
+{{ order.shipping_addr.phone_nr }}
+
+If you have any questions or need to make changes to your order, please don't hesitate to contact us at {{ contact_email }}.
+
+We hope you have a wonderful, nutritious day!
+NutriForce

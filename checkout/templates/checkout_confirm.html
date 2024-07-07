@@ -108,6 +108,7 @@
                 <div class="confirm-checkout">
                     <span>Your card will be charged € {{ grand_total }} once you confirm your purchase.</span>
                     <button id="payment-button" name="payment-button" value="payment-button" type="submit">Confirm Purchase</button>
+                    <p id="pay-process">Processing, please wait...</p>
                     <input type="hidden" name="shipping-addr" value="{{ shipping_addr }}">
                     <input type="hidden" name="billing-addr" value="{{ billing_addr }}">
                     <input type="hidden" name="client-secret" value="{{ client_secret }}">

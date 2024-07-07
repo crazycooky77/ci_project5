@@ -1,11 +1,13 @@
 import json
+import time
+
 from django.http import HttpResponse
 from django.views.decorators.http import require_POST
 from products.models import ProductDetails
 from django.shortcuts import render, redirect
 from django.dispatch import receiver
 from django.contrib.auth.signals import user_logged_in
-from profiles.models import SavedItems
+from profiles.models import SavedItems, Purchases
 from django.contrib import messages
 from django.db.models import F
 from decimal import Decimal
@@ -581,12 +583,28 @@ def checkout_view(request):
 
 
 def checkout_complete(request):
-    if request.method == 'POST':
-        pid = request.POST.get('client-secret').split('_secret')[0]
-        completed_order = OrderHistory.objects.get(stripe_pid=pid)
-        (cart_prods, cart, stock_change, stock_list,
-         subtotal, shipping, grand_total) = (
-            cart_contents(request))
+    order_exists = False
+    attempt = 1
+    while attempt <= 10:
+        try:
+            pid = request.POST.get(
+                'client-secret').split('"')[1].split('_secret')[0]
+            completed_order = OrderHistory.objects.get(stripe_pid=pid)
+            order_exists = True
+            break
+        except OrderHistory.DoesNotExist:
+            attempt += 1
+            time.sleep(2)
+    if order_exists:
+        cart = request.session['cart']
+        cart_prods = list()
+        for product in cart:
+            prod_details = ProductDetails.objects.get(pk=product)
+            cart_prods.append(prod_details)
+
+        subtotal = completed_order.subtotal
+        shipping = completed_order.shipping_cost
+        grand_total = completed_order.grand_total
 
         del request.session['cart']
 
@@ -596,5 +614,3 @@ def checkout_complete(request):
                        'subtotal': subtotal,
                        'shipping': shipping,
                        'grand_total': grand_total})
-    else:
-        return render(request, 'checkout_error.html')

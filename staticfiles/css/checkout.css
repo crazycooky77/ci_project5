@@ -329,3 +329,8 @@ button.hidden-addr-submit, .hidden-empty-submit {
     text-align: center;
 }
 
+#pay-process {
+    display: none;
+    margin-top: 10px;
+    font-weight: bold;
+}

@@ -352,7 +352,6 @@ function dupeOpts(json, option) {
         let dupeOpts = {}
         $("select[name=" + fieldId + "] > option").each(function() {
             if (dupeOpts[this.text]) {
-                console.log()
                 $(this).hide();
                 $(this).addClass('hidden')
                 $(this).prop('disabled', false)

@@ -87,6 +87,7 @@ stripeForm.addEventListener('submit', function(ev) {
         let clientSecret = $('#id_client_secret').text().slice(1, -1);
         card.update({'disabled': true})
         $('#payment-button').attr('disabled', true)
+        document.getElementById('pay-process').style.display = 'unset'
         try {
             stripe.retrieveSetupIntent(clientSecret)
                 .then(function (result) {
@@ -98,6 +99,7 @@ stripeForm.addEventListener('submit', function(ev) {
                     </span>
                     <span>Some item(s) in your cart have changed, due to stock updates. Please review your cart and make any necessary adjustments before checking out again.</span>`
                         $(errorDiv).html(html);
+                        document.getElementById('pay-process').style.display = 'none'
                         card.update({'disabled': false})
                         $('#payment-button').attr('disabled', false)
                     } else if (result.setupIntent.description && result.setupIntent.description === "empty_cart") {
@@ -189,6 +191,7 @@ stripeForm.addEventListener('submit', function(ev) {
                         </span>
                         <span>${result.error.message}</span>`
                         $(errorDiv).html(html);
+                        document.getElementById('pay-process').style.display = 'none'
                         card.update({'disabled': false})
                         $('#payment-button').attr('disabled', false)
                     } else if (result.paymentIntent.status === 'succeeded') {
