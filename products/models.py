@@ -29,7 +29,7 @@ class Products(models.Model):
 
 class ProductDetails(models.Model):
     product = models.ForeignKey(Products,
-                                on_delete=models.CASCADE)
+                                on_delete=models.PROTECT)
     on_sale = models.BooleanField(default=False)
     size = models.IntegerField()
     size_unit = models.CharField(max_length=50)

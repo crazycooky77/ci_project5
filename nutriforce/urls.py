@@ -51,5 +51,6 @@ urlpatterns = [
     path('checkout', checkout_view, name='checkout'),
     path('checkout/success', checkout_complete, name='checkout-success'),
     path('newsletter', newsletter_signup, name='newsletter'),
-    path('wh/', webhook, name='webhook')
+    path('wh/', webhook, name='webhook'),
+    path('checkout/cache_checkout_data/', cache_checkout_data, name='cache_checkout_data')
 ]

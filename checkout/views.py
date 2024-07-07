@@ -1,4 +1,6 @@
 import json
+from django.http import HttpResponse
+from django.views.decorators.http import require_POST
 from products.models import ProductDetails
 from django.shortcuts import render, redirect
 from django.dispatch import receiver
@@ -6,16 +8,39 @@ from django.contrib.auth.signals import user_logged_in
 from profiles.models import SavedItems
 from django.contrib import messages
 from django.db.models import F
-from django.db import models as dmodels
 from decimal import Decimal
-from django.urls import reverse
 from django.conf import settings
 from django.contrib.auth import authenticate, login
 from django.core import serializers
 import stripe
-from profiles.forms import AddressForm
-from profiles.models import OrderHistory, Purchases
+from profiles.models import OrderHistory
 from .forms import *
+
+
+@require_POST
+def cache_checkout_data(request):
+    try:
+        pid = request.POST.get('client_secret').split('_secret')[0]
+        stripe.api_key = settings.STRIPE_SECRET_KEY
+        stripe.PaymentIntent.modify(pid, metadata={
+            'cart': json.dumps(request.session.get('cart', {})),
+            'order_note': request.POST.get('order_note'),
+            'subtotal': request.POST.get('subtotal'),
+            'shipping': request.POST.get('shipping'),
+            'grand_total': request.POST.get('grand_total'),
+            'email': request.user,
+            'ship_first_name': request.POST.get('ship_first_name'),
+            'bill_first_name': request.POST.get('bill_first_name'),
+            'ship_last_name': request.POST.get('ship_last_name'),
+            'bill_last_name': request.POST.get('bill_last_name'),
+            'ship_addr_line3': request.POST.get('ship_addr_line3'),
+            'bill_addr_line3': request.POST.get('bill_addr_line3')
+        })
+        return HttpResponse(status=200)
+    except Exception as e:
+        messages.error(request, 'Sorry, your payment cannot be '
+                                'processed right now. Please try again later.')
+        return HttpResponse(content=e, status=400)
 
 
 @receiver(user_logged_in)
@@ -81,7 +106,6 @@ def cart_merge(sender, user, request, **kwargs):
 
 def add_cart(request, product_id):
     request.session['active_sort'] = request.POST.get('active_sort')
-
     flavour = request.POST.get(product_id + '-prod-flavours')
     size = request.POST.get(product_id + '-prod-sizes')
     quantity = int(request.POST.get(product_id + '-prod-quantity'))
@@ -167,6 +191,7 @@ def add_cart(request, product_id):
 def cart_contents(request):
     stock_change = None
     stock_list = list()
+
     if request.user.is_authenticated:
         user_cart = SavedItems.objects.filter(
             owner=request.user,
@@ -186,6 +211,11 @@ def cart_contents(request):
                         owner=request.user,
                         list_type='CART',
                         pk=prod.pk).delete()
+            if not prod.product.active:
+                SavedItems.objects.filter(
+                    owner=request.user,
+                    list_type='CART',
+                    pk=prod.pk).delete()
         request.session['cart'] = cart
 
     else:
@@ -196,12 +226,18 @@ def cart_contents(request):
         subtotal = 0
 
         for product in cart:
-            prod_details = ProductDetails.objects.get(pk=product)
-            if cart[product] > prod_details.stock_count:
-                cart[product] = prod_details.stock_count
-                stock_list.append(prod_details.pk)
-            subtotal += prod_details.price * cart[product]
-            cart_prods.append(prod_details)
+            try:
+                prod_details = ProductDetails.objects.get(pk=product)
+                if cart[product] > prod_details.stock_count:
+                    cart[product] = prod_details.stock_count
+                    stock_list.append(prod_details.pk)
+                if not prod_details.active:
+                    stock_list.append(prod_details.pk)
+                    del cart[str(cart)]
+                subtotal += prod_details.price * cart[product]
+                cart_prods.append(prod_details)
+            except ProductDetails.DoesNotExist:
+                pass
 
         if stock_list:
             stock_change = ProductDetails.objects.filter(pk__in=stock_list)
@@ -224,13 +260,13 @@ def cart_contents(request):
         shipping = None
         grand_total = None
 
-    return (cart_prods, cart, stock_change, stock_list, subtotal, shipping,
-            grand_total)
+    return (cart_prods, cart, stock_change, stock_list,
+            subtotal, shipping, grand_total)
 
 
 def cart_view(request):
-    (cart_prods, cart, stock_change, stock_list, subtotal, shipping,
-     grand_total) = (
+    (cart_prods, cart, stock_change, stock_list,
+     subtotal, shipping, grand_total) = (
         cart_contents(request))
     checkout_empty = request.POST.get('checkout-empty')
 
@@ -451,8 +487,8 @@ def checkout_view(request):
 
     elif (request.POST.get("addr-form-button")
           or request.POST.get("check-stock")):
-        (cart_prods, cart, stock_change, stock_list, subtotal, shipping,
-         grand_total) = (
+        (cart_prods, cart, stock_change, stock_list,
+         subtotal, shipping, grand_total) = (
             cart_contents(request))
 
         if stock_change:
@@ -539,116 +575,19 @@ def checkout_view(request):
                       {'order_note': order_note})
 
 
-def format_addresses(request, addr_field):
-    addr = json.loads(request.POST.get(
-        addr_field).replace("'", '"'))
-    addr['country'] = 'IE'
-
-    if request.user.is_authenticated:
-        addr_id = get_addresses(request.user, addr)
-    else:
-        addr_id = None
-
-    return addr_id, addr
-
-
-def get_addresses(user, addr):
-    filters = dmodels.Q(user=user) & dmodels.Q(
-        first_name__iexact=addr['first_name']) & dmodels.Q(
-        last_name__iexact=addr['last_name']) & dmodels.Q(
-        addr_line1__iexact=addr['addr_line1']) & dmodels.Q(
-        city__iexact=addr['city']) & dmodels.Q(
-        eir_code__iexact=addr['eir_code']) & dmodels.Q(
-        county__iexact=addr['county']) & dmodels.Q(
-        phone_nr=addr['phone_nr'])
-
-    if addr['addr_line2']:
-        filters &= dmodels.Q(addr_line2__iexact=addr['addr_line2'])
-
-    if addr['addr_line3']:
-        filters &= dmodels.Q(addr_line3__iexact=addr['addr_line3'])
-    addr_id = Addresses.objects.filter(filters)[:1].values_list(
-        'address_id', flat=True)
-
-    return addr_id
-
-
-def save_order_addr(request, addr):
-    addr_form = AddressForm(addr)
-    obj = addr_form.save(commit=False)
-    if request.user.is_authenticated:
-        obj.user = request.user
-        obj.email = request.user.email
-    else:
-        obj.email = addr['email']
-    obj.default_addr = False
-    obj.save()
-    user_addr_id = obj.pk
-
-    return user_addr_id
-
-
 def checkout_complete(request):
     if request.method == 'POST':
-        original_stock_change = request.POST.get('stock-change')
-        user_ship_addr_id, post_shipping = format_addresses(
-            request, 'shipping-addr')
-        user_bill_addr_id, post_billing = format_addresses(
-            request, 'billing-addr')
-        order_note = request.POST.get('checkout-order-note')
-        shipping_cost = request.POST.get('shipping', 0)
-        (cart_prods, cart, stock_change, stock_list, subtotal, shipping,
-         grand_total) = (
+        pid = request.POST.get('client-secret').split('_secret')[0]
+        completed_order = OrderHistory.objects.get(stripe_pid=pid)
+        (cart_prods, cart, stock_change, stock_list,
+         subtotal, shipping, grand_total) = (
             cart_contents(request))
 
-        if not cart_prods:
-            return render(request, 'checkout_error.html',
-                          {'original_stock_change': original_stock_change})
-        if request.user.is_authenticated:
-            if not user_ship_addr_id:
-                user_ship_addr_id = save_order_addr(request, post_shipping)
-            if not user_bill_addr_id:
-                user_bill_addr_id = save_order_addr(request, post_billing)
-
-            user_order = OrderHistory.objects.create(
-                purchaser=request.user,
-                purchaser_email=request.user.email,
-                billing_addr=Addresses.objects.get(pk=user_bill_addr_id),
-                shipping_addr=Addresses.objects.get(pk=user_ship_addr_id),
-                order_note=order_note,
-                subtotal=subtotal,
-                shipping_cost=shipping_cost,
-                grand_total=grand_total,
-                status='PEND')
-        else:
-            user_ship_addr_id = save_order_addr(request, post_shipping)
-            user_bill_addr_id = save_order_addr(request, post_billing)
-
-            user_order = OrderHistory.objects.create(
-                purchaser_email=post_billing['email'],
-                billing_addr=Addresses.objects.get(pk=user_bill_addr_id),
-                shipping_addr=Addresses.objects.get(pk=user_ship_addr_id),
-                order_note=order_note,
-                subtotal=subtotal,
-                shipping_cost=shipping_cost,
-                grand_total=grand_total,
-                status='PEND')
-
-        for product, cart_p in zip(cart_prods, cart):
-            Purchases.objects.create(
-                order=OrderHistory.objects.get(pk=user_order.pk),
-                product=product,
-                quantity=cart[cart_p])
-            ProductDetails.objects.filter(
-                pk=cart_p).update(stock_count=F('stock_count') - cart[cart_p])
-
-        del request.session['cart']
-        if request.user.is_authenticated:
+        if request.user:
             SavedItems.objects.filter(
                 owner=request.user,
                 list_type='CART').delete()
-
-        completed_order = OrderHistory.objects.get(pk=user_order.pk)
+        del request.session['cart']
 
         return render(request, 'checkout_success.html',
                       {'completed_order': completed_order,

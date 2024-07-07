@@ -1,3 +1,19 @@
+function generateCountryMap() {
+  const countries = new Intl.DisplayNames(['en'], {type: 'region'})
+  const countryMap = {}
+  for (let i = 0; i < 26; i++) {
+    for (let j = 0; j < 26; j++) {
+      let code = String.fromCharCode(65 + i) + String.fromCharCode(65 + j)
+      let name = countries.of(code)
+      if (name !== code) {
+        countryMap[name] = code
+      }
+    }
+  }
+  return countryMap
+}
+
+
 let stripePublicKey = $('#id_stripe_public_key').text().slice(1, -1);
 let stripe = Stripe(stripePublicKey);
 let elements = stripe.elements();
@@ -60,6 +76,7 @@ stripeForm.addEventListener('submit', function(ev) {
             $('#id_client_secret').html(updatedSecret)
             document.querySelectorAll("input[name='js-stock']")[0].value = stockChange
             document.querySelectorAll("input[name='js-stock']")[1].value = stockChange
+            document.querySelector("input[name='client-secret']").value = updatedSecret
         }
     };
     xhr.open('POST', '/checkout', true);
@@ -101,24 +118,85 @@ stripeForm.addEventListener('submit', function(ev) {
                     }
                 })
         } catch {
-            stripe.confirmCardPayment(clientSecret, {
-                payment_method: {
-                    card: card
-                }
-            }).then(function (result) {
-                if (result.error) {
-                    let errorDiv = document.getElementById('card-errors')
-                    let html = `
-                    <span class="icon" role="alert">
-                        <i class="fas fa-times"></i>
-                    </span>
-                    <span>${result.error.message}</span>`
-                    $(errorDiv).html(html);
-                    card.update({'disabled': false})
-                    $('#payment-button').attr('disabled', false)
-                } else if (result.paymentIntent.status === 'succeeded') {
-                    stripeForm.submit()
-                }
+            let ship_value = document.querySelector("input[name='shipping-addr']").value
+            let ship_addr = ship_value.replace(/'/g, '"')
+            let ship_addr_json = JSON.parse(ship_addr)
+            let bill_value = document.querySelector("input[name='billing-addr']").value
+            let bill_addr = bill_value.replace(/'/g, '"')
+            let bill_addr_json = JSON.parse(bill_addr)
+            let countries = generateCountryMap()
+            let postData = {
+                'csrfmiddlewaretoken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+                'client_secret': clientSecret,
+                'order_note': $('#checkout-order-note').val(),
+                'ship_first_name': ship_addr_json['first_name'],
+                'bill_first_name': bill_addr_json['first_name'],
+                'ship_last_name': ship_addr_json['last_name'],
+                'bill_last_name': bill_addr_json['last_name'],
+                'ship_addr_line3': ship_addr_json['addr_line3'],
+                'bill_addr_line3': bill_addr_json['addr_line3']
+            }
+            if (document.querySelectorAll('.cart-totals').length === 3) {
+                let subtotal = document.querySelectorAll('.cart-totals')[0].lastElementChild.textContent.split(' ')[1]
+                let shipping = document.querySelectorAll('.cart-totals')[1].lastElementChild.textContent.split(' ')[1]
+                let total = document.querySelectorAll('.cart-totals')[2].lastElementChild.textContent.split(' ')[1]
+                postData['subtotal'] = subtotal
+                postData['shipping'] = shipping
+                postData['grand_total'] = total
+            }
+            else {
+                let total = document.querySelectorAll('.cart-totals')[1].lastElementChild.textContent.split(' ')[1]
+                postData['subtotal'] = total
+                postData['shipping'] = 0
+                postData['grand_total'] = total
+            }
+            let url = '/checkout/cache_checkout_data/'
+            $.post(url, postData).done(function() {
+                stripe.confirmCardPayment(clientSecret, {
+                    payment_method: {
+                        card: card,
+                        billing_details: {
+                            name: $.trim(bill_addr_json['first_name']) + ' ' + $.trim(bill_addr_json['last_name']),
+                            phone: $.trim(bill_addr_json['phone_nr']),
+                            email: $.trim(bill_addr_json['email']),
+                            address: {
+                                line1: $.trim(bill_addr_json['addr_line1']),
+                                line2: $.trim(bill_addr_json['addr_line2']),
+                                city: $.trim(bill_addr_json['city']),
+                                country: $.trim(countries[bill_addr_json['country']]),
+                                state: $.trim(bill_addr_json['county'])
+                            }
+                        }
+                    },
+                    shipping: {
+                        name: $.trim(ship_addr_json['first_name']) + ' ' + $.trim(ship_addr_json['last_name']),
+                        phone: $.trim(ship_addr_json['phone_nr']),
+                        address: {
+                            line1: $.trim(ship_addr_json['addr_line1']),
+                            line2: $.trim(ship_addr_json['addr_line2']),
+                            city: $.trim(ship_addr_json['city']),
+                            country: $.trim(countries[ship_addr_json['country']]),
+                            postal_code: $.trim(ship_addr_json['eir_code']),
+                            state: $.trim(ship_addr_json['county'])
+                        }
+                    }
+                }).then(function (result) {
+                    if (result.error) {
+                        let errorDiv = document.getElementById('card-errors')
+                        let html = `
+                        <span class="icon" role="alert">
+                            <i class="fas fa-times"></i>
+                        </span>
+                        <span>${result.error.message}</span>`
+                        $(errorDiv).html(html);
+                        card.update({'disabled': false})
+                        $('#payment-button').attr('disabled', false)
+                    } else if (result.paymentIntent.status === 'succeeded') {
+                        stripeForm.submit()
+                    }
+                })
+            }).fail(function() {
+                location.reload()
             })
         }
     }

@@ -138,6 +138,7 @@ class OrderHistory(models.Model):
                               default=Status.PEND)
     tracking_link = models.TextField(blank=True,
                                      null=True)
+    stripe_pid = models.CharField(max_length=254, default='')
 
     class Meta:
         ordering = ['-order_dt', 'status']
@@ -150,10 +151,9 @@ class OrderHistory(models.Model):
 class Purchases(models.Model):
     purchase_id = models.AutoField(primary_key=True)
     order = models.ForeignKey(OrderHistory,
-                              on_delete=models.RESTRICT,
-                              related_name='order_purchases')
+                              on_delete=models.PROTECT)
     product = models.ForeignKey(ProductDetails,
-                                on_delete=models.RESTRICT)
+                                on_delete=models.PROTECT)
 
     quantity = models.IntegerField()
 
