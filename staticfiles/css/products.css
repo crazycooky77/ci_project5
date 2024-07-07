@@ -42,7 +42,7 @@
     padding: 5px;
 }
 
-.feat-prod-details-div input, .linked-other input, .prod-other input {
+.feat-prod-details-div input, .linked-other input, .prod-other input, .prod-actions input {
     width: 50px;
 }
 

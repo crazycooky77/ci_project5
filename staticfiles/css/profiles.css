@@ -216,6 +216,10 @@ label[for="id_email2"], #id_email2 {
     margin-bottom: 30px;
 }
 
+.add-def-addr-button {
+    margin-top: 10px;
+}
+
 .orders {
     margin-left: 0;
     margin-top: 0;
