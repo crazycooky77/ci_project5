@@ -15,7 +15,7 @@
                     {% if products %}
                         <p>Here are the products matching your search for "{{ search_term }}"</p>
                     {% else %}
-                        <p>We don't have products matching your search for "{{ search_term }}". You can <a href="mailto:contact@test.com?subject=Product Request&body=Please add details for your request: '">email us</a> to request we add products to our stock.</p>
+                        <p>We don't have products matching your search for "{{ search_term }}". You can <a href="mailto:{{ contact_email }}?subject=Product Request&body=Please add details for your request: '">email us</a> to request we add products to our stock.</p>
                     {% endif %}
                 {% else %}
                     <p>Your search was made with an empty search term. Please try again or check out our <a href='/products/all'>list of products here</a></p>

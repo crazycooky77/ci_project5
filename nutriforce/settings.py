@@ -111,6 +111,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'nutriforce.context_processors.contact_email_addr'
             ],
         },
     },
@@ -179,10 +180,10 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Stripe settings
-
+CONTACT_EMAIL = os.environ.get('CONTACT_EMAIL', '')
 FREE_SHIPPING_THRESHOLD = 50
 STANDARD_SHIPPING_PERCENTAGE = 10
+# Stripe settings
 STRIPE_CURRENCY = 'eur'
 STRIPE_PUBLIC_KEY = os.environ.get('STRIPE_PUBLIC', '')
 STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET', '')

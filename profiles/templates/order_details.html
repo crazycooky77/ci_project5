@@ -23,9 +23,9 @@
                     {% endif %}
                     <td>{{ order.get_status_display }}</td>
                 {% if order.status in 'PEND,PROC,RDY' %}
-                    <td><button type="button" onclick="location.href='mailto:contact@test.com?subject=Cancellation Request for Order {{ order.order_id }}&body=Please add details for your request: '">Request Cancellation</button></td>
+                    <td><button type="button" onclick="location.href='mailto:{{ contact_email }}?subject=Cancellation Request for Order {{ order.order_id }}&body=Please add details for your request: '">Request Cancellation</button></td>
                 {% else %}
-                    <td><button type="button" onclick="location.href='mailto:contact@test.com?subject=Refund Request for Order {{ order.order_id }}&body=Please add details for your request: '">Request Refund</button></td>
+                    <td><button type="button" onclick="location.href='mailto:{{ contact_email }}?subject=Refund Request for Order {{ order.order_id }}&body=Please add details for your request: '">Request Refund</button></td>
                 {% endif %}
                 </tr>
             </table>
