@@ -1,12 +1,9 @@
 import json
 import time
-from datetime import date
-
 import stripe
 from django.db import models as dmodels
 from django.db.models import F
 from django.http import HttpResponse
-
 from products.models import ProductDetails
 from profiles.forms import AddressForm
 from profiles.models import OrderHistory, Addresses, User, Purchases, SavedItems
@@ -57,9 +54,8 @@ class StripeHWHandler:
         bill_first_name = intent.metadata.bill_first_name
         bill_last_name = intent.metadata.bill_last_name
 
-        try:
-            email = intent.metadata.email
-        except AttributeError:
+        email = intent.metadata.email
+        if email == 'AnonymousUser':
             email = None
         try:
             order_note = intent.metadata.order_note
@@ -170,24 +166,40 @@ class StripeHWHandler:
         else:
             order = None
             try:
-                order = OrderHistory.objects.create(
-                    purchaser_email=billing_details['email'],
-                    billing_addr=Addresses.objects.get(pk=bill_addr_id),
-                    shipping_addr=Addresses.objects.get(pk=ship_addr_id),
-                    order_note=order_note,
-                    subtotal=subtotal,
-                    shipping_cost=shipping_cost,
-                    grand_total=grand_total,
-                    status='PEND')
-
+                if user:
+                    order = OrderHistory.objects.create(
+                        purchaser=user,
+                        purchaser_email=billing_details['email'],
+                        billing_addr=Addresses.objects.get(pk=bill_addr_id),
+                        shipping_addr=Addresses.objects.get(pk=ship_addr_id),
+                        order_note=order_note,
+                        subtotal=subtotal,
+                        shipping_cost=shipping_cost,
+                        grand_total=grand_total,
+                        status='PEND')
+                else:
+                    order = OrderHistory.objects.create(
+                        purchaser_email=billing_details['email'],
+                        billing_addr=Addresses.objects.get(pk=bill_addr_id),
+                        shipping_addr=Addresses.objects.get(pk=ship_addr_id),
+                        order_note=order_note,
+                        subtotal=subtotal,
+                        shipping_cost=shipping_cost,
+                        grand_total=grand_total,
+                        status='PEND')
+                order.save()
                 for product, quantity in json.loads(cart).items():
                     Purchases.objects.create(
                         order=OrderHistory.objects.get(pk=order.pk),
-                        product=product,
+                        product=ProductDetails.objects.get(pk=product),
                         quantity=quantity)
                     ProductDetails.objects.filter(
                         pk=product).update(
                         stock_count=F('stock_count') - quantity)
+                if user:
+                    SavedItems.objects.filter(
+                        owner=user,
+                        list_type='CART').delete()
 
             except Exception as e:
                 if order:

@@ -229,21 +229,26 @@ def cart_contents(request):
             try:
                 prod_details = ProductDetails.objects.get(pk=product)
                 if cart[product] > prod_details.stock_count:
+                    stock_list.append(prod_details.pk)
                     cart[product] = prod_details.stock_count
+                elif not prod_details.active:
                     stock_list.append(prod_details.pk)
-                if not prod_details.active:
-                    stock_list.append(prod_details.pk)
-                    del cart[str(cart)]
-                subtotal += prod_details.price * cart[product]
-                cart_prods.append(prod_details)
             except ProductDetails.DoesNotExist:
-                pass
+                del cart[product]
 
         if stock_list:
             stock_change = ProductDetails.objects.filter(pk__in=stock_list)
-            for prod in stock_change:
-                if prod.stock_count == 0:
-                    del cart[str(prod.pk)]
+            for prod in stock_list:
+                prod_details = ProductDetails.objects.get(pk=prod)
+                if prod_details.stock_count == 0:
+                    del cart[str(prod_details.pk)]
+                elif not prod_details.active:
+                    del cart[str(prod_details.pk)]
+
+        for product in cart:
+            prod_details = ProductDetails.objects.get(pk=product)
+            subtotal += prod_details.price * cart[product]
+            cart_prods.append(prod_details)
 
         if subtotal < settings.FREE_SHIPPING_THRESHOLD:
             shipping = round(subtotal * Decimal(
@@ -583,10 +588,6 @@ def checkout_complete(request):
          subtotal, shipping, grand_total) = (
             cart_contents(request))
 
-        if request.user:
-            SavedItems.objects.filter(
-                owner=request.user,
-                list_type='CART').delete()
         del request.session['cart']
 
         return render(request, 'checkout_success.html',
