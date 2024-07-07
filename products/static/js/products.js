@@ -196,6 +196,53 @@ function flavourSelect(json) {
 }
 
 
+function oosSizes(json) {
+    for (let i = 0; i < json.length; i++) {
+        let obj = json[i]
+        let sizes = document.getElementById(obj.fields.product + "-prod-sizes")
+        let flavours = document.getElementById(obj.fields.product + "-prod-flavours")
+        for (let s = 0; s < sizes.length; s++) {
+            if (Number(obj.fields.size) === Number(sizes.options[s].value) &&
+                (obj.fields.flavour === null || (flavours && flavours.options[s].value === obj.fields.flavour))) {
+                if (obj.fields.stock_count === 0 && !($(sizes.options[s]).hasClass('hidden'))) {
+                    sizes.options[s].disabled = true
+                    sizes.options[s].classList.add('oos')
+                    sizes.options[s].removeAttribute('selected')
+                    if (sizes.selectedIndex === s) {
+                        sizes.selectedIndex = -1
+                    }
+                } else if (obj.fields.stock_count > 0) {
+                    sizes.options[s].classList.add('stock')
+                }
+            }
+        }
+    }
+     for (let i = 0; i < json.length; i++) {
+         let obj = json[i]
+         let sizes = document.getElementById(obj.fields.product + "-prod-sizes")
+         for (let s = 0; s < sizes.length; s++) {
+             if ($(sizes.options[s]).hasClass('stock') &&
+                 $(sizes.options[s]).val() !== $(sizes.options[s]).siblings().not('.hidden').filter('.stock').val()) {
+                 sizes.options[s].classList.remove('hidden')
+                 sizes.options[s].style.display = 'unset'
+             }
+             if ($(sizes.options[s]).val() === $(sizes.options[s]).siblings().not('.hidden').filter('.stock').val() &&
+                 ($(sizes.options[s]).hasClass('hidden stock') || $(sizes.options[s]).hasClass('stock hidden'))) {
+                 sizes.options[s].classList.remove('stock')
+             }
+             if ($(sizes.options[s]).val() === $(sizes.options[s]).siblings().filter('.stock').val() &&
+                 $(sizes.options[s]).hasClass('oos')) {
+                 sizes.options[s].classList.add('hidden')
+                 sizes.options[s].style.display = 'none'
+                 sizes.options[s].disabled = false
+                 sizes.options[s].classList.remove('oos')
+             }
+             SizeSelect(sizes)
+         }
+     }
+}
+
+
 function oosFlavours(flavours, obj) {
     let selectedSize = $("#" + obj.fields.product + "-prod-sizes :selected").val()
     for (let f = 0; f < flavours.length; f++) {
@@ -223,25 +270,8 @@ function oosFlavours(flavours, obj) {
 
 
 function oosProducts(json) {
-    for (let i = 0; i < json.length; i++) {
-        let obj = json[i]
-        let sizes = document.getElementById(obj.fields.product + "-prod-sizes")
-        let flavours = document.getElementById(obj.fields.product + "-prod-flavours")
-        for (let s = 0; s < sizes.length; s++) {
-            if (Number(obj.fields.size) === Number(sizes.options[s].value) &&
-                (obj.fields.flavour === null || (flavours && flavours.options[s].value === obj.fields.flavour))) {
-                if (obj.fields.stock_count === 0) {
-                    sizes.options[s].disabled = true
-                    sizes.options[s].classList.add('oos')
-                    sizes.options[s].removeAttribute('selected')
-                    if (sizes.selectedIndex === s) {
-                        sizes.selectedIndex = -1
-                    }
-                }
-            }
-        }
-        SizeSelect(sizes)
-    }
+    oosSizes(json)
+
     for (let i = 0; i < json.length; i++) {
         let obj = json[i]
         let flavours = document.getElementById(obj.fields.product + "-prod-flavours")
@@ -319,32 +349,15 @@ function prodDetails(json) {
 function dupeOpts(json, option) {
     for (let i = 0; i < json.length; i++) {
         let fieldId = json[i].fields.product + "-prod-" + option
-        let dupeOpts = {};
-        $("select[name=" + fieldId + "] > option").each(function () {
+        let dupeOpts = {}
+        $("select[name=" + fieldId + "] > option").each(function() {
             if (dupeOpts[this.text]) {
+                console.log()
                 $(this).hide();
                 $(this).addClass('hidden')
-                $(this).removeClass('oos')
-                $(this).removeClass('stock')
-                $(this).removeClass('na')
                 $(this).prop('disabled', false)
             } else {
                 dupeOpts[this.text] = this.value;
-            }
-
-            if (($(this).prop('selected')) && ($(this).hasClass('hidden'))) {
-                let selectedOpt = $(this).prop('innerText')
-                $("select[name=" + fieldId + "] > option").each(function () {
-                    if ((!($(this).prop('selected'))) &&
-                        (!($(this).hasClass('hidden'))) &&
-                        ($(this).prop('innerText') === selectedOpt)) {
-
-                        $(this).prop('selectedIndex', $(this).prop('index'))
-                        $(this).prop('selected', true)
-                    }
-                })
-                $(this).removeAttr('selected')
-                $(this).prop('selectedIndex', -1)
             }
         })
     }
@@ -354,9 +367,9 @@ function dupeOpts(json, option) {
 function prodFunctions(json) {
     removeClasses(json)
     sortFlavours(json)
-    oosProducts(json)
     dupeOpts(json, 'flavours')
     dupeOpts(json, 'sizes')
+    oosProducts(json)
     prodDetails(json)
 }
 
