@@ -11,8 +11,12 @@ class Products(models.Model):
     product_id = models.AutoField(primary_key=True)
     brand = models.CharField(max_length=50)
     product_name = models.CharField(max_length=50)
-    product_pic_url = models.URLField(max_length=1024, null=True, blank=True)
-    product_pic = models.ImageField(null=True, blank=True)
+    product_pic_url = models.URLField(max_length=1024,
+                                      null=True,
+                                      blank=True)
+    product_pic = models.ImageField(default='/default_img.jpeg',
+                                    null=True,
+                                    blank=True)
     description = models.TextField()
     main_cat = models.CharField(max_length=50,
                                 choices=MainCategory.choices)
