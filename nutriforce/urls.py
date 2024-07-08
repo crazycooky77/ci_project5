@@ -17,6 +17,7 @@ Including another URLconf
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include, re_path
+from django.views.generic import TemplateView
 from products.views import *
 from profiles.views import *
 from checkout.views import *
@@ -53,8 +54,19 @@ urlpatterns = [
     path('checkout', checkout_view, name='checkout'),
     path('checkout/success', checkout_complete, name='checkout-success'),
     path('newsletter', newsletter_signup, name='newsletter'),
+    path('privacy', TemplateView.as_view(template_name='privacy.html'),
+         name='privacy'),
+    path('terms', TemplateView.as_view(template_name='terms.html'),
+         name='terms'),
+    path('returns', TemplateView.as_view(template_name='returns.html'),
+         name='returns'),
+    path('shipping', TemplateView.as_view(template_name='shipping.html'),
+         name='shipping'),
+    path('about', TemplateView.as_view(template_name='about.html'),
+         name='about'),
     path('wh/', webhook, name='webhook'),
-    path('checkout/cache_checkout_data/', cache_checkout_data, name='cache_checkout_data')
+    path('checkout/cache_checkout_data/', cache_checkout_data,
+         name='cache_checkout_data')
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 handler404 = 'nutriforce.views.handler404'
 handler500 = 'nutriforce.views.handler500'
