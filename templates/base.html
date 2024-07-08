@@ -4,7 +4,6 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-
         {% block meta %}
             <!-- Metadata for the site -->
             <meta charset="UTF-8">
@@ -42,74 +41,137 @@
         {% endblock %}
     </head>
     <body>
-        <nav>
+        <nav class="desktop">
             <!-- Nav bar -->
-                <div class="nav-div">
-                    <div class="nav-left">
-                        <!-- Site logo -->
-                        <a href="/"><img src="{{ MEDIA_URL }}logo.jpeg" alt="NutriForce Logo"></a>
+            <div class="nav-div">
+                <div class="nav-left">
+                    <!-- Site logo -->
+                    <a href="/"><img src="{{ MEDIA_URL }}logo.jpeg" alt="NutriForce Logo"></a>
+                </div>
+                <div class="nav-middle">
+                    <div class="nav-search">
+                        <!-- Search bar -->
+                        <form action="{% url 'search-results' %}" role="search" method="POST">
+                            {% csrf_token %}
+                            <label for="nav-search" aria-label="Search Bar"></label>
+                            <input type="search" id="nav-search" name="nav-search" placeholder="Search">
+                            <button type="submit">Search</button>
+                        </form>
                     </div>
-                    <div class="nav-middle">
-                        <div class="nav-search">
-                            <!-- Search bar -->
-                            <form action="{% url 'search-results' %}" role="search" method="POST">
-                                {% csrf_token %}
-                                <label for="nav-search" aria-label="Search Bar"></label>
-                                <input type="search" id="nav-search" name="nav-search" placeholder="Search">
-                                <button type="submit">Search</button>
-                            </form>
-                        </div>
-                        <!-- Nav buttons -->
-                        <div class="nav-buttons">
-                            <button onclick="location.href='/products/all'">All Products</button>
-                            |
-                            <button onclick="location.href='/products/sports'">Sports</button>
-                            |
-                            <button onclick="location.href='/products/health'">Health</button>
-                            |
-                            <button onclick="location.href='/products/new'">What's New</button>
-                        </div>
+                    <!-- Nav buttons -->
+                    <div class="nav-buttons">
+                        <button onclick="location.href='/products/all'">All Products</button>
+                        |
+                        <button onclick="location.href='/products/sports'">Sports</button>
+                        |
+                        <button onclick="location.href='/products/health'">Health</button>
+                        |
+                        <button onclick="location.href='/products/new'">What's New</button>
                     </div>
+                </div>
+                <div class="nav-sup-news">
+                    <div class="nav-news">
+                        <form action="/newsletter" method="POST" id="news-signup-form">
+                            {% csrf_token %}
+                            <!-- Newsletter signup -->
+                            <a href="javascript:newSignup()">Newsletter Signup</a>
+                            <input type="hidden" name="redirect_url" value="{{ request.path }}">
+                        </form>
+                    </div>
+                    <div class="nav-support">
+                        <!-- Contact details -->
+                        <p class="support-details">
+                            Support
+                            <br>
+                            <a href="mailto:{{ contact_email }}"><i class="fa-solid fa-envelope"></i> {{ contact_email }}</a>
+                        </p>
+                    </div>
+                </div>
+                <div class="nav-right">
+                    <a href="/cart"><i class="fa-solid fa-cart-shopping"></i> View Cart</a>
+                    {% if user.is_authenticated %}
+                        <br>
+                        <a href="/profile">Profile</a>
+                        <br>
+                        <form method="POST" action="{% url 'account_logout' %}">
+                            {% csrf_token %}
+                            {% if redirect_field_value %}
+                                <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+                            {% endif %}
+                            <button type="submit" id="nav-logout">Log Out</button>
+                        </form>
+                    {% else %}
+                        <br>
+                        <a href="/login">Log In</a>
+                        <br>
+                        <a href="/signup">Create Account</a>
+                    {% endif %}
+                </div>
+            </div>
+        </nav>
+        <nav class="mobile">
+            <!-- Nav bar -->
+            <div class="nav-div">
+                <div class="nav-right">
+                    <a href="/cart" aria-label="View Cart" title="View Cart"><i class="fa-solid fa-cart-shopping"></i></a>
+                    {% if user.is_authenticated %}
+                        <br>
+                        <a href="/profile" aria-label="Profile" title="Profile"><i class="fa-solid fa-user"></i></a>
+                        <br>
+                        <form method="POST" action="{% url 'account_logout' %}">
+                            {% csrf_token %}
+                            {% if redirect_field_value %}
+                                <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+                            {% endif %}
+                            <button type="submit" id="nav-logout" aria-label="Log Out" title="Log Out"><i class="fa-solid fa-right-from-bracket"></i></button>
+                        </form>
+                    {% else %}
+                        <br>
+                        <a href="/login">Log In</a>
+                        <br>
+                        <a href="/signup">Create Account</a>
+                    {% endif %}
+                </div>
+                <div class="nav-middle">
                     <div class="nav-sup-news">
                         <div class="nav-news">
                             <form action="/newsletter" method="POST" id="news-signup-form">
                                 {% csrf_token %}
                                 <!-- Newsletter signup -->
-                                <a href="javascript:newSignup()">Newsletter Signup</a>
+                                <a href="javascript:newSignup()">Newsletter</a>
                                 <input type="hidden" name="redirect_url" value="{{ request.path }}">
                             </form>
                         </div>
                         <div class="nav-support">
                             <!-- Contact details -->
                             <p class="support-details">
-                                Support
-                                <br>
-                                <a href="mailto:{{ contact_email }}"><i class="fa-solid fa-envelope"></i> {{ contact_email }}</a>
+                                <a href="mailto:{{ contact_email }}"><i class="fa-solid fa-envelope"></i> Support</a>
                             </p>
                         </div>
                     </div>
-                    <div class="nav-right">
-                        <a href="/cart"><i class="fa-solid fa-cart-shopping"></i> View Cart</a>
-                        {% if user.is_authenticated %}
-                            <br>
-                            <a href="/profile">Profile</a>
-                            <br>
-                            <form method="POST" action="{% url 'account_logout' %}">
-                                {% csrf_token %}
-                                {% if redirect_field_value %}
-                                    <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
-                                {% endif %}
-                                <button type="submit" id="nav-logout">Log Out</button>
-                            </form>
-                        {% else %}
-                            <br>
-                            <a href="/login">Log In</a>
-                            <br>
-                            <a href="/signup">Create Account</a>
-                        {% endif %}
+                    <div class="nav-search">
+                        <!-- Search bar -->
+                        <form action="{% url 'search-results' %}" role="search" method="POST">
+                            {% csrf_token %}
+                            <label for="nav-search" aria-label="Search Bar"></label>
+                            <input type="search" id="nav-search" name="nav-search" placeholder="Search">
+                            <button type="submit">Search</button>
+                        </form>
                     </div>
                 </div>
-            </nav>
+                <div class="nav-left">
+                    <!-- Site logo -->
+                    <a href="/"><img src="{{ MEDIA_URL }}logo.jpeg" alt="NutriForce Logo"></a>
+                </div>
+            </div>
+            <!-- Nav buttons -->
+            <div class="nav-buttons">
+                <button onclick="location.href='/products/all'">All</button>
+                <button onclick="location.href='/products/sports'">Sports</button>
+                <button onclick="location.href='/products/health'">Health</button>
+                <button onclick="location.href='/products/new'">New</button>
+            </div>
+        </nav>
         <main>
             <div id="container">
                 {% block content %}
@@ -123,17 +185,17 @@
             {% block copyright %}
                 <div class="footer-content">
                     <p class="footer-links">
-                        <i class="fa-brands fa-facebook"></i>ollow Us
+                        <a href="https://www.facebook.com/profile.php?id=100094712224458" target="_blank"><i class="fa-brands fa-facebook"></i>ollow Us</a>
                          |
-                        Shipping
+                        <a href="{% url 'shipping' %}">Shipping</a>
                          |
-                        Returns
+                        <a href="{% url 'returns' %}">Returns</a>
                          |
-                        About Us
+                        <a href="{% url 'about' %}">About Us</a>
                          |
-                        Terms & Conditions
+                        <a href="{% url 'terms' %}">Terms & Conditions</a>
                          |
-                        Privacy Policy
+                        <a href="{% url 'privacy' %}">Privacy Policy</a>
                     </p>
                     <p id="footer-top-link">
                         <a href="javascript:topScroll()">Back to top</a>
