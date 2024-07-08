@@ -21,6 +21,7 @@ from products.views import *
 from profiles.views import *
 from checkout.views import *
 from checkout.webhooks import webhook
+from nutriforce.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -55,3 +56,5 @@ urlpatterns = [
     path('wh/', webhook, name='webhook'),
     path('checkout/cache_checkout_data/', cache_checkout_data, name='cache_checkout_data')
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+handler404 = 'nutriforce.views.handler404'
+handler500 = 'nutriforce.views.handler500'

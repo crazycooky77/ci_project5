@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="mid-content">
+        <h2>Server Error</h2>
+        <p>An error has occurred. We apologise for any inconvenience, but have notified the cleaners to check for bugs! If you have any concerns about this error, please <a href="mailto:{{ contact_email }}">contact us</a>.</p>
+        <p>Otherwise, you can <a href="/products/all">continue shopping</a></p>
+    </div>
+{% endblock %}
