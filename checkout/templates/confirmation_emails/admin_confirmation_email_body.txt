@@ -1,6 +1,4 @@
-Hello {{ order.shipping_addr.first_name }} {{ order.shipping_addr.last_name }}!
-
-Thank you for your purchase from NutriForce. We appreciate your custom. Your order details are as follows.
+A new order has been received. Please review the below, begin preparations, and update the order status in the Admin Panel.
 
 Order Number: {{ order.order_id }}
 Order Date: {{ order.order_dt }}
@@ -20,7 +18,4 @@ Phone Number: 0{{ order.shipping_addr.phone_nr }}
 Note to Seller:
 {{ order.order_note }}
 
-If you have any questions or need to make changes to your order, please don't hesitate to contact us at {{ contact_email }}.
-
-We hope you have a wonderful, nutritious day!
-NutriForce
+If needed, you can retrieve payment details using the ID {{ pid }}. The payment status is "{{ event_type }}".

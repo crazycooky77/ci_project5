@@ -55,6 +55,22 @@ class StripeHWHandler:
             settings.DEFAULT_FROM_EMAIL,
             [cust_email])
 
+    def _send_admin_email(self, order, pid, event):
+        admin_email = settings.CONTACT_EMAIL
+        event_type = event["type"]
+        subject = render_to_string(
+            'confirmation_emails/admin_confirmation_email_subject.txt',
+            {'order': order})
+        body = render_to_string(
+            'confirmation_emails/admin_confirmation_email_body.txt',
+            {'order': order, 'pid': pid, 'event_type': event_type})
+
+        send_mail(
+            subject,
+            body,
+            settings.DEFAULT_FROM_EMAIL,
+            [admin_email])
+
     def handle_event(self, event):
         return HttpResponse(
             content=f'Webhook received: {event["type"]}',
@@ -229,6 +245,7 @@ class StripeHWHandler:
                                             f' | ERROR: {e}', status=500)
 
         self._send_confirmation_email(order)
+        self._send_admin_email(order, pid, event)
         return HttpResponse(
             content=f'Webhook received: {event["type"]}'
                     f' | SUCCESS: Created order in webhook', status=200)

@@ -1,0 +1,1 @@
+NEW ORDER: #{{ order.order_id }}
