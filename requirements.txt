@@ -1,5 +1,4 @@
 boto3==1.34.140
-cloudinary==1.39.1
 coverage==7.3.2
 dj3-cloudinary-storage==0.0.6
 django-cloudinary-storage==0.3.0
