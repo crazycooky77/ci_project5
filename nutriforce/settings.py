@@ -14,7 +14,6 @@ from pathlib import Path
 import os
 import dj_database_url
 import sys
-import cloudinary
 
 development = os.environ.get('DEVELOPMENT', False)
 
@@ -46,7 +45,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'cloudinary_storage',
     'django.contrib.sites',
     'allauth',
     'allauth.account',
@@ -57,8 +55,6 @@ INSTALLED_APPS = [
     'mathfilters',
     'storages'
 ]
-
-cloudinary.config(secure=True)
 
 # Variables for login/logout behaviour and email functions
 SITE_ID = 1
@@ -112,6 +108,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.media',
                 'nutriforce.context_processors.contact_email_addr'
             ],
         },
