@@ -220,6 +220,12 @@ label[for="id_email2"], #id_email2 {
     margin-top: 10px;
 }
 
+.add-addr .desktop {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
 .orders {
     margin-left: 0;
     margin-top: 0;
@@ -280,4 +286,98 @@ label[for="id_email2"], #id_email2 {
 
 .order-sums .sum-title {
     text-align: left;
+}
+
+
+
+@media screen and (max-width: 320px) {
+    .desktop {
+        display: none;
+    }
+
+    .mobile {
+        display: block;
+    }
+
+    .profile {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    #ham-menu {
+        display: none;
+        flex-direction: column;
+        margin-left: 0;
+        border: 1px solid black;
+        border-radius: 5px;
+        padding: 3px;
+    }
+
+    #ham-menu a {
+        margin-left: 0;
+    }
+
+    #ham-icon {
+        margin: 0;
+    }
+
+    .acc-details, .pw-change, .email-change, .email-confirm {
+        width: 100%;
+    }
+
+    .profile-buttons {
+        width: 100%;
+    }
+
+    .email-change button, .pw-change button {
+        width: 100%;
+        margin-right: auto;
+    }
+
+    #current_email {
+        margin-bottom: 15px;
+    }
+
+    .email-change #id_email {
+        margin-top: auto;
+    }
+
+    .addr-msg {
+        width: 100%;
+    }
+
+    .default-addr {
+        border-left: none;
+        padding-left: 0;
+    }
+
+    .other-addr {
+        padding-right: 0;
+    }
+
+    .addr-view p {
+        margin-bottom: 5px;
+    }
+
+    .add-addr {
+        width: 100%;
+    }
+
+    .add-addr input {
+        width: 100%;
+    }
+
+    label[for="id_default_addr"] {
+        margin-right: 0;
+    }
+
+    #id_default_addr {
+        width: auto;
+        margin-left: 10px;
+    }
+
+    .add-addr button {
+        width: 100%;
+        margin: 10px auto;
+    }
 }
