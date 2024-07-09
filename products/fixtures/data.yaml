@@ -3,9 +3,20 @@
   fields:
     product_name: DELETED
     brand: DELETED
+    product_pic_url: "https://DELETED.del"
     product_pic: "DELETED.webp"
-    price: 0
     description: DELETED
+    main_cat: DELETED
+    categories: DELETED
+- model: products.ProductDetails
+  pk: 0
+  fields:
+    product: 0
+    on_sale: False
+    size: 0
+    size_unit: DELETED
+    flavour: DELETED
+    price: 0
     stock_count: 0
     ingredients: DELETED
     active: False
