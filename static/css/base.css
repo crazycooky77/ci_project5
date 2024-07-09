@@ -130,7 +130,8 @@ label:has(+input:required):after {
 }
 
 .nav-search input {
-    width: 360px;
+    max-width: 360px;
+    width: 20vw;
 }
 
 .nav-search button {
@@ -366,7 +367,9 @@ footer * {
     }
 
     .nav-right {
-        margin: 0;
+        margin: 0 0 0 5px;
+        text-align: left;
+        width: 5%;
     }
 
     .nav-right a {
@@ -397,7 +400,8 @@ footer * {
     }
 
     #nav-logout {
-        margin: 0;
+        margin: 2px auto;
+        padding: 0;
     }
 
     footer * {
