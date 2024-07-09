@@ -224,10 +224,6 @@ label:has(+input:required):after {
     margin-bottom: 10px;
 }
 
-label[for="id_email"], .label-input #id_email {
-    margin-top: 20px;
-}
-
 label[for="id_email2"], #id_email2 {
     margin-bottom: 10px;
 }
@@ -300,13 +296,25 @@ footer * {
         margin: auto 5px;
     }
 
+    main {
+        margin-top: 15px;
+    }
+
+    input {
+        width: 100%;
+    }
+
+    button {
+        width: 100%;
+    }
+
     .mobile {
         display: flex;
         flex-direction: column;
     }
 
     .nav-div {
-        margin-top: 5px;
+        margin: 5px auto;
         justify-content: unset;
     }
 
@@ -402,6 +410,34 @@ footer * {
     #nav-logout {
         margin: 2px auto;
         padding: 0;
+    }
+
+    .mid-content {
+        width: 100%;
+    }
+
+    .form-text {
+        margin-bottom: 15px;
+    }
+
+    .label-input {
+        width: 100%;
+    }
+
+    .label-input > button:first-child {
+        margin-top: 10px;
+    }
+
+    .pass-req {
+        width: 100%;
+    }
+
+    .pass-req ul {
+        padding-left: 20px;
+    }
+
+    .pass-req button {
+        margin-top: 5px;
     }
 
     footer * {
