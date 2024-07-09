@@ -1,9 +1,6 @@
 from django.contrib.auth.models import AbstractUser, BaseUserManager
-from django.core.validators import MaxValueValidator
-
 from products.models import Products, ProductDetails
 from django.db import models
-import uuid
 from django.utils.translation import gettext_lazy as _
 
 
