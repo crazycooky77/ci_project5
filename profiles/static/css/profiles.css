@@ -380,4 +380,40 @@ label[for="id_email2"], #id_email2 {
         width: 100%;
         margin: 10px auto;
     }
+
+    .orders {
+        width: 100%;
+    }
+
+    .orders .prod-table table th, .orders .prod-table table td, .orders .prod-table-details table th, .orders .prod-table-details table td {
+        padding: 5px;
+    }
+
+    .orders .prod-table table td:last-child button {
+        padding: 2px;
+    }
+
+    .orders .prod-table table td:first-child, .orders .prod-table table th:first-child {
+        padding-left: 0;
+    }
+
+    .orders .prod-table table td:last-child, .orders .prod-table table th:last-child {
+        padding-right: 0;
+    }
+
+    .orders .prod-table table td:nth-child(4) {
+        word-break: break-word;
+        padding: 1px;
+    }
+
+    .orders .prod-table button {
+        width: auto;
+        margin-top: 10px;
+    }
+
+    .orders .prod-table-details {
+        overflow: scroll;
+        margin: 20px auto auto auto;
+    }
+
 }

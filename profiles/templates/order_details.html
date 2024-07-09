@@ -7,37 +7,42 @@
         <div class="prod-table">
             <table>
                 <tr class="cart-tbl-prod">
-                    <th>Date</th>
-                    <th>Order #</th>
-                    <th>Tracking</th>
-                    <th>Order Status</th>
-                    <th>Action</th>
+                    <th aria-label="Date" title="Date">Date</th>
+                    <th aria-label="Order #" title="Order #">Order #</th>
+                    <th aria-label="Tracking" title="Tracking">Tracking</th>
+                    <th aria-label="Order Status" title="Order Status">Order Status</th>
+                    <th aria-label="Action" title="Action" class="desktop">Action</th>
                 </tr>
                 <tr class="cart-tbl-prod">
                     <td>{{ order.order_dt|date:'Y-m-d' }}</td>
                     <td>{{ order.order_id }}</td>
                     {% if order.tracking_link %}
-                        <td><a href="{{ order.tracking_link }}" target="_blank">Click here</a></td>
+                        <td><a href="{{ order.tracking_link }}" target="_blank">Track</a></td>
                     {% else %}
                         <td>N/A</td>
                     {% endif %}
                     <td>{{ order.get_status_display }}</td>
                 {% if order.status in 'PEND,PROC,RDY' %}
-                    <td><button type="button" onclick="location.href='mailto:{{ contact_email }}?subject=Cancellation Request for Order {{ order.order_id }}&body=Please add details for your request: '">Request Cancellation</button></td>
+                    <td class="desktop"><button type="button" onclick="location.href='mailto:{{ contact_email }}?subject=Cancellation Request for Order {{ order.order_id }}&body=Please add details for your request: '">Request Cancellation</button></td>
                 {% else %}
-                    <td><button type="button" onclick="location.href='mailto:{{ contact_email }}?subject=Refund Request for Order {{ order.order_id }}&body=Please add details for your request: '">Request Refund</button></td>
+                    <td class="desktop"><button type="button" onclick="location.href='mailto:{{ contact_email }}?subject=Refund Request for Order {{ order.order_id }}&body=Please add details for your request: '">Request Refund</button></td>
                 {% endif %}
                 </tr>
             </table>
+            {% if order.status in 'PEND,PROC,RDY' %}
+                <button class="mobile" type="button" onclick="location.href='mailto:{{ contact_email }}?subject=Cancellation Request for Order {{ order.order_id }}&body=Please add details for your request: '">Request Cancellation</button>
+            {% else %}
+                <button class="mobile" type="button" onclick="location.href='mailto:{{ contact_email }}?subject=Refund Request for Order {{ order.order_id }}&body=Please add details for your request: '">Request Refund</button>
+            {% endif %}
         </div>
         <div class="prod-table-details">
             <table>
                 <tr class="cart-tbl-prod">
-                    <th>Product</th>
-                    <th>Size</th>
-                    <th>Quantity</th>
-                    <th>Individual Price</th>
-                    <th>Sum</th>
+                    <th aria-label="Product" title="Product">Product</th>
+                    <th aria-label="Size" title="Size">Size</th>
+                    <th aria-label="Quantity" title="Quantity">Quantity</th>
+                    <th aria-label="Individual Price" title="Individual Price">Individual Price</th>
+                    <th aria-label="Sum" title="Sum">Sum</th>
                 </tr>
                 {% for item, product in order_details %}
                     <tr class="cart-tbl-prod">
