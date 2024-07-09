@@ -1,3 +1,5 @@
+from django.db.models import Q
+
 from .models import *
 from allauth.account.views import PasswordChangeView, EmailView, \
     ConfirmEmailView, EmailVerificationSentView
@@ -100,12 +102,24 @@ def edit_addr(request):
 
 def delete_addr(request):
     del_addr_id = request.POST.get("del-addr-button")
-    Addresses.objects.get(user=request.user,
-                          pk=del_addr_id).delete()
-    messages.success(
-        request,
-        'You successfully deleted your address ' +
-        'from your account.')
+    orders = OrderHistory.objects.filter(Q(
+        shipping_addr=del_addr_id) | Q(billing_addr=del_addr_id))
+    if orders:
+        Addresses.objects.filter(user=request.user,
+                              pk=del_addr_id).update(user=None)
+        messages.success(
+            request,
+            'You successfully removed your address ' +
+            'from your account. It remains in our system, as ' +
+            'you had an order associated with it. Please contact ' +
+            'our support, if you want the address deleted completely.')
+    else:
+        Addresses.objects.get(user=request.user,
+                              pk=del_addr_id).delete()
+        messages.success(
+            request,
+            'You successfully deleted your address ' +
+            'from your account.')
 
 
 def profile_view(request):
