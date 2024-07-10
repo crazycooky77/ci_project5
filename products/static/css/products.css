@@ -229,5 +229,57 @@
 @media screen and (max-width: 320px) {
     .home-div {
         margin: auto;
+        width: 100%;
+        gap: 20px;
     }
+
+    .home-row {
+        width: 100%;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .feat-prod-div, .feat-prod-div *, .home-row .feat-prod-div, .home-row .feat-prod-div * {
+        width: 100%;
+        margin: 0;
+        box-sizing: border-box;
+    }
+
+    .feat-prod-img-name {
+        display: flex;
+        flex-direction: row;
+        margin-bottom: 5px;
+    }
+
+    .feat-img-div, .home-row .feat-img-div {
+        width: 20%;
+        max-width: unset;
+        margin: 0;
+    }
+
+    .feat-img {
+        margin-left: 0;
+    }
+
+    .feat-name-div, .home-row .feat-name-div {
+        width: 80%;
+        margin: auto auto auto 10px;
+    }
+
+    .feat-prod-details, .home-row .feat-prod-details {
+        margin-bottom: 5px;
+    }
+
+    p[id$="prod-price"], .home-row p[id$="prod-price"] {
+        margin: 10px auto;
+    }
+
+    .home-row .feat-prod-details-div input {
+        width: 50px;
+    }
+
+    button[class$="add-cart"], .home-row button[class$="add-cart"] {
+        margin-top: 10px;
+    }
+
 }

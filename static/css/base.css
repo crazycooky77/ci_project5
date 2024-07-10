@@ -324,6 +324,7 @@ footer * {
 
     .nav-support a, .support-details i {
         font-size: 12px;
+        text-decoration: none;
     }
 
     .nav-left {
@@ -354,7 +355,7 @@ footer * {
     }
 
     .nav-support {
-        margin-right: 0;
+        margin: auto 0 auto auto;
     }
 
     .nav-search {

@@ -11,19 +11,32 @@
         {% include 'form_responses.html' %}
         {% if new_product %}
             <div class="feat-prod-div">
-                <div class="feat-img-div">
+                <div class="desktop feat-img-div">
                     <a href="/products/id={{ new_product.product.product_id }}"><img class="feat-img" src="{{ new_product.product.product_pic.url }}" alt="New featured product"></a>
                 </div>
                 <div class="feat-prod-details-div">
-                    <a href="/products/id={{ new_product.product.product_id }}">
-                        <p class="feat-prod-details">{{ new_product.product.brand }}</p>
-                        <p class="feat-prod-details">{{ new_product.product.product_name }}</p>
+                    <a href="/products/id={{ new_product.product.product_id }}" class="desktop">
+                        <p class="desktop feat-prod-details">{{ new_product.product.brand }}</p>
+                        <p class="desktop feat-prod-details">{{ new_product.product.product_name }}</p>
                     </a>
+                    <div class="mobile feat-prod-img-name">
+                        <div class="feat-img-div">
+                            <a href="/products/id={{ new_product.product.product_id }}">
+                                <img class="feat-img" src="{{ new_product.product.product_pic.url }}" alt="New featured product">
+                            </a>
+                        </div>
+                        <div class="feat-name-div">
+                            <a href="/products/id={{ sports_product.product.product_id }}">
+                                <p class="feat-prod-details">{{ new_product.product.brand }}</p>
+                                <p class="feat-prod-details">{{ new_product.product.product_name }}</p>
+                            </a>
+                        </div>
+                    </div>
                     <form action="{% url 'add-cart' new_product.product_id %}" method="POST">
                         {% csrf_token %}
                         {% if new_product.flavour %}
                             <p class="feat-prod-details">
-                                <label for="{{ new_product.product_id }}-prod-flavours">Flavour:</label>{
+                                <label for="{{ new_product.product_id }}-prod-flavours">Flavour:</label>
                                 <select name="{{ new_product.product_id }}-prod-flavours" id="{{ new_product.product_id }}-prod-flavours" onChange=featOptions()>
                                     {% for option in new_product_extras|dictsort:"flavour" %}
                                         {% if option.flavour == new_product.flavour %}
@@ -65,14 +78,27 @@
         <div class="home-row">
             {% if sports_product %}
                 <div class="feat-prod-div">
-                    <div class="feat-img-div">
+                    <div class="desktop feat-img-div">
                         <a href="/products/id={{ sports_product.product.product_id }}"><img class="feat-img" src="{{ sports_product.product.product_pic.url }}" alt="Featured sports product"></a>
                     </div>
                     <div class="feat-prod-details-div">
-                        <a href="/products/id={{ sports_product.product.product_id }}">
-                            <p class="feat-prod-details">{{ sports_product.product.brand }}</p>
-                            <p class="feat-prod-details">{{ sports_product.product.product_name }}</p>
+                        <a href="/products/id={{ sports_product.product.product_id }}" class="desktop">
+                            <p class="desktop feat-prod-details">{{ sports_product.product.brand }}</p>
+                            <p class="desktop feat-prod-details">{{ sports_product.product.product_name }}</p>
                         </a>
+                        <div class="mobile feat-prod-img-name">
+                            <div class="feat-img-div">
+                                <a href="/products/id={{ sports_product.product.product_id }}">
+                                    <img class="feat-img" src="{{ sports_product.product.product_pic.url }}" alt="Featured sports product">
+                                </a>
+                            </div>
+                            <div class="feat-name-div">
+                                <a href="/products/id={{ sports_product.product.product_id }}">
+                                    <p class="feat-prod-details">{{ sports_product.product.brand }}</p>
+                                    <p class="feat-prod-details">{{ sports_product.product.product_name }}</p>
+                                </a>
+                            </div>
+                        </div>
                         <form action="{% url 'add-cart' sports_product.product_id %}" method="POST">
                             {% csrf_token %}
                             {% if sports_product.flavour %}
@@ -118,14 +144,27 @@
             {% endif %}
             {% if health_product %}
                 <div class="feat-prod-div">
-                    <div class="feat-img-div">
+                    <div class="desktop feat-img-div">
                         <a href="/products/id={{ health_product.product.product_id }}"><img class="feat-img" src="{{ health_product.product.product_pic.url }}" alt="Featured health product"></a>
                     </div>
                     <div class="feat-prod-details-div">
-                        <a href="/products/id={{ health_product.product.product_id }}">
-                            <p class="feat-prod-details">{{ health_product.product.brand }}</p>
-                            <p class="feat-prod-details">{{ health_product.product.product_name }}</p>
+                        <a href="/products/id={{ health_product.product.product_id }}" class="desktop">
+                            <p class="desktop feat-prod-details">{{ health_product.product.brand }}</p>
+                            <p class="desktop feat-prod-details">{{ health_product.product.product_name }}</p>
                         </a>
+                        <div class="mobile feat-prod-img-name">
+                            <div class="feat-img-div">
+                                <a href="/products/id={{ health_product.product.product_id }}">
+                                    <img class="feat-img" src="{{ health_product.product.product_pic.url }}" alt="Featured health product">
+                                </a>
+                            </div>
+                            <div class="feat-name-div">
+                                <a href="/products/id={{ health_product.product.product_id }}">
+                                    <p class="feat-prod-details">{{ health_product.product.brand }}</p>
+                                    <p class="feat-prod-details">{{ health_product.product.product_name }}</p>
+                                </a>
+                            </div>
+                        </div>
                         <form action="{% url 'add-cart' health_product.product_id %}" method="POST">
                             {% csrf_token %}
                             {% if health_product.flavour %}

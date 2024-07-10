@@ -315,7 +315,7 @@ function prodDetails(json) {
         if (obj.fields.stock_count > 0 &&
             (obj.fields.flavour === null || obj.fields.flavour === selectedFlavour) &&
             Number(obj.fields.size) === Number(selectedSize)) {
-            price.textContent = "€ " + obj.fields.price
+            price.textContent = "Price: € " + obj.fields.price
             quantity.setAttribute('max', obj.fields.stock_count)
             if (stock !== null) {
                 stock.textContent = "Availability: In Stock"
@@ -417,7 +417,6 @@ function allOptions() {
 if (window.location.pathname === "/") {
     $(document).ready(function () {
         featOptions()
-        sortScroll()
     })
 }
 
