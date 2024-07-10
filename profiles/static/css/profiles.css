@@ -416,4 +416,7 @@ label[for="id_email2"], #id_email2 {
         margin: 20px auto auto auto;
     }
 
+    .orders .prod-table-details table td:nth-child(4), .orders .prod-table-details table th:nth-child(4) {
+        display: none;
+    }
 }
