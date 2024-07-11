@@ -1,7 +1,9 @@
+import datetime
 import json
 import time
-
+from django.core.mail import send_mail
 from django.http import HttpResponse
+from django.template.loader import render_to_string
 from django.views.decorators.http import require_POST
 from products.models import ProductDetails
 from django.shortcuts import render, redirect
@@ -614,3 +616,31 @@ def checkout_complete(request):
                        'subtotal': subtotal,
                        'shipping': shipping,
                        'grand_total': grand_total})
+    else:
+        client_secret = request.POST.get('client-secret')
+
+        if client_secret:
+            pid = request.POST.get(
+                'client-secret').split('"')[1].split('_secret')[0]
+            time_now = datetime.datetime.now()
+
+            def _send_order_error_email(client_secret, pid):
+                admin_email = settings.CONTACT_EMAIL
+                subject = render_to_string(
+                    'error_emails/admin_order_error_email_subject.txt',
+                    {'time_now': time_now})
+                body = render_to_string(
+                    'error_emails/admin_order_error_email_body.txt',
+                    {'client_secret': client_secret,
+                     'pid': pid,
+                     'time_now': time_now})
+                send_mail(
+                    subject,
+                    body,
+                    settings.DEFAULT_FROM_EMAIL,
+                    [admin_email])
+
+            _send_order_error_email(client_secret, pid)
+
+        return render(request, 'checkout_error.html',
+                      {'client_secret': client_secret})

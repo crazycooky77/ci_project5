@@ -1,0 +1,5 @@
+A payment has gone through that does not seem to have created an order in our system, or sent out any confirmation emails. Please review the below urgently, create the order if needed, and reach out to the customer.
+
+The client secret for the payment is: {{ client_secret }}
+The PID is: {{ pid }}
+This occurred around: {{ time_now }}
