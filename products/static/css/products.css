@@ -10,14 +10,7 @@
 .home-row {
     display: flex;
     flex-direction: row;
-}
-
-.home-row .prod-oos:first-child {
-    margin-right: 10px;
-}
-
-.home-row .prod-oos:last-child {
-    margin-left: 10px;
+    gap: 20px;
 }
 
 .all-prod-page:has(.prod-oos) {
@@ -237,6 +230,10 @@
         width: 100%;
         flex-direction: column;
         gap: 20px;
+    }
+
+    .prod-oos {
+        margin-bottom: 0;
     }
 
     .feat-prod-div, .feat-prod-div *, .home-row .feat-prod-div, .home-row .feat-prod-div * {

@@ -64,8 +64,15 @@ if (window.innerWidth <= 320) {
         }
         if (window.location.pathname.includes('/profile/orders')) {
             let headers = document.querySelectorAll('th')
-            let buttons = document.querySelector('table').querySelectorAll('button')
-            let prodImg = document.querySelectorAll('.order-prod-img')
+            let buttons = document.querySelector('table')
+            if (buttons) {
+                buttons.querySelectorAll('button')
+                for (let j = 0; j < buttons.length; j++) {
+                    if(buttons[j].textContent === 'View Order') {
+                        buttons[j].innerHTML = 'View'
+                    }
+                }
+            }
             for (let i = 0; i < headers.length; i++) {
                 if (headers[i].textContent === 'Date') {
                     headers[i].innerHTML = '<i class="fa-solid fa-calendar-day"></i>'
@@ -91,22 +98,9 @@ if (window.innerWidth <= 320) {
                 else if (headers[i].textContent === 'Quantity') {
                     headers[i].innerHTML = '<i class="fa-solid fa-arrow-up-9-1"></i>'
                 }
-                else if (headers[i].textContent === 'Individual Price') {
-                    headers[i].innerHTML = '<i class="fa-solid fa-money-bill-1-wave"></i>'
-                }
                 else if (headers[i].textContent === 'Sum') {
                     headers[i].innerHTML = '<i class="fa-solid fa-sack-dollar"></i>'
                 }
-            }
-
-            for (let j = 0; j < buttons.length; j++) {
-                if(buttons[j].textContent === 'View Order') {
-                    buttons[j].innerHTML = 'View'
-                }
-            }
-
-            for (let k = 0; k < prodImg.length; k++) {
-                prodImg[k].remove()
             }
         }
     })

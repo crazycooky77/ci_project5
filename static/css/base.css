@@ -297,6 +297,8 @@ footer * {
     }
 
     main {
+        width: 100%;
+        max-width: unset;
         margin-top: 15px;
     }
 

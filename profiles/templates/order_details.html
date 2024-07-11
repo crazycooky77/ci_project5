@@ -41,14 +41,14 @@
                     <th aria-label="Product" title="Product">Product</th>
                     <th aria-label="Size" title="Size">Size</th>
                     <th aria-label="Quantity" title="Quantity">Quantity</th>
-                    <th aria-label="Individual Price" title="Individual Price" class="Desktop">Individual Price</th>
+                    <th aria-label="Individual Price" title="Individual Price" class="desktop">Individual Price</th>
                     <th aria-label="Sum" title="Sum">Sum</th>
                 </tr>
                 {% for item, product in order_details %}
                     <tr class="cart-tbl-prod">
                         <td><a href="/products/id={{ item.product.product_id }}">
                             <div class="order-prod">
-                                <img class="order-prod-img" src="{{ item.product.product.product_pic.url }}" alt="Product image">
+                                <img class="desktop order-prod-img" src="{{ item.product.product.product_pic.url }}" alt="Product image">
                                 {% if item.product.flavour %}
                                     <p>{{ item.product.product.brand }} {{ item.product.product.product_name }} {{ item.product.flavour }}</p>
                                 {% else %}

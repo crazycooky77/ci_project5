@@ -101,6 +101,24 @@ function resizeCheckoutFields() {
 }
 
 
+if (window.innerWidth <= 320) {
+    if (window.location.pathname === '/cart' || window.location.pathname === '/checkout' || window.location.pathname === '/checkout/success') {
+        let headers = document.querySelectorAll('th')
+        for (let i = 0; i < headers.length; i++) {
+            if (headers[i].textContent === 'Product') {
+                headers[i].innerHTML = '<i class="fa-solid fa-bottle-water"></i>'
+            } else if (headers[i].textContent === 'Size') {
+                headers[i].innerHTML = '<i class="fa-solid fa-weight-scale"></i>'
+            } else if (headers[i].textContent === 'Quantity') {
+                headers[i].innerHTML = '<i class="fa-solid fa-arrow-up-9-1"></i>'
+            } else if (headers[i].textContent === 'Sum') {
+                headers[i].innerHTML = '<i class="fa-solid fa-sack-dollar"></i>'
+            }
+        }
+    }
+}
+
+
 if (window.location.pathname === "/checkout") {
     $(document).ready(function() {
         resizeCheckoutFields()
