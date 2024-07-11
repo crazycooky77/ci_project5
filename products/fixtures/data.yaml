@@ -20,4 +20,4 @@
     stock_count: 0
     ingredients: DELETED
     active: False
-    created_ts: 2000-01-01 00:00:00
+    created_ts: 2000-01-01 00:00:00+00:00

@@ -76,6 +76,9 @@
             const js_address = "{{ js_addr }}".replace(/&quot;/ig,'"')
             json_addr = JSON.parse(js_address)
         }
+        else {
+            json_addr = ''
+        }
     </script>
     <script src="{% static 'js/checkout.js' %}"></script>
 {% endblock %}

@@ -102,9 +102,15 @@
             const js_prods = "{{ js_products }}".replace(/&quot;/ig,'"')
             json_prods = JSON.parse(js_prods)
         }
+        else {
+            json_prods = ''
+        }
         if ("{{ js_searched }}" !== "") {
             const js_searched_prods = "{{ js_searched }}".replace(/&quot;/ig,'"')
             json_searched_prods = JSON.parse(js_searched_prods)
+        }
+        else {
+            json_searched_prods = ''
         }
     </script>
     <script src="{% static 'js/products.js' %}"></script>

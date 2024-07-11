@@ -366,12 +366,14 @@ function dupeOpts(json, option) {
 
 
 function prodFunctions(json) {
-    removeClasses(json)
-    sortFlavours(json)
-    dupeOpts(json, 'flavours')
-    dupeOpts(json, 'sizes')
-    oosProducts(json)
-    prodDetails(json)
+    if (json) {
+        removeClasses(json)
+        sortFlavours(json)
+        dupeOpts(json, 'flavours')
+        dupeOpts(json, 'sizes')
+        oosProducts(json)
+        prodDetails(json)
+    }
 }
 
 
