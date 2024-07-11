@@ -1,29 +1,31 @@
 /* Function to dynamically set the height for products in lists */
 function prodElSizes(prodClass) {
-    let prodList = document.getElementsByClassName(prodClass)
-    for (let i = 0; i < prodList.length; i++) {
-        if (typeof prodList[i] === 'object') {
-            if (i !== 0 && prodList[i].clientWidth > prodList[i - 1].clientWidth) {
-                prodList[i].parentElement.style.width = prodList[i - 1].clientWidth + 'px'
-                prodList[i].parentElement.style.flex = '0 0 auto'
-            }
-            if (i !== 0 && prodList[i].getBoundingClientRect().top === prodList[i - 1].getBoundingClientRect().top) {
-                if (prodList[i].clientHeight < prodList[i - 1].clientHeight) {
-                    prodList[i].style.height = prodList[i - 1].clientHeight + 'px'
+    window.onload = function() {
+        let prodList = document.getElementsByClassName(prodClass)
+        for (let i = 0; i < prodList.length; i++) {
+            if (typeof prodList[i] === 'object') {
+                if (i !== 0 && prodList[i].clientWidth > prodList[i - 1].clientWidth) {
+                    prodList[i].parentElement.style.width = prodList[i - 1].clientWidth + 'px'
+                    prodList[i].parentElement.style.flex = '0 0 auto'
                 }
-                else if (prodList[i].clientHeight > prodList[i - 1].clientHeight) {
-                    prodList[i - 1].style.height = prodList[i].clientHeight + 'px'
-                    for (let x = 0; x < i; x++) {
-                        if (typeof prodList[x] === 'object') {
-                            if (prodList[i].getBoundingClientRect().top === prodList[x].getBoundingClientRect().top) {
-                                prodList[x].style.height = prodList[i].clientHeight + 'px'
+                if (i !== 0 && prodList[i].getBoundingClientRect().top === prodList[i - 1].getBoundingClientRect().top) {
+                    if (prodList[i].clientHeight < prodList[i - 1].clientHeight) {
+                        prodList[i].style.height = prodList[i - 1].clientHeight + 'px'
+                    }
+                    else if (prodList[i].clientHeight > prodList[i - 1].clientHeight) {
+                        prodList[i - 1].style.height = prodList[i].clientHeight + 'px'
+                        for (let x = 0; x < i; x++) {
+                            if (typeof prodList[x] === 'object') {
+                                if (prodList[i].getBoundingClientRect().top === prodList[x].getBoundingClientRect().top) {
+                                    prodList[x].style.height = prodList[i].clientHeight + 'px'
+                                }
                             }
                         }
                     }
-                }
 
-                if (prodList[i].children[1].innerText === 'Out Of Stock') {
-                    prodList[i].children[1].style.height = prodList[i - 1].children[1].getBoundingClientRect().height + 'px'
+                    if (prodList[i].children[1].innerText === 'Out Of Stock') {
+                        prodList[i].children[1].style.height = prodList[i - 1].children[1].getBoundingClientRect().height + 'px'
+                    }
                 }
             }
         }

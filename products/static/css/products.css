@@ -282,6 +282,10 @@
         margin-top: 10px;
     }
 
+    .prod-div {
+        width: 100%;
+    }
+
     .hor-prod-div {
         flex-direction: column;
     }
@@ -316,4 +320,34 @@
         height: 100px;
     }
 
+    .all-prod-div {
+        width: 100%;
+    }
+
+    .prod-sort {
+        margin-left: 0;
+    }
+
+    .all-prod-ver {
+        flex: 1 0 45%;
+        max-width: unset;
+        min-width: unset;
+        margin: 0 5px 15px 5px;
+        height: 100%;
+        border-bottom: 1px solid black;
+        padding-bottom: 15px;
+    }
+
+    a:has(.all-prod-img) {
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+
+    .all-prod-img {
+        height: 100px;
+    }
+
+    .all-prod-details {
+        margin: 0;
+    }
 }

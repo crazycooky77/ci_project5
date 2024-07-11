@@ -302,6 +302,7 @@ label[for="id_email2"], #id_email2 {
     .profile {
         flex-direction: column;
         gap: 10px;
+        padding: 10px;
     }
 
     #ham-menu {
