@@ -620,6 +620,12 @@ def checkout_complete(request):
         client_secret = request.POST.get('client-secret')
 
         if client_secret:
+            del request.session['cart']
+            if request.user.is_authenticated:
+                SavedItems.objects.filter(
+                    owner=request.user,
+                    list_type='CART').delete()
+
             pid = request.POST.get(
                 'client-secret').split('"')[1].split('_secret')[0]
             time_now = datetime.datetime.now()

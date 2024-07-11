@@ -403,6 +403,7 @@ button.hidden-addr-submit, .hidden-empty-submit {
 
     .checkout-summ-addr-div {
         width: 48%;
+        word-break: break-word;
     }
 
     .checkout-summ-h3 {
