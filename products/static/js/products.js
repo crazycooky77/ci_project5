@@ -429,6 +429,27 @@ if (window.location.pathname.split('=')[0] === '/products/id') {
         window.onresize = function() {
             prodElSizes('linked-details')
         }
+        let descLink = document.getElementById('prod-desc-link');
+        let descText = document.getElementById('prod-desc');
+        let ingLink = document.getElementById('prod-ing-link');
+        let ingText = document.getElementById('prod-ing');
+
+        document.body.addEventListener('click', function (e) {
+            if (descLink === e.target && (descText.style.display === '' || descText.style.display === 'none')) {
+                descText.style.display = 'block';
+                descLink.innerHTML = 'Hide description <i class="fa-solid fa-square-caret-up"></i>'
+            } else if (descLink === e.target && descText.style.display === 'block') {
+                descText.style.display = 'none';
+                descLink.innerHTML = 'Show description <i class="fa-solid fa-square-caret-down"></i>'
+            }
+            if (ingLink === e.target && (ingText.style.display === '' || ingText.style.display === 'none')) {
+                ingText.style.display = 'block';
+                ingLink.innerHTML = 'Hide description <i class="fa-solid fa-square-caret-up"></i>'
+            } else if (ingLink === e.target && ingText.style.display === 'block') {
+                ingText.style.display = 'none';
+                ingLink.innerHTML = 'Show description <i class="fa-solid fa-square-caret-down"></i>'
+            }
+        })
     })
 }
 

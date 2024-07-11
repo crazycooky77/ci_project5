@@ -56,10 +56,12 @@
             </div>
             <div class="prod-details">
                 <h2>Description</h2>
-                <p>{{ product.first.product.description }}</p>
+                <a href="javascript:void(0);" id="prod-desc-link" class="mobile">Show description <i class="fa-solid fa-square-caret-down"></i></a>
+                <p id="prod-desc">{{ product.first.product.description }}</p>
                 <hr class="prod-split">
                 <h2>Ingredients</h2>
-                <p>{{ product.first.ingredients }}</p>
+                <a href="javascript:void(0);" id="prod-ing-link" class="mobile">Show ingredients <i class="fa-solid fa-square-caret-down"></i></a>
+                <p id="prod-ing">{{ product.first.ingredients }}</p>
             </div>
             {% if linked_sorted %}
                 <div class="similar-prod">
