@@ -1,31 +1,29 @@
 /* Function to dynamically set the height for products in lists */
 function prodElSizes(prodClass) {
-    window.onload = function() {
-        let prodList = document.getElementsByClassName(prodClass)
-        for (let i = 0; i < prodList.length; i++) {
-            if (typeof prodList[i] === 'object') {
-                if (i !== 0 && prodList[i].clientWidth > prodList[i - 1].clientWidth) {
-                    prodList[i].parentElement.style.width = prodList[i - 1].clientWidth + 'px'
-                    prodList[i].parentElement.style.flex = '0 0 auto'
+    let prodList = document.getElementsByClassName(prodClass)
+    for (let i = 0; i < prodList.length; i++) {
+        if (typeof prodList[i] === 'object') {
+            if (i !== 0 && prodList[i].clientWidth > prodList[i - 1].clientWidth) {
+                prodList[i].parentElement.style.width = prodList[i - 1].clientWidth + 'px'
+                prodList[i].parentElement.style.flex = '0 0 auto'
+            }
+            if (i !== 0 && prodList[i].getBoundingClientRect().top === prodList[i - 1].getBoundingClientRect().top) {
+                if (prodList[i].clientHeight < prodList[i - 1].clientHeight) {
+                    prodList[i].style.height = prodList[i - 1].clientHeight + 'px'
                 }
-                if (i !== 0 && prodList[i].getBoundingClientRect().top === prodList[i - 1].getBoundingClientRect().top) {
-                    if (prodList[i].clientHeight < prodList[i - 1].clientHeight) {
-                        prodList[i].style.height = prodList[i - 1].clientHeight + 'px'
-                    }
-                    else if (prodList[i].clientHeight > prodList[i - 1].clientHeight) {
-                        prodList[i - 1].style.height = prodList[i].clientHeight + 'px'
-                        for (let x = 0; x < i; x++) {
-                            if (typeof prodList[x] === 'object') {
-                                if (prodList[i].getBoundingClientRect().top === prodList[x].getBoundingClientRect().top) {
-                                    prodList[x].style.height = prodList[i].clientHeight + 'px'
-                                }
+                else if (prodList[i].clientHeight > prodList[i - 1].clientHeight) {
+                    prodList[i - 1].style.height = prodList[i].clientHeight + 'px'
+                    for (let x = 0; x < i; x++) {
+                        if (typeof prodList[x] === 'object') {
+                            if (prodList[i].getBoundingClientRect().top === prodList[x].getBoundingClientRect().top) {
+                                prodList[x].style.height = prodList[i].clientHeight + 'px'
                             }
                         }
                     }
+                }
 
-                    if (prodList[i].children[1].innerText === 'Out Of Stock') {
-                        prodList[i].children[1].style.height = prodList[i - 1].children[1].getBoundingClientRect().height + 'px'
-                    }
+                if (prodList[i].children[1].innerText === 'Out Of Stock') {
+                    prodList[i].children[1].style.height = prodList[i - 1].children[1].getBoundingClientRect().height + 'px'
                 }
             }
         }
@@ -419,7 +417,7 @@ function allOptions() {
 
 /* On homepage load, disable the product dropdown options for out of stock products */
 if (window.location.pathname === "/") {
-    $(document).ready(function () {
+    window.addEventListener("DOMContentLoaded", () => {
         featOptions()
     })
 }
@@ -427,10 +425,10 @@ if (window.location.pathname === "/") {
 
 /* On product page load, hide duplicate and out of stock flavours in dropdowns */
 if (window.location.pathname.split('=')[0] === '/products/id') {
-    $(document).ready(function () {
+    window.addEventListener("DOMContentLoaded", () => {
         productOptions()
         linkedOptions()
-        window.onresize = function() {
+        window.onresize = function () {
             prodElSizes('linked-details')
         }
         let descLink = document.getElementById('prod-desc-link');
@@ -463,7 +461,7 @@ if ((window.location.pathname === "/products/health") ||
 (window.location.pathname === "/products/new") ||
 (window.location.pathname === "/products/sports") ||
 (window.location.pathname === "/products/all")) {
-    $(document).ready(function () {
+    window.addEventListener("DOMContentLoaded", () => {
         allOptions()
         window.onresize = function() {
             prodElSizes('all-prod-details')
@@ -475,14 +473,14 @@ if ((window.location.pathname === "/products/health") ||
 
 /* On search product page load, select the searched flavour, and hide duplicate and out of stock flavours in dropdowns */
 if (window.location.pathname === "/products/search") {
-    $(document).ready(function () {
+    window.addEventListener("DOMContentLoaded", () => {
         if (window.json_prods && json_prods) {
             searchSelection(json_searched_prods)
             allOptions()
-            window.onresize = function() {
-                prodElSizes('all-prod-details')
-            }
-            sortScroll()
         }
+        window.onresize = function() {
+            prodElSizes('all-prod-details')
+        }
+        sortScroll()
     })
 }

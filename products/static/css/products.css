@@ -31,8 +31,9 @@
     gap: 20px;
     border: solid 1px black;
     border-radius: 7px;
-    margin: 20px;
+    margin: 20px 0;
     padding: 5px;
+    box-sizing: border-box;
 }
 
 .feat-prod-details-div input, .linked-other input, .prod-other input, .prod-actions input {
@@ -116,6 +117,7 @@
     display: flex;
     flex-direction: column;
     width: 100%;
+    margin-bottom: 0;
 }
 
 .linked-name, .all-prod-name {
@@ -151,6 +153,12 @@
     display: flex;
     flex-wrap: wrap;
     margin-left: 0;
+    justify-content: space-around;
+}
+
+.all-prod-page::after {
+    content: "";
+    flex: auto;
 }
 
 .all-prod-ver {
@@ -159,7 +167,7 @@
     flex-direction: column;
     min-width: 200px;
     max-width: 25%;
-    margin: 50px 15px auto 15px;
+    margin: 50px 15px 0 15px;
 }
 
 .prod-sort {
@@ -217,29 +225,46 @@
     width: 70%
 }
 
+button[class$="add-cart"], .home-row button[class$="add-cart"], .hor-prod-div div[id$="prod-cart"] button {
+    margin-top: 10px;
+}
 
 
-@media screen and (max-width: 320px) {
+
+@media screen and (max-width: 800px) {
+    .desktop {
+        display: none;
+    }
+
+    .mid-screen {
+        display: flex;
+        flex-direction: column;
+    }
+
     .home-div {
         margin: auto;
-        width: 100%;
         gap: 20px;
     }
 
     .home-row {
-        width: 100%;
         flex-direction: column;
         gap: 20px;
+        margin: 0;
     }
 
     .prod-oos {
         margin-bottom: 0;
     }
 
-    .feat-prod-div, .feat-prod-div *, .home-row .feat-prod-div, .home-row .feat-prod-div * {
+    .feat-prod-div, .home-row .feat-prod-div {
+        width: 100%;
+        margin: auto;
+        max-width: 400px;
+    }
+
+    .feat-prod-div *, .home-row .feat-prod-div * {
         width: 100%;
         margin: 0;
-        box-sizing: border-box;
     }
 
     .feat-prod-img-name {
@@ -275,20 +300,25 @@
         width: 50px;
     }
 
-    button[class$="add-cart"], .home-row button[class$="add-cart"], .hor-prod-div div[id$="prod-cart"] button {
-        margin-top: 10px;
+    .hor-prod-div {
+        gap: 30px;
     }
+}
 
-    .prod-div {
-        width: 100%;
-    }
 
+
+@media screen and (max-width: 320px) {
     .hor-prod-div {
         flex-direction: column;
+        gap: unset;
     }
 
     .prod-img {
         width: 20%;
+    }
+
+    .hor-prod-div div[id$="prod-cart"] button {
+        width: auto;
     }
 
     #prod-desc, #prod-ing {
@@ -317,10 +347,6 @@
         height: 100px;
     }
 
-    .all-prod-div {
-        width: 100%;
-    }
-
     .prod-sort {
         margin-left: 0;
     }
@@ -330,7 +356,6 @@
         max-width: unset;
         min-width: unset;
         margin: 0 5px 15px 5px;
-        height: 100%;
         border-bottom: 1px solid black;
         padding-bottom: 15px;
     }
