@@ -1,10 +1,10 @@
-$(document).ready(function () {
+window.addEventListener("DOMContentLoaded", () => {
     // Restrict the width of the hyperlink element on the logo to the logo image width
-    let logo = document.getElementsByClassName("nav-left")[0].firstElementChild
+    let logo = document.getElementsByClassName("nav-right")[0].firstElementChild
     logo.style.width = window.getComputedStyle(logo.firstChild).getPropertyValue("width")
 
     let scrollBtn = document.getElementById("footer-top-link");
-    window.onscroll = function() {
+    window.onscroll = function () {
         if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
             scrollBtn.style.visibility = "unset";
         } else {
@@ -12,10 +12,10 @@ $(document).ready(function () {
         }
     }
 
-    $("input[type='number']").each(function(){
+    $("input[type='number']").each(function () {
         $(this).attr("onkeydown", "return event.keyCode !== 69")
     })
-    $("input[name='phone_nr']").each(function(){
+    $("input[name='phone_nr']").each(function () {
         document.querySelector("input[name='phone_nr']").max = 2147483647
     })
 })

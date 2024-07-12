@@ -41,14 +41,46 @@
         {% endblock %}
     </head>
     <body>
-        <nav class="desktop">
+        <nav class="desktop mid-desk">
             <!-- Nav bar -->
             <div class="nav-div">
                 <div class="nav-left">
-                    <!-- Site logo -->
-                    <a href="/"><img src="{{ MEDIA_URL }}logo.jpeg" alt="NutriForce Logo"></a>
+                    <a href="/cart"><i class="fa-solid fa-cart-shopping"></i> View Cart</a>
+                    {% if user.is_authenticated %}
+                        <br>
+                        <a href="/profile"><i class="fa-solid fa-user"></i> Profile</a>
+                        <br>
+                        <form method="POST" action="{% url 'account_logout' %}">
+                            {% csrf_token %}
+                            {% if redirect_field_value %}
+                                <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+                            {% endif %}
+                            <button type="submit" id="nav-logout"><i class="fa-solid fa-right-from-bracket"></i> Log Out</button>
+                        </form>
+                    {% else %}
+                        <br>
+                        <a href="/login"><i class="fa-regular fa-user"></i> Log In</a>
+                        <br>
+                        <a href="/signup"><i class="fa-solid fa-user-plus"></i> Create Account</a>
+                    {% endif %}
                 </div>
                 <div class="nav-middle">
+                    <div class="nav-sup-news">
+                        <div class="nav-news">
+                            <form action="/newsletter" method="POST" id="news-signup-form">
+                                {% csrf_token %}
+                                <!-- Newsletter signup -->
+                                <a href="javascript:newSignup()">Newsletter Signup</a>
+                                <input type="hidden" name="redirect_url" value="{{ request.path }}">
+                            </form>
+                        </div>
+                        <div class="nav-support">
+                            <!-- Contact details -->
+                            <p class="support-details">
+                                <a href="mailto:{{ contact_email }}"><i class="fa-solid fa-envelope"></i> Support</a>
+                            </p>
+                        </div>
+                    </div>
                     <div class="nav-search">
                         <!-- Search bar -->
                         <form action="{% url 'search-results' %}" role="search" method="POST">
@@ -69,50 +101,16 @@
                         <button onclick="location.href='/products/new'">What's New</button>
                     </div>
                 </div>
-                <div class="nav-sup-news">
-                    <div class="nav-news">
-                        <form action="/newsletter" method="POST" id="news-signup-form">
-                            {% csrf_token %}
-                            <!-- Newsletter signup -->
-                            <a href="javascript:newSignup()">Newsletter Signup</a>
-                            <input type="hidden" name="redirect_url" value="{{ request.path }}">
-                        </form>
-                    </div>
-                    <div class="nav-support">
-                        <!-- Contact details -->
-                        <p class="support-details">
-                            Support
-                            <br>
-                            <a href="mailto:{{ contact_email }}"><i class="fa-solid fa-envelope"></i> {{ contact_email }}</a>
-                        </p>
-                    </div>
-                </div>
                 <div class="nav-right">
-                    <a href="/cart"><i class="fa-solid fa-cart-shopping"></i> View Cart</a>
-                    {% if user.is_authenticated %}
-                        <br>
-                        <a href="/profile">Profile</a>
-                        <br>
-                        <form method="POST" action="{% url 'account_logout' %}">
-                            {% csrf_token %}
-                            {% if redirect_field_value %}
-                                <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
-                            {% endif %}
-                            <button type="submit" id="nav-logout">Log Out</button>
-                        </form>
-                    {% else %}
-                        <br>
-                        <a href="/login">Log In</a>
-                        <br>
-                        <a href="/signup">Create Account</a>
-                    {% endif %}
+                    <!-- Site logo -->
+                    <a href="/"><img src="{{ MEDIA_URL }}logo.jpeg" alt="NutriForce Logo"></a>
                 </div>
             </div>
         </nav>
-        <nav class="mobile">
+        <nav class="mid-screen">
             <!-- Nav bar -->
             <div class="nav-div">
-                <div class="nav-right">
+                <div class="nav-left">
                     <a href="/cart" aria-label="View Cart" title="View Cart"><i class="fa-solid fa-cart-shopping"></i></a>
                     {% if user.is_authenticated %}
                         <br>
@@ -159,7 +157,7 @@
                         </form>
                     </div>
                 </div>
-                <div class="nav-left">
+                <div class="nav-right">
                     <!-- Site logo -->
                     <a href="/"><img src="{{ MEDIA_URL }}logo.jpeg" alt="NutriForce Logo"></a>
                 </div>
