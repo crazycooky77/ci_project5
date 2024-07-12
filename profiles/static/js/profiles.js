@@ -23,20 +23,71 @@ function mobileResize() {
 if (window.innerWidth > 320) {
     if (window.location.pathname === '/profile/add-address' ||
         window.location.pathname.split("/")[2] === 'edit-address') {
-        $(document).ready(function () {
-            window.onload = function() {
+        window.onload = function() {
             addrInputResize()
-                }
             window.onresize = function() {
                 addrInputResize()
             }
-        })
+        }
     }
-    }
+}
+
+
+if (window.innerWidth <= 1100) {
+    window.addEventListener("DOMContentLoaded", () => {
+        if (window.location.pathname.includes('/profile/orders')) {
+            let headers = document.querySelectorAll('th')
+            for (let i = 0; i < headers.length; i++) {
+                if (headers[i].textContent === 'Date') {
+                    headers[i].innerHTML = '<i class="fa-solid fa-calendar-day"></i>'
+                } else if (headers[i].textContent === 'Order #') {
+                    headers[i].innerHTML = '<i class="fa-solid fa-hashtag"></i>'
+                } else if (headers[i].textContent === 'Tracking') {
+                    headers[i].innerHTML = '<i class="fa-solid fa-truck-fast"></i>'
+                } else if (headers[i].textContent === 'Order Status') {
+                    headers[i].innerHTML = '<i class="fa-solid fa-spinner"></i>'
+                } else if (headers[i].textContent === 'Action') {
+                    headers[i].innerHTML = '<i class="fa-solid fa-hand"></i>'
+                } else if (headers[i].textContent === 'View') {
+                    headers[i].innerHTML = '<i class="fa-solid fa-eye"></i>'
+                } else if (headers[i].textContent === 'Product') {
+                    headers[i].innerHTML = '<i class="fa-solid fa-bottle-water"></i>'
+                } else if (headers[i].textContent === 'Size') {
+                    headers[i].innerHTML = '<i class="fa-solid fa-weight-scale"></i>'
+                } else if (headers[i].textContent === 'Quantity') {
+                    headers[i].innerHTML = '<i class="fa-solid fa-arrow-up-9-1"></i>'
+                 } else if (headers[i].textContent === 'Individual Price') {
+                    headers[i].innerHTML = '<i class="fa-solid fa-money-bill-1-wave"></i>'
+                } else if (headers[i].textContent === 'Sum') {
+                    headers[i].innerHTML = '<i class="fa-solid fa-sack-dollar"></i>'
+                }
+            }
+        }
+    })
+}
+
+
+if (window.innerWidth <= 800) {
+    window.addEventListener('DOMContentLoaded', () => {
+        if (window.location.pathname.split('/')[2] === 'edit-address' ||
+            window.location.pathname.split('/')[2] === 'add-address') {
+            let labels = document.getElementsByClassName('label-input')
+            for (let i = 0; i < labels.length - 1; i++) {
+                document.getElementsByClassName('label-input')[i].firstElementChild.textContent = ''
+            }
+            window.onload = function() {
+                mobileResize()
+            }
+            window.onresize = function () {
+                mobileResize()
+            }
+        }
+    })
+}
 
 
 if (window.innerWidth <= 320) {
-    $(document).ready(function () {
+    window.addEventListener("DOMContentLoaded", () => {
         if (window.location.pathname.includes('profile') ||
             window.location.pathname.includes('email') ||
             window.location.pathname === '/password/change/') {
@@ -51,55 +102,14 @@ if (window.innerWidth <= 320) {
                 }
             })
         }
-        if (window.location.pathname.split('/')[2] === 'edit-address' ||
-            window.location.pathname.split('/')[2] === 'add-address') {
-            let labels = document.getElementsByClassName('label-input')
-            for (let i = 0; i < labels.length - 1; i++) {
-                document.getElementsByClassName('label-input')[i].firstElementChild.textContent = ''
-            }
-            mobileResize()
-            window.onresize = function () {
-                mobileResize()
-            }
-        }
         if (window.location.pathname.includes('/profile/orders')) {
-            let headers = document.querySelectorAll('th')
             let buttons = document.querySelector('table')
             if (buttons) {
                 buttons.querySelectorAll('button')
                 for (let j = 0; j < buttons.length; j++) {
-                    if(buttons[j].textContent === 'View Order') {
+                    if (buttons[j].textContent === 'View Order') {
                         buttons[j].innerHTML = 'View'
                     }
-                }
-            }
-            for (let i = 0; i < headers.length; i++) {
-                if (headers[i].textContent === 'Date') {
-                    headers[i].innerHTML = '<i class="fa-solid fa-calendar-day"></i>'
-                }
-                else if (headers[i].textContent === 'Order #') {
-                    headers[i].innerHTML = '<i class="fa-solid fa-hashtag"></i>'
-                }
-                else if (headers[i].textContent === 'Tracking') {
-                    headers[i].innerHTML = '<i class="fa-solid fa-truck-fast"></i>'
-                }
-                else if (headers[i].textContent === 'Order Status') {
-                    headers[i].innerHTML = '<i class="fa-solid fa-spinner"></i>'
-                }
-                else if (headers[i].textContent === 'View') {
-                    headers[i].innerHTML = '<i class="fa-solid fa-eye"></i>'
-                }
-                else if (headers[i].textContent === 'Product') {
-                    headers[i].innerHTML = '<i class="fa-solid fa-bottle-water"></i>'
-                }
-                else if (headers[i].textContent === 'Size') {
-                    headers[i].innerHTML = '<i class="fa-solid fa-weight-scale"></i>'
-                }
-                else if (headers[i].textContent === 'Quantity') {
-                    headers[i].innerHTML = '<i class="fa-solid fa-arrow-up-9-1"></i>'
-                }
-                else if (headers[i].textContent === 'Sum') {
-                    headers[i].innerHTML = '<i class="fa-solid fa-sack-dollar"></i>'
                 }
             }
         }

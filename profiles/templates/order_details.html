@@ -41,7 +41,7 @@
                     <th aria-label="Product" title="Product">Product</th>
                     <th aria-label="Size" title="Size">Size</th>
                     <th aria-label="Quantity" title="Quantity">Quantity</th>
-                    <th aria-label="Individual Price" title="Individual Price" class="desktop">Individual Price</th>
+                    <th aria-label="Individual Price" title="Individual Price" class="desktop mid-desk">Individual Price</th>
                     <th aria-label="Sum" title="Sum">Sum</th>
                 </tr>
                 {% for item, product in order_details %}
@@ -58,7 +58,7 @@
                         </a></td>
                         <td>{{ item.product.size }} {{ item.product.size_unit }}</td>
                         <td>{{ item.quantity }}</td>
-                        <td class="Desktop">{{ item.product.price }}</td>
+                        <td class="desktop mid-desk">{{ item.product.price }}</td>
                         <td>{{ item.product.price|mul:item.quantity }}</td>
                     </tr>
                 {% endfor %}
@@ -66,14 +66,14 @@
                     <td class="sum-title">Shipping</td>
                     <td></td>
                     <td></td>
-                    <td class="Desktop"></td>
+                    <td class="desktop mid-desk"></td>
                     <td>€ {{ order.shipping_cost }}</td>
                 </tr>
                 <tr class="order-sums">
                     <td class="sum-title">Grand Total</td>
                     <td></td>
                     <td></td>
-                    <td></td>
+                    <td class="desktop mid-desk"></td>
                     <td>€ {{ order.grand_total }}</td>
                 </tr>
             </table>
