@@ -167,25 +167,27 @@ def add_cart(request, product_id):
         elif not adjusted_quantity:
             messages.success(
                 request,
-                f'You successfully added {quantity} items to your cart.')
+                f'You successfully added {quantity} items to your cart. ' +
+                '<a href="/cart">View Cart</a>')
         else:
             messages.success(
                 request,
                 f'You successfully added {adjusted_quantity} items to ' +
                 'your cart. The quantity was reduced, as the items ' +
                 'already in your cart, plus those you added, ' +
-                'exceeded our stock.')
+                'exceeded our stock. <a href="/cart">View Cart</a>')
     else:
         if adjusted_quantity or adjusted_quantity == 0:
             messages.error(
                 request,
                 f'The item was not added to your cart. ' +
                 'You already have the maximum possible for ' +
-                'this item in your cart.')
+                'this item in your cart. <a href="/cart">View Cart</a>')
         else:
             messages.success(
                 request,
-                f'You successfully added {quantity} item to your cart.')
+                f'You successfully added {quantity} item to your cart. ' +
+                '<a href="/cart">View Cart</a>')
 
     request.session['cart'] = cart
     redirect_url = request.POST.get('redirect_url')
