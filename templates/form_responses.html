@@ -16,11 +16,11 @@
     {% for message in messages %}
         {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR or message.level == DEFAULT_MESSAGE_LEVELS.WARNING %}
             <div class="form-error">
-                {{ message }}
+                {{ message|safe }}
             </div>
         {% elif message.level == DEFAULT_MESSAGE_LEVELS.INFO or message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
             <div class="form-confirm">
-                {{ message }}
+                {{ message|safe }}
             </div>
         {% endif %}
     {% endfor %}
