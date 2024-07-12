@@ -120,7 +120,7 @@ if (window.innerWidth <= 320) {
 
 
 if (window.location.pathname === "/checkout") {
-    $(document).ready(function() {
+    window.addEventListener("DOMContentLoaded", () => {
         resizeCheckoutFields()
         window.onresize = function() {
             resizeCheckoutFields()
