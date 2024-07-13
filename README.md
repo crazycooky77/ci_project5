@@ -40,7 +40,7 @@ Wireframes were used to plan out the pages for the site. Minor adjustments were 
 2. The site logo and user action buttons (view cart, log in, create account) have swapped sides
 3. The user action buttons all have icons added (instead of only the Cart button)
 
-##### <u>Login / Create Account</u>
+##### <ins>Login / Create Account</ins>
 **Login:**
 _Social media signup options have not yet been implemented. This is planned for release 1.1. [See user story here](https://github.com/crazycooky77/ci_project5/issues/20#issue-2248986787)._
 <img src='media/readme/wf-login.webp' alt='Log in page wireframe'>
@@ -49,7 +49,7 @@ _Social media signup options have not yet been implemented. This is planned for 
 _Social media signup options have not yet been implemented. This is planned for release 1.1. [See user story here](https://github.com/crazycooky77/ci_project5/issues/20#issue-2248986787)._
 <img src='media/readme/wf-create-acc.webp' alt='Create account wireframe'>
 
-#### <u>Profile Pages</u>
+#### <ins>Profile Pages</ins>
 **Account Details:**
 <img src='media/readme/wf-profile-details.webp' alt='Profile account details wireframe'>
 
@@ -71,7 +71,7 @@ _Saved Items have not yet been implemented. Therefore, the menu item (on the lef
 _The Watchlist has not yet been implemented. Therefore, the menu item (on the left) and the page itself is not yet available. This is planned for release 1.1. [See user story here](https://github.com/crazycooky77/ci_project5/issues/25#issue-2250321761)._
 <img src='media/readme/wf-profile-watchlist.webp' alt='Profile watchlist wireframe'>
 
-#### <u>Product Pages</u>
+#### <ins>Product Pages</ins>
 **Homepage (Featured Products):**
 <img src='media/readme/wf-prod-homepage.webp' alt='Homepage (Featured Products) wireframe'>
 
@@ -82,7 +82,7 @@ _The Watchlist has not yet been implemented. Therefore, the menu item (on the le
 _Add to Watchlist is not yet available. This is planned for release 1.1. [See user story here](https://github.com/crazycooky77/ci_project5/issues/25#issue-2250321761)._
 <img src='media/readme/wf-prod-page.webp' alt='Product page wireframe'>
 
-#### <u>Checkout</u>
+#### <ins>Checkout</ins>
 **Cart:**
 _Save for Later is not currently available. This is planned for release 1.1. [See user story here](https://github.com/crazycooky77/ci_project5/issues/27#issue-2250330614)._
 <img src='media/readme/wf-checkout-cart.webp' alt='Cart view wireframe'>
@@ -258,6 +258,6 @@ The base template was cloned from the [Code Institute GitHub repository](https:/
 - [Simultaneous scrolling in DIVs (replaced in final code)](https://stackoverflow.com/questions/11723886/synchronizing-scrolling-between-2-divs)
 
 #### Miscellaneous CSS
-- [Centered text in <hr>](https://stackoverflow.com/questions/2812770/add-centered-text-to-the-middle-of-a-horizontal-rule)
+- [Centered text in horizontal line](https://stackoverflow.com/questions/2812770/add-centered-text-to-the-middle-of-a-horizontal-rule)
 - [HTML Number Input fields](https://stackoverflow.com/questions/31706611/why-does-the-html-input-with-type-number-allow-the-letter-e-to-be-entered-in)
 - [Left-align last flexbox row](https://stackoverflow.com/questions/18744164/flex-box-align-last-row-to-grid)
