@@ -101,7 +101,7 @@ function resizeCheckoutFields() {
 }
 
 
-if (window.innerWidth <= 320) {
+if (window.innerWidth <= 500) {
     if (window.location.pathname === '/cart' || window.location.pathname === '/checkout' || window.location.pathname === '/checkout/success') {
         let headers = document.querySelectorAll('th')
         for (let i = 0; i < headers.length; i++) {

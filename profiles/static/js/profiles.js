@@ -20,7 +20,7 @@ function mobileResize() {
 }
 
 
-if (window.innerWidth > 320) {
+if (window.innerWidth > 500) {
     if (window.location.pathname === '/profile/add-address' ||
         window.location.pathname.split("/")[2] === 'edit-address') {
         window.onload = function() {
@@ -86,7 +86,7 @@ if (window.innerWidth <= 800) {
 }
 
 
-if (window.innerWidth <= 320) {
+if (window.innerWidth <= 500) {
     window.addEventListener("DOMContentLoaded", () => {
         if (window.location.pathname.includes('profile') ||
             window.location.pathname.includes('email') ||

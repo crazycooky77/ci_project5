@@ -307,7 +307,7 @@ button[class$="add-cart"], .home-row button[class$="add-cart"], .hor-prod-div di
 
 
 
-@media screen and (max-width: 320px) {
+@media screen and (max-width: 500px) {
     .hor-prod-div {
         flex-direction: column;
         gap: unset;

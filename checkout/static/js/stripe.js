@@ -16,7 +16,7 @@ function generateCountryMap() {
 
 function stripeStyle() {
     window.onload = function() {
-        if (window.innerWidth > 320) {
+        if (window.innerWidth > 500) {
             return {
                 base: {
                     color: '#000',
@@ -35,7 +35,7 @@ function stripeStyle() {
             }
         }
 
-        if (window.innerWidth <= 320) {
+        if (window.innerWidth <= 500) {
             return {
                 base: {
                     color: '#000',

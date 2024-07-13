@@ -367,7 +367,7 @@ button.hidden-addr-submit, .hidden-empty-submit {
 
 
 
-@media screen and (max-width: 320px) {
+@media screen and (max-width: 500px) {
     .cart, .checkout {
         padding: 10px;
     }
