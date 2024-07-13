@@ -233,15 +233,6 @@ button[class$="add-cart"], .home-row button[class$="add-cart"], .hor-prod-div di
 
 
 @media screen and (max-width: 800px) {
-    .desktop {
-        display: none;
-    }
-
-    .mid-screen {
-        display: flex;
-        flex-direction: column;
-    }
-
     .home-div {
         margin: auto;
         gap: 20px;

@@ -301,8 +301,13 @@ footer * {
 
 
 @media screen and (max-width: 800px) {
-    .mid-desk {
+    .mid-desk, .desktop {
         display: none;
+    }
+
+    .mid-screen {
+        display: flex;
+        flex-direction: column;
     }
 
     #nav-logout {
@@ -319,6 +324,15 @@ footer * {
 
 
 @media screen and (max-width: 500px) {
+    .mid-screen {
+        display: none;
+    }
+
+    .mobile {
+        display: flex;
+        flex-direction: column;
+    }
+
     * {
         font-size: 12px;
     }
@@ -339,11 +353,6 @@ footer * {
 
     button {
         width: 100%;
-    }
-
-    .mobile {
-        display: flex;
-        flex-direction: column;
     }
 
     .nav-div {
@@ -471,9 +480,5 @@ footer * {
     .footer-links {
         margin: auto 20px auto auto;
         width: 85%;
-    }
-
-    .desktop {
-        display: none;
     }
 }

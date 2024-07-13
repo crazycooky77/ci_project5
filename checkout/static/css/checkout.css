@@ -358,15 +358,6 @@ button.hidden-addr-submit, .hidden-empty-submit {
 
 
 
-@media screen and (max-width: 800px) {
-    .mid-screen {
-        display: flex;
-        flex-direction: column;
-    }
-}
-
-
-
 @media screen and (max-width: 500px) {
     .cart, .checkout {
         padding: 10px;
