@@ -1,4 +1,4 @@
-# Online Lego Collection
+# NutriForce B2C Online Shop
 B2C introduction
 
 <img src='static/images/readme/amiresponsive.webp' alt='Am I Responsive Image'>
