@@ -53,7 +53,8 @@ INSTALLED_APPS = [
     'profiles',
     'checkout',
     'mathfilters',
-    'storages'
+    'storages',
+    'django_extensions'
 ]
 
 # Variables for login/logout behaviour and email functions

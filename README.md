@@ -1,38 +1,55 @@
 # NutriForce B2C Online Shop
-B2C introduction
+NutriForce is a B2C online shop for sports and health nutrition in Ireland. The main purpose of the site is to enable the developer's friend to set up shop, as has been planned over a longer period of time. The reason for this is so that customers in Ireland can have a small, local business to support when it comes to their nutritional needs. High quality products will be sourced to build a loyal customer-base that trusts in the shop. A long-standing dream will come to fruition with the launch of this online shop, and we hope to provide customers with all the sports and health nutrition they need, as well as personalised, and excellent customer service. This can be become the one-stop-shop for anyone regularly purchasing such products, as requests will also be accepted, where we will aim to source the items, wherever possible. Welcome to the NutriForce family! Thank you for helping to make this dream possible!
 
 <img src='static/images/readme/amiresponsive.webp' alt='Am I Responsive Image'>
 
 1. [User Experience](#user-experience)
    
+## Business Model
 
-## User Experience - TO BE UPDATED
+### Web Marketing
+
+
+## User Experience
 
 ### Visitor Goals
 
 #### First-Time Visitor Goals
-
+- As a first-time visitor to the site, I can make purchases to buy health and sports nutrition products that I need.
+- As a first-time visitor to the site, I can sort, search, and view products, and see if those are in stock.
+- As a first-time visitor to the site, I can view any necessary regulatory information about the site, such as details on shipping, returns, and the privacy policy.
 
 #### Returning Visitor Goals 
-
+- As a returning visitor to the site, I can create an account to save my details for an easier checkout experience.
+- As a returning visitor to the site, I can view my purchased orders and their details in my account.
+- As a returning visitor to the site, I can make purchases, while logged in, that are automatically linked to my account.
 
 #### Frequent Visitor Goals 
+- As a frequent visitor to the site, I can update my account details (addresses, email address, password) so they stay up-to-date.
+- As a frequent visitor to the site, I can delete my account, so I am in charge of my data.
+- _As a frequent visitor to the site, I can save items for later, so I can keep track of them, when I don't want to immediately purchase them*_
+- _As a frequent visitor to the site, I can add out-of-stock items to a watchlist, so I can see and get notified when they are back in stock*_
 
+_* Saved for Later and Watchlist features are not yet implemented. This is planned for release 1.1_
 
 ### User Stories
+All EPICs and related user stories are listed in the [repository Issues here](https://github.com/crazycooky77/ci_project5/issues?q=is%3Aissue+is%3Aclosed+label%3Auser-story%2CEPIC).
 
 ### Design
 
 #### Colour Palette
+<img src='media/readme/wf-colormind.webp' alt='Colour palette for the site'>
 
 #### Typography
+The [Montserrat Google font](https://fonts.google.com/specimen/Montserrat) is used throughout the site.
 
 #### Imagery
+[Bing AI](https://www.bing.com/images/create) was used to create the logo, default product, and favicon images on the site.
 
 ### Site Planning
 
-#### Lucidchart
-
+#### Entity-Relationship Diagram
+<img src='media/readme/db_diagram.webp' alt='Colour palette for the site'>
 
 #### Wireframes
 Wireframes were used to plan out the pages for the site. Minor adjustments were made throughout, as the pages were being created. The navigation menu was reorganised in the final site iteration, and differs from the wireframes below as follows:
@@ -103,16 +120,35 @@ _This page was completely removed. Also, only stripe payment is currently availa
 _Show/Hide Cart and Edit Address links were added to this page. A Note to Seller is now also available at checkout. Text indicating that the customer will be charged once they confirm the purchase is now present. Finally, a "Back to Cart" button was added at the bottom left of this page._
 <img src='media/readme/wf-checkout-confirm.webp' alt='Checkout confirmation wireframe'>
 
-## Features - TO BE UPDATED
+## Features
+All user stories, features, and bugs are listed in the repository's projects. [For release 1.0, the kanban board can be found here](https://github.com/users/crazycooky77/projects/2/views/1). [For release 1.1, the kanban board is here](https://github.com/users/crazycooky77/projects/3/views/1). Both completed and planned features are outlined in the boards.
 
-
-### To Be Implemented
-
-
-### Closed Enhancements
-
-
-## Technologies - TO BE UPDATED
+## Technologies
+- [Balsamiq](https://balsamiq.com/wireframes/) to plan out the pages using wireframes
+- [Pycharm](https://www.jetbrains.com/pycharm/) IDE linked to GitHub to edit the project files
+- [GitHub](https://github.com/) to store the code and for version-control
+- [GitHub Desktop](https://desktop.github.com/) to be able to commit changes to the code without having to use the web-based tool
+- [Heroku](https://heroku.com/) to deploy the app and have it available for use online
+- [Python](https://www.python.org/) for project functionality
+  - [Coverage](https://coverage.readthedocs.io/en/7.4.1/) will be used for release 1.1+ to check test coverage for the project
+  - [dj-database-url](https://pypi.org/project/dj-database-url/) for easier database configuration
+  - [django-allauth](https://docs.allauth.org/en/latest/) for user creation, authentication, and management
+  - [django-extensions](https://yathomasi.medium.com/1-using-django-extensions-to-visualize-the-database-diagram-in-django-application-c5fa7e710e16) for pygraphviz to generate the ER diagram
+  - [Gunicorn](https://gunicorn.org/) to enable web services
+  - [Pillow](https://pypi.org/project/pillow/) for image processing
+  - [Stripe](https://stripe.com/gb) for payment integration
+  - [Whitenoise](https://whitenoise.readthedocs.io/en/latest/) for static files
+- [JavaScript](https://www.javascript.com/) for site functions
+- [HTML](https://html.spec.whatwg.org/) for the templates for each of the pages for the site
+- [CSS](https://www.w3.org/Style/CSS/Overview.en.html) for page styling
+- [Django](https://www.djangoproject.com/) was used as the Python framework for the project
+- [PostgreSQL](https://www.postgresql.org/) as the database for local development
+- [ElephantSQL](https://www.elephantsql.com/) as the database for the live web app
+- [Amazon S3](https://aws.amazon.com/s3/?nc2=type_a) for static file storage
+- [Favicon](https://favicon.io/) to generate the page's Favicon
+- [Flexbox](https://css-tricks.com/snippets/css/a-guide-to-flexbox/) for CSS styling
+- [Unicorn Revealer](https://chromewebstore.google.com/detail/unicorn-revealer/lmlkphhdlngaicolpmaakfmhplagoaln?hl=en-GB) for CSS debugging
+- [Wave](https://wave.webaim.org/extension/) for accessibility checks
 
 
 ## Testing - TO BE UPDATED
@@ -145,7 +181,7 @@ Automated testing has not yet been implemented. This has been postponed to the 1
 
 
 ### Bugs
-
+No major bugs were identified during the development and testing of the project. Some minor bugs were, of course, identified and immediately fixed. Remaining bugs can be found [in the kanban board for release 1.1](https://github.com/users/crazycooky77/projects/3/views/1) (prepended with [BUG]).
 
 ## Deployment
 The site was deployed on Heroku. ElephantSQL was used for the database, as end of life is only in January 2025. PyCharm and GitHub Desktop were used for local development.
@@ -198,10 +234,10 @@ The site was deployed on Heroku. ElephantSQL was used for the database, as end o
 8. Added necessary variables locally, as in Heroku
     1. PyCharm > Settings > Tools > Terminal > Environment variables
 9. Updated settings.py, e.g. for ALLOWED_HOSTS, DEBUG, DATABASES, and directories (static, media, and templates)
-10. The final iteration of this app uses AWS S3 for static and media storage, so the necessary changes needed to be made to [settings.py](https://github.com/crazycooky77/ci_project5/blob/main/nutriforce/settings.py) for this as well
+10. The final iteration of this app uses Amazon S3 for static and media storage, so the necessary changes needed to be made to [settings.py](https://github.com/crazycooky77/ci_project5/blob/main/nutriforce/settings.py) for this as well
 
 ### Important Extras
-Heroku re-uploads the entirety of the static files to AWS with every commit, which causes the free tier limit to be reached within days. To avoid this, addED DISABLE_COLLECTSTATIC = 1 to Config Vars on Heroku. Then needed to manually python3 manage.py collectstatic locally with USE_AWS set to True in local environment variables (based on [settings.py](https://github.com/crazycooky77/ci_project5/blob/main/nutriforce/settings.py) in this project). Set this variable back to False when developing locally and using python3 manage.py runserver to see local static file changes. Otherwise the files (CSS, images...) already uploaded to AWS S3 would be used in runserver and no local changes are visible.
+Heroku re-uploads the entirety of the static files to AWS with every commit, which causes the free tier limit to be reached within days. To avoid this, addED DISABLE_COLLECTSTATIC = 1 to Config Vars on Heroku. Then needed to manually python3 manage.py collectstatic locally with USE_AWS set to True in local environment variables (based on [settings.py](https://github.com/crazycooky77/ci_project5/blob/main/nutriforce/settings.py) in this project). Set this variable back to False when developing locally and using python3 manage.py runserver to see local static file changes. Otherwise the files (CSS, images...) already uploaded to Amazon S3 would be used in runserver and no local changes are visible.
 
 ---
 
@@ -216,9 +252,11 @@ Then: `python3 manage.py loaddata XX_FIXTURESFILE.yaml_XX` as in [Django docs](h
 The base template was cloned from the [Code Institute GitHub repository](https://github.com/Code-Institute-Org/ci-full-template). Various other resources were used for different features. They are all listed below, categorised accordingly.
 
 #### Database Objects
-- [Product images and text](https://www.theedge-sports.com/)
-- [More product images and text](https://www.hollandandbarrett.ie/)
+- [Product images and text](https://www.theedge-sports.com/)*
+- [More product images and text](https://www.hollandandbarrett.ie/)*
 - [Django fixtures](https://docs.djangoproject.com/en/5.0/howto/initial-data/)
+
+_*These will be replaced with actual in-stock products and details, once these are sourced_
 
 #### JSON Data
 - [Django JSON serializer](https://stackoverflow.com/questions/10358803/is-it-possible-to-use-javascript-to-get-data-from-django-models-db)
