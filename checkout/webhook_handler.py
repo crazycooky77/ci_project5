@@ -12,30 +12,6 @@ from django.template.loader import render_to_string
 from django.core.mail import send_mail
 
 
-def get_addresses(user, first_name, last_name, addr_details, addr_line3):
-    filters = dmodels.Q(
-        first_name__iexact=first_name) & dmodels.Q(
-        last_name__iexact=last_name) & dmodels.Q(
-        addr_line1__iexact=addr_details.address['line1']) & dmodels.Q(
-        city__iexact=addr_details.address['city']) & dmodels.Q(
-        eir_code__iexact=addr_details.address['postal_code']) & dmodels.Q(
-        county__iexact=addr_details.address['state']) & dmodels.Q(
-        phone_nr=addr_details['phone'])
-
-    if addr_details.address['line2']:
-        filters &= dmodels.Q(addr_line2__iexact=addr_details.address['line2'])
-
-    if addr_line3:
-        filters &= dmodels.Q(addr_line3__iexact=addr_line3)
-    if user:
-        filters &= dmodels.Q(user=user)
-
-    addr_id = Addresses.objects.filter(filters)[:1].values_list(
-        'address_id', flat=True)
-
-    return addr_id
-
-
 class StripeHWHandler:
     def __init__(self, request):
         self.request = request
@@ -77,6 +53,54 @@ class StripeHWHandler:
             status=200)
 
     def handle_payment_intent_succeeded(self, event):
+        def _get_addresses(user, first_name, last_name, addr_details, addr_line3):
+            filters = dmodels.Q(
+                first_name__iexact=first_name) & dmodels.Q(
+                last_name__iexact=last_name) & dmodels.Q(
+                addr_line1__iexact=addr_details.address['line1']) & dmodels.Q(
+                city__iexact=addr_details.address['city']) & dmodels.Q(
+                eir_code__iexact=addr_details.address[
+                    'postal_code']) & dmodels.Q(
+                county__iexact=addr_details.address['state']) & dmodels.Q(
+                phone_nr=addr_details['phone'])
+
+            if addr_details.address['line2']:
+                filters &= dmodels.Q(
+                    addr_line2__iexact=addr_details.address['line2'])
+
+            if addr_line3:
+                filters &= dmodels.Q(addr_line3__iexact=addr_line3)
+            if user:
+                filters &= dmodels.Q(user=user)
+
+            addr_id = Addresses.objects.filter(filters)[:1].values_list(
+                'address_id', flat=True)
+
+            return addr_id
+
+        def _save_addr(addr_details, first_name, last_name, addr_line3):
+            addr_form = AddressForm(
+                {'first_name': first_name,
+                 'last_name': last_name,
+                 'addr_line1': addr_details.address['line1'],
+                 'addr_line2': addr_details.address['line2'],
+                 'addr_line3': addr_line3,
+                 'city': addr_details.address['city'],
+                 'eir_code': addr_details.address['postal_code'],
+                 'county': addr_details.address['state'],
+                 'country': addr_details.address['country'],
+                 'phone_nr': addr_details['phone'],
+                 'email': email})
+
+            obj = addr_form.save(commit=False)
+            if email:
+                obj.user = user
+            obj.default_addr = False
+            obj.save()
+            addr_id = obj.pk
+
+            return addr_id
+
         intent = event.data.object
         pid = intent.id
         cart = intent.metadata.cart
@@ -124,63 +148,25 @@ class StripeHWHandler:
             user = User.objects.get(email__iexact=email)
         else:
             user = None
-        ship_addr_id = get_addresses(user, ship_first_name, ship_last_name,
-                                     shipping_details, ship_addr_line3)
-        bill_addr_id = get_addresses(user, bill_first_name, bill_last_name,
-                                     billing_details, bill_addr_line3)
+        ship_addr_id = _get_addresses(user, ship_first_name, ship_last_name,
+                                      shipping_details, ship_addr_line3)
+        bill_addr_id = _get_addresses(user, bill_first_name, bill_last_name,
+                                      billing_details, bill_addr_line3)
 
         if not email:
             email = billing_details['email']
 
         if not ship_addr_id:
-            ship_addr_form = AddressForm(
-                {'first_name': ship_first_name,
-                 'last_name': ship_last_name,
-                 'addr_line1':
-                     shipping_details.address['line1'],
-                 'addr_line2':
-                     shipping_details.address['line2'],
-                 'addr_line3': ship_addr_line3,
-                 'city': shipping_details.address[
-                     'city'],
-                 'eir_code': shipping_details.address[
-                     'postal_code'],
-                 'county': shipping_details.address[
-                     'state'],
-                 'country': shipping_details.address[
-                     'country'],
-                 'phone_nr': shipping_details['phone'],
-                 'email': email})
-            s_obj = ship_addr_form.save(commit=False)
-            if email:
-                s_obj.user = user
-            s_obj.email = email
-            s_obj.addr_line3 = ship_addr_line3
-            s_obj.default_addr = False
-            s_obj.save()
-            ship_addr_id = s_obj.pk
+            ship_addr_id = _save_addr(shipping_details,
+                                      ship_first_name,
+                                      ship_last_name,
+                                      ship_addr_line3)
 
         if not bill_addr_id:
-            bill_addr_form = AddressForm({
-                'first_name': bill_first_name,
-                'last_name': bill_last_name,
-                'addr_line1': billing_details.address['line1'],
-                'addr_line2': billing_details.address['line2'],
-                'addr_line3': bill_addr_line3,
-                'city': billing_details.address['city'],
-                'eir_code': billing_details.address['postal_code'],
-                'county': billing_details.address['state'],
-                'country': billing_details.address['country'],
-                'phone_nr': billing_details['phone'],
-                'email': email})
-            b_obj = bill_addr_form.save(commit=False)
-            if email:
-                b_obj.user = user
-            b_obj.email = email
-            b_obj.addr_line3 = bill_addr_line3
-            b_obj.default_addr = False
-            b_obj.save()
-            bill_addr_id = b_obj.pk
+            bill_addr_id = _save_addr(billing_details,
+                                      bill_first_name,
+                                      bill_last_name,
+                                      bill_addr_line3)
 
         order_exists = False
         attempt = 1
