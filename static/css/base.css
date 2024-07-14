@@ -90,6 +90,7 @@ label:has(+input:required):after {
     color: #6DB1FC;
     font-weight: bold;
     margin: 5px auto;
+    padding-left: 0;
 }
 
 #nav-logout:hover {
