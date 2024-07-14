@@ -324,10 +324,6 @@ footer * {
 
 
 @media screen and (max-width: 500px) {
-    .mid-screen {
-        display: none;
-    }
-
     .mobile {
         display: flex;
         flex-direction: column;
