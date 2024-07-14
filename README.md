@@ -1,7 +1,7 @@
 # NutriForce B2C Online Shop
 NutriForce is a B2C online shop for sports and health nutrition in Ireland. The main purpose of the site is to enable the developer's friend to set up shop, as has been planned over a longer period of time. The reason for this is so that customers in Ireland can have a small, local business to support when it comes to their nutritional needs. High quality products will be sourced to build a loyal customer-base that trusts in the shop. A long-standing dream will come to fruition with the launch of this online shop, and we hope to provide customers with all the sports and health nutrition they need, as well as personalised, and excellent customer service. This can be become the one-stop-shop for anyone regularly purchasing such products, as requests will also be accepted, where we will aim to source the items, wherever possible. Welcome to the NutriForce family! Thank you for helping to make this dream possible!
 
-<img src='static/images/readme/amiresponsive.webp' alt='Am I Responsive Image'>
+<img src='media/readme/amiresponsive.webp' alt='Am I Responsive Image'>
 
 1. [User Experience](#user-experience)
    
@@ -113,7 +113,7 @@ _A "Back to Cart" button was added at the bottom left of this page._
 <img src='media/readme/wf-checkout-addr.webp' alt='Checkout addresses wireframe'>
 
 **Payment Options:**
-_This page was completely removed. Also, only stripe payment is currently available. Additional payment options (GooglePay, ApplePay, and PayPal) [are planned for release 1.1](https://github.com/crazycooky77/ci_project5/issues/38#issue-2381801096)._
+_This page was completely removed. Also, only stripe payment is currently available. Additional payment options (GooglePay, Apple Pay, and PayPal) [are planned for release 1.1](https://github.com/crazycooky77/ci_project5/issues/38#issue-2381801096)._
 <img src='media/readme/wf-checkout-pay.webp' alt='Payment options wireframe'>
 
 **Confirmation:**

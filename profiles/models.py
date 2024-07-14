@@ -1,5 +1,5 @@
 from django.contrib.auth.models import AbstractUser, BaseUserManager
-from products.models import Products, ProductDetails
+from products.models import ProductDetails
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
@@ -97,7 +97,8 @@ class SavedItems(models.Model):
         verbose_name_plural = 'Saved Items'
 
     def __str__(self):
-        return f'{self.owner} | {self.list_type} | {self.product} | {self.quantity}'
+        return (f'{self.owner} | {self.list_type} | '
+                f'{self.product} | {self.quantity}')
 
 
 class OrderHistory(models.Model):

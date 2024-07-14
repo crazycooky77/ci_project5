@@ -6,7 +6,11 @@ from django.db.models import F
 from django.http import HttpResponse
 from products.models import ProductDetails
 from profiles.forms import AddressForm
-from profiles.models import OrderHistory, Addresses, User, Purchases, SavedItems
+from profiles.models import (OrderHistory,
+                             Addresses,
+                             User,
+                             Purchases,
+                             SavedItems)
 from django.conf import settings
 from django.template.loader import render_to_string
 from django.core.mail import send_mail
@@ -53,7 +57,8 @@ class StripeHWHandler:
             status=200)
 
     def handle_payment_intent_succeeded(self, event):
-        def _get_addresses(user, first_name, last_name, addr_details, addr_line3):
+        def _get_addresses(user, first_name, last_name,
+                           addr_details, addr_line3):
             filters = dmodels.Q(
                 first_name__iexact=first_name) & dmodels.Q(
                 last_name__iexact=last_name) & dmodels.Q(
@@ -183,7 +188,8 @@ class StripeHWHandler:
             self._send_confirmation_email(order)
             return HttpResponse(
                 content=f'Webhook received: {event["type"]} '
-                        f'| SUCCESS: Verified order already in database', status=200)
+                        f'| SUCCESS: Verified order already in database',
+                status=200)
         else:
             order = None
             try:

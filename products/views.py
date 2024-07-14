@@ -320,7 +320,8 @@ def product_view(request, var):
                 'product_id', 'flavour').order_by('product_id', 'flavour')
             linked_distinct_size = linked_products.distinct(
                 'product_id', 'size').order_by('product_id', 'size')
-            js_linked_sorted = json_serialise(linked_sorted, '-stock_count', 'product_id')
+            js_linked_sorted = json_serialise(
+                linked_sorted, '-stock_count', 'product_id')
 
             return render(request, 'product_page.html',
                           {'product': product,

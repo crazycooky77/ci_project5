@@ -9,7 +9,7 @@ from products.models import ProductDetails
 from django.shortcuts import render, redirect
 from django.dispatch import receiver
 from django.contrib.auth.signals import user_logged_in
-from profiles.models import SavedItems, Purchases
+from profiles.models import SavedItems
 from django.contrib import messages
 from django.db.models import F
 from decimal import Decimal
@@ -161,18 +161,18 @@ def add_cart(request, product_id):
         if adjusted_quantity == 0:
             messages.error(
                 request,
-                f'The item was not added to your cart. ' +
+                'The item was not added to your cart. ' +
                 'You already have the maximum possible for ' +
                 'this item in your cart.')
         elif not adjusted_quantity:
             messages.success(
                 request,
-                f'You successfully added {quantity} items to your cart. ' +
+                'You successfully added {quantity} items to your cart. ' +
                 '<a href="/cart">View Cart</a>')
         else:
             messages.success(
                 request,
-                f'You successfully added {adjusted_quantity} items to ' +
+                'You successfully added {adjusted_quantity} items to ' +
                 'your cart. The quantity was reduced, as the items ' +
                 'already in your cart, plus those you added, ' +
                 'exceeded our stock. <a href="/cart">View Cart</a>')
@@ -337,7 +337,8 @@ def update_cart(request):
             loop_count += 1
             if loop_count == 1:
                 messages.success(
-                    request, 'You successfully removed the item from your cart')
+                    request,
+                    'You successfully removed the item from your cart')
         request.session['cart'] = cart
 
     if request.POST.get("empty-cart-button"):

@@ -106,7 +106,7 @@ def delete_addr(request):
         shipping_addr=del_addr_id) | Q(billing_addr=del_addr_id))
     if orders:
         Addresses.objects.filter(user=request.user,
-                              pk=del_addr_id).update(user=None)
+                                 pk=del_addr_id).update(user=None)
         messages.success(
             request,
             'You successfully removed your address ' +
