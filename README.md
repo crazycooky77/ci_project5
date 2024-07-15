@@ -40,7 +40,7 @@ privacy, return, shipping, terms, about
 - _As a frequent visitor to the site, I can save items for later, so I can keep track of them, when I don't want to immediately purchase them*_
 - _As a frequent visitor to the site, I can add out-of-stock items to a watchlist, so I can see and get notified when they are back in stock*_
 
-_* Saved for Later and Watchlist features are not yet implemented. This is planned for release 1.1_
+_* Save for Later and Watchlist features are not yet implemented. This is planned for release 1.1_
 
 ### User Stories
 All EPICs and related user stories are listed in the [repository Issues here](https://github.com/crazycooky77/ci_project5/issues?q=is%3Aissue+is%3Aclosed+label%3Auser-story%2CEPIC).
@@ -132,6 +132,8 @@ _Show/Hide Cart and Edit Address links were added to this page. A Note to Seller
 
 ## Features
 All user stories, features, and bugs are listed in the repository's projects. [For release 1.0, the kanban board can be found here](https://github.com/users/crazycooky77/projects/2/views/1). [For release 1.1, the kanban board is here](https://github.com/users/crazycooky77/projects/3/views/1). Both completed and planned features are outlined in the boards.
+
+Some additional minor features have been implemented, to promote customer satisfaction and loyalty, such as mailto links with predefined email subjects and bodies, where customers can request products be stocked, that are not in the database.
 
 ## Technologies
 - [Balsamiq](https://balsamiq.com/wireframes/) to plan out the pages using wireframes
