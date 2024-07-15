@@ -16,7 +16,7 @@
                         <td>{{ order.order_dt|date:'Y-m-d' }}</td>
                         <td>{{ order.order_id }}</td>
                         {% if order.tracking_link %}
-                            <td><a href="{{ order.tracking_link }}" target="_blank">Track</a></td>
+                            <td><a href="{{ order.tracking_link }}" target="_blank" rel="external nofollow noopener">Track</a></td>
                         {% else %}
                             <td>N/A</td>
                         {% endif %}
