@@ -5,10 +5,20 @@ NutriForce is a B2C online shop for sports and health nutrition in Ireland. The 
 
 1. [User Experience](#user-experience)
    
-## Business Model
+## Business Model - TO BE UPDATED
 
 ### Web Marketing
+#### Newsletter
+signup and unsubscribe
 
+#### Facebook page
+https://www.facebook.com/profile.php?id=100094712224458 by Erika, add screenshots
+
+#### SEO
+Including site metadata and keywords, robots.txt and sitemap.xml
+
+#### Informational Pages
+privacy, return, shipping, terms, about
 
 ## User Experience
 
@@ -250,6 +260,13 @@ Then: `python3 manage.py loaddata XX_FIXTURESFILE.yaml_XX` as in [Django docs](h
 
 ## Credits
 The base template was cloned from the [Code Institute GitHub repository](https://github.com/Code-Institute-Org/ci-full-template). Various other resources were used for different features. They are all listed below, categorised accordingly.
+
+#### Site Content
+- [T&C Generator](https://www.termsandconditionsgenerator.com/)
+- [Shipping Policy Generator](https://www.websitepolicies.com/shipping-policy-generator)
+- [Return/Refund Policy Generator](https://www.freeprivacypolicy.com/free-return-refund-policy-generator/)
+- [Privacy Policy Generator](https://www.freeprivacypolicy.com/free-privacy-policy-generator/)
+- [About Us Page Generator](https://logicballs.com/tools/about-us-page-generator)
 
 #### Database Objects
 - [Product images and text](https://www.theedge-sports.com/)*
