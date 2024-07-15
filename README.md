@@ -249,7 +249,7 @@ The site was deployed on Heroku. ElephantSQL was used for the database, as end o
 10. The final iteration of this app uses Amazon S3 for static and media storage, so the necessary changes needed to be made to [settings.py](https://github.com/crazycooky77/ci_project5/blob/main/nutriforce/settings.py) for this as well
 
 ### Important Extras
-Heroku re-uploads the entirety of the static files to AWS with every commit, which causes the free tier limit to be reached within days. To avoid this, addED DISABLE_COLLECTSTATIC = 1 to Config Vars on Heroku. Then needed to manually python3 manage.py collectstatic locally with USE_AWS set to True in local environment variables (based on [settings.py](https://github.com/crazycooky77/ci_project5/blob/main/nutriforce/settings.py) in this project). Set this variable back to False when developing locally and using python3 manage.py runserver to see local static file changes. Otherwise the files (CSS, images...) already uploaded to Amazon S3 would be used in runserver and no local changes are visible.
+Heroku re-uploads the entirety of the static files to AWS with every commit, which causes the free tier limit to be reached within days. To avoid this, DISABLE_COLLECTSTATIC = 1 was added to Config Vars on Heroku. Then needed to manually python3 manage.py collectstatic locally with USE_AWS set to True in local environment variables (based on [settings.py](https://github.com/crazycooky77/ci_project5/blob/main/nutriforce/settings.py) in this project). Set this variable back to False when developing locally and using python3 manage.py runserver to see local static file changes. Otherwise the files (CSS, images...) already uploaded to Amazon S3 would be used in runserver and no local changes are visible.
 
 ---
 
