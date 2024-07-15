@@ -5,19 +5,17 @@ NutriForce is a B2C online shop for sports and health nutrition in Ireland. The 
 
 1. [User Experience](#user-experience)
    
-## Business Model - TO BE UPDATED
-
-### Web Marketing
-#### Newsletter
+## Web Marketing - TO BE UPDATED
+### Newsletter
 signup and unsubscribe
 
-#### Facebook page
+### Facebook page
 https://www.facebook.com/profile.php?id=100094712224458 by Erika, add screenshots
 
-#### SEO
+### SEO
 Including site metadata and keywords, robots.txt and sitemap.xml
 
-#### Informational Pages
+### Informational Pages
 privacy, return, shipping, terms, about
 
 ## User Experience
