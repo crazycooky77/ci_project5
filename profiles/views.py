@@ -44,7 +44,7 @@ def newsletter_signup(request):
             'confirmation_emails/newsletter_signup_subject.txt')
         body = render_to_string(
             'confirmation_emails/newsletter_signup_body.txt',
-            {'unsub_link': link})
+            {'link': link})
         send_mail(
             subject,
             body,
