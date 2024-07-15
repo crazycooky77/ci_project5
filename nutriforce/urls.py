@@ -52,6 +52,7 @@ urlpatterns = [
     path('add/<product_id>', add_cart, name='add-cart'),
     path('update', update_cart, name='update-cart'),
     path('checkout', checkout_view, name='checkout'),
+    path('unsub=<var>', unsubscribe_view, name='unsubscribe-var'),
     path('checkout/success', checkout_complete, name='checkout-success'),
     path('newsletter', newsletter_signup, name='newsletter'),
     path('privacy', TemplateView.as_view(template_name='privacy.html'),

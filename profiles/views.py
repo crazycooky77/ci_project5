@@ -1,5 +1,8 @@
+from uuid import UUID
+from django.conf import settings
+from django.core.mail import send_mail
 from django.db.models import Q
-
+from django.template.loader import render_to_string
 from .models import *
 from allauth.account.views import PasswordChangeView, EmailView, \
     ConfirmEmailView, EmailVerificationSentView
@@ -36,6 +39,18 @@ class CustomPasswordChangeView(PasswordChangeView):
 
 
 def newsletter_signup(request):
+    def _send_signup_email(cust_email, link):
+        subject = render_to_string(
+            'confirmation_emails/newsletter_signup_subject.txt')
+        body = render_to_string(
+            'confirmation_emails/newsletter_signup_body.txt',
+            {'unsub_link': link})
+        send_mail(
+            subject,
+            body,
+            settings.DEFAULT_FROM_EMAIL,
+            [cust_email])
+
     if request.method == 'POST':
         redirect_url = request.POST.get('redirect_url')
         news_email = request.POST.get('news_email')
@@ -43,7 +58,10 @@ def newsletter_signup(request):
             {'news_email': news_email})
         signed_up = Newsletter.objects.filter(news_email__iexact=news_email)
         if newsletter_form.is_valid() and not signed_up:
-            newsletter_form.save()
+            obj = newsletter_form.save(commit=False)
+            obj.save()
+            unsub_link = request.META['HTTP_ORIGIN'] + '/unsub=' + obj.news_uuid
+            _send_signup_email(news_email, unsub_link)
             messages.success(
                 request, 'Thank you for signing up to our newsletter!')
         elif signed_up:
@@ -52,7 +70,34 @@ def newsletter_signup(request):
         else:
             messages.error(
                 request, "Please enter a valid email address")
-        return redirect(redirect_url)
+        if '/unsub=' in redirect_url:
+            return redirect('/')
+        else:
+            return redirect(redirect_url)
+
+
+def unsubscribe_view(request, var):
+    if var:
+        try:
+            uuid_var = UUID(var, version=4)
+        except ValueError:
+            uuid_var = None
+
+        if uuid_var:
+            signed_up = Newsletter.objects.filter(news_uuid=var)
+            if signed_up:
+                signed_up.delete()
+                unsub = True
+                return render(request, 'unsubscribe.html',
+                              {'unsub': unsub})
+            else:
+                return render(request, 'unsubscribe.html',
+                              {'valid_uuid': True})
+        else:
+            return render(request, 'unsubscribe.html',
+                   {'invalid_uuid': True})
+    else:
+        return render(request, 'unsubscribe.html')
 
 
 def profile_vars(request):

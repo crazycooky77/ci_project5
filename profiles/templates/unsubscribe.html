@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extracss %}
+    <link rel="stylesheet" href="{% static 'css/profiles.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="mid-content">
+        {% include 'form_responses.html' %}
+        <h2>Unsubscribe</h2>
+        {% if unsub %}
+            <p>You successfully unsubscribed from our newsletter.</p>
+            <br>
+            <p>If this was a mistake, you can resubscribe at any time. We hope you still enjoy <a href="{% url 'all-products' %}">shopping with us</a>.</p>
+        {% elif valid_uuid %}
+            <p>This link is no longer valid. It has already been used to unsubscribe from our newsletter. If you have any issues or concerns, please <a href="mailto:{{ contact_email }}">contact us directly</a>, and we'll look into it.</p>
+        {% elif invalid_uuid %}
+            <p>This link is not formatted correctly. If you want to unsubscribe, you can use the link at the bottom of any newsletter. Otherwise, feel free to keep <a href="{% url 'all-products' %}">shopping with us</a>.</p>
+        {% else %}
+            <p>Uh oh! It seems you might have accessed this page manually, and not through one of our unsubscribe links. If you want to unsubscribe, you can use the link at the bottom of any newsletter. Otherwise, feel free to keep <a href="{% url 'all-products' %}">shopping with us</a>.</p>
+        {% endif %}
+    </div>
+{% endblock %}

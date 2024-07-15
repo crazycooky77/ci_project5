@@ -1,3 +1,4 @@
+import uuid
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from products.models import ProductDetails
 from django.db import models
@@ -164,7 +165,20 @@ class Purchases(models.Model):
 
 
 class Newsletter(models.Model):
+    news_uuid = models.CharField(max_length=32,
+                                 unique=True,
+                                 blank=False,
+                                 null=False,
+                                 editable=False)
     news_email = models.EmailField(unique=True)
+
+    def _generate_news_uuid(self):
+        return uuid.uuid4().hex.upper()
+
+    def save(self, *args, **kwargs):
+        if not self.news_uuid:
+            self.news_uuid = self._generate_news_uuid()
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f'{self.news_email}'

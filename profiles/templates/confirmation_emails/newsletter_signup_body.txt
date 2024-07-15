@@ -1,0 +1,9 @@
+Hello from NutriForce!
+
+Thank you for signing up to our newsletter. We're excited to keep you updated on special offers, and new products.
+
+If you didn't sign up for this newsletter yourself, or if you want to unsubscribe at any time, you can use this link:
+{{ link }}
+
+We hope you have a wonderful, nutritious day!
+NutriForce
