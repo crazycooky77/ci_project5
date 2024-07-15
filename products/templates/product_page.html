@@ -11,7 +11,7 @@
         {% include 'form_responses.html' %}
         {% if product %}
             <div class="hor-prod-div">
-                <img class="prod-img" src="{{ product.first.product.product_pic.url }}" alt="Product image">
+                <img class="prod-img" src="{{ product.first.product.product_pic.url }}" alt="Sports/Health Product image">
                 <div class="prod-actions">
                     <p>Brand: {{ product.first.product.brand }}</p>
                     <p>Product: {{ product.first.product.product_name }}</p>
@@ -70,7 +70,7 @@
                         {% for item in linked_sorted_distinct %}
                             <div class="linked-ver">
                                 <a href="/products/id={{ item.product.product_id }}">
-                                    <img class="linked-img" src="{{ item.product.product_pic.url }}" alt="Product image">
+                                    <img class="linked-img" src="{{ item.product.product_pic.url }}" alt="Sports/Health Product image">
                                 </a>
                                 <div class="linked-details">
                                     <div class="linked-name">

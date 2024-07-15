@@ -1,0 +1,3 @@
+User-agent: *
+Disallow:
+Sitemap: https://nutriforce-67c4705bce30.herokuapp.com/sitemap.xml
