@@ -139,7 +139,7 @@ function sortFlavours(json) {
 }
 
 
-function SizeSelect(sizes) {
+function sizeSelect(sizes) {
     for (let s = 0; s < sizes.length; s++) {
         if (sizes.selectedIndex === -1) {
             if (!($(sizes.options[s]).hasClass('hidden')) &&
