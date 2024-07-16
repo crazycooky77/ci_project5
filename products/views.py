@@ -323,7 +323,7 @@ def product_view(request, var):
             js_linked_sorted = json_serialise(
                 linked_sorted, '-stock_count', 'product_id')
 
-            return render(request, 'product_page.html',
+            return render(request, 'product-page.html',
                           {'product': product,
                            'linked_sorted': linked_sorted,
                            'linked_sorted_distinct': linked_sorted_distinct,
@@ -332,11 +332,11 @@ def product_view(request, var):
                            'js_product': js_product,
                            'js_linked_sorted': js_linked_sorted})
         else:
-            return render(request, 'product_page.html',
+            return render(request, 'product-page.html',
                           {'product': product,
                            'js_product': js_product})
     else:
-        return render(request, 'product_page.html',
+        return render(request, 'product-page.html',
                       {'product': product,
                        'js_product': js_product})
 
@@ -348,7 +348,7 @@ def all_products(request):
         request, products, active_sort)
     del_active_sort(request)
 
-    return render(request, 'all_products.html',
+    return render(request, 'all-products.html',
                   {'active_sort': active_sort,
                    'products': products,
                    'products_distinct': products_distinct,
@@ -363,7 +363,7 @@ def sports_products(request):
         request, products, active_sort)
     del_active_sort(request)
 
-    return render(request, 'all_products.html',
+    return render(request, 'all-products.html',
                   {'active_sort': active_sort,
                    'products': products,
                    'products_distinct': products_distinct,
@@ -378,7 +378,7 @@ def health_products(request):
         request, products, active_sort)
     del_active_sort(request)
 
-    return render(request, 'all_products.html',
+    return render(request, 'all-products.html',
                   {'active_sort': active_sort,
                    'products': products,
                    'products_distinct': products_distinct,
@@ -398,7 +398,7 @@ def new_products(request):
         request, products, active_sort)
     del_active_sort(request)
 
-    return render(request, 'all_products.html',
+    return render(request, 'all-products.html',
                   {'active_sort': active_sort,
                    'products': products,
                    'products_distinct': products_distinct,
@@ -440,7 +440,7 @@ def search_results(request):
 
         del_active_sort(request)
 
-        return render(request, 'all_products.html',
+        return render(request, 'all-products.html',
                       {'active_sort': active_sort,
                        'search_term': search_term,
                        'sort_search': sort_search,
@@ -457,7 +457,7 @@ def search_results(request):
         js_products = None
         js_searched = None
 
-        return render(request, 'all_products.html',
+        return render(request, 'all-products.html',
                       {'active_sort': active_sort,
                        'search_term': search_term,
                        'sort_search': sort_search,

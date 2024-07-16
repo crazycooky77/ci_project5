@@ -8,7 +8,7 @@
 
 {% block content %}
     <div class="all-prod-div">
-        {% include 'form_responses.html' %}
+        {% include 'form-responses.html' %}
         {% if request.get_full_path == '/products/search' %}
             <div class="search-results-div">
                 {% if search_term or sort_search %}

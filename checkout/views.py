@@ -425,7 +425,7 @@ def checkout_view(request):
                  addr_list, js_addr) = checkout_addr(
                     request, order_addr_form)
                 return render(request,
-                              'checkout_addr.html',
+                              'checkout-addr.html',
                               {'ship_order_addr_form': ship_order_addr_form,
                                'bill_order_addr_form': bill_order_addr_form,
                                'addr_list': addr_list,
@@ -435,7 +435,7 @@ def checkout_view(request):
                 ship_order_addr_form, bill_order_addr_form = (
                     dual_addr_form(request))
                 return render(
-                    request, 'checkout_addr.html',
+                    request, 'checkout-addr.html',
                     {'ship_order_addr_form': ship_order_addr_form,
                      'bill_order_addr_form': bill_order_addr_form,
                      'order_note': order_note})
@@ -444,7 +444,7 @@ def checkout_view(request):
             order_addr_form, addr_list, js_addr = checkout_addr(
                 request, order_addr_form)
             return render(request,
-                          'checkout_addr.html',
+                          'checkout-addr.html',
                           {'order_addr_form': order_addr_form,
                            'addr_list': addr_list,
                            'js_addr': js_addr,
@@ -453,7 +453,7 @@ def checkout_view(request):
               or request.POST.get("checkout-edit-addr"))
               and not request.POST.get('shipping-addr')):
             return render(request,
-                          'checkout_addr.html',
+                          'checkout-addr.html',
                           {'order_addr_form': order_addr_form,
                            'order_note': order_note})
         elif request.POST.get("checkout-signin-button"):
@@ -476,7 +476,7 @@ def checkout_view(request):
                      addr_list, js_addr) = checkout_addr(
                         request, order_addr_form)
                     return render(
-                        request, 'checkout_addr.html',
+                        request, 'checkout-addr.html',
                         {'ship_order_addr_form': ship_order_addr_form,
                          'bill_order_addr_form': bill_order_addr_form,
                          'addr_list': addr_list,
@@ -486,7 +486,7 @@ def checkout_view(request):
                     order_addr_form, addr_list, js_addr = checkout_addr(
                         request, order_addr_form)
                     return render(request,
-                                  'checkout_addr.html',
+                                  'checkout-addr.html',
                                   {'order_addr_form': order_addr_form,
                                    'addr_list': addr_list,
                                    'js_addr': js_addr,
@@ -495,7 +495,7 @@ def checkout_view(request):
                 messages.error(request, 'Login failed')
         else:
             return render(request,
-                          'checkout_signin.html')
+                          'checkout-signin.html')
 
     elif (request.POST.get("addr-form-button")
           or request.POST.get("check-stock")):
@@ -568,7 +568,7 @@ def checkout_view(request):
                 intent = stripe.SetupIntent.create()
 
             return render(request,
-                          'checkout_confirm.html',
+                          'checkout-confirm.html',
                           {'shipping_addr': shipping_addr,
                            'billing_addr': billing_addr,
                            'cart_prods': zip(cart_prods, cart.values()),
@@ -583,7 +583,7 @@ def checkout_view(request):
                            'client_secret': intent.client_secret})
 
     if request.POST.get("shipping-addr"):
-        return render(request, 'checkout_addr.html',
+        return render(request, 'checkout-addr.html',
                       {'order_note': order_note})
 
 
@@ -613,7 +613,7 @@ def checkout_complete(request):
 
         del request.session['cart']
 
-        return render(request, 'checkout_success.html',
+        return render(request, 'checkout-success.html',
                       {'completed_order': completed_order,
                        'cart_prods': zip(cart_prods, cart.values()),
                        'subtotal': subtotal,
@@ -636,10 +636,10 @@ def checkout_complete(request):
             def _send_order_error_email(client_secret, pid):
                 admin_email = settings.CONTACT_EMAIL
                 subject = render_to_string(
-                    'error_emails/admin_order_error_email_subject.txt',
+                    'error_emails/admin-order-error-email-subject.txt',
                     {'time_now': time_now})
                 body = render_to_string(
-                    'error_emails/admin_order_error_email_body.txt',
+                    'error_emails/admin-order-error-email-body.txt',
                     {'client_secret': client_secret,
                      'pid': pid,
                      'time_now': time_now})
@@ -651,5 +651,5 @@ def checkout_complete(request):
 
             _send_order_error_email(client_secret, pid)
 
-        return render(request, 'checkout_error.html',
+        return render(request, 'checkout-error.html',
                       {'client_secret': client_secret})

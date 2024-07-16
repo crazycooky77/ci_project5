@@ -9,7 +9,7 @@
 {% block content %}
     <div class="checkout">
         <h2>Error</h2>
-        {% include 'form_responses.html' %}
+        {% include 'form-responses.html' %}
         <div class="checkout-error">
             {% if "client-secret" %}
                 <p>An error occurred during checkout that prevented us from displaying your order summary. Please <strong>do not</strong> make a second purchase, to avoid a duplicate charge. We have been notified of this error during your purchase, will investigate this urgently, and contact you with the outcome. We sincerely apologise for any inconvenience. If you wish to get in touch with us in the meantime, please <a href="mailto:{{ contact_email }}">contact us</a>.</p>

@@ -30,7 +30,7 @@
 {#                <a href="">Saved for Later</a>#}
             </div>
             {% if request.get_full_path == '/profile' %}
-                {% include 'account_details.html' %}
+                {% include 'account-details.html' %}
             {% elif request.get_full_path == '/email/' %}
                 {% include 'account/email_change.html' %}
             {% elif request.get_full_path|slice:"0:15" == '/confirm-email/' %}
@@ -40,13 +40,13 @@
             {% elif request.get_full_path == '/profile/addresses' %}
                 {% include 'addresses.html' %}
             {% elif request.get_full_path == '/profile/add-address' %}
-                {% include 'add_address.html' %}
+                {% include 'add-address.html' %}
             {% elif request.get_full_path|slice:"0:22" == '/profile/edit-address/' %}
-                {% include 'edit_address.html' %}
+                {% include 'edit-address.html' %}
             {% elif request.get_full_path == '/profile/orders' %}
                 {% include 'orders.html' %}
             {% elif request.get_full_path|slice:"0:21" == '/profile/orders/id%3D' %}
-                {% include 'order_details.html' %}
+                {% include 'order-details.html' %}
             {% endif %}
         {% else %}
             <p>You need to <a href="/login">log in</a> to view this page.</p>

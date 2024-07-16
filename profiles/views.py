@@ -41,9 +41,9 @@ class CustomPasswordChangeView(PasswordChangeView):
 def newsletter_signup(request):
     def _send_signup_email(cust_email, link):
         subject = render_to_string(
-            'confirmation_emails/newsletter_signup_subject.txt')
+            'confirmation_emails/newsletter-signup-subject.txt')
         body = render_to_string(
-            'confirmation_emails/newsletter_signup_body.txt',
+            'confirmation_emails/newsletter-signup-body.txt',
             {'link': link})
         send_mail(
             subject,

@@ -9,7 +9,7 @@
 {% block content %}
     <div class="checkout">
         <h2>Confirm and Complete Purchase</h2>
-        {% include 'form_responses.html' %}
+        {% include 'form-responses.html' %}
         <div class="checkout-summary">
             <div class="prod-table-details">
                 <div class="cart-toggle-div">
@@ -18,10 +18,10 @@
                 <div id="checkout-stock-change">
                     {% if js_stock and not checkout_empty %}
                         <p class="form-error">The quantity for the following items in your cart has changed, due to stock updates:</p>
-                        {% include 'cart_stock.html' %}
+                        {% include 'cart-stock.html' %}
                     {% endif %}
                 </div>
-                {% include 'cart_contents.html' %}
+                {% include 'cart-contents.html' %}
             </div>
             <div class="summ-split">
                 <hr>

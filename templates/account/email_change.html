@@ -9,7 +9,7 @@
     {% element form method="post" action=action_url %}
         {% slot body %}
             {% csrf_token %}
-            {% include 'form_responses.html' %}
+            {% include 'form-responses.html' %}
             {% if current_emailaddress %}
                 {% element field id="current_email" disabled=True type="email" value=current_emailaddress.email %}
                     {% slot label %}

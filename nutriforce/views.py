@@ -21,9 +21,9 @@ def handler500(request):
             e = None
         admin_email = settings.CONTACT_EMAIL
         subject = render_to_string(
-            'error_emails/admin_500_subject.txt')
+            'error_emails/admin-500-subject.txt')
         body = render_to_string(
-            'error_emails/admin_500_body.txt',
+            'error_emails/admin-500-body.txt',
             {'e': e})
 
         send_mail(

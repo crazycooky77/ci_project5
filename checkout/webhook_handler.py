@@ -23,10 +23,10 @@ class StripeHWHandler:
     def _send_confirmation_email(self, order):
         cust_email = order.purchaser_email
         subject = render_to_string(
-            'confirmation_emails/confirmation_email_subject.txt',
+            'confirmation_emails/confirmation-email-subject.txt',
             {'order': order})
         body = render_to_string(
-            'confirmation_emails/confirmation_email_body.txt',
+            'confirmation_emails/confirmation-email-body.txt',
             {'order': order, 'contact_email': settings.DEFAULT_FROM_EMAIL})
 
         send_mail(
@@ -39,10 +39,10 @@ class StripeHWHandler:
         admin_email = settings.CONTACT_EMAIL
         event_type = event["type"]
         subject = render_to_string(
-            'confirmation_emails/admin_confirmation_email_subject.txt',
+            'confirmation_emails/admin-confirmation-email-subject.txt',
             {'order': order})
         body = render_to_string(
-            'confirmation_emails/admin_confirmation_email_body.txt',
+            'confirmation_emails/admin-confirmation-email-body.txt',
             {'order': order, 'pid': pid, 'event_type': event_type})
 
         send_mail(
