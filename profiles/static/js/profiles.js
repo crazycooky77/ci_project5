@@ -1,30 +1,30 @@
 window.addEventListener("DOMContentLoaded", () => {
-    windowU500()
-    windowO500()
-    windowU800()
-    windowO800()
-    windowU1100()
-    windowO1100()
+    profilesU500()
+    profilesO500()
+    profilesU800()
+    profilesO800()
+    profilesU1100()
+    profilesO1100()
     addrInputResize()
 })
 
 window.addEventListener("load", () => {
-    windowU500()
-    windowO500()
-    windowU800()
-    windowO800()
-    windowU1100()
-    windowO1100()
+    profilesU500()
+    profilesO500()
+    profilesU800()
+    profilesO800()
+    profilesU1100()
+    profilesO1100()
     addrInputResize()
 })
 
 window.addEventListener("resize", () => {
-    windowU500()
-    windowO500()
-    windowU800()
-    windowO800()
-    windowU1100()
-    windowO1100()
+    profilesU500()
+    profilesO500()
+    profilesU800()
+    profilesO800()
+    profilesU1100()
+    profilesO1100()
     addrInputResize()
 })
 
@@ -61,7 +61,7 @@ function addrInputResize() {
 }
 
 
-function windowU500() {
+function profilesU500() {
     if (window.innerWidth <= 500) {
         if (window.location.pathname.includes('/profile/orders')) {
             let buttons = document.querySelector('table')
@@ -78,7 +78,7 @@ function windowU500() {
 }
 
 
-function windowO500() {
+function profilesO500() {
     if (window.innerWidth > 500) {
         if (window.location.pathname.includes('/profile/orders')) {
             let buttons = document.querySelector('table')
@@ -95,7 +95,7 @@ function windowO500() {
 }
 
 
-function windowU800() {
+function profilesU800() {
     if (window.innerWidth <= 800) {
         if (window.location.pathname.split('/')[2] === 'edit-address' ||
             window.location.pathname.split('/')[2] === 'add-address') {
@@ -108,7 +108,7 @@ function windowU800() {
 }
 
 
-function windowO800() {
+function profilesO800() {
     if (window.innerWidth > 800) {
         if (window.location.pathname.split('/')[2] === 'edit-address' ||
             window.location.pathname.split('/')[2] === 'add-address') {
@@ -123,7 +123,7 @@ function windowO800() {
 }
 
 
-function windowU1100() {
+function profilesU1100() {
     if (window.innerWidth <= 1100) {
         if (window.location.pathname.includes('/profile/orders')) {
             let headers = document.querySelectorAll('th')
@@ -157,7 +157,7 @@ function windowU1100() {
 }
 
 
-function windowO1100() {
+function profilesO1100() {
     if (window.innerWidth > 1100) {
         if (window.location.pathname.includes('/profile/orders')) {
             let headers = document.querySelectorAll('th')
