@@ -1,7 +1,7 @@
 A new order has been received. Please review the below, begin preparations, and update the order status in the Admin Panel.
 
 Order Number: {{ order.order_id }}
-Order Date: {{ order.order_dt }}
+Order Date: {{ order.order_dt }} GMT
 
 Subtotal: € {{ order.subtotal }}
 Shipping: € {{ order.shipping_cost }}
