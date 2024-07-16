@@ -237,7 +237,7 @@ function oosSizes(json) {
                  sizes.options[s].disabled = false
                  sizes.options[s].classList.remove('oos')
              }
-             SizeSelect(sizes)
+             sizeSelect(sizes)
          }
      }
 }
