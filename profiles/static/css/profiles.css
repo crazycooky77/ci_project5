@@ -227,6 +227,7 @@ label[for="id_email2"], #id_email2 {
     margin-left: 0;
     margin-top: 0;
     width: 80%;
+    overflow: auto;
 }
 
 .orders .prod-table table, .orders .prod-table-details table {
