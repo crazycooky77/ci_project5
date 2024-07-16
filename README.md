@@ -7,7 +7,9 @@ NutriForce is a B2C online shop for sports and health nutrition in Ireland. The 
    
 ## Web Marketing - TO BE UPDATED
 ### Newsletter
-signup and unsubscribe
+A newsletter signup link is available on every page of the site. The prominent but unobtrusive display of this feature makes it easy for customers to make use of it, without being bothered by it. When a user signs up, a confirmation email is sent out to the email address used. This helps to ensure no one's email is used or stored for this, without their consent (in case someone uses an email address that does not belong to them). The confirmation email includes a link to unsubscribe from the mailing list that can be used at any time. If the email address used is linked to a registered account, the user can also unsubscribe from their Profile at any time as well.
+
+Privacy and customer experience concerns aside, the newsletter is used to promote special deals and new products, which should help entice some customers to make additional purchases.
 
 ### Facebook page
 https://www.facebook.com/profile.php?id=100094712224458 by Erika, add screenshots
