@@ -487,7 +487,11 @@ footer * {
 
 
 @media screen and (max-width: 310px) {
-    .nav-right {
-        display: none;
+    .nav-search form {
+        flex-direction: column;
+    }
+
+    .nav-search button {
+        margin: 5px 0;
     }
 }
