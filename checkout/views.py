@@ -167,7 +167,7 @@ def add_cart(request, product_id):
         elif not adjusted_quantity:
             messages.success(
                 request,
-                'You successfully added {quantity} items to your cart. ' +
+                f'You successfully added {quantity} items to your cart. ' +
                 '<a href="/cart">View Cart</a>')
         else:
             messages.success(
