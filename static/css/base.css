@@ -282,7 +282,6 @@ footer * {
 }
 
 
-
 @media screen and (max-width: 1100px) {
     .nav-buttons button {
         margin: 0;
@@ -298,7 +297,6 @@ footer * {
         margin: 0;
     }
 }
-
 
 
 @media screen and (max-width: 800px) {
@@ -321,7 +319,6 @@ footer * {
         width: 35vw;
     }
 }
-
 
 
 @media screen and (max-width: 500px) {
@@ -477,5 +474,12 @@ footer * {
     .footer-links {
         margin: auto 20px auto auto;
         width: 85%;
+    }
+}
+
+
+@media screen and (max-width: 310px) {
+    .nav-right {
+        display: none;
     }
 }
