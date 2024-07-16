@@ -135,7 +135,7 @@
 .checkout-addr-form {
     display: flex;
     flex-direction: column;
-    width: 60%;
+    width: 80%;
 }
 
 .billing-addr-form button {
@@ -340,7 +340,7 @@ button.hidden-addr-submit, .hidden-empty-submit {
 
 @media screen and (max-width: 1100px) {
     .checkout-addr-form {
-        width: 80%;
+        width: 100%;
     }
 
     .cart-toggle-div, .edit-addr-div {
@@ -383,7 +383,7 @@ button.hidden-addr-submit, .hidden-empty-submit {
         width: auto;
     }
 
-    .checkout-button, .checkout-addr-form, .addr-form-button, .checkout-summary .prod-table-details table {
+    .checkout-button, .addr-form-button, .checkout-summary .prod-table-details table {
         width: 100%;
     }
 

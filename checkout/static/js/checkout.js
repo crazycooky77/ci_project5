@@ -1,3 +1,22 @@
+window.addEventListener("DOMContentLoaded", () => {
+    checkoutSizing()
+    checkoutU800()
+    checkoutO800()
+})
+
+window.addEventListener("load", () => {
+    checkoutSizing()
+    checkoutU800()
+    checkoutO800()
+})
+
+window.addEventListener("resize", () => {
+    checkoutSizing()
+    checkoutU800()
+    checkoutO800()
+})
+
+
 function addressSelection(select, addrForm) {
     let selectedAddr = select.options[select.options.selectedIndex]
     let selectedAddrId = Number(selectedAddr.value.split('-')[0])
@@ -101,29 +120,40 @@ function resizeCheckoutFields() {
 }
 
 
-if (window.innerWidth <= 500) {
-    if (window.location.pathname === '/cart' || window.location.pathname === '/checkout' || window.location.pathname === '/checkout/success') {
-        let headers = document.querySelectorAll('th')
-        for (let i = 0; i < headers.length; i++) {
-            if (headers[i].textContent === 'Product') {
-                headers[i].innerHTML = '<i class="fa-solid fa-bottle-water"></i>'
-            } else if (headers[i].textContent === 'Size') {
-                headers[i].innerHTML = '<i class="fa-solid fa-weight-scale"></i>'
-            } else if (headers[i].textContent === 'Quantity') {
-                headers[i].innerHTML = '<i class="fa-solid fa-arrow-up-9-1"></i>'
-            } else if (headers[i].textContent === 'Sum') {
-                headers[i].innerHTML = '<i class="fa-solid fa-sack-dollar"></i>'
+function checkoutU800() {
+    if (window.innerWidth <= 800) {
+        if (window.location.pathname === '/cart' || window.location.pathname === '/checkout' || window.location.pathname === '/checkout/success') {
+            let headers = document.querySelectorAll('th')
+            for (let i = 0; i < headers.length; i++) {
+                if (headers[i].title === 'Product') {
+                    headers[i].innerHTML = '<i class="fa-solid fa-bottle-water"></i>'
+                } else if (headers[i].title === 'Size') {
+                    headers[i].innerHTML = '<i class="fa-solid fa-weight-scale"></i>'
+                } else if (headers[i].title === 'Quantity') {
+                    headers[i].innerHTML = '<i class="fa-solid fa-arrow-up-9-1"></i>'
+                } else if (headers[i].title === 'Sum') {
+                    headers[i].innerHTML = '<i class="fa-solid fa-sack-dollar"></i>'
+                }
             }
         }
     }
 }
 
 
-if (window.location.pathname === "/checkout") {
-    window.addEventListener("DOMContentLoaded", () => {
-        resizeCheckoutFields()
-        window.onresize = function() {
-            resizeCheckoutFields()
+function checkoutO800() {
+    if (window.innerWidth > 800) {
+        if (window.location.pathname === '/cart' || window.location.pathname === '/checkout' || window.location.pathname === '/checkout/success') {
+            let headers = document.querySelectorAll('th')
+            for (let i = 0; i < headers.length; i++) {
+                headers[i].innerHTML = headers[i].title
+            }
         }
-    })
+    }
+}
+
+
+function checkoutSizing() {
+    if (window.location.pathname === "/checkout") {
+        resizeCheckoutFields()
+    }
 }
