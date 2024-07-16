@@ -23,16 +23,16 @@
                     {% endif %}
                     <td>{{ order.get_status_display }}</td>
                 {% if order.status in 'PEND,PROC,RDY' %}
-                    <td class="desktop"><button type="button" onclick="location.href='mailto:{{ contact_email }}?subject=Cancellation Request for Order {{ order.order_id }}&body=Please add details for your request: '">Request Cancellation</button></td>
+                    <td class="mid-desk"><button type="button" onclick="location.href='mailto:{{ contact_email }}?subject=Cancellation Request for Order {{ order.order_id }}&body=Please add details for your request: '">Request Cancellation</button></td>
                 {% else %}
-                    <td class="desktop"><button type="button" onclick="location.href='mailto:{{ contact_email }}?subject=Refund Request for Order {{ order.order_id }}&body=Please add details for your request: '">Request Refund</button></td>
+                    <td class="mid-desk"><button type="button" onclick="location.href='mailto:{{ contact_email }}?subject=Refund Request for Order {{ order.order_id }}&body=Please add details for your request: '">Request Refund</button></td>
                 {% endif %}
                 </tr>
             </table>
             {% if order.status in 'PEND,PROC,RDY' %}
-                <button class="mobile" type="button" onclick="location.href='mailto:{{ contact_email }}?subject=Cancellation Request for Order {{ order.order_id }}&body=Please add details for your request: '">Request Cancellation</button>
+                <button class="mid-screen" type="button" onclick="location.href='mailto:{{ contact_email }}?subject=Cancellation Request for Order {{ order.order_id }}&body=Please add details for your request: '">Request Cancellation</button>
             {% else %}
-                <button class="mobile" type="button" onclick="location.href='mailto:{{ contact_email }}?subject=Refund Request for Order {{ order.order_id }}&body=Please add details for your request: '">Request Refund</button>
+                <button class="mid-screen" type="button" onclick="location.href='mailto:{{ contact_email }}?subject=Refund Request for Order {{ order.order_id }}&body=Please add details for your request: '">Request Refund</button>
             {% endif %}
         </div>
         <div class="prod-table-details">

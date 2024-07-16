@@ -315,7 +315,7 @@ label[for="id_email2"], #id_email2 {
 
 @media screen and (max-width: 800px) {
     .add-addr {
-        width: 100%;
+        max-width: 100%;
     }
 
     .add-addr input {
@@ -325,6 +325,11 @@ label[for="id_email2"], #id_email2 {
     .add-addr button {
         width: 100%;
         margin: 10px auto;
+    }
+
+    .orders .prod-table button {
+        width: auto;
+        margin-top: 10px;
     }
 }
 
@@ -399,6 +404,10 @@ label[for="id_email2"], #id_email2 {
         margin-bottom: 5px;
     }
 
+    .add-addr {
+        width: 100%;
+    }
+
     .orders {
         width: 100%;
     }
@@ -422,11 +431,6 @@ label[for="id_email2"], #id_email2 {
     .orders .prod-table table td:nth-child(4) {
         word-break: break-word;
         padding: 1px;
-    }
-
-    .orders .prod-table button {
-        width: auto;
-        margin-top: 10px;
     }
 
     .orders .prod-table-details {

@@ -304,9 +304,13 @@ footer * {
         display: none;
     }
 
-    .mid-screen {
+    nav.mid-screen {
         display: flex;
         flex-direction: column;
+    }
+
+    button.mid-screen {
+        display: block;
     }
 
     #nav-logout {
