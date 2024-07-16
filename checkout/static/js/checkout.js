@@ -9,7 +9,7 @@ function addressSelection(select, addrForm) {
             else if (e.name === 'last_name')
                 e.value = a.fields.last_name
             else if (e.name === 'phone_nr')
-                e.value = '0' + a.fields.phone_nr
+                e.value = a.fields.phone_nr
             else if (e.name === 'addr_line1')
                 e.value = a.fields.addr_line1
             else if (e.name === 'addr_line2')

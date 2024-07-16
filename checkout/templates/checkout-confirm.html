@@ -54,7 +54,7 @@
                         {{ shipping_addr.eir_code }}</p>
                         <p>{{ shipping_addr.county }},
                         {{ shipping_addr.country }}</p>
-                        <p>0{{ shipping_addr.phone_nr }}</p>
+                        <p>{{ shipping_addr.phone_nr }}</p>
                         {% if not user.is_authenticated %}
                             <p>{{ shipping_addr.email }}</p>
                         {% endif %}
@@ -77,7 +77,7 @@
                         {{ billing_addr.eir_code }}</p>
                         <p>{{ billing_addr.county }},
                         {{ billing_addr.country }}</p>
-                        <p>0{{ billing_addr.phone_nr }}</p>
+                        <p>{{ billing_addr.phone_nr }}</p>
                         {% if not user.is_authenticated %}
                             <p>{{ billing_addr.email }}</p>
                         {% endif %}

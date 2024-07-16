@@ -44,7 +44,7 @@
                         {{ completed_order.shipping_addr.eir_code }}</p>
                         <p>{{ completed_order.shipping_addr.county }},
                         {{ completed_order.shipping_addr.country }}</p>
-                        <p>0{{ completed_order.shipping_addr.phone_nr }}</p>
+                        <p>{{ completed_order.shipping_addr.phone_nr }}</p>
                         {% if not user.is_authenticated %}
                             <p>{{ completed_order.shipping_addr.email }}</p>
                         {% endif %}
@@ -67,7 +67,7 @@
                         {{ completed_order.billing_addr.eir_code }}</p>
                         <p>{{ completed_order.billing_addr.county }},
                         {{ completed_order.billing_addr.country }}</p>
-                        <p>0{{ completed_order.billing_addr.phone_nr }}</p>
+                        <p>{{ completed_order.billing_addr.phone_nr }}</p>
                         {% if not user.is_authenticated %}
                             <p>{{ completed_order.billing_addr.email }}</p>
                         {% endif %}

@@ -15,7 +15,7 @@ Line 2: {{ order.shipping_addr.addr_line2 }}
 Line 3: {{ order.shipping_addr.addr_line3 }}
 City, Eir Code: {{ order.shipping_addr.city }}, {{ order.shipping_addr.eir_code }}
 County, Country: {{ order.shipping_addr.county }}, {{ order.shipping_addr.country }}
-Phone Number: 0{{ order.shipping_addr.phone_nr }}
+Phone Number: {{ order.shipping_addr.phone_nr }}
 
 Note to Seller:
 {{ order.order_note }}

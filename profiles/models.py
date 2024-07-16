@@ -64,7 +64,7 @@ class Addresses(models.Model):
                                choices=Countries.choices,
                                default=Countries.IE)
     email = models.EmailField()
-    phone_nr = models.IntegerField()
+    phone_nr = models.CharField(max_length=50)
     default_addr = models.BooleanField(default=True)
 
     class Meta:

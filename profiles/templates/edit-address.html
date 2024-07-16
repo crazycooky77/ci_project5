@@ -47,7 +47,7 @@
     </div>
     <div class="label-input">
         <label for="id_phone_nr" aria-label="Phone Number">Phone Number:</label>
-        <input type="number" name="phone_nr" id="id_phone_nr" required value="0{{ addr_to_edit.phone_nr }}">
+        <input type="number" name="phone_nr" id="id_phone_nr" aria-label="Phone Number" onkeydown="return event.keyCode !== 69" required value="{{ addr_to_edit.phone_nr }}">
     </div>
     <div class="label-input">
         <label for="id_default_addr" aria-label="Default Address">Default Address:</label>

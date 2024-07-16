@@ -405,7 +405,7 @@ def checkout_addr(request, order_addr_form):
                 'eir_code': form_addr.eir_code,
                 'county': form_addr.county,
                 'country': form_addr.country,
-                'phone_nr': '0' + str(form_addr.phone_nr),
+                'phone_nr': str(form_addr.phone_nr),
                 'email': form_addr.user.email},
                 user_auth=True)
 
