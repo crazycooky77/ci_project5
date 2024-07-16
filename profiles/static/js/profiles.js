@@ -5,6 +5,7 @@ window.addEventListener("DOMContentLoaded", () => {
     windowO800()
     windowU1100()
     windowO1100()
+    addrInputResize()
 })
 
 window.addEventListener("load", () => {
@@ -14,6 +15,7 @@ window.addEventListener("load", () => {
     windowO800()
     windowU1100()
     windowO1100()
+    addrInputResize()
 })
 
 window.addEventListener("resize", () => {
@@ -23,6 +25,7 @@ window.addEventListener("resize", () => {
     windowO800()
     windowU1100()
     windowO1100()
+    addrInputResize()
 })
 
 
@@ -45,33 +48,21 @@ if (window.location.pathname.includes('profile') ||
 
 
 function addrInputResize() {
-    let selectBox = document.getElementById('id_country')
-    let selectBoxWidth = document.getElementById('id_country').getBoundingClientRect().width
-    let inputBoxWidth = document.getElementById('id_county').getBoundingClientRect().width
-
-    selectBox.style.width = (selectBoxWidth + (inputBoxWidth - selectBoxWidth)) + 'px'
-}
-
-
-function mobileResize() {
-    let addrLine2 = document.getElementById('id_addr_line2')
-    let addrLine3 = document.getElementById('id_addr_line3')
-    let addrLine1Width = document.getElementById('id_addr_line1').getBoundingClientRect().width
-    let addrLine2Width = document.getElementById('id_addr_line2').getBoundingClientRect().width
-    let addrLine3Width = document.getElementById('id_addr_line3').getBoundingClientRect().width
-
-    addrLine2.style.width = (addrLine1Width - (addrLine2Width - addrLine1Width)) + 'px'
-    addrLine3.style.width = (addrLine1Width - (addrLine3Width - addrLine1Width)) + 'px'
-    addrInputResize()
+    if (window.location.pathname === '/profile/add-address' ||
+        window.location.pathname.split("/")[2] === 'edit-address') {
+        let formInputs = document.getElementsByClassName('label-input')
+        let width = $(formInputs[0].lastElementChild).outerWidth()
+        for (let i = 0; i < formInputs.length - 1; i++) {
+            if (!(formInputs[i].lastElementChild.required)) {
+                $(formInputs[i].lastElementChild).outerWidth(width)
+            }
+        }
+    }
 }
 
 
 function windowU500() {
     if (window.innerWidth <= 500) {
-        if (window.location.pathname === '/profile/add-address' ||
-            window.location.pathname.split("/")[2] === 'edit-address') {
-            addrInputResize()
-        }
         if (window.location.pathname.includes('/profile/orders')) {
             let buttons = document.querySelector('table')
             if (buttons) {
@@ -89,10 +80,6 @@ function windowU500() {
 
 function windowO500() {
     if (window.innerWidth > 500) {
-        if (window.location.pathname === '/profile/add-address' ||
-            window.location.pathname.split("/")[2] === 'edit-address') {
-            addrInputResize()
-        }
         if (window.location.pathname.includes('/profile/orders')) {
             let buttons = document.querySelector('table')
             if (buttons) {
@@ -116,7 +103,6 @@ function windowU800() {
             for (let i = 0; i < labels.length - 1; i++) {
                 document.getElementsByClassName('label-input')[i].firstElementChild.textContent = ''
             }
-            mobileResize()
         }
     }
 }
@@ -130,7 +116,6 @@ function windowO800() {
             for (let i = 0; i < labels.length - 1; i++) {
                 document.getElementsByClassName('label-input')[i].firstElementChild.textContent = document.getElementsByClassName('label-input')[i].firstElementChild.ariaLabel
             }
-            mobileResize()
         }
     }
 
