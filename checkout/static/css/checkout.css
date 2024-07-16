@@ -337,7 +337,6 @@ button.hidden-addr-submit, .hidden-empty-submit {
 }
 
 
-
 @media screen and (max-width: 1100px) {
     .checkout-addr-form {
         width: 80%;
@@ -355,7 +354,6 @@ button.hidden-addr-submit, .hidden-empty-submit {
         width: 60%;
     }
 }
-
 
 
 @media screen and (max-width: 500px) {

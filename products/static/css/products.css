@@ -232,7 +232,6 @@ button[class$="add-cart"], .home-row button[class$="add-cart"], .hor-prod-div di
 }
 
 
-
 @media screen and (max-width: 800px) {
     .home-div {
         margin: auto;
@@ -297,7 +296,6 @@ button[class$="add-cart"], .home-row button[class$="add-cart"], .hor-prod-div di
         gap: 30px;
     }
 }
-
 
 
 @media screen and (max-width: 500px) {

@@ -286,7 +286,6 @@ label[for="id_email2"], #id_email2 {
 }
 
 
-
 @media screen and (max-width: 1100px) {
     .profile-buttons {
         width: 50%;
@@ -313,7 +312,6 @@ label[for="id_email2"], #id_email2 {
 }
 
 
-
 @media screen and (max-width: 800px) {
     .add-addr {
         width: 100%;
@@ -328,7 +326,6 @@ label[for="id_email2"], #id_email2 {
         margin: 10px auto;
     }
 }
-
 
 
 @media screen and (max-width: 500px) {
