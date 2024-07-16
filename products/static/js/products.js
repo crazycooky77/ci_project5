@@ -1,3 +1,48 @@
+window.addEventListener("DOMContentLoaded", () => {
+    featProds()
+    allProds()
+    searchedProds()
+    prodPage()
+    prodResizeScroll()
+})
+
+window.addEventListener("load", () => {
+    featProds()
+    allProds()
+    searchedProds()
+    prodPage()
+    prodResizeScroll()
+})
+
+window.addEventListener("resize", () => {
+    prodResizeScroll()
+})
+
+
+if (window.location.pathname.split('=')[0] === '/products/id') {
+    document.body.addEventListener('click', function (e) {
+        let descLink = document.getElementById('prod-desc-link');
+        let descText = document.getElementById('prod-desc');
+        let ingLink = document.getElementById('prod-ing-link');
+        let ingText = document.getElementById('prod-ing');
+        if (descLink === e.target && (descText.style.display === '' || descText.style.display === 'none')) {
+            descText.style.display = 'block';
+            descLink.innerHTML = 'Hide description <i class="fa-solid fa-square-caret-up"></i>'
+        } else if (descLink === e.target && descText.style.display === 'block') {
+            descText.style.display = 'none';
+            descLink.innerHTML = 'Show description <i class="fa-solid fa-square-caret-down"></i>'
+        }
+        if (ingLink === e.target && (ingText.style.display === '' || ingText.style.display === 'none')) {
+            ingText.style.display = 'block';
+            ingLink.innerHTML = 'Hide description <i class="fa-solid fa-square-caret-up"></i>'
+        } else if (ingLink === e.target && ingText.style.display === 'block') {
+            ingText.style.display = 'none';
+            ingLink.innerHTML = 'Show description <i class="fa-solid fa-square-caret-down"></i>'
+        }
+    })
+}
+
+
 /* Function to dynamically set the height for products in lists */
 function prodElSizes(prodClass) {
     let prodList = document.getElementsByClassName(prodClass)
@@ -415,72 +460,54 @@ function allOptions() {
 }
 
 
-/* On homepage load, disable the product dropdown options for out of stock products */
-if (window.location.pathname === "/") {
-    window.addEventListener("DOMContentLoaded", () => {
-        featOptions()
-    })
-}
-
-
 /* On product page load, hide duplicate and out of stock flavours in dropdowns */
-if (window.location.pathname.split('=')[0] === '/products/id') {
-    window.addEventListener("DOMContentLoaded", () => {
+function prodPage() {
+    if (window.location.pathname.split('=')[0] === '/products/id') {
         productOptions()
         linkedOptions()
-        window.onresize = function () {
-            prodElSizes('linked-details')
-        }
-        let descLink = document.getElementById('prod-desc-link');
-        let descText = document.getElementById('prod-desc');
-        let ingLink = document.getElementById('prod-ing-link');
-        let ingText = document.getElementById('prod-ing');
-
-        document.body.addEventListener('click', function (e) {
-            if (descLink === e.target && (descText.style.display === '' || descText.style.display === 'none')) {
-                descText.style.display = 'block';
-                descLink.innerHTML = 'Hide description <i class="fa-solid fa-square-caret-up"></i>'
-            } else if (descLink === e.target && descText.style.display === 'block') {
-                descText.style.display = 'none';
-                descLink.innerHTML = 'Show description <i class="fa-solid fa-square-caret-down"></i>'
-            }
-            if (ingLink === e.target && (ingText.style.display === '' || ingText.style.display === 'none')) {
-                ingText.style.display = 'block';
-                ingLink.innerHTML = 'Hide description <i class="fa-solid fa-square-caret-up"></i>'
-            } else if (ingLink === e.target && ingText.style.display === 'block') {
-                ingText.style.display = 'none';
-                ingLink.innerHTML = 'Show description <i class="fa-solid fa-square-caret-down"></i>'
-            }
-        })
-    })
+    }
 }
 
 
-/* When certain product pages load, hide duplicate and out of stock flavours in dropdowns */
-if ((window.location.pathname === "/products/health") ||
-(window.location.pathname === "/products/new") ||
-(window.location.pathname === "/products/sports") ||
-(window.location.pathname === "/products/all")) {
-    window.addEventListener("DOMContentLoaded", () => {
+/* On homepage load, disable the product dropdown options for out of stock products */
+function featProds() {
+    if (window.location.pathname === "/") {
+        featOptions()
+    }
+}
+
+
+function allProds() {
+    if ((window.location.pathname === "/products/health") ||
+        (window.location.pathname === "/products/new") ||
+        (window.location.pathname === "/products/sports") ||
+        (window.location.pathname === "/products/all")) {
         allOptions()
-        window.onresize = function() {
-            prodElSizes('all-prod-details')
-        }
-        sortScroll()
-    })
+    }
 }
 
 
 /* On search product page load, select the searched flavour, and hide duplicate and out of stock flavours in dropdowns */
-if (window.location.pathname === "/products/search") {
-    window.addEventListener("DOMContentLoaded", () => {
-        if (window.json_prods && json_prods) {
+function searchedProds() {
+    if (window.location.pathname === "/products/search") {
+        if (window.json_searched_prods && json_searched_prods) {
             searchSelection(json_searched_prods)
             allOptions()
         }
-        window.onresize = function() {
-            prodElSizes('all-prod-details')
-        }
+    }
+}
+
+
+function prodResizeScroll() {
+    if ((window.location.pathname === "/products/health") ||
+        (window.location.pathname === "/products/new") ||
+        (window.location.pathname === "/products/sports") ||
+        (window.location.pathname === "/products/all") ||
+        (window.location.pathname === "/products/search")) {
+        prodElSizes('all-prod-details')
         sortScroll()
-    })
+    }
+    if (window.location.pathname.split('=')[0] === '/products/id') {
+        prodElSizes('linked-details')
+    }
 }
