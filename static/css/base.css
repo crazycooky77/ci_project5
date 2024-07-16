@@ -354,6 +354,10 @@ footer * {
         justify-content: unset;
     }
 
+    .nav-left .fa-solid {
+        font-size: 15px;
+    }
+
     .nav-left a {
         font-size: 14px;
     }
