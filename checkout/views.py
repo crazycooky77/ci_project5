@@ -588,41 +588,43 @@ def checkout_view(request):
 
 
 def checkout_complete(request):
-    order_exists = False
-    attempt = 1
-    while attempt <= 10:
-        try:
-            pid = request.POST.get(
-                'client-secret').split('"')[1].split('_secret')[0]
-            completed_order = OrderHistory.objects.get(stripe_pid=pid)
-            order_exists = True
-            break
-        except OrderHistory.DoesNotExist:
-            attempt += 1
-            time.sleep(2)
-    if order_exists:
-        cart = request.session['cart']
-        cart_prods = list()
-        for product in cart:
-            prod_details = ProductDetails.objects.get(pk=product)
-            cart_prods.append(prod_details)
+    client_secret = request.POST.get('client-secret')
+    cart = request.session.get('cart')
 
-        subtotal = completed_order.subtotal
-        shipping = completed_order.shipping_cost
-        grand_total = completed_order.grand_total
+    if client_secret and cart:
+        order_exists = False
+        attempt = 1
+        while attempt <= 10:
+            try:
+                try:
+                    pid = client_secret.split('"')[1].split('_secret')[0]
+                except AttributeError:
+                    pid = None
+                completed_order = OrderHistory.objects.get(stripe_pid=pid)
+                order_exists = True
+                break
+            except OrderHistory.DoesNotExist:
+                attempt += 1
+                time.sleep(2)
+        if order_exists:
+            cart_prods = list()
+            for product in cart:
+                prod_details = ProductDetails.objects.get(pk=product)
+                cart_prods.append(prod_details)
 
-        del request.session['cart']
+            subtotal = completed_order.subtotal
+            shipping = completed_order.shipping_cost
+            grand_total = completed_order.grand_total
 
-        return render(request, 'checkout-success.html',
-                      {'completed_order': completed_order,
-                       'cart_prods': zip(cart_prods, cart.values()),
-                       'subtotal': subtotal,
-                       'shipping': shipping,
-                       'grand_total': grand_total})
-    else:
-        client_secret = request.POST.get('client-secret')
+            del request.session['cart']
 
-        if client_secret:
+            return render(request, 'checkout-success.html',
+                          {'completed_order': completed_order,
+                           'cart_prods': zip(cart_prods, cart.values()),
+                           'subtotal': subtotal,
+                           'shipping': shipping,
+                           'grand_total': grand_total})
+        else:
             del request.session['cart']
             if request.user.is_authenticated:
                 SavedItems.objects.filter(
@@ -651,5 +653,12 @@ def checkout_complete(request):
 
             _send_order_error_email(client_secret, pid)
 
+            return render(request, 'checkout-error.html',
+                          {'client_secret': client_secret,
+                           'cart': True})
+    elif client_secret and not cart:
         return render(request, 'checkout-error.html',
-                      {'client_secret': client_secret})
+                      {'client_secret': client_secret,
+                       'cart': False})
+    else:
+        return render(request, 'checkout-error.html')

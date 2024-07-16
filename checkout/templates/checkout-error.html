@@ -11,8 +11,10 @@
         <h2>Error</h2>
         {% include 'form-responses.html' %}
         <div class="checkout-error">
-            {% if "client-secret" %}
+            {% if client_secret and cart %}
                 <p>An error occurred during checkout that prevented us from displaying your order summary. Please <strong>do not</strong> make a second purchase, to avoid a duplicate charge. We have been notified of this error during your purchase, will investigate this urgently, and contact you with the outcome. We sincerely apologise for any inconvenience. If you wish to get in touch with us in the meantime, please <a href="mailto:{{ contact_email }}">contact us</a>.</p>
+            {% elif client_secret and not cart %}
+                <p>It seems you might have tried to refresh this page after completing a purchase. To avoid a duplicate charge, we prevented a refresh of the order details. If you encountered an issue and wish to get in touch with us, please <a href="mailto:{{ contact_email }}">contact us</a>.</p>
             {% else %}
                 {% if request.user.is_authenticated %}
                     <p>You cannot access your checkout summary via direct link or after refreshing the page. This is to prevent duplicate purchases and charges. You can view your order summary in your order confirmation email, or <a href="/profile/orders">in your profile</a>.</p>
