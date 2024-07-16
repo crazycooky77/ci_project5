@@ -79,6 +79,6 @@
             </table>
         </div>
     {% else %}
-        <p>This order number ({{ request.get_full_path|slice:"13:" }}) does not exist.</p>
+        <p>This order number ({{ request.path|slice:"19:" }}) does not exist.</p>
     {% endif %}
 </div>
