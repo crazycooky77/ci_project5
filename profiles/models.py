@@ -161,7 +161,7 @@ class Purchases(models.Model):
         verbose_name_plural = 'Purchases'
 
     def __str__(self):
-        return f'{self.purchase_id} | {self.product} | {self.quantity}'
+        return f'{self.order} | {self.product} | {self.quantity}'
 
 
 class Newsletter(models.Model):
