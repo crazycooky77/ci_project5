@@ -110,6 +110,7 @@ label:has(+input:required):after {
 }
 
 .nav-right {
+    margin-top: 0;
     width: 15%;
 }
 
@@ -230,6 +231,7 @@ label[for='news-email-input'] {
 }
 
 .nav-left {
+    margin-top: 0;
     text-align: left;
     font-weight: bold;
     width: 20%;
@@ -359,6 +361,44 @@ footer * {
         display: block;
     }
 
+    .nav-left {
+        margin: 0 0 0 5px;
+        text-align: left;
+        width: 10%;
+    }
+
+    .nav-left a {
+        margin: 2px auto;
+    }
+
+    .nav-middle {
+        width: 75%;
+    }
+
+    .modal {
+        width: 70%;
+    }
+
+    .nav-buttons {
+        display: flex;
+    }
+
+    .nav-buttons button {
+        border-right: 1px solid #6DB1FC;
+        border-radius: unset;
+    }
+
+    .nav-buttons button:first-child {
+        border-top-left-radius: 5px;
+        border-bottom-left-radius: 5px
+    }
+
+    .nav-buttons button:last-child {
+        border-right: none;
+        border-top-right-radius: 5px;
+        border-bottom-right-radius: 5px
+    }
+
     #nav-logout {
         margin: 2px auto;
         padding: 0;
@@ -418,7 +458,7 @@ footer * {
     }
 
     .nav-right {
-        margin: auto 0 auto 0;
+        margin: 0 0 auto 0;
     }
 
     .nav-right img {
@@ -434,6 +474,10 @@ footer * {
         margin: auto auto auto 0;
         border-right: 1px solid black;
         padding-right: 6px;
+    }
+
+    .modal {
+        width: 80%;
     }
 
     .nav-support {
@@ -457,40 +501,9 @@ footer * {
         margin-left: 5px;
     }
 
-    .nav-left {
-        margin: 0 0 0 5px;
-        text-align: left;
-        width: 15%;
-    }
-
-    .nav-left a {
-        margin: 2px auto;
-    }
-
-    .nav-middle {
-        width: 70%;
-    }
-
-    .nav-buttons {
-        display: flex;
-    }
-
     .nav-buttons button {
         font-size: 12px;
-        border-right: 1px solid #6DB1FC;
-        border-radius: unset;
         padding: 5px;
-    }
-
-    .nav-buttons button:first-child {
-        border-top-left-radius: 5px;
-        border-bottom-left-radius: 5px
-    }
-
-    .nav-buttons button:last-child {
-        border-right: none;
-        border-top-right-radius: 5px;
-        border-bottom-right-radius: 5px
     }
 
     .mid-content {
@@ -533,6 +546,26 @@ footer * {
 
 
 @media screen and (max-width: 310px) {
+    .nav-sup-news {
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .nav-news {
+        border-right: none;
+        margin: auto;
+        padding: 0;
+    }
+
+    .modal {
+        width: 100%;
+    }
+
+    .nav-support {
+        margin: auto;
+    }
+
     .nav-search form {
         flex-direction: column;
     }

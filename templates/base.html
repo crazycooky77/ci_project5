@@ -42,27 +42,27 @@
         {% endblock %}
     </head>
     <body>
-        <nav class="desktop mid-desk">
+        <nav>
             <!-- Nav bar -->
             <div class="nav-div">
                 <div class="nav-left">
-                    <a href="/cart"><i class="fa-solid fa-cart-shopping"></i> View Cart</a>
+                    <a href="/cart" aria-label="View Cart" title="View Cart"><i class="fa-solid fa-cart-shopping"></i> View Cart</a>
                     {% if user.is_authenticated %}
                         <br>
-                        <a href="/profile"><i class="fa-solid fa-user"></i> Profile</a>
+                        <a href="/profile" aria-label="Profile" title="Profile"><i class="fa-solid fa-user"></i> Profile</a>
                         <br>
                         <form method="POST" action="{% url 'account_logout' %}">
                             {% csrf_token %}
                             {% if redirect_field_value %}
                                 <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
                             {% endif %}
-                            <button type="submit" id="nav-logout"><i class="fa-solid fa-right-from-bracket"></i> Log Out</button>
+                            <button type="submit" id="nav-logout" aria-label="Log Out" title="Log Out"><i class="fa-solid fa-right-from-bracket"></i> Log Out</button>
                         </form>
                     {% else %}
                         <br>
-                        <a href="/login"><i class="fa-regular fa-user"></i> Log In</a>
+                        <a href="/login" aria-label="Log In" title="Log In"><i class="fa-regular fa-user"></i> Log In</a>
                         <br>
-                        <a href="/signup"><i class="fa-solid fa-user-plus"></i> Create Account</a>
+                        <a href="/signup" aria-label="Create Account" title="Create Account"><i class="fa-solid fa-user-plus"></i> Create Account</a>
                     {% endif %}
                 </div>
                 <div class="nav-middle">
@@ -71,7 +71,7 @@
                             <form action="/newsletter" method="POST" id="news-signup-form">
                                 {% csrf_token %}
                                 <!-- Newsletter signup -->
-                                <a href="javascript:newSignup()" id="news-modal-link">Newsletter Signup</a>
+                                <a href="javascript:newSignup()">Newsletter Signup</a>
                                 <div id="news-modal" class="modal">
                                     <div class="modal-content">
                                         <span class="modal-close">&times;</span>
@@ -101,82 +101,19 @@
                     </div>
                     <!-- Nav buttons -->
                     <div class="nav-buttons">
-                        <button onclick="location.href='/products/all'">All Products</button>
+                        <button onclick="location.href='/products/all'" title="All Products" aria-label="All Products">All Products</button>
                         |
-                        <button onclick="location.href='/products/sports'">Sports</button>
+                        <button onclick="location.href='/products/sports'" title="Sports Products" aria-label="Sports Products">Sports</button>
                         |
-                        <button onclick="location.href='/products/health'">Health</button>
+                        <button onclick="location.href='/products/health'" title="Health Products" aria-label="Health Products">Health</button>
                         |
-                        <button onclick="location.href='/products/new'">What's New</button>
+                        <button onclick="location.href='/products/new'" title="New Products" aria-label="New Products">What's New</button>
                     </div>
                 </div>
                 <div class="nav-right">
                     <!-- Site logo -->
                     <a href="/"><img src="{{ MEDIA_URL }}logo.jpeg" alt="NutriForce Sports and Health Nutrition Logo"></a>
                 </div>
-            </div>
-        </nav>
-        <nav class="mid-screen">
-            <!-- Nav bar -->
-            <div class="nav-div">
-                <div class="nav-left">
-                    <a href="/cart" aria-label="View Cart" title="View Cart"><i class="fa-solid fa-cart-shopping"></i></a>
-                    {% if user.is_authenticated %}
-                        <br>
-                        <a href="/profile" aria-label="Profile" title="Profile"><i class="fa-solid fa-user"></i></a>
-                        <br>
-                        <form method="POST" action="{% url 'account_logout' %}">
-                            {% csrf_token %}
-                            {% if redirect_field_value %}
-                                <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
-                            {% endif %}
-                            <button type="submit" id="nav-logout" aria-label="Log Out" title="Log Out"><i class="fa-solid fa-right-from-bracket"></i></button>
-                        </form>
-                    {% else %}
-                        <br>
-                        <a href="/login" aria-label="Log In" title="Log In"><i class="fa-regular fa-user"></i></a>
-                        <br>
-                        <a href="/signup" aria-label="Create Account" title="Create Account"><i class="fa-solid fa-user-plus"></i></a>
-                    {% endif %}
-                </div>
-                <div class="nav-middle">
-                    <div class="nav-sup-news">
-                        <div class="nav-news">
-                            <form action="/newsletter" method="POST" id="news-signup-form">
-                                {% csrf_token %}
-                                <!-- Newsletter signup -->
-                                <a href="javascript:newSignup()">Newsletter</a>
-                                <input type="hidden" name="redirect_url" value="{{ request.path }}">
-                            </form>
-                        </div>
-                        <div class="nav-support">
-                            <!-- Contact details -->
-                            <p class="support-details">
-                                <a href="mailto:{{ contact_email }}"><i class="fa-solid fa-envelope"></i> Support</a>
-                            </p>
-                        </div>
-                    </div>
-                    <div class="nav-search">
-                        <!-- Search bar -->
-                        <form action="{% url 'search-results' %}" role="search" method="POST">
-                            {% csrf_token %}
-                            <label for="nav-search" aria-label="Search Bar"></label>
-                            <input type="search" id="nav-search" name="nav-search" placeholder="Search">
-                            <button type="submit">Search</button>
-                        </form>
-                    </div>
-                </div>
-                <div class="nav-right">
-                    <!-- Site logo -->
-                    <a href="/"><img src="{{ MEDIA_URL }}logo.jpeg" alt="NutriForce Sports and Health Nutrition Logo"></a>
-                </div>
-            </div>
-            <!-- Nav buttons -->
-            <div class="nav-buttons">
-                <button onclick="location.href='/products/all'">All</button>
-                <button onclick="location.href='/products/sports'">Sports</button>
-                <button onclick="location.href='/products/health'">Health</button>
-                <button onclick="location.href='/products/new'">New</button>
             </div>
         </nav>
         <main>
