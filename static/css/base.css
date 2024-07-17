@@ -141,6 +141,52 @@ label:has(+input:required):after {
     gap: 60px;
 }
 
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: auto;
+    height: auto;
+    overflow: auto;
+    background-color: #cad6c9;
+    border-radius: 5px;
+}
+
+.modal-content {
+    display: flex;
+    flex-direction: column;
+    margin: 15px;
+    padding: 15px;
+    border: 1px solid black;
+    border-radius: 5px;
+    background-color: #cad6c9;
+}
+
+label[for='news-email-input'] {
+    background-color: #cad6c9;
+}
+
+.modal-content input, .modal-content button {
+    margin-top: 15px;
+}
+
+.modal-close {
+    color: red;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    background-color: #cad6c9;
+}
+
+.modal-close:hover, .modal-close:focus {
+    color: darkred;
+    text-decoration: none;
+    cursor: pointer;
+}
+
 .support-details {
     font-size: 16px;
 }

@@ -71,8 +71,16 @@
                             <form action="/newsletter" method="POST" id="news-signup-form">
                                 {% csrf_token %}
                                 <!-- Newsletter signup -->
-                                <a href="javascript:newSignup()">Newsletter Signup</a>
-                                <input type="hidden" name="redirect_url" value="{{ request.path }}">
+                                <a href="javascript:newSignup()" id="news-modal-link">Newsletter Signup</a>
+                                <div id="news-modal" class="modal">
+                                    <div class="modal-content">
+                                        <span class="modal-close">&times;</span>
+                                        <label for="news-email-input">Enter your email to sign up for our newsletter:</label>
+                                        <input type="email" name="news_email" id="news-email-input">
+                                        <button type="submit" id='news-email-button' name="news-email-button" value="news-email-button">Subscribe</button>
+                                        <input type="hidden" name="redirect_url" value="{{ request.path }}">
+                                    </div>
+                                </div>
                             </form>
                         </div>
                         <div class="nav-support">

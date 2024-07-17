@@ -21,15 +21,17 @@ function topScroll() {
 
 
 function newSignup() {
-    let email = prompt("Enter your email to sign up to our newsletter:")
-    let form = document.getElementById('news-signup-form')
-    if (email !== null && email !== "") {
-        let hidden_input = document.createElement('input')
-        hidden_input.style.display = 'none'
-        hidden_input.name = 'news_email'
-        hidden_input.id = 'id_news_email'
-        hidden_input.value = email
-        form.appendChild(hidden_input)
-        form.submit()
+    let newsModal = document.getElementById('news-modal')
+    newsModal.style.display = 'block';
+
+    let newsSpan = document.getElementById('news-modal').getElementsByClassName('modal-close')[0]
+    newsSpan.onclick = function() {
+        newsModal.style.display = 'none';
+    }
+
+    window.onclick = function(event) {
+        if (!(newsModal.contains(event.target))) {
+            newsModal.style.display = 'none';
+        }
     }
 }

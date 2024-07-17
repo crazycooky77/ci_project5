@@ -53,28 +53,29 @@ def newsletter_signup(request):
             [cust_email])
 
     if request.method == 'POST':
-        redirect_url = request.POST.get('redirect_url')
-        news_email = request.POST.get('news_email')
-        newsletter_form = NewsletterForm(
-            {'news_email': news_email})
-        signed_up = Newsletter.objects.filter(news_email__iexact=news_email)
-        if newsletter_form.is_valid() and not signed_up:
-            obj = newsletter_form.save(commit=False)
-            obj.save()
-            unsub_link = request.META['HTTP_ORIGIN'] + '/unsub=' + obj.news_uuid
-            _send_signup_email(news_email, unsub_link)
-            messages.success(
-                request, 'Thank you for signing up to our newsletter!')
-        elif signed_up:
-            messages.success(
-                request, "Good news, you're already signed up!")
-        else:
-            messages.error(
-                request, "Please enter a valid email address")
-        if '/unsub=' in redirect_url:
-            return redirect('/')
-        else:
-            return redirect(redirect_url)
+        if request.POST.get('news-email-button'):
+            redirect_url = request.POST.get('redirect_url')
+            news_email = request.POST.get('news_email')
+            newsletter_form = NewsletterForm(
+                {'news_email': news_email})
+            signed_up = Newsletter.objects.filter(news_email__iexact=news_email)
+            if newsletter_form.is_valid() and not signed_up:
+                obj = newsletter_form.save(commit=False)
+                obj.save()
+                unsub_link = request.META['HTTP_ORIGIN'] + '/unsub=' + obj.news_uuid
+                _send_signup_email(news_email, unsub_link)
+                messages.success(
+                    request, 'Thank you for signing up to our newsletter!')
+            elif signed_up:
+                messages.success(
+                    request, "Good news, you're already signed up!")
+            else:
+                messages.error(
+                    request, "Please enter a valid email address")
+            if '/unsub=' in redirect_url:
+                return redirect('/')
+            else:
+                return redirect(redirect_url)
 
 
 def unsubscribe_view(request, var):
