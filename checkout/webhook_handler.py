@@ -5,12 +5,11 @@ from django.db import models as dmodels
 from django.db.models import F
 from django.http import HttpResponse
 from products.models import ProductDetails
-from profiles.forms import AddressForm
-from profiles.models import (OrderHistory,
-                             Addresses,
-                             User,
-                             Purchases,
-                             SavedItems)
+from addresses.forms import AddressForm
+from profiles.models import User
+from .models import *
+from addresses.models import Addresses
+from saved.models import SavedItems
 from django.conf import settings
 from django.template.loader import render_to_string
 from django.core.mail import send_mail

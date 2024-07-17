@@ -3,8 +3,4 @@ from .models import *
 
 
 # Admin site models
-admin.site.register([User,
-                     Addresses,
-                     OrderHistory,
-                     Purchases,
-                     SavedItems])
+admin.site.register([User])

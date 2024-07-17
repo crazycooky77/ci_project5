@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import HiddenInput
-from profiles.models import Addresses
+from addresses.models import Addresses
 
 
 class OrderFormAddr(forms.ModelForm):

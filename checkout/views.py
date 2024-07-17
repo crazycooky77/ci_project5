@@ -9,7 +9,7 @@ from products.models import ProductDetails
 from django.shortcuts import render, redirect
 from django.dispatch import receiver
 from django.contrib.auth.signals import user_logged_in
-from profiles.models import SavedItems
+from saved.models import SavedItems
 from django.contrib import messages
 from django.db.models import F
 from decimal import Decimal
@@ -17,8 +17,8 @@ from django.conf import settings
 from django.contrib.auth import authenticate, login
 from django.core import serializers
 import stripe
-from profiles.models import OrderHistory
 from .forms import *
+from .models import *
 
 
 @require_POST
@@ -106,6 +106,23 @@ def cart_merge(sender, user, request, **kwargs):
 
         else:
             return cart
+
+
+def profile_orders(request, var):
+    if request.user.is_authenticated:
+        order = OrderHistory.objects.filter(
+            purchaser=request.user,
+            pk=var)
+        if order:
+            order_details = Purchases.objects.filter(
+                order=order[0]).order_by('product__product_id')
+            products = ProductDetails.objects.filter(
+                product__product_id__in=order_details.values(
+                    'product__product_id')).order_by('product_id')
+            return render(request, 'profile.html',
+                          {'order': order[0],
+                           'order_details': zip(order_details, products)})
+    return render(request, 'profile.html')
 
 
 def add_cart(request, product_id):
