@@ -22,6 +22,7 @@ from products.views import *
 from profiles.views import *
 from checkout.views import *
 from addresses.views import *
+from saved.views import *
 from checkout.webhooks import webhook
 from nutriforce.views import *
 

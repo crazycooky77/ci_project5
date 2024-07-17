@@ -1,92 +1,3 @@
-.cart {
-    width: 80%;
-    border: 1px solid black;
-    padding: 20px;
-    border-radius: 7px;
-    overflow: auto;
-}
-
-.stock-update-div {
-    width: 50%;
-    text-align: left;
-}
-
-.stock-update-div li {
-    text-align: left;
-    margin-bottom: 10px;
-}
-
-.stock-update-div li:last-child {
-    margin-bottom: 20px;
-}
-
-.cart-prod-img {
-    min-width: 75px;
-    max-width: 75px;
-    margin-right: 10px;
-    margin-left: 0;
-}
-
-.cart-prod {
-    display: flex;
-    flex-direction: row;
-    text-align: left;
-}
-
-.cart-prod p {
-    margin-left: 0;
-}
-
-.cart-quantity-input {
-    width: 50px;
-}
-
-.cart-totals {
-    font-weight: bold;
-    white-space: nowrap;
-}
-
-.cart-totals td {
-    text-align: left;
-}
-
-.cart-totals {
-    font-weight: bold;
-    white-space: nowrap;
-}
-
-.prod-table-details table .cart-totals td {
-    padding: 20px 10px 0 10px;
-}
-
-.cart-totals .sum-title {
-    text-align: left;
-}
-
-.cart-prod-del {
-    color: red;
-    font-weight: bold;
-    margin-right: -5px;
-    cursor: pointer;
-    min-width: unset;
-    background-color: unset;
-    border: unset;
-}
-
-.update-buttons {
-    margin-top: 30px;
-    float: left;
-}
-
-.update-buttons button:first-child {
-    margin-right: 20px;
-}
-
-.checkout-button {
-    margin-top: 30px;
-    float: right;
-}
-
 .checkout-guest, .checkout-create {
     display: flex;
 }
@@ -224,21 +135,21 @@
     width: 100%;
 }
 
-.cart .prod-table table, .cart .prod-table-details table, .checkout-summary .prod-table table, .checkout-summary .prod-table-details table {
+.checkout-summary .prod-table table, .checkout-summary .prod-table-details table {
     text-align: center;
     border-collapse: collapse;
 }
 
-.cart .prod-table table th, .cart .prod-table table td, .cart .prod-table-details table th, .cart .prod-table-details table td, .checkout-summary .prod-table table th, .checkout-summary .prod-table table td, .checkout-summary .prod-table-details table th, .checkout-summary .prod-table-details table td {
+.checkout-summary .prod-table table th, .checkout-summary .prod-table table td, .checkout-summary .prod-table-details table th, .checkout-summary .prod-table-details table td {
     border-left: 1px solid;
     padding: 10px;
 }
 
-.cart .prod-table table th:first-child, .cart .prod-table table td:first-child, .cart .prod-table-details table th:first-child, .cart .prod-table-details table td:first-child, .prod-table-details table .cart-totals td, .checkout-summary .prod-table table th:first-child, .checkout-summary .prod-table table td:first-child, .checkout-summary .prod-table-details table th:first-child, .checkout-summary .prod-table-details table td:first-child {
+.checkout-summary .prod-table table th:first-child, .checkout-summary .prod-table table td:first-child, .checkout-summary .prod-table-details table th:first-child, .checkout-summary .prod-table-details table td:first-child {
     border-left: 0;
 }
 
-.cart :nth-last-child(1 of .cart-tbl-prod), .checkout-summary :nth-last-child(1 of .cart-tbl-prod) {
+.checkout-summary :nth-last-child(1 of .cart-tbl-prod) {
     border-bottom: 1px solid black;
 }
 
@@ -358,32 +269,15 @@ button.hidden-addr-submit, .hidden-empty-submit {
 
 
 @media screen and (max-width: 500px) {
-    .cart, .checkout {
+    .checkout {
         padding: 10px;
     }
 
-    .cart-quantity-input {
-        width: 25px;
-    }
-
-    .cart .prod-table table th, .cart .prod-table table td, .cart .prod-table-details table th, .cart .prod-table-details table td, .checkout-summary .prod-table table th, .checkout-summary .prod-table table td, .checkout-summary .prod-table-details table th, .checkout-summary .prod-table-details table td {
+    .checkout-summary .prod-table table th, .checkout-summary .prod-table table td, .checkout-summary .prod-table-details table th, .checkout-summary .prod-table-details table td {
         padding: 5px;
     }
 
-    .prod-table-details table .cart-totals td {
-        padding: 5px 0 0;
-    }
-
-    .update-buttons {
-        display: flex;
-        float: unset;
-    }
-
-    .update-buttons button {
-        width: auto;
-    }
-
-    .checkout-button, .addr-form-button, .checkout-summary .prod-table-details table {
+    .addr-form-button, .checkout-summary .prod-table-details table {
         width: 100%;
     }
 

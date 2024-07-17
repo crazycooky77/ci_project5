@@ -122,7 +122,7 @@ function resizeCheckoutFields() {
 
 function checkoutU800() {
     if (window.innerWidth <= 800) {
-        if (window.location.pathname === '/cart' || window.location.pathname === '/checkout' || window.location.pathname === '/checkout/success') {
+        if (window.location.pathname === '/checkout' || window.location.pathname === '/checkout/success') {
             let headers = document.querySelectorAll('th')
             for (let i = 0; i < headers.length; i++) {
                 if (headers[i].title === 'Product') {
@@ -142,7 +142,7 @@ function checkoutU800() {
 
 function checkoutO800() {
     if (window.innerWidth > 800) {
-        if (window.location.pathname === '/cart' || window.location.pathname === '/checkout' || window.location.pathname === '/checkout/success') {
+        if (window.location.pathname === '/checkout' || window.location.pathname === '/checkout/success') {
             let headers = document.querySelectorAll('th')
             for (let i = 0; i < headers.length; i++) {
                 headers[i].innerHTML = headers[i].title
