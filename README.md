@@ -6,13 +6,21 @@ NutriForce is a B2C online shop for sports and health nutrition in Ireland. The 
 1. [User Experience](#user-experience)
    
 ## Web Marketing - TO BE UPDATED
+### Target Audience
+The target audience is any adult interested in sports, and/or their health within Ireland. Whether they are just starting out, or experienced with their nutrition, NutriForce can help with suggestions, recommendations, or even sourcing a customer's favourite products, if not already in stock on the site.
+
+The shop only has an online presence, but ensures to let customers know that it's a small, local business, using the keywords on the site, as well as the information on the About Us page. With shopping local becoming increasingly important worldwide, it's imperative the target audience is made aware of who they are buying their nutritional products from. Due to the planned scale of the business, the shop only allows addresses in Ireland for orders.
+
+Pricing for products on the site will be competitive, as there are many large companies selling such items. While a slight increase to big box store prices is typically acceptable for customers interested in shopping locally, if the prices are too high, the benefits of using a small business will not be enough to attract and keep customers.
+
 ### Newsletter
 A newsletter signup link is available on every page of the site. The prominent but unobtrusive display of this feature makes it easy for customers to make use of it, without being bothered by it. When a user signs up, a confirmation email is sent out to the email address used. This helps to ensure no one's email is used or stored for this, without their consent (in case someone uses an email address that does not belong to them). The confirmation email includes a link to unsubscribe from the mailing list that can be used at any time. If the email address used is linked to a registered account, the user can also unsubscribe from their Profile at any time as well.
 
 Privacy and customer experience concerns aside, the newsletter is used to promote special deals and new products, which should help entice some customers to make additional purchases.
 
 ### Facebook page
-https://www.facebook.com/profile.php?id=100094712224458 by Erika, add screenshots
+A social media presence is critical for any business in current times. A mock-up Facebook page was created for the business that can be viewed below. [An actual business page already exists](https://www.facebook.com/profile.php?id=100094712224458), created by the business owner, but has not been used for this project. It is also not yet complete.
+<img src='media/readme/fb-mockup.webp' alt='Mock-up Facebook page'>
 
 ### SEO
 Including site metadata and keywords, robots.txt and sitemap.xml
@@ -54,12 +62,12 @@ All EPICs and related user stories are listed in the [repository Issues here](ht
 The [Montserrat Google font](https://fonts.google.com/specimen/Montserrat) is used throughout the site.
 
 #### Imagery
-[Bing AI](https://www.bing.com/images/create) was used to create the logo, default product, and favicon images on the site.
+[Bing AI](https://www.bing.com/images/create) was used to create the logo, default product, and favicon images on the site. It was also used for the banner and "liked by" profile images in the Facebook page mockup.
 
 ### Site Planning
 
 #### Entity-Relationship Diagram
-<img src='media/readme/db_diagram.webp' alt='Colour palette for the site'>
+<img src='media/readme/db-diagram.webp' alt='Colour palette for the site'>
 
 #### Wireframes
 Wireframes were used to plan out the pages for the site. Minor adjustments were made throughout, as the pages were being created. The navigation menu was reorganised in the final site iteration, and differs from the wireframes below as follows:
@@ -131,9 +139,12 @@ _Show/Hide Cart and Edit Address links were added to this page. A Note to Seller
 <img src='media/readme/wf-checkout-confirm.webp' alt='Checkout confirmation wireframe'>
 
 ## Features
-All user stories, features, and bugs are listed in the repository's projects. [For release 1.0, the kanban board can be found here](https://github.com/users/crazycooky77/projects/2/views/1). [For release 1.1, the kanban board is here](https://github.com/users/crazycooky77/projects/3/views/1). Both completed and planned features are outlined in the boards.
+All user stories, features, and bugs are listed in the repository's projects. [For release 1.0, the kanban board can be found here](https://github.com/users/crazycooky77/projects/2/views/1). Completed and postponed (Cancelled) features are outlined in the board.
 
 Some additional minor features have been implemented, to promote customer satisfaction and loyalty, such as mailto links with predefined email subjects and bodies, where customers can request products be stocked, that are not in the database.
+
+### Future Features
+[For release 1.1, the kanban board is here](https://github.com/users/crazycooky77/projects/3/views/1). Postponed User Stories from 1.0 are planned for release 1.1, as well as features and minor bugs identified during initial project release.
 
 ## Technologies
 - [Balsamiq](https://balsamiq.com/wireframes/) to plan out the pages using wireframes
@@ -246,7 +257,8 @@ The site was deployed on Heroku. ElephantSQL was used for the database, as end o
 8. Added necessary variables locally, as in Heroku
     1. PyCharm > Settings > Tools > Terminal > Environment variables
 9. Updated settings.py, e.g. for ALLOWED_HOSTS, DEBUG, DATABASES, and directories (static, media, and templates)
-10. The final iteration of this app uses Amazon S3 for static and media storage, so the necessary changes needed to be made to [settings.py](https://github.com/crazycooky77/ci_project5/blob/main/nutriforce/settings.py) for this as well
+10. Procfile created in the main folder for the Django project so Heroku knows to create a web dyno, that runs gunicorn and serves the Django app
+11. The final iteration of this app uses Amazon S3 for static and media storage, so the necessary changes needed to be made to [settings.py](https://github.com/crazycooky77/ci_project5/blob/main/nutriforce/settings.py) for this as well
 
 ### Important Extras
 Heroku re-uploads the entirety of the static files to AWS with every commit, which causes the free tier limit to be reached within days. To avoid this, DISABLE_COLLECTSTATIC = 1 was added to Config Vars on Heroku. Then needed to manually python3 manage.py collectstatic locally with USE_AWS set to True in local environment variables (based on [settings.py](https://github.com/crazycooky77/ci_project5/blob/main/nutriforce/settings.py) in this project). Set this variable back to False when developing locally and using python3 manage.py runserver to see local static file changes. Otherwise the files (CSS, images...) already uploaded to Amazon S3 would be used in runserver and no local changes are visible.
@@ -313,6 +325,7 @@ _*These will be replaced with actual in-stock products and details, once these a
 - [Javascript load events](https://stackoverflow.com/questions/39993676/code-inside-domcontentloaded-event-not-working)
 - [Javascript text width calculations](https://www.tutorialspoint.com/Calculate-text-width-with-JavaScript)
 - [Simultaneous scrolling in DIVs (replaced in final code)](https://stackoverflow.com/questions/11723886/synchronizing-scrolling-between-2-divs)
+- [Modals](https://www.w3schools.com/howto/howto_css_modals.asp)
 
 #### Miscellaneous CSS
 - [Centered text in horizontal line](https://stackoverflow.com/questions/2812770/add-centered-text-to-the-middle-of-a-horizontal-rule)
