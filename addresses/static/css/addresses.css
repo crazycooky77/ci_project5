@@ -1,0 +1,181 @@
+.addresses {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    margin: 0;
+}
+
+.addr-msg {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+}
+
+.addresses h2 {
+    margin-left: 0;
+    margin-top: 0;
+}
+
+.addr-view h3 {
+    text-decoration: underline;
+    font-weight: normal;
+    margin-bottom: 10px;
+    margin-left: 0;
+}
+
+.default-addr {
+    display: flex;
+    flex-direction: column;
+    align-content: flex-start;
+    flex-wrap: wrap;
+    width: 50%;
+    border-left: 1px solid black;
+    margin: 0;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.other-addr {
+    display: flex;
+    flex-direction: column;
+    align-content: flex-start;
+    width: 50%;
+    border-left: 1px solid black;
+    margin: 0;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.other-addr-list {
+    flex: 1;
+    margin: 0;
+}
+
+.addr-view {
+    display: flex;
+    flex-direction: column;
+    margin-top: 0;
+    margin-left: 0;
+}
+
+.addr-view p {
+    margin-left: 0;
+    margin-bottom: 1px;
+}
+
+.addr-view button {
+    margin-top: 15px;
+}
+
+.addr-buttons {
+    display: flex;
+    flex-direction: column;
+    margin-left: 0;
+    margin-bottom: 30px;
+}
+
+.addr-buttons button {
+    width: 100%;
+}
+
+.addresses button {
+    margin-left: 0;
+}
+
+.add-addr {
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+    margin: 0;
+}
+
+.add-addr > .label-input {
+    margin: 5px 0;
+}
+
+.add-addr label {
+    margin-left: 0;
+}
+
+.add-addr input, .add-addr select {
+    margin-right: 0;
+  }
+
+.add-addr button {
+    width: 140px;
+    margin: 20px 0 10px auto;
+}
+
+.add-addr-button {
+    margin-bottom: 30px;
+    margin-top: 0;
+}
+
+.add-def-addr-button {
+    margin-top: 10px;
+}
+
+.add-addr .desktop {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+
+@media screen and (max-width: 1100px) {
+    .add-addr {
+        width: 60%;
+    }
+
+    .add-addr input {
+        min-width: 50%;
+        max-width: 100%;
+    }
+
+    label[for="id_default_addr"] {
+        margin-right: 0;
+    }
+
+    #id_default_addr {
+        width: auto;
+        margin-right: 0;
+        min-width: unset;
+    }
+}
+
+
+@media screen and (max-width: 800px) {
+    .add-addr {
+        max-width: 100%;
+    }
+
+    .add-addr input {
+        width: 100%;
+    }
+
+    .add-addr button {
+        width: 100%;
+        margin: 10px auto;
+    }
+
+    .addr-msg {
+        width: 100%;
+    }
+
+    .default-addr {
+        border-left: none;
+        padding-left: 0;
+    }
+
+    .other-addr {
+        padding-right: 0;
+    }
+
+    .addr-view p {
+        margin-bottom: 5px;
+    }
+
+    .add-addr {
+        width: 100%;
+    }
+}
