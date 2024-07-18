@@ -339,14 +339,14 @@ footer * {
     font-size: 14px;
 }
 
-.footer-links {
+#footer-links {
     width: 70%;
     margin-left: 15%;
 }
 
 #footer-top-link {
     visibility: hidden;
-    width: 15%;
+    width: 0;
 }
 
 .mobile, .mid-screen {
@@ -565,9 +565,9 @@ footer * {
         font-size: 12px;
     }
 
-    .footer-links {
-        margin: auto 20px auto auto;
-        width: 85%;
+    #footer-links {
+        margin: auto 20px;
+        width: 100%;
     }
 }
 
