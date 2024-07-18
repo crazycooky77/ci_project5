@@ -15,42 +15,40 @@ function generateCountryMap() {
 
 
 function stripeStyle() {
-    window.onload = function() {
-        if (window.innerWidth > 500) {
-            return {
-                base: {
-                    color: '#000',
-                    fontFamily: '"Montserrat", sans-serif',
-                    fontSize: '18px',
-                    backgroundColor: '#9FFFB8',
-                    fontSmoothing: 'antialiased',
-                    '::placeholder': {
-                        color: '#aab7c4'
-                    }
-                },
-                invalid: {
-                    color: 'red',
-                    iconColor: 'red'
+    if (window.innerWidth > 500) {
+        return {
+            base: {
+                color: '#000',
+                fontFamily: '"Montserrat", sans-serif',
+                fontSize: '18px',
+                backgroundColor: '#9FFFB8',
+                fontSmoothing: 'antialiased',
+                '::placeholder': {
+                    color: '#aab7c4'
                 }
-            }
+            },
+            invalid: {
+                color: 'red',
+                iconColor: 'red'
+            },
         }
+    }
 
-        if (window.innerWidth <= 500) {
-            return {
-                base: {
-                    color: '#000',
-                    fontFamily: '"Montserrat", sans-serif',
-                    fontSize: '12px',
-                    backgroundColor: '#9FFFB8',
-                    fontSmoothing: 'antialiased',
-                    '::placeholder': {
-                        color: '#aab7c4'
-                    }
-                },
-                invalid: {
-                    color: 'red',
-                    iconColor: 'red'
+    if (window.innerWidth <= 500) {
+        return {
+            base: {
+                color: '#000',
+                fontFamily: '"Montserrat", sans-serif',
+                fontSize: '12px',
+                backgroundColor: '#9FFFB8',
+                fontSmoothing: 'antialiased',
+                '::placeholder': {
+                    color: '#aab7c4'
                 }
+            },
+            invalid: {
+                color: 'red',
+                iconColor: 'red'
             }
         }
     }
