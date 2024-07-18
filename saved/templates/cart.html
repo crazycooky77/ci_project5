@@ -26,7 +26,14 @@
                     {% include 'cart-contents.html' %}
                     <div class="update-buttons">
                         <button type="submit" name="update-cart-button" value="update-cart-button">Update Cart</button>
-                        <button type="submit" name="empty-cart-button" value="empty-cart-button" onclick="return confirm('Are you sure you want to completely empty your cart? This cannot be undone')">Empty Cart</button>
+                        <button type="button" class="empty-cart" onclick="emptyCart()">Empty Cart</button>
+                        <div id="empty-cart-modal" class="modal">
+                            <div class="modal-content">
+                                <span class="modal-close">&times;</span>
+                                <p>Are you sure you want to completely empty your cart? This cannot be undone.</p>
+                                <button type="submit" name="empty-cart-button" value="empty-cart-button">Confirm</button>
+                            </div>
+                        </div>
                         <input type="hidden" name="redirect_url" value="{{ request.path }}">
                     </div>
                 </form>
@@ -44,5 +51,5 @@
 {% endblock %}
 
 {% block postloadjs %}
-    <script src="{% static 'js/checkout.js' %}"></script>
+    <script src="{% static 'js/cart.js' %}"></script>
 {% endblock %}

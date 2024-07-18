@@ -14,3 +14,22 @@ if (window.location.pathname.includes('profile') ||
         }
     })
 }
+
+
+function delAccount() {
+    let delButton = document.getElementsByClassName('del-button')[0]
+    let delAccModal = document.getElementById('del-acc-modal')
+    delAccModal.style.display = 'block';
+    let delAccSpan = document.getElementById('del-acc-modal').getElementsByClassName('modal-close')[0]
+    delAccSpan.onclick = function() {
+        delAccModal.style.display = 'none';
+    }
+    window.onclick = function(event) {
+        if (!(delAccModal.contains(event.target)) && delButton !== event.target) {
+            delAccModal.style.display = 'none';
+        }
+    }
+    window.onresize = function() {
+        delAccModal.style.display = 'none';
+    }
+}

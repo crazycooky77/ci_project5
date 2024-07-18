@@ -46,6 +46,7 @@ function topScroll() {
 
 
 function newSignup() {
+    let newsButton = document.getElementById('news-signup-form').querySelector('a')
     let newsModal = document.getElementById('news-modal')
     newsModal.style.display = 'block';
     let newsSpan = document.getElementById('news-modal').getElementsByClassName('modal-close')[0]
@@ -53,7 +54,7 @@ function newSignup() {
         newsModal.style.display = 'none';
     }
     window.onclick = function(event) {
-        if (!(newsModal.contains(event.target))) {
+        if (!(newsModal.contains(event.target)) && newsButton !== event.target) {
             newsModal.style.display = 'none';
         }
     }
@@ -89,7 +90,9 @@ function baseU500() {
 function baseO500() {
     if (window.innerWidth > 800) {
         let navIcons = document.getElementsByClassName('nav-left')[0]
-        navIcons.querySelector('button').lastChild.textContent = ' ' + navIcons.querySelector('button').title
+        if (navIcons.querySelector('button')) {
+            navIcons.querySelector('button').lastChild.textContent = ' ' + navIcons.querySelector('button').title
+        }
         let navAnchors = navIcons.querySelectorAll('a')
         for (let i = 0; i < navAnchors.length; i++) {
             navAnchors[i].lastChild.textContent = ' ' + navAnchors[i].title

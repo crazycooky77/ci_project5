@@ -152,7 +152,7 @@ label:has(+input:required):after {
     width: auto;
     height: auto;
     overflow: auto;
-    background-color: #cad6c9;
+    background-color: #b5e0b1;
     border-radius: 5px;
 }
 
@@ -163,11 +163,11 @@ label:has(+input:required):after {
     padding: 15px;
     border: 1px solid black;
     border-radius: 5px;
-    background-color: #cad6c9;
+    background-color: #b5e0b1;
 }
 
-label[for='news-email-input'] {
-    background-color: #cad6c9;
+label[for='news-email-input'], .modal p {
+    background-color: #b5e0b1;
 }
 
 .modal-content input, .modal-content button {
@@ -179,7 +179,7 @@ label[for='news-email-input'] {
     float: right;
     font-size: 28px;
     font-weight: bold;
-    background-color: #cad6c9;
+    background-color: #b5e0b1;
 }
 
 .modal-close:hover, .modal-close:focus {

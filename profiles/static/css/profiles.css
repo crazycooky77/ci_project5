@@ -42,7 +42,7 @@
     margin: 0;
 }
 
-.acc-details * {
+.acc-details *:not(.modal *) {
     margin-left: 0;
 }
 
