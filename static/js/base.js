@@ -48,40 +48,33 @@ function topScroll() {
 function modals(buttonId, modalId) {
     let button = document.getElementById(buttonId)
     let modal = document.getElementById(modalId)
+    let toolTip = modal.querySelector('.modal-tooltip')
     modal.style.display = 'block';
     let span = modal.getElementsByClassName('modal-close')[0]
     span.onclick = function() {
         modal.style.display = 'none';
+        toolTip.style.display = 'none'
     }
     window.onclick = function(event) {
         if (!(modal.contains(event.target)) && button !== event.target) {
             modal.style.display = 'none';
+            toolTip.style.display = 'none'
         }
     }
     window.onresize = function() {
         modal.style.display = 'none';
+        toolTip.style.display = 'none'
     }
 }
 
 
-
-// function mailTo() {
-//     let mailButton = document.getElementsByClassName('nav-support')[0].querySelector('a')
-//     let newsModal = document.getElementById('sup-mailto-modal')
-//     newsModal.style.display = 'block';
-//     let newsSpan = document.getElementById('news-modal').getElementsByClassName('modal-close')[0]
-//     newsSpan.onclick = function() {
-//         newsModal.style.display = 'none';
-//     }
-//     window.onclick = function(event) {
-//         if (!(newsModal.contains(event.target)) && mailButton !== event.target) {
-//             newsModal.style.display = 'none';
-//         }
-//     }
-//     window.onresize = function() {
-//         newsModal.style.display = 'none';
-//     }
-// }
+function copyMailto(modalId) {
+    let modal = document.getElementById(modalId)
+    navigator.clipboard.writeText(event.target.innerText).then(() => {
+        let toolTip = modal.querySelector('.modal-tooltip')
+        toolTip.style.display = 'block';
+    });
+}
 
 
 function baseU500() {

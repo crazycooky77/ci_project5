@@ -14,7 +14,15 @@
             <br>
             <p>If this was a mistake, you can resubscribe at any time. We hope you still enjoy <a href="{% url 'all-products' %}">shopping with us</a>.</p>
         {% elif valid_uuid %}
-            <p>This link is no longer valid. It has already been used to unsubscribe from our newsletter. If you have any issues or concerns, please <a href="mailto:{{ contact_email }}">contact us directly</a>, and we'll look into it.</p>
+            <p>This link is no longer valid. It has already been used to unsubscribe from our newsletter. If you have any issues or concerns, please <a href="javascript:modals('unsub-mailto-anchor', 'unsub-mailto-modal')" id="unsub-mailto-anchor">contact us directly</a>, and we'll look into it.</p>
+            <div id="unsub-mailto-modal" class="modal">
+                <div class="modal-content">
+                    <span class="modal-close">&times;</span>
+                    <p>You can <a href="mailto:{{ contact_email }}">click here</a> to automatically open your email client.</p>
+                    <p class="modal-margin">Alternatively, you can reach us at: <span class="modal-mailto-email" onclick="copyMailto('unsub-mailto-modal')">{{ contact_email }}</span></p>
+                    <span class="modal-tooltip">Copied!</span>
+                </div>
+            </div>
         {% elif invalid_uuid %}
             <p>This link is not formatted correctly. If you want to unsubscribe, you can use the link at the bottom of any newsletter. Otherwise, feel free to keep <a href="{% url 'all-products' %}">shopping with us</a>.</p>
         {% else %}

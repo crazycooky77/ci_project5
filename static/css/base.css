@@ -26,7 +26,7 @@ a:hover {
 }
 
 a:active {
-    font-weight: bold;
+    text-shadow: 1px 1px 1px #90CD94;
 }
 
 button:hover {
@@ -166,12 +166,37 @@ label:has(+input:required):after {
     background-color: #b5e0b1;
 }
 
-label[for='news-email-input'], .modal p {
+.modal *:not(button):not(input) {
     background-color: #b5e0b1;
+}
+
+.modal a, .modal-mailto-email {
+    color: black;
+    font-weight: bold;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.modal a:hover, .modal-mailto-email:hover {
+    color: #6DB1FC;
+}
+
+.modal a:active, .modal-mailto-email:active {
+    color: #90CD94;
+}
+
+.modal-margin {
+    margin-top: 10px;
 }
 
 .modal-content input, .modal-content button {
     margin-top: 15px;
+}
+
+.modal-tooltip {
+    display: none;
+    margin-top: 5px;
+    font-style: italic;
 }
 
 .modal-close {
@@ -188,13 +213,12 @@ label[for='news-email-input'], .modal p {
     cursor: pointer;
 }
 
-.nav-support * {
+.nav-support *:not(.modal *) {
     font-size: 16px;
 }
 
 .nav-support a, .nav-support i {
     text-decoration: underline;
-    font-size: 16px;
 }
 
 .nav-search input {
@@ -452,8 +476,11 @@ footer * {
         font-size: 14px;
     }
 
-    .nav-support a, .nav-support i {
+    .nav-support *:not(.modal *) {
         font-size: 12px;
+    }
+
+    .nav-support a, .nav-support i {
         text-decoration: none;
     }
 

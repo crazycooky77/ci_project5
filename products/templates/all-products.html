@@ -15,7 +15,15 @@
                     {% if products %}
                         <p>Here are the products matching your search for "{{ search_term }}"</p>
                     {% else %}
-                        <p>We don't have products matching your search for "{{ search_term }}". You can <a href="mailto:{{ contact_email }}?subject=Product Request&body=Please add details for your request: '">email us</a> to request we add products to our stock.</p>
+                        <p>We don't have products matching your search for "{{ search_term }}". You can <a href="javascript:modals('prod-req-mailto-anchor', 'prod-req-mailto-modal')" id="prod-req-mailto-anchor">email us</a> to request we add products to our stock.</p>
+                        <div id="prod-req-mailto-modal" class="modal">
+                            <div class="modal-content">
+                                <span class="modal-close">&times;</span>
+                                <p>You can <a href="mailto:{{ contact_email }}?subject=Product Request&body=Please add details for your request: ">click here</a> to automatically open your email client.</p>
+                                <p class="modal-margin">Alternatively, you can reach us at: <span class="modal-mailto-email" onclick="copyMailto('prod-req-mailto-modal')">{{ contact_email }}</span></p>
+                                <span class="modal-tooltip">Copied!</span>
+                            </div>
+                        </div>
                     {% endif %}
                 {% else %}
                     <p>Your search was made with an empty search term. Please try again or check out our <a href='/products/all'>list of products here</a></p>

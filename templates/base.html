@@ -85,12 +85,13 @@
                         </div>
                         <div class="nav-support">
                             <!-- Contact details -->
-                            <a href="javascript:mailTo()"><i class="fa-solid fa-envelope"></i> Support</a>
+                            <a href="javascript:modals('sup-mailto-anchor', 'sup-mailto-modal')" id="sup-mailto-anchor"><i class="fa-solid fa-envelope"></i> Support</a>
                             <div id="sup-mailto-modal" class="modal">
                                 <div class="modal-content">
                                     <span class="modal-close">&times;</span>
                                     <p>You can <a href="mailto:{{ contact_email }}">click here</a> to automatically open your email client.</p>
-                                    <p>Alternatively, you can reach us on: {{ contact_email }}</p>
+                                    <p class="modal-margin">Alternatively, you can reach us at: <span class="modal-mailto-email" onclick="copyMailto('sup-mailto-modal')">{{ contact_email }}</span></p>
+                                    <span class="modal-tooltip">Copied!</span>
                                 </div>
                             </div>
                         </div>

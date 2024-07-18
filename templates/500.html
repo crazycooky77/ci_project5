@@ -5,8 +5,17 @@
     <div class="mid-content">
         {% include 'form-responses.html' %}
         <h2>Server Error</h2>
-        <p>An error has occurred. We apologise for any inconvenience, but have notified the cleaners to check for bugs! If you have any concerns about this error, please <a href="mailto:{{ contact_email }}">contact us</a>.</p>
+        <p>An error has occurred. We apologise for any inconvenience, but have notified the cleaners to check for bugs! If you have any concerns about this error, please <a href="javascript:modals('500-mailto-anchor', '500-mailto-modal')" id="500-mailto-anchor">contact us</a>.</p>
+        <div id="500-mailto-modal" class="modal">
+            <div class="modal-content">
+                <span class="modal-close">&times;</span>
+                <p>You can <a href="mailto:{{ contact_email }}">click here</a> to automatically open your email client.</p>
+                <p class="modal-margin">Alternatively, you can reach us at: <span class="modal-mailto-email" onclick="copyMailto('500-mailto-modal')">{{ contact_email }}</span></p>
+                <span class="modal-tooltip">Copied!</span>
+            </div>
+        </div>
         <br>
         <p>Otherwise, you can <a href="/products/all">continue shopping</a></p>
     </div>
 {% endblock %}
+
