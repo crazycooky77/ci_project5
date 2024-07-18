@@ -17,7 +17,7 @@ def get_addresses(request):
 
 
 def default_addr(request):
-    make_default = request.POST.get("mk-default-button")
+    make_default = request.POST.get('mk-default-button')
     def_addr_req = Addresses.objects.filter(user=request.user,
                                             pk=make_default)
     default = Addresses.objects.filter(user=request.user,
@@ -31,12 +31,12 @@ def default_addr(request):
 
 
 def edit_addr(request):
-    edit_addr_id = request.POST.get("edit-addr-button")
+    edit_addr_id = request.POST.get('edit-addr-button')
     return edit_addr_id
 
 
 def delete_addr(request):
-    del_addr_id = request.POST.get("del-addr-button")
+    del_addr_id = request.POST.get('del-addr-button')
     orders = OrderHistory.objects.filter(Q(
         shipping_addr=del_addr_id) | Q(billing_addr=del_addr_id))
     if orders:
@@ -63,7 +63,7 @@ def profile_addr(request):
             updated_request = request.POST.copy()
             updated_request.update({'country': 'IE'})
             addr_form = AddressForm(updated_request)
-            if request.POST.get("save-addr-button"):
+            if request.POST.get('save-addr-button'):
                 if addr_form.is_valid():
                     default = Addresses.objects.filter(user=request.user,
                                                        default_addr=True)
@@ -96,7 +96,7 @@ def profile_edit_addr(request, var):
             edit_addr_form = AddressForm(updated_request,
                                          instance=addr_to_edit[0])
             if edit_addr_form.is_valid():
-                if request.POST.get("save-edit-addr-button"):
+                if request.POST.get('save-edit-addr-button'):
                     default = Addresses.objects.filter(user=request.user,
                                                        default_addr=True)
                     obj = edit_addr_form.save(commit=False)

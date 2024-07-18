@@ -121,8 +121,8 @@ def checkout_view(request):
     cart = request.session.get('cart', {})
     order_note = request.POST.get('checkout-order-note')
 
-    if request.POST.get("checkout-button") or request.POST.get(
-            "checkout-edit-addr"):
+    if request.POST.get('checkout-button') or request.POST.get(
+            'checkout-edit-addr'):
         order_addr_form = OrderFormAddr()
         if request.POST.get('shipping-addr'):
             if request.user.is_authenticated:
@@ -154,16 +154,16 @@ def checkout_view(request):
                            'addr_list': addr_list,
                            'js_addr': js_addr,
                            'order_note': order_note})
-        elif ((request.POST.get("checkout-guest-button")
-              or request.POST.get("checkout-edit-addr"))
+        elif ((request.POST.get('checkout-guest-button')
+              or request.POST.get('checkout-edit-addr'))
               and not request.POST.get('shipping-addr')):
             return render(request,
                           'checkout-addr.html',
                           {'order_addr_form': order_addr_form,
                            'order_note': order_note})
-        elif request.POST.get("checkout-signin-button"):
-            user = authenticate(request, email=request.POST["login"],
-                                password=request.POST["password"])
+        elif request.POST.get('checkout-signin-button'):
+            user = authenticate(request, email=request.POST['login'],
+                                password=request.POST['password'])
             if user:
                 login(request, user)
                 messages.success(request, 'Logged in successfully')
@@ -202,8 +202,8 @@ def checkout_view(request):
             return render(request,
                           'checkout-signin.html')
 
-    elif (request.POST.get("addr-form-button")
-          or request.POST.get("check-stock")):
+    elif (request.POST.get('addr-form-button')
+          or request.POST.get('check-stock')):
         (cart_prods, cart, stock_change, stock_list,
          subtotal, shipping, grand_total) = (
             cart_contents(request))
@@ -215,7 +215,7 @@ def checkout_view(request):
         else:
             js_stock = ''
 
-        check_stock = request.POST.get("check-stock")
+        check_stock = request.POST.get('check-stock')
         order_note = request.POST.get('checkout-order-note')
         stripe_public_key = settings.STRIPE_PUBLIC_KEY
         stripe_secret_key = settings.STRIPE_SECRET_KEY
@@ -259,12 +259,12 @@ def checkout_view(request):
                 stock_change = ProductDetails.objects.filter(
                     pk__in=stock_list)
                 intent = stripe.SetupIntent.create(
-                    description="stock_change",
-                    usage="on_session")
+                    description='stock_change',
+                    usage='on_session')
             elif not cart:
                 intent = stripe.SetupIntent.create(
-                    description="empty_cart",
-                    usage="on_session")
+                    description='empty_cart',
+                    usage='on_session')
             elif check_stock and cart and not stock_change:
                 intent = stripe.PaymentIntent.create(
                     amount=stripe_total,
@@ -287,7 +287,7 @@ def checkout_view(request):
                            'stripe_public_key': stripe_public_key,
                            'client_secret': intent.client_secret})
 
-    if request.POST.get("shipping-addr"):
+    if request.POST.get('shipping-addr'):
         return render(request, 'checkout-addr.html',
                       {'order_note': order_note})
 

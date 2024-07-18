@@ -36,7 +36,7 @@ class StripeHWHandler:
 
     def _send_admin_email(self, order, pid, event):
         admin_email = settings.CONTACT_EMAIL
-        event_type = event["type"]
+        event_type = event['type']
         subject = render_to_string(
             'confirmation_emails/admin-confirmation-email-subject.txt',
             {'order': order})
@@ -138,14 +138,14 @@ class StripeHWHandler:
         shipping_details = intent.shipping
 
         for field, value in shipping_details.address.items():
-            if value == "":
+            if value == '':
                 shipping_details.address[field] = None
-        if ship_addr_line3 == "":
+        if ship_addr_line3 == '':
             ship_addr_line3 = None
         for field, value in billing_details.address.items():
-            if value == "":
+            if value == '':
                 billing_details.address[field] = None
-        if bill_addr_line3 == "":
+        if bill_addr_line3 == '':
             bill_addr_line3 = None
 
         if email:

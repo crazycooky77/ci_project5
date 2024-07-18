@@ -71,7 +71,7 @@ def newsletter_signup(request):
                     request, "Good news, you're already signed up!")
             else:
                 messages.error(
-                    request, "Please enter a valid email address")
+                    request, 'Please enter a valid email address')
             if '/unsub=' in redirect_url:
                 return redirect('/')
             else:
@@ -131,16 +131,16 @@ def profile_view(request):
             if request.POST.get('unsub-news-button'):
                 unsub_news(request, signed_up)
                 return redirect('profile')
-            if request.POST.get("del-acc-button"):
+            if request.POST.get('del-acc-button'):
                 delete_acc(request, signed_up)
                 return redirect(homepage_view)
-            if request.POST.get("mk-default-button"):
+            if request.POST.get('mk-default-button'):
                 default_addr(request)
                 return redirect('addresses')
-            if request.POST.get("edit-addr-button"):
+            if request.POST.get('edit-addr-button'):
                 edit_addr_id = edit_addr(request)
                 return redirect('edit-address', edit_addr_id)
-            if request.POST.get("del-addr-button"):
+            if request.POST.get('del-addr-button'):
                 delete_addr(request)
                 return redirect('addresses')
         else:

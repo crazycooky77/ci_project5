@@ -28,7 +28,7 @@ class OrderFormAddr(forms.ModelForm):
         }
         self.fields['phone_nr'].widget.input_type = 'number'
         self.fields['phone_nr'].widget.attrs['onkeydown']\
-            = "return event.keyCode !== 69"
+            = 'return event.keyCode !== 69'
         self.fields['first_name'].widget.attrs['autofocus'] = True
         self.fields['country'].widget.attrs['disabled'] = True
         if user_auth:

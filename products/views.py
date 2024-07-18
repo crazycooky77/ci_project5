@@ -102,7 +102,7 @@ def json_sorted_serialise(sorted_data, *args):
 
 
 def json_serialise(data, *args):
-    json_serializer = serializers.get_serializer("json")()
+    json_serializer = serializers.get_serializer('json')()
 
     if args:
         list_args = [a for a in args]

@@ -276,7 +276,7 @@ def update_cart(request):
     loop_count = 0
 
     for i in request.POST:
-        if request.POST.get("update-cart-button"):
+        if request.POST.get('update-cart-button'):
             if '-prod-quantity' in i:
                 details_pk = i.split('-prod-quantity')[0]
                 for prod in cart:
@@ -310,7 +310,7 @@ def update_cart(request):
                     'You successfully removed the item from your cart')
         request.session['cart'] = cart
 
-    if request.POST.get("empty-cart-button"):
+    if request.POST.get('empty-cart-button'):
         del request.session['cart']
         if request.user.is_authenticated:
             user_cart = SavedItems.objects.filter(

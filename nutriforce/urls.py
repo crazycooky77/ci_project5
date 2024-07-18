@@ -33,7 +33,7 @@ urlpatterns = [
          name='email-change'),
     path('confirm-email/', CustomEmailVerificationSent.as_view(),
          name='verify-email'),
-    re_path(r"^confirm-email/(?P<key>[-:\w]+)/$",
+    re_path(r'^confirm-email/(?P<key>[-:\w]+)/$',
             CustomEmailConfirmView.as_view(), name='email-confirm'),
     path('password/change/', CustomPasswordChangeView.as_view(),
          name='pw-change'),
