@@ -64,7 +64,7 @@
     margin-top: 15px;
 }
 
-.email-change label[for="id_email"] {
+.email-change label[for='id_email'] {
     margin-right: 40px;
 }
 
@@ -73,15 +73,15 @@
     margin-bottom: 10px;
 }
 
-.email-change label[for="current_email"] {
+.email-change label[for='current_email'] {
     margin-right: 10px;
 }
 
-label[for="id_email"], .label-input #id_email {
+label[for='id_email'], .label-input #id_email {
     margin-top: 20px;
 }
 
-label[for="id_email2"], #id_email2 {
+label[for='id_email2'], #id_email2 {
     margin-bottom: 10px;
 }
 

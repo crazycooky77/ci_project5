@@ -132,7 +132,7 @@
         max-width: 100%;
     }
 
-    label[for="id_default_addr"] {
+    label[for='id_default_addr'] {
         margin-right: 0;
     }
 
