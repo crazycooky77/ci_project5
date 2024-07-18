@@ -1,14 +1,14 @@
-window.addEventListener("DOMContentLoaded", () => {
+window.addEventListener('DOMContentLoaded', () => {
     cartU800()
     cartO800()
 })
 
-window.addEventListener("load", () => {
+window.addEventListener('load', () => {
     cartU800()
     cartO800()
 })
 
-window.addEventListener("resize", () => {
+window.addEventListener('resize', () => {
     cartU800()
     cartO800()
 })

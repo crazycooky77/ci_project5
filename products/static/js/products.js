@@ -1,4 +1,4 @@
-window.addEventListener("DOMContentLoaded", () => {
+window.addEventListener('DOMContentLoaded', () => {
     featProds()
     allProds()
     searchedProds()
@@ -6,7 +6,7 @@ window.addEventListener("DOMContentLoaded", () => {
     prodResizeScroll()
 })
 
-window.addEventListener("load", () => {
+window.addEventListener('load', () => {
     featProds()
     allProds()
     searchedProds()
@@ -14,7 +14,7 @@ window.addEventListener("load", () => {
     prodResizeScroll()
 })
 
-window.addEventListener("resize", () => {
+window.addEventListener('resize', () => {
     prodResizeScroll()
 })
 
@@ -79,7 +79,7 @@ function prodElSizes(prodClass) {
 /* Function to reposition dynamic sort window dropdown */
 function sortDD(sortForm) {
     let buttonPosition = sortForm.children[1].getBoundingClientRect().bottom
-    let sortWindow = document.getElementsByClassName("sort-dd")[0]
+    let sortWindow = document.getElementsByClassName('sort-dd')[0]
     let sortPosition = sortWindow.getBoundingClientRect().top
 
     if (sortPosition && !(sortPosition === buttonPosition + 10)) {
@@ -97,22 +97,22 @@ function sortScroll() {
 
 
 function sortProds() {
-    let prodSort = document.getElementsByClassName("prod-sort")[0]
-    let sortOpts = document.getElementsByClassName("sort-dd")[0]
-    let sortStyle = window.getComputedStyle(sortOpts).getPropertyValue("display")
+    let prodSort = document.getElementsByClassName('prod-sort')[0]
+    let sortOpts = document.getElementsByClassName('sort-dd')[0]
+    let sortStyle = window.getComputedStyle(sortOpts).getPropertyValue('display')
     let sortForm = document.getElementById('sort-form')
 
-    if (sortStyle === "none") {
-        sortOpts.style.display = "flex"
+    if (sortStyle === 'none') {
+        sortOpts.style.display = 'flex'
         sortDD(sortForm)
     }
     else {
-        sortOpts.style.display = "none"
+        sortOpts.style.display = 'none'
     }
 
     document.body.addEventListener('click', function (e) {
         if (!(sortOpts.contains(e.target)) && !(prodSort).contains(e.target)) {
-            sortOpts.style.display = "none"
+            sortOpts.style.display = 'none'
         }
     })
 }
@@ -169,8 +169,8 @@ function sortFlavours(json) {
     for (let i = 0; i < json.length; i++) {
         let prodId = json[i].fields.product
         if (json[i].fields.flavour !== null) {
-            let flavours = "#" + prodId + '-prod-flavours'
-            let options = $(flavours + " option")
+            let flavours = '#' + prodId + '-prod-flavours'
+            let options = $(flavours + ' option')
 
             options.sort(function (a, b) {
                 if (a.text.toUpperCase() > b.text.toUpperCase()) return 1;
@@ -202,7 +202,7 @@ function sizeSelect(sizes) {
 function flavourSelect(json) {
     for (let i = 0; i < json.length; i++) {
         let flavours = document.getElementById(json[i].fields.product + '-prod-flavours')
-        let selectedSize = $("#" + json[i].fields.product + "-prod-sizes :selected").val()
+        let selectedSize = $('#' + json[i].fields.product + '-prod-sizes :selected').val()
         if (flavours) {
             for (let f = 0; f < flavours.length; f++) {
                 flavours.options[f].removeAttribute('selected')
@@ -244,8 +244,8 @@ function flavourSelect(json) {
 function oosSizes(json) {
     for (let i = 0; i < json.length; i++) {
         let obj = json[i]
-        let sizes = document.getElementById(obj.fields.product + "-prod-sizes")
-        let flavours = document.getElementById(obj.fields.product + "-prod-flavours")
+        let sizes = document.getElementById(obj.fields.product + '-prod-sizes')
+        let flavours = document.getElementById(obj.fields.product + '-prod-flavours')
         for (let s = 0; s < sizes.length; s++) {
             if (Number(obj.fields.size) === Number(sizes.options[s].value) &&
                 (obj.fields.flavour === null || (flavours && flavours.options[s].value === obj.fields.flavour))) {
@@ -264,7 +264,7 @@ function oosSizes(json) {
     }
      for (let i = 0; i < json.length; i++) {
          let obj = json[i]
-         let sizes = document.getElementById(obj.fields.product + "-prod-sizes")
+         let sizes = document.getElementById(obj.fields.product + '-prod-sizes')
          for (let s = 0; s < sizes.length; s++) {
              if ($(sizes.options[s]).hasClass('stock') &&
                  $(sizes.options[s]).val() !== $(sizes.options[s]).siblings().not('.hidden').filter('.stock').val()) {
@@ -289,7 +289,7 @@ function oosSizes(json) {
 
 
 function oosFlavours(flavours, obj) {
-    let selectedSize = $("#" + obj.fields.product + "-prod-sizes :selected").val()
+    let selectedSize = $('#' + obj.fields.product + '-prod-sizes :selected').val()
     for (let f = 0; f < flavours.length; f++) {
         if (Number(obj.fields.size) === Number(selectedSize)) {
             if (flavours.options[f].value === obj.fields.flavour &&
@@ -319,14 +319,14 @@ function oosProducts(json) {
 
     for (let i = 0; i < json.length; i++) {
         let obj = json[i]
-        let flavours = document.getElementById(obj.fields.product + "-prod-flavours")
+        let flavours = document.getElementById(obj.fields.product + '-prod-flavours')
         if (flavours) {
             oosFlavours(flavours, obj)
         }
     }
     for (let i = 0; i < json.length; i++) {
         let obj = json[i]
-        let flavours = document.getElementById(obj.fields.product + "-prod-flavours")
+        let flavours = document.getElementById(obj.fields.product + '-prod-flavours')
         if (flavours) {
             for (let f = 0; f < flavours.length; f++) {
                 if (flavours.options[f].classList.length === 0) {
@@ -347,23 +347,23 @@ function oosProducts(json) {
 function prodDetails(json) {
     for (let i = 0; i < json.length; i++) {
         let obj = json[i]
-        let selectedFlavour = $("#" + obj.fields.product + "-prod-flavours :selected").val()
-        let selectedSize = $("#" + obj.fields.product + "-prod-sizes :selected").val()
-        let flavours = document.getElementById(obj.fields.product + "-prod-flavours");
-        let sizes = document.getElementById(obj.fields.product + "-prod-sizes");
-        let price = document.getElementById(obj.fields.product + "-prod-price");
-        let quantity = document.getElementById(obj.fields.product + "-prod-quantity");
-        let cart = document.getElementById(obj.fields.product + "-prod-cart");
-        let stock = document.getElementById(obj.fields.product + "-prod-stock");
+        let selectedFlavour = $('#' + obj.fields.product + '-prod-flavours :selected').val()
+        let selectedSize = $('#' + obj.fields.product + '-prod-sizes :selected').val()
+        let flavours = document.getElementById(obj.fields.product + '-prod-flavours');
+        let sizes = document.getElementById(obj.fields.product + '-prod-sizes');
+        let price = document.getElementById(obj.fields.product + '-prod-price');
+        let quantity = document.getElementById(obj.fields.product + '-prod-quantity');
+        let cart = document.getElementById(obj.fields.product + '-prod-cart');
+        let stock = document.getElementById(obj.fields.product + '-prod-stock');
 
 
         if (obj.fields.stock_count > 0 &&
             (obj.fields.flavour === null || obj.fields.flavour === selectedFlavour) &&
             Number(obj.fields.size) === Number(selectedSize)) {
-            price.textContent = "Price: € " + obj.fields.price
+            price.textContent = 'Price: € ' + obj.fields.price
             quantity.setAttribute('max', obj.fields.stock_count)
             if (stock !== null) {
-                stock.textContent = "Availability: In Stock"
+                stock.textContent = 'Availability: In Stock'
             }
         }
         let disabledOpts = 0;
@@ -376,11 +376,11 @@ function prodDetails(json) {
             if (stock !== null) {
                 sizes.parentElement.style.display = 'none'
                 cart.style.display = 'none'
-                stock.textContent = "Availability: Out Of Stock"
+                stock.textContent = 'Availability: Out Of Stock'
             }
             else {
                 sizes.parentElement.style.display = 'none'
-                cart.textContent = "Out Of Stock"
+                cart.textContent = 'Out Of Stock'
                 cart.style.justifyContent = 'center'
                 if (flavours) {
                     flavours.parentElement.style.display = 'none'
@@ -393,9 +393,9 @@ function prodDetails(json) {
 
 function dupeOpts(json, option) {
     for (let i = 0; i < json.length; i++) {
-        let fieldId = json[i].fields.product + "-prod-" + option
+        let fieldId = json[i].fields.product + '-prod-' + option
         let dupeOpts = {}
-        $("select[name=" + fieldId + "] > option").each(function() {
+        $('select[name=" + fieldId + "] > option').each(function() {
             if (dupeOpts[this.text]) {
                 $(this).hide();
                 $(this).addClass('hidden')
@@ -471,17 +471,17 @@ function prodPage() {
 
 /* On homepage load, disable the product dropdown options for out of stock products */
 function featProds() {
-    if (window.location.pathname === "/") {
+    if (window.location.pathname === '/') {
         featOptions()
     }
 }
 
 
 function allProds() {
-    if ((window.location.pathname === "/products/health") ||
-        (window.location.pathname === "/products/new") ||
-        (window.location.pathname === "/products/sports") ||
-        (window.location.pathname === "/products/all")) {
+    if ((window.location.pathname === '/products/health') ||
+        (window.location.pathname === '/products/new') ||
+        (window.location.pathname === '/products/sports') ||
+        (window.location.pathname === '/products/all')) {
         allOptions()
     }
 }
@@ -489,7 +489,7 @@ function allProds() {
 
 /* On search product page load, select the searched flavour, and hide duplicate and out of stock flavours in dropdowns */
 function searchedProds() {
-    if (window.location.pathname === "/products/search") {
+    if (window.location.pathname === '/products/search') {
         if (window.json_searched_prods && json_searched_prods) {
             searchSelection(json_searched_prods)
             allOptions()
@@ -499,11 +499,11 @@ function searchedProds() {
 
 
 function prodResizeScroll() {
-    if ((window.location.pathname === "/products/health") ||
-        (window.location.pathname === "/products/new") ||
-        (window.location.pathname === "/products/sports") ||
-        (window.location.pathname === "/products/all") ||
-        (window.location.pathname === "/products/search")) {
+    if ((window.location.pathname === '/products/health') ||
+        (window.location.pathname === '/products/new') ||
+        (window.location.pathname === '/products/sports') ||
+        (window.location.pathname === '/products/all') ||
+        (window.location.pathname === '/products/search')) {
         prodElSizes('all-prod-details')
         sortScroll()
     }

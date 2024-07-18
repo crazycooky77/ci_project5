@@ -1,18 +1,18 @@
-window.addEventListener("DOMContentLoaded", () => {
+window.addEventListener('DOMContentLoaded', () => {
     profileOrdersU500()
     profileOrdersO500()
     profileOrdersU1100()
     profileOrdersO1100()
 })
 
-window.addEventListener("load", () => {
+window.addEventListener('load', () => {
     profileOrdersU500()
     profileOrdersO500()
     profileOrdersU1100()
     profileOrdersO1100()
 })
 
-window.addEventListener("resize", () => {
+window.addEventListener('resize', () => {
     profileOrdersU500()
     profileOrdersO500()
     profileOrdersU1100()

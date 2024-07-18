@@ -1,16 +1,16 @@
-window.addEventListener("DOMContentLoaded", () => {
+window.addEventListener('DOMContentLoaded', () => {
     checkoutSizing()
     checkoutU800()
     checkoutO800()
 })
 
-window.addEventListener("load", () => {
+window.addEventListener('load', () => {
     checkoutSizing()
     checkoutU800()
     checkoutO800()
 })
 
-window.addEventListener("resize", () => {
+window.addEventListener('resize', () => {
     checkoutSizing()
     checkoutU800()
     checkoutO800()
@@ -75,10 +75,10 @@ function checkoutEditAddr() {
     let shippingAddr = document.querySelector('input[name="shipping-addr"]').value
     let billingAddr = document.querySelector('input[name="billing-addr"]').value
     let checkoutNote = $('#checkout-order-note').val()
-    document.querySelector("input[name='checkout-order-note']").value = checkoutNote
+    document.querySelector('input[name="checkout-order-note"]').value = checkoutNote
 
     $.ajax({
-        method: "POST",
+        method: 'POST',
         url: $('button.hidden-addr-submit').attr('formaction'),
         data: {'csrfmiddlewaretoken': document.querySelector('[name=csrfmiddlewaretoken]').value,
             'checkout-edit-addr': 'checkout-edit-addr',
@@ -153,7 +153,7 @@ function checkoutO800() {
 
 
 function checkoutSizing() {
-    if (window.location.pathname === "/checkout") {
+    if (window.location.pathname === '/checkout') {
         resizeCheckoutFields()
     }
 }

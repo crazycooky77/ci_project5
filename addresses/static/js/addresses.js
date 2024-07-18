@@ -1,16 +1,16 @@
-window.addEventListener("DOMContentLoaded", () => {
+window.addEventListener('DOMContentLoaded', () => {
     addrU800()
     addrO800()
     addrInputResize()
 })
 
-window.addEventListener("load", () => {
+window.addEventListener('load', () => {
     addrU800()
     addrO800()
     addrInputResize()
 })
 
-window.addEventListener("resize", () => {
+window.addEventListener('resize', () => {
     addrU800()
     addrO800()
     addrInputResize()
@@ -19,7 +19,7 @@ window.addEventListener("resize", () => {
 
 function addrInputResize() {
     if (window.location.pathname === '/profile/add-address' ||
-        window.location.pathname.split("/")[2] === 'edit-address') {
+        window.location.pathname.split('/')[2] === 'edit-address') {
         let formInputs = document.getElementsByClassName('label-input')
         let width = $(formInputs[0].lastElementChild).outerWidth()
         for (let i = 0; i < formInputs.length - 1; i++) {

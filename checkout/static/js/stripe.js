@@ -85,23 +85,23 @@ stripeForm.addEventListener('submit', function(ev) {
     let data = new FormData()
     data.append('csrfmiddlewaretoken', document.querySelector('[name=csrfmiddlewaretoken]').value)
     data.append('check-stock', 'check-stock')
-    data.append('shipping-addr', document.querySelector("input[name='shipping-addr']").value)
-    data.append('billing-addr', document.querySelector("input[name='billing-addr']").value)
+    data.append('shipping-addr', document.querySelector('input[name="shipping-addr"]').value)
+    data.append('billing-addr', document.querySelector('input[name="billing-addr"]').value)
 
     xhr.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
-            let updatedSecret = $($.parseHTML(xhr.responseText)).filter("#id_client_secret").get(0).text
-            let oldCart = $("#cart-detail").get(0)
-            let updatedCart = $($.parseHTML(xhr.responseText)).find("#cart-detail").get(0)
-            let oldCartStock = $("#checkout-stock-change").get(0)
-            let updatedCartStock = $($.parseHTML(xhr.responseText)).find("#checkout-stock-change").get(0)
-            let stockChange = $($.parseHTML(xhr.responseText)).find("input[name='js-stock']").get(0).value
+            let updatedSecret = $($.parseHTML(xhr.responseText)).filter('#id_client_secret').get(0).text
+            let oldCart = $('#cart-detail').get(0)
+            let updatedCart = $($.parseHTML(xhr.responseText)).find('#cart-detail').get(0)
+            let oldCartStock = $('#checkout-stock-change').get(0)
+            let updatedCartStock = $($.parseHTML(xhr.responseText)).find('#checkout-stock-change').get(0)
+            let stockChange = $($.parseHTML(xhr.responseText)).find('input[name="js-stock"]').get(0).value
             oldCart.replaceWith(updatedCart)
             oldCartStock.replaceWith(updatedCartStock)
             $('#id_client_secret').html(updatedSecret)
-            document.querySelectorAll("input[name='js-stock']")[0].value = stockChange
-            document.querySelectorAll("input[name='js-stock']")[1].value = stockChange
-            document.querySelector("input[name='client-secret']").value = updatedSecret
+            document.querySelectorAll('input[name="js-stock"]')[0].value = stockChange
+            document.querySelectorAll('input[name="js-stock"]')[1].value = stockChange
+            document.querySelector('input[name="client-secret"]').value = updatedSecret
         }
     };
     xhr.open('POST', '/checkout', true);
@@ -116,7 +116,7 @@ stripeForm.addEventListener('submit', function(ev) {
         try {
             stripe.retrieveSetupIntent(clientSecret)
                 .then(function (result) {
-                    if (result.setupIntent.description && result.setupIntent.description === "stock_change") {
+                    if (result.setupIntent.description && result.setupIntent.description === 'stock_change') {
                         let errorDiv = document.getElementById('card-errors')
                         let html = `
                     <span class="icon" role="alert">
@@ -127,12 +127,12 @@ stripeForm.addEventListener('submit', function(ev) {
                         document.getElementById('pay-process').style.display = 'none'
                         card.update({'disabled': false})
                         $('#payment-button').attr('disabled', false)
-                    } else if (result.setupIntent.description && result.setupIntent.description === "empty_cart") {
-                        let js_stock = document.querySelector("input[name='js-stock']").value
+                    } else if (result.setupIntent.description && result.setupIntent.description === 'empty_cart') {
+                        let js_stock = document.querySelector('input[name="js-stock"]').value
                         let json_stock = js_stock.replace(/&quot;/ig, '"')
                         let json_stock_change = JSON.parse(json_stock)
                         $.ajax({
-                            method: "POST",
+                            method: 'POST',
                             url: $('#empty-cart-form').attr('action'),
                             data: {
                                 'csrfmiddlewaretoken': document.querySelector('[name=csrfmiddlewaretoken]').value,
@@ -145,10 +145,10 @@ stripeForm.addEventListener('submit', function(ev) {
                     }
                 })
         } catch {
-            let ship_value = document.querySelector("input[name='shipping-addr']").value
+            let ship_value = document.querySelector('input[name="shipping-addr"]').value
             let ship_addr = ship_value.replace(/'/g, '"')
             let ship_addr_json = JSON.parse(ship_addr)
-            let bill_value = document.querySelector("input[name='billing-addr']").value
+            let bill_value = document.querySelector('input[name="billing-addr"]').value
             let bill_addr = bill_value.replace(/'/g, '"')
             let bill_addr_json = JSON.parse(bill_addr)
             let countries = generateCountryMap()
