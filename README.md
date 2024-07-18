@@ -32,7 +32,8 @@ NutriForce is a B2C online shop for sports and health nutrition in Ireland. The 
          3. [Product Pages](#insproduct-pagesins)
          4. [Checkout](#inscheckoutins)
 3. [Features](#features)
-   1. [Future Features](#future-features)
+   1. [Feature Details](#feature-details)
+   2. [Future Features](#future-features)
 4. [Technologies](#technologies)
 5. [Testing](#testing---to-be-updated)
    1. [Manual Testing](#manual-testing)
@@ -170,66 +171,66 @@ Wireframes were used to plan out the pages for the site. Minor adjustments were 
 2. The site logo and user action buttons (view cart, log in, create account) have swapped sides
 3. The user action buttons all have icons added (instead of only the Cart button)
 
-##### <ins>Login / Create Account</ins>
-**Login:**
+##### Login / Create Account
+<ins>Login:</ins>
 _Social media signup options have not yet been implemented. This is planned for release 1.1. [See user story here](https://github.com/crazycooky77/ci_project5/issues/20#issue-2248986787)._
 <img src='media/readme/wf-login.webp' alt='Log in page wireframe'>
 
-**Create Account:**
+<ins>Create Account:</ins>
 _Social media signup options have not yet been implemented. This is planned for release 1.1. [See user story here](https://github.com/crazycooky77/ci_project5/issues/20#issue-2248986787)._
 <img src='media/readme/wf-create-acc.webp' alt='Create account wireframe'>
 
-#### <ins>Profile Pages</ins>
-**Account Details:**
+#### Profile Pages
+<ins>Account Details:</ins>
 <img src='media/readme/wf-profile-details.webp' alt='Profile account details wireframe'>
 
-**Addresses:**
+<ins>Addresses:</ins>
 _The Add New Address (now Add Address) button was moved, but otherwise the style has stayed the same._
 <img src='media/readme/wf-profile-addr.webp' alt='Profile addresses wireframe'>
 
-**Orders:**
+<ins>Orders:</ins>
 <img src='media/readme/wf-profile-orders.webp' alt='Profile orders wireframe'>
 
-**Order Details:**
+<ins>Order Details:</ins>
 <img src='media/readme/wf-profile-order-details.webp' alt='Profile order details wireframe'>
 
-**Saved Items:**
+<ins>Saved Items:</ins>
 _Saved Items have not yet been implemented. Therefore, the menu item (on the left) and the page itself is not yet available. This is planned for release 1.1. [See user story here](https://github.com/crazycooky77/ci_project5/issues/27#issue-2250330614)._
 <img src='media/readme/wf-profile-saved-items.webp' alt='Profile saved items wireframe'>
 
-**Watchlist:**
+<ins>Watchlist:</ins>
 _The Watchlist has not yet been implemented. Therefore, the menu item (on the left) and the page itself is not yet available. This is planned for release 1.1. [See user story here](https://github.com/crazycooky77/ci_project5/issues/25#issue-2250321761)._
 <img src='media/readme/wf-profile-watchlist.webp' alt='Profile watchlist wireframe'>
 
-#### <ins>Product Pages</ins>
-**Homepage (Featured Products):**
+#### Product Pages
+<ins>Homepage (Featured Products):</ins>
 <img src='media/readme/wf-prod-homepage.webp' alt='Homepage (Featured Products) wireframe'>
 
-**Product Browser:**
+<ins>Product Browser:</ins>
 <img src='media/readme/wf-prod-browser.webp' alt='Product browser wireframe'>
 
-**Product Page:**
+<ins>Product Page:</ins>
 _Add to Watchlist is not yet available. This is planned for release 1.1. [See user story here](https://github.com/crazycooky77/ci_project5/issues/25#issue-2250321761)._
 <img src='media/readme/wf-prod-page.webp' alt='Product page wireframe'>
 
-#### <ins>Checkout</ins>
-**Cart:**
+#### Checkout
+<ins>Cart:</ins>
 _Save for Later is not currently available. This is planned for release 1.1. [See user story here](https://github.com/crazycooky77/ci_project5/issues/27#issue-2250330614)._
 <img src='media/readme/wf-checkout-cart.webp' alt='Cart view wireframe'>
 
-**Login / Guest Checkout:**
+<ins>Login / Guest Checkout:</ins>
 _This view was slightly updated. Social media login options are not available ([planned for 1.1](https://github.com/crazycooky77/ci_project5/issues/20#issue-2248986787)), Forgot Password was added to the login section, and Create Account was added below Login as an option._
 <img src='media/readme/wf-checkout-login.webp' alt='Checkout login and guest checkout wireframe'>
 
-**Addresses:**
+<ins>Addresses:</ins>
 _A "Back to Cart" button was added at the bottom left of this page._
 <img src='media/readme/wf-checkout-addr.webp' alt='Checkout addresses wireframe'>
 
-**Payment Options:**
+<ins>Payment Options:</ins>
 _This page was completely removed. Also, only stripe payment is currently available. Additional payment options (GooglePay, Apple Pay, and PayPal) [are planned for release 1.1](https://github.com/crazycooky77/ci_project5/issues/38#issue-2381801096)._
 <img src='media/readme/wf-checkout-pay.webp' alt='Payment options wireframe'>
 
-**Confirmation:**
+<ins>Confirmation:</ins>
 _Show/Hide Cart and Edit Address links were added to this page. A Note to Seller is now also available at checkout. Text indicating that the customer will be charged once they confirm the purchase is now present. Finally, a "Back to Cart" button was added at the bottom left of this page._
 <img src='media/readme/wf-checkout-confirm.webp' alt='Checkout confirmation wireframe'>
 
@@ -237,6 +238,8 @@ _Show/Hide Cart and Edit Address links were added to this page. A Note to Seller
 All user stories, features, and bugs are listed in the repository's projects. [For release 1.0, the kanban board can be found here](https://github.com/users/crazycooky77/projects/2/views/1). Completed and postponed (Cancelled) features are outlined in the board.
 
 Some additional minor features have been implemented, to promote customer satisfaction and loyalty, such as mailto links with predefined email subjects and bodies, where customers can request products be stocked, that are not in the database.
+
+### Feature Details
 
 ### Future Features
 [For release 1.1, the kanban board is here](https://github.com/users/crazycooky77/projects/3/views/1). Postponed User Stories from 1.0 are planned for release 1.1, as well as features and minor bugs identified during initial project release.
