@@ -188,11 +188,11 @@ label[for='news-email-input'], .modal p {
     cursor: pointer;
 }
 
-.support-details {
+.nav-support * {
     font-size: 16px;
 }
 
-.nav-support a, .support-details i {
+.nav-support a, .nav-support i {
     text-decoration: underline;
     font-size: 16px;
 }
@@ -452,7 +452,7 @@ footer * {
         font-size: 14px;
     }
 
-    .nav-support a, .support-details i {
+    .nav-support a, .nav-support i {
         font-size: 12px;
         text-decoration: none;
     }

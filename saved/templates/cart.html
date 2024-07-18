@@ -26,7 +26,7 @@
                     {% include 'cart-contents.html' %}
                     <div class="update-buttons">
                         <button type="submit" name="update-cart-button" value="update-cart-button">Update Cart</button>
-                        <button type="button" class="empty-cart" onclick="emptyCart()">Empty Cart</button>
+                        <button type="button" id="empty-cart-btn" onclick="modals('empty-cart-btn', 'empty-cart-modal')">Empty Cart</button>
                         <div id="empty-cart-modal" class="modal">
                             <div class="modal-content">
                                 <span class="modal-close">&times;</span>

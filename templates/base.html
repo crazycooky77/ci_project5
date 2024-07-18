@@ -71,7 +71,7 @@
                             <form action="/newsletter" method="POST" id="news-signup-form">
                                 {% csrf_token %}
                                 <!-- Newsletter signup -->
-                                <a href="javascript:newSignup()">Newsletter Signup</a>
+                                <a href="javascript:modals('news-signup-anchor', 'news-modal')" id="news-signup-anchor">Newsletter Signup</a>
                                 <div id="news-modal" class="modal">
                                     <div class="modal-content">
                                         <span class="modal-close">&times;</span>
@@ -85,9 +85,14 @@
                         </div>
                         <div class="nav-support">
                             <!-- Contact details -->
-                            <p class="support-details">
-                                <a href="mailto:{{ contact_email }}"><i class="fa-solid fa-envelope"></i> Support</a>
-                            </p>
+                            <a href="javascript:mailTo()"><i class="fa-solid fa-envelope"></i> Support</a>
+                            <div id="sup-mailto-modal" class="modal">
+                                <div class="modal-content">
+                                    <span class="modal-close">&times;</span>
+                                    <p>You can <a href="mailto:{{ contact_email }}">click here</a> to automatically open your email client.</p>
+                                    <p>Alternatively, you can reach us on: {{ contact_email }}</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="nav-search">

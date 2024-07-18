@@ -45,29 +45,51 @@ function topScroll() {
 }
 
 
-function newSignup() {
-    let newsButton = document.getElementById('news-signup-form').querySelector('a')
-    let newsModal = document.getElementById('news-modal')
-    newsModal.style.display = 'block';
-    let newsSpan = document.getElementById('news-modal').getElementsByClassName('modal-close')[0]
-    newsSpan.onclick = function() {
-        newsModal.style.display = 'none';
+function modals(buttonId, modalId) {
+    let button = document.getElementById(buttonId)
+    let modal = document.getElementById(modalId)
+    modal.style.display = 'block';
+    let span = modal.getElementsByClassName('modal-close')[0]
+    span.onclick = function() {
+        modal.style.display = 'none';
     }
     window.onclick = function(event) {
-        if (!(newsModal.contains(event.target)) && newsButton !== event.target) {
-            newsModal.style.display = 'none';
+        if (!(modal.contains(event.target)) && button !== event.target) {
+            modal.style.display = 'none';
         }
     }
     window.onresize = function() {
-        newsModal.style.display = 'none';
+        modal.style.display = 'none';
     }
 }
+
+
+
+// function mailTo() {
+//     let mailButton = document.getElementsByClassName('nav-support')[0].querySelector('a')
+//     let newsModal = document.getElementById('sup-mailto-modal')
+//     newsModal.style.display = 'block';
+//     let newsSpan = document.getElementById('news-modal').getElementsByClassName('modal-close')[0]
+//     newsSpan.onclick = function() {
+//         newsModal.style.display = 'none';
+//     }
+//     window.onclick = function(event) {
+//         if (!(newsModal.contains(event.target)) && mailButton !== event.target) {
+//             newsModal.style.display = 'none';
+//         }
+//     }
+//     window.onresize = function() {
+//         newsModal.style.display = 'none';
+//     }
+// }
 
 
 function baseU500() {
     if (window.innerWidth <= 800) {
         let navIcons = document.getElementsByClassName('nav-left')[0]
-        navIcons.querySelector('button').lastChild.textContent = ''
+        if (navIcons.querySelector('button')) {
+            navIcons.querySelector('button').lastChild.textContent = ''
+        }
         let navAnchors = navIcons.querySelectorAll('a')
         for (let i = 0; i < navAnchors.length; i++) {
             navAnchors[i].lastChild.textContent = ''

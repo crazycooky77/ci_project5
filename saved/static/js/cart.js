@@ -14,25 +14,6 @@ window.addEventListener("resize", () => {
 })
 
 
-function emptyCart() {
-    let emptyCartButton = document.getElementsByClassName('empty-cart')[0]
-    let emptyCartModal = document.getElementById('empty-cart-modal')
-    emptyCartModal.style.display = 'block';
-    let emptyCartSpan = document.getElementById('empty-cart-modal').getElementsByClassName('modal-close')[0]
-    emptyCartSpan.onclick = function() {
-        emptyCartModal.style.display = 'none';
-    }
-    window.onclick = function(event) {
-        if (!(emptyCartModal.contains(event.target)) && emptyCartButton !== event.target) {
-            emptyCartModal.style.display = 'none';
-        }
-    }
-    window.onresize = function() {
-        emptyCartModal.style.display = 'none';
-    }
-}
-
-
 function cartU800() {
     if (window.innerWidth <= 800) {
         if (window.location.pathname === '/cart') {

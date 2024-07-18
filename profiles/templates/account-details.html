@@ -13,7 +13,7 @@
         {% endif %}
         <form method="POST" action="">
             {% csrf_token %}
-            <button type="button" class="del-button" onclick="delAccount()">Delete Account</button>
+            <button type="button" class="del-button" id="del-acc-btn" onclick="modals('del-acc-btn', 'del-acc-modal')">Delete Account</button>
             <div id="del-acc-modal" class="modal">
                 <div class="modal-content">
                     <span class="modal-close">&times;</span>
