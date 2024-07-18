@@ -9,8 +9,8 @@
 
 {% block content %}
     <div class="profile">
-        {% if request.get_full_path|slice:"0:15" == '/confirm-email/' and not request.user.is_authenticated %}
-                {% include 'account/email_confirm.html' %}
+        {% if request.get_full_path|slice:"0:15" == "/confirm-email/" and not request.user.is_authenticated %}
+                {% include "account/email_confirm.html" %}
         {% elif request.user.is_authenticated %}
             <div class="desktop profile-menu">
                 <a href="/profile">Account Details</a>
@@ -31,24 +31,24 @@
 {#                <a href="">Watchlist</a>#}
 {#                <a href="">Saved for Later</a>#}
             </div>
-            {% if request.get_full_path == '/profile' %}
-                {% include 'account-details.html' %}
-            {% elif request.get_full_path == '/email/' %}
-                {% include 'account/email_change.html' %}
-            {% elif request.get_full_path|slice:"0:15" == '/confirm-email/' %}
-                {% include 'account/email_confirm.html' %}
-            {% elif request.get_full_path == '/password/change/' %}
-                {% include 'account/password_change.html' %}
-            {% elif request.get_full_path == '/profile/addresses' %}
-                {% include 'addresses.html' %}
-            {% elif request.get_full_path == '/profile/add-address' %}
-                {% include 'add-address.html' %}
-            {% elif request.get_full_path|slice:"0:22" == '/profile/edit-address/' %}
-                {% include 'edit-address.html' %}
-            {% elif request.get_full_path == '/profile/orders' %}
-                {% include 'orders.html' %}
-            {% elif request.get_full_path|slice:"0:21" == '/profile/orders/id%3D' %}
-                {% include 'order-details.html' %}
+            {% if request.get_full_path == "/profile" %}
+                {% include "account-details.html" %}
+            {% elif request.get_full_path == "/email/" %}
+                {% include "account/email_change.html" %}
+            {% elif request.get_full_path|slice:"0:15" == "/confirm-email/" %}
+                {% include "account/email_confirm.html" %}
+            {% elif request.get_full_path == "/password/change/" %}
+                {% include "account/password_change.html" %}
+            {% elif request.get_full_path == "/profile/addresses" %}
+                {% include "addresses.html" %}
+            {% elif request.get_full_path == "/profile/add-address" %}
+                {% include "add-address.html" %}
+            {% elif request.get_full_path|slice:"0:22" == "/profile/edit-address/" %}
+                {% include "edit-address.html" %}
+            {% elif request.get_full_path == "/profile/orders" %}
+                {% include "orders.html" %}
+            {% elif request.get_full_path|slice:"0:21" == "/profile/orders/id%3D" %}
+                {% include "order-details.html" %}
             {% endif %}
         {% else %}
             <p>You need to <a href="/login">log in</a> to view this page.</p>

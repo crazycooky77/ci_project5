@@ -1,9 +1,9 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 {% load static %}
 
 {% block content %}
     <div class="mid-content">
-        {% include 'form-responses.html' %}
+        {% include "form-responses.html" %}
         <h2>Page Not Found</h2>
         <p>The page you are looking for isn't available. If this error is unexpected, please <a href="javascript:modals('404-mailto-anchor', '404-mailto-modal')" id="404-mailto-anchor">contact us</a>.</p>
         <div id="404-mailto-modal" class="modal">

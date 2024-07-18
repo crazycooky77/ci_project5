@@ -8,7 +8,7 @@
 
 {% block content %}
     <div class="home-div">
-        {% include 'form-responses.html' %}
+        {% include "form-responses.html" %}
         {% if new_product %}
             <div class="feat-prod-div">
                 <div class="desktop feat-img-div">
@@ -219,21 +219,21 @@
             json_new_prod = JSON.parse(js_new_prod)
         }
         else {
-            json_new_prod = ''
+            json_new_prod = ""
         }
         if ("{{ js_sports_product }}" !== "") {
             const js_sports_prod = "{{ js_sports_product }}".replace(/&quot;/ig,'"')
             json_sports_prod = JSON.parse(js_sports_prod)
         }
         else {
-            json_sports_prod = ''
+            json_sports_prod = ""
         }
         if ("{{ js_health_product }}" !== "") {
             const js_health_prod = "{{ js_health_product }}".replace(/&quot;/ig,'"')
             json_health_prod = JSON.parse(js_health_prod)
         }
         else {
-            json_health_prod = ''
+            json_health_prod = ""
         }
     </script>
     <script src="{% static 'js/products.js' %}"></script>

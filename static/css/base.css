@@ -2,7 +2,7 @@
     max-width: 1920px;
     margin: auto;
     background-color: #F5FEFD;
-    font-family: "Montserrat", sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-size: 18px;
 }
 
@@ -292,7 +292,7 @@ label:has(+input:required):after {
     margin-bottom: 10px;
 }
 
-label[for="id_email2"], #id_email2 {
+label[for='id_email2'], #id_email2 {
     margin-bottom: 10px;
 }
 

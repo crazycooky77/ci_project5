@@ -8,7 +8,7 @@
         <th aria-label="Individual Price" title="Individual Price" class="desktop mid-desk">Individual Price</th>
         <th aria-label="Sum" title="Sum">Sum</th>
 {#        Feature to be implemented in version 1.1#}
-{#        {% if request.get_full_path == '/cart' %}#}
+{#        {% if request.get_full_path == "/cart" %}#}
 {#            {% if request.user.is_authenticated %}#}
 {#                <th></th>#}
 {#            {% endif %}#}
@@ -27,7 +27,7 @@
                 </div>
             </a></td>
             <td>{{ product.size }} {{ product.size_unit }}</td>
-            {% if request.get_full_path == '/cart' %}
+            {% if request.get_full_path == "/cart" %}
                 <td>
                     <div class="cart-quantity">
                         <label for="{{ product.id }}-prod-quantity" aria-label="quantity"></label>
@@ -47,7 +47,7 @@
             <td class="desktop mid-desk">€ {{ product.price }}</td>
             <td>€ {{ product.price|mul:quantity }}</td>
 {#            Feature to be implemented in version 1.1#}
-{#            {% if request.get_full_path == '/cart' %}#}
+{#            {% if request.get_full_path == "/cart" %}#}
 {#                {% if request.user.is_authenticated %}#}
 {#                    <td><button>Save for Later</button></td>#}
 {#                {% endif %}#}

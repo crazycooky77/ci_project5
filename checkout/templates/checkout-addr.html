@@ -9,7 +9,7 @@
 {% block content %}
     <div class="checkout">
         <h2>Checkout</h2>
-        {% include 'form-responses.html' %}
+        {% include "form-responses.html" %}
         <form method="POST" action="" class="checkout-addr-form">
             {% csrf_token %}
             <div class="checkout-addr">
@@ -77,7 +77,7 @@
             json_addr = JSON.parse(js_address)
         }
         else {
-            json_addr = ''
+            json_addr = ""
         }
     </script>
     <script src="{% static 'js/checkout.js' %}"></script>

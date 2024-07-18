@@ -2,7 +2,7 @@
 
 <div class="orders">
     <h2>Order Details</h2>
-    {% include 'form-responses.html' %}
+    {% include "form-responses.html" %}
     {% if order %}
         <div class="prod-table">
             <table>
@@ -14,7 +14,7 @@
                     <th aria-label="Action" title="Action" class="desktop">Action</th>
                 </tr>
                 <tr class="cart-tbl-prod">
-                    <td>{{ order.order_dt|date:'Y-m-d' }}</td>
+                    <td>{{ order.order_dt|date:"Y-m-d" }}</td>
                     <td>{{ order.order_id }}</td>
                     {% if order.tracking_link %}
                         <td><a href="{{ order.tracking_link }}" target="_blank" rel="external nofollow noopener">Track</a></td>
@@ -22,7 +22,7 @@
                         <td>N/A</td>
                     {% endif %}
                     <td>{{ order.get_status_display }}</td>
-                {% if order.status in 'PEND,PROC,RDY' %}
+                {% if order.status in "PEND,PROC,RDY" %}
                     <td class="mid-desk"><button type="button" onclick="modals('cancel-req-mailto-btn', 'cancel-req-mailto-modal')" id="cancel-req-mailto-btn">Request Cancellation</button></td>
                     <div id="cancel-req-mailto-modal" class="modal">
                         <div class="modal-content">
@@ -45,7 +45,7 @@
                 {% endif %}
                 </tr>
             </table>
-            {% if order.status in 'PEND,PROC,RDY' %}
+            {% if order.status in "PEND,PROC,RDY" %}
                 <button class="mid-screen" type="button" onclick="modals('mid-cancel-req-mailto-btn', 'mid-cancel-req-mailto-modal')" id="mid-cancel-req-mailto-btn">Request Cancellation</button></td>
                 <div id="mid-cancel-req-mailto-modal" class="modal">
                     <div class="modal-content">

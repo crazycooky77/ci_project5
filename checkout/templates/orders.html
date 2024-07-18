@@ -1,6 +1,6 @@
 <div class="orders">
     <h2>Orders</h2>
-    {% include 'form-responses.html' %}
+    {% include "form-responses.html" %}
     {% if orders %}
         <div class="prod-table">
             <table>
@@ -13,7 +13,7 @@
                 </tr>
                 {% for order in orders %}
                     <tr class="cart-tbl-prod">
-                        <td>{{ order.order_dt|date:'Y-m-d' }}</td>
+                        <td>{{ order.order_dt|date:"Y-m-d" }}</td>
                         <td>{{ order.order_id }}</td>
                         {% if order.tracking_link %}
                             <td><a href="{{ order.tracking_link }}" target="_blank" rel="external nofollow noopener">Track</a></td>

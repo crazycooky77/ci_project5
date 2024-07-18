@@ -8,8 +8,8 @@
 
 {% block content %}
     <div class="all-prod-div">
-        {% include 'form-responses.html' %}
-        {% if request.get_full_path == '/products/search' %}
+        {% include "form-responses.html" %}
+        {% if request.get_full_path == "/products/search" %}
             <div class="search-results-div">
                 {% if search_term or sort_search %}
                     {% if products %}
@@ -26,11 +26,11 @@
                         </div>
                     {% endif %}
                 {% else %}
-                    <p>Your search was made with an empty search term. Please try again or check out our <a href='/products/all'>list of products here</a></p>
+                    <p>Your search was made with an empty search term. Please try again or check out our <a href="/products/all">list of products here</a></p>
                 {% endif %}
             </div>
         {% endif %}
-        {% if request.get_full_path == '/products/search' and search_term == None and sort_search == None %}
+        {% if request.get_full_path == "/products/search" and search_term == None and sort_search == None %}
         {% else %}
             {% if products %}
                 {% include "sorting.html" %}
@@ -68,7 +68,7 @@
                                         <p>
                                             <label for="{{ prod.product_id }}-prod-sizes">Size:</label>
                                             <select name="{{ prod.product_id }}-prod-sizes" id="{{ prod.product_id }}-prod-sizes" onChange=allOptions()>
-                                                {% for option in products|dictsort:'size' %}
+                                                {% for option in products|dictsort:"size" %}
                                                     {% if prod.product_id == option.product.product_id %}
                                                         <option value="{{ option.size }}">{{ option.size }} {{ option.size_unit }}</option>
                                                     {% endif %}
@@ -89,13 +89,13 @@
                         </div>
                     {% endfor %}
                 {% else %}
-                    {% if request.get_full_path != '/products/search' %}
+                    {% if request.get_full_path != "/products/search" %}
                         <div class="prod-oos">
                             <p>We currently don't have products to show you in this category. Stay tuned!</p>
                         </div>
                     {% endif %}
                 {% endif %}
-            {% elif not products and not products_distinct and request.get_full_path != '/products/search' %}
+            {% elif not products and not products_distinct and request.get_full_path != "/products/search" %}
                 <div class="prod-oos">
                     <p>We currently don't have products to show you in this category. Stay tuned!</p>
                 </div>
@@ -111,14 +111,14 @@
             json_prods = JSON.parse(js_prods)
         }
         else {
-            json_prods = ''
+            json_prods = ""
         }
         if ("{{ js_searched }}" !== "") {
             const js_searched_prods = "{{ js_searched }}".replace(/&quot;/ig,'"')
             json_searched_prods = JSON.parse(js_searched_prods)
         }
         else {
-            json_searched_prods = ''
+            json_searched_prods = ""
         }
     </script>
     <script src="{% static 'js/products.js' %}"></script>

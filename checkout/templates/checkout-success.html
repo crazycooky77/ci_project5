@@ -10,7 +10,7 @@
 {% block content %}
     <div class="checkout">
         <h2>Order Summary</h2>
-        {% include 'form-responses.html' %}
+        {% include "form-responses.html" %}
         <div class="order-confirm">
             <p>Your order #{{ completed_order.order_id }} has been submitted! You should receive a confirmation email shortly to {{ completed_order.purchaser_email }}. You will receive an additional email, once your order has shipped.</p>
         </div>
@@ -22,7 +22,7 @@
                 <div class="cart-toggle-div">
                     <a href="javascript:toggleCart()">Show/Hide Cart</a>
                 </div>
-                {% include 'cart-contents.html' %}
+                {% include "cart-contents.html" %}
             </div>
             <div class="summ-split">
                 <hr>

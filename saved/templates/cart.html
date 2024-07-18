@@ -9,21 +9,21 @@
 {% block content %}
     <div class="cart">
         <h2>Cart</h2>
-        {% include 'form-responses.html' %}
+        {% include "form-responses.html" %}
         {% if checkout_empty %}
             <p class="form-error">We could not continue the checkout process, as stock changes resulted in your cart being emptied. You have not been charged.</p>
             <p class="form-error">The following items were removed:</p>
-            {% include 'cart-stock.html' %}
+            {% include "cart-stock.html" %}
         {% endif %}
         {% if stock_change and not checkout_empty %}
             <p class="form-error">The quantity for the following items in your cart has changed, due to stock updates:</p>
-            {% include 'cart-stock.html' %}
+            {% include "cart-stock.html" %}
         {% endif %}
         <div class="prod-table-details">
             {% if cart_prods %}
                 <form action="{% url 'update-cart' %}" method="POST" class="update-cart">
                     {% csrf_token %}
-                    {% include 'cart-contents.html' %}
+                    {% include "cart-contents.html" %}
                     <div class="update-buttons">
                         <button type="submit" name="update-cart-button" value="update-cart-button">Update Cart</button>
                         <button type="button" id="empty-cart-btn" onclick="modals('empty-cart-btn', 'empty-cart-modal')">Empty Cart</button>
