@@ -26,7 +26,27 @@ A social media presence is critical for any business in current times. A mock-up
 Including site metadata and keywords, robots.txt and sitemap.xml
 
 ### Informational Pages
-privacy, return, shipping, terms, about
+Additional pages - all in the site footer - were created to ensure customers have all the necessary information about the company, their data and it's usage, and orders. Everything below in this section will help show customers that this is a trusted site they can make purchases from, as we are transparent, and all information is readily available. The Shipping, Returns, and Privacy pages additionally include details on how to get in touch with the support team, should the customers need this.
+
+#### About
+This page gives an introduction about the company and what is important to us. It should help customers feel more connected to us, and hopefully instill some confidence, as our values greatly relate to quality and integrity, as stated on the page.
+
+
+#### Shipping
+The Shipping detail page is currently rather generic, but will be updated once the shop officially goes live. For now, basic information is available to customers on the free shipping limit, shipping methods and times, and delayed orders.
+
+
+#### Returns
+This page details information on returns and refunds, again so customers don't have to search for this and have it readily available. The page ensures customers don't need to search for information necessary for them to know according to their rights, when a refund or return is required.
+
+
+#### Privacy Policy
+Details regarding what data is collected from customers and how it is used is fully outlined on this page. This is critical, particularly with the site being not only available in the EU, but specifically selling in Ireland (EU).
+
+
+#### Terms & Conditions
+A page outlining the full T&C for the site is available.
+
 
 ## User Experience
 
