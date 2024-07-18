@@ -3,9 +3,66 @@ NutriForce is a B2C online shop for sports and health nutrition in Ireland. The 
 
 <img src='media/readme/amiresponsive.webp' alt='Am I Responsive Image'>
 
-1. [User Experience](#user-experience)
+1. [Web Marketing](#web-marketing)
+   1. [Target Audience](#target-audience)
+   2. [Newsletter](#newsletter)
+   3. [Facebook Page](#facebook-page)
+   4. [SEO](#seo)
+   5. [Informational Pages](#informational-pages)
+      1. [About](#about)
+      2. [Shipping](#shipping)
+      3. [Returns](#returns)
+      4. [Privacy Policy](#privacy-policy)
+      5. [Terms & Conditions](#terms--conditions)
+2. [User Experience](#user-experience)
+    1. [Visitor Goals](#visitor-goals)
+       1. [First-Time Visitor Goals](#first-time-visitor-goals)
+       2. [Returning Visitor Goals](#returning-visitor-goals-)
+       3. [Frequent Visitor Goals](#frequent-visitor-goals-)
+   2. [User Stories](#user-stories)
+   3. [Design](#design)
+      1. [Colour Palette](#colour-palette)
+      2. [Typography](#typography)
+      3. [Imagery](#imagery)
+   4. [Site Planning](#site-planning)
+      1. [Entity-Relationship Diagram](#entity-relationship-diagram)
+      2. [Wireframes](#wireframes)
+         1. [Login/Create Account](#inslogin--create-accountins)
+         2. [Profile Pages](#insprofile-pagesins)
+         3. [Product Pages](#insproduct-pagesins)
+         4. [Checkout](#inscheckoutins)
+3. [Features](#features)
+   1. [Future Features](#future-features)
+4. [Technologies](#technologies)
+5. [Testing](#testing---to-be-updated)
+   1. [Manual Testing](#manual-testing)
+   2. [Automated Testing](#automated-testing)
+   3. [Validator Testing](#validator-testing)
+      1. [HTML](#html)
+      2. [CSS](#css)
+      3. [JSHint](#jshint)
+      4. [PEP8](#pep8)
+      5. [WAVE](#wave)
+      6. [Lighthouse](#lighthouse)
+   4. [Bugs](#bugs)
+6. [Deployment](#deployment)
+   1. [Heroku](#heroku)
+   2. [ElephantSQL](#elephantsql)
+   3. [PyCharm](#pycharm)
+   4. [Django Project](#django-project)
+   5. [Important Extras](#important-extras)
+7. [Credits](#credits)
+   1. [Site Content](#site-content)
+   2. [Database Objects](#database-objects)
+   3. [JSON Data](#json-data)
+   4. [Sorting and Filtering](#sorting-and-filtering)
+   5. [POST Requests](#post-requests)
+   6. [Miscellaneous Django/Python](#miscellaneous-djangopython)
+   7. [Miscellaneous JavaScript](#miscellaneous-javascript)
+   8. [Miscellaneous CSS](#miscellaneous-css)
+
    
-## Web Marketing - TO BE UPDATED
+## Web Marketing
 ### Target Audience
 The target audience is any adult interested in sports, and/or their health within Ireland. Whether they are just starting out, or experienced with their nutrition, NutriForce can help with suggestions, recommendations, or even sourcing a customer's favourite products, if not already in stock on the site.
 
@@ -18,12 +75,30 @@ A newsletter signup link is available on every page of the site. The prominent b
 
 Privacy and customer experience concerns aside, the newsletter is used to promote special deals and new products, which should help entice some customers to make additional purchases.
 
-### Facebook page
+### Facebook Page
 A social media presence is critical for any business in current times. A mock-up Facebook page was created for the business that can be viewed below. [An actual business page already exists](https://www.facebook.com/profile.php?id=100094712224458), created by the business owner, but has not been used for this project. It is also not yet complete.
 <img src='media/readme/fb-mockup.webp' alt='Mock-up Facebook page'>
 
 ### SEO
-Including site metadata and keywords, robots.txt and sitemap.xml
+For search engine optimisation, the following keywords are used in the site's metadata, and where reasonable, on various pages throughout the site:
+
+* sports
+* health
+* sports nutrition
+* health products
+* protein
+* energy
+* vitamins
+* supplements
+* local business
+* small business
+* ireland
+* cork
+* munster
+
+These were identified based on the products being sold, typical search terms, our target audience, and typical business profile (small/local business based in Cork selling specifically in Ireland).
+
+robots.txt and sitemap.xml files were created to ensure search engines know which pages should be accessed on the site. This helps improve site ratings, and hopefully the site's presence in search engine search results.
 
 ### Informational Pages
 Additional pages - all in the site footer - were created to ensure customers have all the necessary information about the company, their data and it's usage, and orders. Everything below in this section will help show customers that this is a trusted site they can make purchases from, as we are transparent, and all information is readily available. The Shipping, Returns, and Privacy pages additionally include details on how to get in touch with the support team, should the customers need this.
@@ -285,7 +360,7 @@ Heroku re-uploads the entirety of the static files to AWS with every commit, whi
 
 ---
 
-This project additionally uses fixtures to populate initial data into some of the Django models. As these use a primary key of 0, the following needed to be run in Terminal before fixtures could loaded:
+This project additionally uses fixtures to populate initial data into some of the Django models. As these use a primary key of 0, the following needed to be run in Terminal before fixtures could be loaded:
 
 `ALTER SEQUENCE XX_TABLE_PKFIELD_SEQ_XX MINVALUE 0 START 1 RESTART 0`
 
@@ -295,28 +370,28 @@ Then: `python3 manage.py loaddata XX_FIXTURESFILE.yaml_XX` as in [Django docs](h
 ## Credits
 The base template was cloned from the [Code Institute GitHub repository](https://github.com/Code-Institute-Org/ci-full-template). Various other resources were used for different features. They are all listed below, categorised accordingly.
 
-#### Site Content
+### Site Content
 - [T&C Generator](https://www.termsandconditionsgenerator.com/)
 - [Shipping Policy Generator](https://www.websitepolicies.com/shipping-policy-generator)
 - [Return/Refund Policy Generator](https://www.freeprivacypolicy.com/free-return-refund-policy-generator/)
 - [Privacy Policy Generator](https://www.freeprivacypolicy.com/free-privacy-policy-generator/)
 - [About Us Page Generator](https://logicballs.com/tools/about-us-page-generator)
 
-#### Database Objects
+### Database Objects
 - [Product images and text](https://www.theedge-sports.com/)*
 - [More product images and text](https://www.hollandandbarrett.ie/)*
 - [Django fixtures](https://docs.djangoproject.com/en/5.0/howto/initial-data/)
 
 _*These will be replaced with actual in-stock products and details, once these are sourced_
 
-#### JSON Data
+### JSON Data
 - [Django JSON serializer](https://stackoverflow.com/questions/10358803/is-it-possible-to-use-javascript-to-get-data-from-django-models-db)
 - [Javascript JSON array loops](https://stackoverflow.com/questions/18238173/javascript-loop-through-json-array)
 - [Sorting Javascript JSON array](https://www.geeksforgeeks.org/how-to-sort-json-array-in-javascript-by-value/)
 - [Sort Javascript JSON array by multiple fields](https://medium.com/developer-rants/sorting-json-structures-by-multiple-fields-in-javascript-60ed96704df7)
 - [Splitting JSON arrays (removed from final code)](https://stackoverflow.com/questions/33786400/break-array-into-multiple-arrays-based-on-first-character-in-values)
 
-#### Sorting and Filtering
+### Sorting and Filtering
 - [Sorting select options](https://stackoverflow.com/questions/278089/javascript-to-sort-contents-of-select-element)
 - [Sorting select options (2)](https://gist.github.com/cschlyter/5187131)
 - [Django Q objects](https://stackoverflow.com/questions/15045101/how-to-get-more-than-one-field-with-django-filter-icontains)
@@ -324,13 +399,13 @@ _*These will be replaced with actual in-stock products and details, once these a
 - [Filter query if parameter exists](https://stackoverflow.com/questions/59413613/django-filter-query-if-filter-parameter-exists)
 - [Django Admin sorting](https://stackoverflow.com/questions/4571916/sort-order-of-django-admin-records)
 
-#### POST Requests
+### POST Requests
 - [Append data to Django POST request](https://stackoverflow.com/questions/65047248/append-extra-data-to-request-post-in-django)
 - [Javascript POST request](https://www.geeksforgeeks.org/javascript-post-request-like-a-form-submit/)
 - [Javascript POST request with Xml HTTP Request](https://stackoverflow.com/questions/9713058/send-post-data-using-xmlhttprequest)
 - [Javascript Xml HTTP Request confirmation](https://stackoverflow.com/questions/10876123/how-to-find-out-if-xmlhttprequest-send-worked)
 
-#### Miscellaneous Django/Python
+### Miscellaneous Django/Python
 - [Django login signal](https://stackoverflow.com/questions/1990502/django-signal-when-user-logs-in)
 - [Django search bar](https://stackoverflow.com/questions/66386490/making-search-bar-in-django)
 - [Django search functions](https://www.makeuseof.com/add-search-functionality-to-django-apps/)
@@ -338,7 +413,7 @@ _*These will be replaced with actual in-stock products and details, once these a
 - [Country name to country ISO code](https://stackoverflow.com/questions/10997128/language-name-from-iso-639-1-code-in-javascript/75467239#75467239)
 - [Handler500 exceptions](https://stackoverflow.com/questions/65926108/how-to-get-exception-in-custom-handler500)
 
-#### Miscellaneous JavaScript
+### Miscellaneous JavaScript
 - [Removing duplicate select options](https://stackoverflow.com/questions/22905769/remove-duplicate-options-from-html-select)
 - [Javascript args](https://stackoverflow.com/questions/2141520/javascript-variable-number-of-arguments-to-function)
 - [Scroll to top feature](https://www.w3schools.com/howto/howto_js_scroll_to_top.asp)
@@ -347,7 +422,7 @@ _*These will be replaced with actual in-stock products and details, once these a
 - [Simultaneous scrolling in DIVs (replaced in final code)](https://stackoverflow.com/questions/11723886/synchronizing-scrolling-between-2-divs)
 - [Modals](https://www.w3schools.com/howto/howto_css_modals.asp)
 
-#### Miscellaneous CSS
+### Miscellaneous CSS
 - [Centered text in horizontal line](https://stackoverflow.com/questions/2812770/add-centered-text-to-the-middle-of-a-horizontal-rule)
 - [HTML Number Input fields](https://stackoverflow.com/questions/31706611/why-does-the-html-input-with-type-number-allow-the-letter-e-to-be-entered-in)
 - [Left-align last flexbox row](https://stackoverflow.com/questions/18744164/flex-box-align-last-row-to-grid)
