@@ -23,7 +23,7 @@
                     {% endif %}
                     <td>{{ order.get_status_display }}</td>
                 {% if order.status in "PEND,PROC,RDY" %}
-                    <td class="mid-desk"><button type="button" onclick="modals('cancel-req-mailto-btn', 'cancel-req-mailto-modal')" id="cancel-req-mailto-btn">Request Cancellation</button></td>
+                    <td class="desktop"><button type="button" onclick="modals('cancel-req-mailto-btn', 'cancel-req-mailto-modal')" id="cancel-req-mailto-btn">Request Cancellation</button></td>
                     <div id="cancel-req-mailto-modal" class="modal">
                         <div class="modal-content">
                             <span class="modal-close">&times;</span>
@@ -33,7 +33,7 @@
                         </div>
                     </div>
                 {% else %}
-                    <td class="mid-desk"><button type="button" onclick="modals('refund-req-mailto-btn', 'refund-req-mailto-modal')" id="refund-req-mailto-btn">Request Refund</button>
+                    <td class="desktop"><button type="button" onclick="modals('refund-req-mailto-btn', 'refund-req-mailto-modal')" id="refund-req-mailto-btn">Request Refund</button>
                     <div id="refund-req-mailto-modal" class="modal">
                         <div class="modal-content">
                             <span class="modal-close">&times;</span>
@@ -73,7 +73,7 @@
                     <th aria-label="Product" title="Product">Product</th>
                     <th aria-label="Size" title="Size">Size</th>
                     <th aria-label="Quantity" title="Quantity">Quantity</th>
-                    <th aria-label="Individual Price" title="Individual Price" class="desktop mid-desk">Individual Price</th>
+                    <th aria-label="Individual Price" title="Individual Price" class="desktop">Individual Price</th>
                     <th aria-label="Sum" title="Sum">Sum</th>
                 </tr>
                 {% for item, product in order_details %}
@@ -90,7 +90,7 @@
                         </a></td>
                         <td>{{ item.product.size }} {{ item.product.size_unit }}</td>
                         <td>{{ item.quantity }}</td>
-                        <td class="desktop mid-desk">{{ item.product.price }}</td>
+                        <td class="desktop">{{ item.product.price }}</td>
                         <td>{{ item.product.price|mul:item.quantity }}</td>
                     </tr>
                 {% endfor %}
@@ -98,14 +98,14 @@
                     <td class="sum-title">Shipping</td>
                     <td></td>
                     <td></td>
-                    <td class="desktop mid-desk"></td>
+                    <td class="desktop"></td>
                     <td>€ {{ order.shipping_cost }}</td>
                 </tr>
                 <tr class="order-sums">
                     <td class="sum-title">Grand Total</td>
                     <td></td>
                     <td></td>
-                    <td class="desktop mid-desk"></td>
+                    <td class="desktop"></td>
                     <td>€ {{ order.grand_total }}</td>
                 </tr>
             </table>

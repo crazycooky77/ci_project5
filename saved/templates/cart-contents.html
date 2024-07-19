@@ -5,7 +5,7 @@
         <th aria-label="Product" title="Product">Product</th>
         <th aria-label="Size" title="Size">Size</th>
         <th aria-label="Quantity" title="Quantity">Quantity</th>
-        <th aria-label="Individual Price" title="Individual Price" class="desktop mid-desk">Individual Price</th>
+        <th aria-label="Individual Price" title="Individual Price" class="desktop">Individual Price</th>
         <th aria-label="Sum" title="Sum">Sum</th>
 {#        Feature to be implemented in version 1.1#}
 {#        {% if request.get_full_path == "/cart" %}#}
@@ -44,7 +44,7 @@
             {% else %}
                 <td>{{ quantity }}</td>
             {% endif %}
-            <td class="desktop mid-desk">€ {{ product.price }}</td>
+            <td class="desktop">€ {{ product.price }}</td>
             <td>€ {{ product.price|mul:quantity }}</td>
 {#            Feature to be implemented in version 1.1#}
 {#            {% if request.get_full_path == "/cart" %}#}
@@ -59,7 +59,7 @@
             <td class="sum-title">Subtotal</td>
             <td></td>
             <td></td>
-            <td class="mid-desk"></td>
+            <td class="desktop"></td>
 {#            Feature to be implemented in version 1.1#}
 {#            <td></td>#}
             <td>€ {{ subtotal }}</td>
@@ -69,7 +69,7 @@
         <td class="sum-title">Shipping</td>
         <td></td>
         <td></td>
-        <td class="mid-desk"></td>
+        <td class="desktop"></td>
         {% if shipping != 0 %}
             <td>€ {{ shipping }}</td>
         {% else %}
@@ -85,7 +85,7 @@
         <td class="sum-title">Grand Total</td>
         <td></td>
         <td></td>
-        <td class="mid-desk"></td>
+        <td class="desktop"></td>
         <td>€ {{ grand_total }}</td>
 {#        Feature to be implemented in version 1.1#}
 {#        {% if request.user.is_authenticated %}#}
