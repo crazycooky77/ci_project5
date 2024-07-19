@@ -87,6 +87,11 @@
     margin: 30px auto;
 }
 
+#prod-desc, #prod-ing {
+    display: none;
+    margin-top: 10px;
+}
+
 .prod-split {
     margin: 15px auto;
 }
@@ -310,11 +315,6 @@ button[class$='add-cart'], .home-row button[class$='add-cart'], .hor-prod-div di
 
     .hor-prod-div div[id$='prod-cart'] button {
         width: auto;
-    }
-
-    #prod-desc, #prod-ing {
-        display: none;
-        margin-top: 10px;
     }
 
     #prod-desc-link, #prod-ing-link {
