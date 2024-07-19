@@ -1,3 +1,4 @@
+/* Run all necessary functions once DOM has loaded */
 window.addEventListener('DOMContentLoaded', () => {
     featProds()
     allProds()
@@ -6,6 +7,7 @@ window.addEventListener('DOMContentLoaded', () => {
     prodResizeScroll()
 })
 
+/* Run all necessary functions once page content has loaded */
 window.addEventListener('load', () => {
     featProds()
     allProds()
@@ -14,11 +16,13 @@ window.addEventListener('load', () => {
     prodResizeScroll()
 })
 
+/* Run all necessary functions when page is resized */
 window.addEventListener('resize', () => {
     prodResizeScroll()
 })
 
 
+/* Function to show/hide description and ingredient text on button click on product pages */
 if (window.location.pathname.split('=')[0] === '/products/id') {
     document.body.addEventListener('click', function (e) {
         let descLink = document.getElementById('prod-desc-link');
@@ -88,6 +92,7 @@ function sortDD(sortForm) {
 }
 
 
+/* Run the function to reposition the sort window dropdown when scrolling */
 function sortScroll() {
     let sortForm = document.getElementById('sort-form')
     $(document).scroll(function() {
@@ -96,6 +101,7 @@ function sortScroll() {
 }
 
 
+/* Show/hide the Sort Products dropdown window based on button click */
 function sortProds() {
     let prodSort = document.getElementsByClassName('prod-sort')[0]
     let sortOpts = document.getElementsByClassName('sort-dd')[0]
@@ -118,6 +124,7 @@ function sortProds() {
 }
 
 
+/* If a user searched for a flavour, select that flavour for the products in the displayed search results */
 function searchSelection(json) {
     if (json.length > 0) {
         json.sort(function(a, b) {
@@ -152,6 +159,7 @@ function searchSelection(json) {
 }
 
 
+/* Function to remove all classes for product sizes and flavours */
 function removeClasses(json) {
     for (let i = 0; i < json.length; i++) {
         let prodId = json[i].fields.product
@@ -165,6 +173,7 @@ function removeClasses(json) {
 }
 
 
+/* Sort product flavour options alphabetically */
 function sortFlavours(json) {
     for (let i = 0; i < json.length; i++) {
         let prodId = json[i].fields.product
@@ -184,6 +193,7 @@ function sortFlavours(json) {
 }
 
 
+/* Set the selected index and attribute for the available in-stock size */
 function sizeSelect(sizes) {
     for (let s = 0; s < sizes.length; s++) {
         if (sizes.selectedIndex === -1) {
@@ -199,6 +209,7 @@ function sizeSelect(sizes) {
 }
 
 
+/* Set the selected index and attribute for the available in-stock flavour */
 function flavourSelect(json) {
     for (let i = 0; i < json.length; i++) {
         let flavours = document.getElementById(json[i].fields.product + '-prod-flavours')
@@ -241,6 +252,7 @@ function flavourSelect(json) {
 }
 
 
+/* Add/remove classes and attributes for product size options based on stock availability and selections */
 function oosSizes(json) {
     for (let i = 0; i < json.length; i++) {
         let obj = json[i]
@@ -249,7 +261,7 @@ function oosSizes(json) {
         for (let s = 0; s < sizes.length; s++) {
             if (Number(obj.fields.size) === Number(sizes.options[s].value) &&
                 (obj.fields.flavour === null || (flavours && flavours.options[s].value === obj.fields.flavour))) {
-                if (obj.fields.stock_count === 0 && !($(sizes.options[s]).hasClass('hidden'))) {
+                if (obj.fields.stock_count < 1 && !($(sizes.options[s]).hasClass('hidden'))) {
                     sizes.options[s].disabled = true
                     sizes.options[s].classList.add('oos')
                     sizes.options[s].removeAttribute('selected')
@@ -282,18 +294,20 @@ function oosSizes(json) {
                  sizes.options[s].disabled = false
                  sizes.options[s].classList.remove('oos')
              }
+             // Run the function to select an available size option
              sizeSelect(sizes)
          }
      }
 }
 
 
+/* Add/remove classes and attributes for product flavour options based on stock availability and selections */
 function oosFlavours(flavours, obj) {
     let selectedSize = $('#' + obj.fields.product + '-prod-sizes :selected').val()
     for (let f = 0; f < flavours.length; f++) {
         if (Number(obj.fields.size) === Number(selectedSize)) {
             if (flavours.options[f].value === obj.fields.flavour &&
-                obj.fields.stock_count === 0) {
+                obj.fields.stock_count < 1) {
                 flavours.options[f].disabled = true
                 flavours.options[f].classList.add('oos')
                 flavours.options[f].removeAttribute('selected')
@@ -314,6 +328,7 @@ function oosFlavours(flavours, obj) {
 }
 
 
+/* Run the functions to check for out of stock sizes and flavours, check for unavailable flavours, and select available flavour option */
 function oosProducts(json) {
     oosSizes(json)
 
@@ -344,6 +359,7 @@ function oosProducts(json) {
 }
 
 
+/* Customise display for product details based on selections */
 function prodDetails(json) {
     for (let i = 0; i < json.length; i++) {
         let obj = json[i]
@@ -356,7 +372,7 @@ function prodDetails(json) {
         let cart = document.getElementById(obj.fields.product + '-prod-cart');
         let stock = document.getElementById(obj.fields.product + '-prod-stock');
 
-
+        // Add price, max quantity, and in stock text
         if (obj.fields.stock_count > 0 &&
             (obj.fields.flavour === null || obj.fields.flavour === selectedFlavour) &&
             Number(obj.fields.size) === Number(selectedSize)) {
@@ -366,17 +382,27 @@ function prodDetails(json) {
                 stock.textContent = 'Availability: In Stock'
             }
         }
+
+        // Count how many options are disabled and hidden (unavailable)
         let disabledOpts = 0;
         for (let s = 0; s < sizes.length; s++) {
             if (sizes.options[s].disabled) {
                 disabledOpts++
             }
+            else if ($(sizes.options[s]).hasClass('hidden')) {
+                disabledOpts++
+            }
         }
+
+        // If all options are disabled/hidden, remove size/flavour options, cart section, and add Out Of Stock text
         if (sizes.length === disabledOpts) {
             if (stock !== null) {
                 sizes.parentElement.style.display = 'none'
                 cart.style.display = 'none'
                 stock.textContent = 'Availability: Out Of Stock'
+                if (flavours) {
+                    flavours.parentElement.style.display = 'none'
+                }
             }
             else {
                 sizes.parentElement.style.display = 'none'
@@ -391,11 +417,12 @@ function prodDetails(json) {
 }
 
 
+/* Hide duplicate select options */
 function dupeOpts(json, option) {
     for (let i = 0; i < json.length; i++) {
         let fieldId = json[i].fields.product + '-prod-' + option
         let dupeOpts = {}
-        $('select[name=" + fieldId + "] > option').each(function() {
+        $('select[name=' + fieldId + '] > option').each(function() {
             if (dupeOpts[this.text]) {
                 $(this).hide();
                 $(this).addClass('hidden')
@@ -408,6 +435,7 @@ function dupeOpts(json, option) {
 }
 
 
+/* Main function to run all product functions */
 function prodFunctions(json) {
     if (json) {
         removeClasses(json)
@@ -420,6 +448,7 @@ function prodFunctions(json) {
 }
 
 
+/* Function to check if any products on the product browser pages are available before running the main product function */
 function multiProd(json) {
     // Check if any products are visible on the page
     let noResults = document.getElementsByClassName('prod-oos')
@@ -434,6 +463,7 @@ function multiProd(json) {
 }
 
 
+/* Run the main product function for each featured product */
 function featOptions() {
     prodFunctions(json_new_prod)
     prodFunctions(json_sports_prod)
@@ -441,26 +471,27 @@ function featOptions() {
 }
 
 
+/* Run the main product function for the product on the individual product page, which in turn runs the main product function */
 function productOptions() {
     prodFunctions(json_prod)
 }
 
 
+/* For linked products on individual product pages, run the function for multi-product pages, which in turn runs the main product function */
 function linkedOptions() {
     if (typeof json_linked_prods !== 'undefined') {
         multiProd(json_linked_prods)
-        prodElSizes('linked-details')
     }
 }
 
 
+/* Run the function for multi-product pages */
 function allOptions() {
     multiProd(json_prods)
-    prodElSizes('all-prod-details')
 }
 
 
-/* On product page load, hide duplicate and out of stock flavours in dropdowns */
+/* On the individual product pages, run relevant functions that in turn run the main product function */
 function prodPage() {
     if (window.location.pathname.split('=')[0] === '/products/id') {
         productOptions()
@@ -469,7 +500,7 @@ function prodPage() {
 }
 
 
-/* On homepage load, disable the product dropdown options for out of stock products */
+/* On the homepage, run relevant function that in turn runs the main product function */
 function featProds() {
     if (window.location.pathname === '/') {
         featOptions()
@@ -477,6 +508,7 @@ function featProds() {
 }
 
 
+/* On the multi-product pages, run relevant function that in turn runs the main product function */
 function allProds() {
     if ((window.location.pathname === '/products/health') ||
         (window.location.pathname === '/products/new') ||
@@ -487,7 +519,7 @@ function allProds() {
 }
 
 
-/* On search product page load, select the searched flavour, and hide duplicate and out of stock flavours in dropdowns */
+/* On the product search page, run relevant functions that in turn run the main product function */
 function searchedProds() {
     if (window.location.pathname === '/products/search') {
         if (window.json_searched_prods && json_searched_prods) {
@@ -498,6 +530,7 @@ function searchedProds() {
 }
 
 
+/* On all product pages, run the function to resize heights for product rows and the sort window repositioning function */
 function prodResizeScroll() {
     if ((window.location.pathname === '/products/health') ||
         (window.location.pathname === '/products/new') ||
