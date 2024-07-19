@@ -1,3 +1,24 @@
+/* Styling add to cart section */
+.add-cart {
+    display: flex;
+    flex-direction: row;
+}
+
+.add-cart input {
+    width: 25%;
+}
+
+.add-cart button {
+    margin-left: 5%;
+    width: 70%
+}
+
+/* Styling for additional add to cart buttons */
+button[class$='add-cart'], .home-row button[class$='add-cart'], .hor-prod-div div[id$='prod-cart'] button {
+    margin-top: 10px;
+}
+
+/* Homepage styling */
 .home-div {
     display: flex;
     flex-direction: column;
@@ -14,18 +35,12 @@
     width: 100%;
 }
 
-.all-prod-page:has(.prod-oos) {
-    margin-left: auto;
+/* Styling for all product images on all product pages except homepage */
+.hor-prod-div .prod-img, .all-prod-div .prod-img, .order-prod .prod-img {
+    max-height: 300px;
 }
 
-.prod-oos, .search-results-div {
-    padding: 15px;
-    margin-bottom: 20px;
-    text-align: center;
-    border: solid 1px black;
-    border-radius: 7px;
-}
-
+/* Featured product styling */
 .feat-prod-div {
     display: flex;
     flex-direction: row;
@@ -62,6 +77,7 @@
     margin-bottom: 10px;
 }
 
+/* Style for individual product pages */
 .prod-div {
     width: 80%;
 }
@@ -79,10 +95,6 @@
     margin-right: 10px;
 }
 
-.hor-prod-div .prod-img, .all-prod-div .prod-img, .order-prod .prod-img {
-    max-height: 300px;
-}
-
 .prod-details {
     margin: 30px auto;
 }
@@ -96,6 +108,7 @@
     margin: 15px auto;
 }
 
+/* Styling for linked products section on individual product pages */
 .similar-prod {
     margin-top: 100px;
 }
@@ -114,6 +127,7 @@
     margin: 20px 15px;
 }
 
+/* Styling for both linked products and multi-product pages */
 .linked-img, .all-prod-img {
     height: 150px;
     margin-bottom: 10px;
@@ -150,6 +164,21 @@
     margin-left: 5px;
 }
 
+/* Styling for out of stock and search result divs */
+.prod-oos, .search-results-div {
+    padding: 15px;
+    margin-bottom: 20px;
+    text-align: center;
+    border: solid 1px black;
+    border-radius: 7px;
+}
+
+/* Style for multi-product pages where everything is out of stock */
+.all-prod-page:has(.prod-oos) {
+    margin-left: auto;
+}
+
+/* Style for all multi-product pages */
 .all-prod-div {
     width: 80%;
     display: flex;
@@ -177,6 +206,7 @@
     margin: 50px 15px 0 15px;
 }
 
+/* Style for product Sort feature */
 .prod-sort {
     margin-left: 15px;
     padding-bottom: 20px;
@@ -218,26 +248,11 @@
     padding-bottom: 10px;
 }
 
-.add-cart {
-    display: flex;
-    flex-direction: row;
-}
 
-.add-cart input {
-    width: 25%;
-}
-
-.add-cart button {
-    margin-left: 5%;
-    width: 70%
-}
-
-button[class$='add-cart'], .home-row button[class$='add-cart'], .hor-prod-div div[id$='prod-cart'] button {
-    margin-top: 10px;
-}
-
-
+/* Media Queries */
+/* Screens up to 800px */
 @media screen and (max-width: 800px) {
+    /* Homepage style adjustments */
     .home-div {
         margin: auto;
         gap: 20px;
@@ -253,6 +268,7 @@ button[class$='add-cart'], .home-row button[class$='add-cart'], .hor-prod-div di
         margin-bottom: 0;
     }
 
+    /* Featured product style adjustments (on homepage) */
     .feat-prod-div, .home-row .feat-prod-div {
         width: 100%;
         margin: auto;
@@ -297,13 +313,16 @@ button[class$='add-cart'], .home-row button[class$='add-cart'], .hor-prod-div di
         width: 50px;
     }
 
+    /* Reduce product page gap between sections */
     .hor-prod-div {
         gap: 30px;
     }
 }
 
 
+/* Screens up to 500px width */
 @media screen and (max-width: 500px) {
+    /* Individual product page adjustments */
     .hor-prod-div {
         flex-direction: column;
         gap: unset;
@@ -325,6 +344,7 @@ button[class$='add-cart'], .home-row button[class$='add-cart'], .hor-prod-div di
         width: 30px;
     }
 
+    /* Adjustments for linked products section */
     .similar-prod {
         margin-top: 50px;
     }
@@ -338,6 +358,7 @@ button[class$='add-cart'], .home-row button[class$='add-cart'], .hor-prod-div di
         height: 100px;
     }
 
+    /* Multi-product page styling adjustments */
     .prod-sort {
         margin-left: 0;
     }

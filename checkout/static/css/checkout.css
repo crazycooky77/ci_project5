@@ -1,3 +1,5 @@
+/* Checkout page styling */
+/* Checkout Login/As Guest page */
 .checkout-guest, .checkout-create {
     display: flex;
 }
@@ -11,6 +13,7 @@
     font-style: italic;
 }
 
+/* Style for splitting sections for different checkout options */
 .checkout-signin-split::before, .checkout-signin-split::after {
     content: '';
     flex: 1;
@@ -25,6 +28,7 @@
     margin-left: .5em;
 }
 
+/* Styling for main checkout pages */
 .checkout {
     display: flex;
     flex-direction: column;
@@ -34,6 +38,7 @@
     border-radius: 7px;
 }
 
+/* Headers for checkout pages */
 .checkout h2 {
     margin-left: 0;
 }
@@ -43,6 +48,12 @@
     margin-top: 0;
 }
 
+/* Margin for Back to Cart button */
+.cart-back-button {
+    margin-left: 0;
+}
+
+/* Checkout Address page styling */
 .checkout-addr-form {
     display: flex;
     flex-direction: column;
@@ -53,10 +64,6 @@
     margin-top: 20px;
     margin-bottom: 5px;
     width: 100%;
-}
-
-.cart-back-button {
-    margin-left: 0;
 }
 
 .addr-form-button {
@@ -78,13 +85,7 @@
     margin: 0 auto;
 }
 
-.addr-form-div p:has(>input:required)::after {
-    content: '*';
-    color: red;
-    margin: 0;
-    display: inline-block;
-}
-
+/* Checkout address form styling */
 .shipping-addr-form, .billing-addr-form {
     display: flex;
     flex-direction: column;
@@ -101,24 +102,44 @@
     margin-top: 30px;
 }
 
+/* Checkout Address input/select styling */
 .checkout-addr input, .checkout-addr select {
     margin: 5px 0;
 }
 
-#payment-form {
-    width: 100%;
+/* Styling for required address inputs */
+.addr-form-div p:has(>input:required)::after {
+    content: '*';
+    color: red;
+    margin: 0;
+    display: inline-block;
 }
 
+/* Style for Checkout Summary H3s and page to confirm purchase */
 .checkout-summary {
     width: 100%;
     display: flex;
     flex-direction: column;
 }
 
+.checkout-summ-h3 {
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+/* Checkout Summary page split */
+.summ-split {
+    width: 100%;
+    margin: 20px auto;
+}
+
+/* Show/Hide Cart toggle styling */
 .cart-toggle-div {
     width: 100%;
 }
 
+/* Checkout Cart styling */
+/* Display for cart changes */
 .checkout-stock-change {
     display: none;
 }
@@ -127,6 +148,7 @@
     margin-top: 10px;
 }
 
+/* Cart table styling */
 .checkout .cart-tbl-prod {
     display: none;
 }
@@ -153,16 +175,12 @@
     border-bottom: 1px solid black;
 }
 
-.summ-split {
+/* Checkout Summary Edit Address button */
+.edit-addr-div {
     width: 100%;
-    margin: 20px auto;
 }
 
-.checkout-summ-h3 {
-    margin-top: 0;
-    margin-bottom: 20px;
-}
-
+/* Checkout Summary Address details */
 .checkout-summ-addr-outer {
     display: flex;
     flex-direction: row;
@@ -180,10 +198,7 @@
     margin-top: 0;
 }
 
-.edit-addr-div {
-    width: 100%;
-}
-
+/* Checkout Order Note styling */
 .order-note {
     width: 40%;
     margin-top: 10px;
@@ -193,16 +208,23 @@
     display: flex;
 }
 
-button.hidden-addr-submit, .hidden-empty-submit {
-    display: none;
-}
-
 #checkout-order-note {
     background-color: #9FFFB8;
     border-radius: 5px;
     width: 100%;
 }
 
+/* Hidden buttons for custom form submits on Checkout Summary page*/
+button.hidden-addr-submit, .hidden-empty-submit {
+    display: none;
+}
+
+/* Stripe payment form styling */
+#payment-form {
+    width: 100%;
+}
+
+/* Additional styling for stripe card input element */
 .StripeElement {
     width: 40%;
     background-color: #9FFFB8;
@@ -217,6 +239,7 @@ button.hidden-addr-submit, .hidden-empty-submit {
     box-shadow: 0 1px 3px 0 #cfd7df;
 }
 
+/* Card error style */
 #card-errors {
     text-align: center;
     color:red;
@@ -224,40 +247,49 @@ button.hidden-addr-submit, .hidden-empty-submit {
     margin-bottom: 20px;
 }
 
-#payment-button {
-    margin-top: 15px;
-}
-
+/* Section for user to confirm checkout/purchase */
 .confirm-checkout {
     display: flex;
     flex-direction: column;
 }
 
+/* Warning for users that their card will be charged */
 .confirm-checkout span {
     color: red;
     text-align: center;
 }
 
-.order-confirm, .checkout-error {
-    text-align: center;
+/* Confirm order button */
+#payment-button {
+    margin-top: 15px;
 }
 
+/* Message to inform users that payment is being processed */
 #pay-process {
     display: none;
     margin-top: 10px;
     font-weight: bold;
 }
 
+/* Post-checkout order confirmation and checkout error styling */
+.order-confirm, .checkout-error {
+    text-align: center;
+}
 
+
+/* Screens up to 1100px width */
 @media screen and (max-width: 1100px) {
+    /* Increase Checkout Address form width */
     .checkout-addr-form {
         width: 100%;
     }
 
+    /* Add specific bottom margin for Show/Hide Cart and Edit Address buttons */
     .cart-toggle-div, .edit-addr-div {
         margin-bottom: 15px;
     }
 
+    /* Increase width of Checkout Summary Order Note and stripe card input element */
     .order-note {
         width: 60%;
     }
@@ -268,19 +300,19 @@ button.hidden-addr-submit, .hidden-empty-submit {
 }
 
 
+/* Screens up to 500px width */
 @media screen and (max-width: 500px) {
+    /* Reduce padding on checkout pages */
     .checkout {
         padding: 10px;
     }
 
-    .checkout-summary .prod-table table th, .checkout-summary .prod-table table td, .checkout-summary .prod-table-details table th, .checkout-summary .prod-table-details table td {
-        padding: 5px;
+    /* Add top margin for Back to Cart button */
+    .cart-back-button {
+        margin-top: 20px;
     }
 
-    .addr-form-button, .checkout-summary .prod-table-details table {
-        width: 100%;
-    }
-
+    /* Styling adjustments for Checkout Address page */
     .checkout-addr {
         justify-content: space-between;
     }
@@ -301,14 +333,22 @@ button.hidden-addr-submit, .hidden-empty-submit {
         margin-top: 15px;
     }
 
-    .cart-back-button {
-        margin-top: 20px;
+    /* Reduce padding for Checkout Summary Cart table */
+    .checkout-summary .prod-table table th, .checkout-summary .prod-table table td, .checkout-summary .prod-table-details table th, .checkout-summary .prod-table-details table td {
+        padding: 5px;
     }
 
+    /* Increase width for Checkout Address form and Checkout Summary Cart table */
+    .addr-form-button, .checkout-summary .prod-table-details table {
+        width: 100%;
+    }
+
+    /* Reduce margins on Show/Hide Cart and Edit Address buttons */
     .cart-toggle-div, .edit-addr-div {
         margin-bottom: 5px;
     }
 
+    /* Checkout Summary address details */
     .checkout-summ-addr-outer {
         justify-content: space-between;
         gap: 0;
@@ -327,6 +367,7 @@ button.hidden-addr-submit, .hidden-empty-submit {
         margin-bottom: 5px;
     }
 
+    /* Increase widths for Order Note and stripe card input element */
     .order-note {
         width: 100%;
         max-width: unset;

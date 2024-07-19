@@ -1,3 +1,4 @@
+/* Profile page styling */
 .profile {
     display: flex;
     flex-direction: row;
@@ -30,11 +31,13 @@
     margin-top: 10px;
 }
 
+/* Delete account button */
 .del-button {
     width: 100%;
     margin-top: 30px;
 }
 
+/* Divs within profile pages */
 .acc-details, .pw-change, .email-change, .email-confirm {
     display: flex;
     flex-direction: column;
@@ -42,6 +45,7 @@
     margin: 0;
 }
 
+/* Account Details profile page */
 .acc-details *:not(.modal *) {
     margin-left: 0;
 }
@@ -50,6 +54,7 @@
     margin-bottom: 15px;
 }
 
+/* Password Change profile page */
 .pw-change *, .email-change * {
     margin-left: 0;
 }
@@ -59,6 +64,7 @@
     margin-top: 10px;
 }
 
+/* Email Change profile page */
 .email-change button {
     width: 50%;
     margin-top: 15px;
@@ -81,43 +87,19 @@ label[for='id_email'], .label-input #id_email {
     margin-top: 20px;
 }
 
-label[for='id_email2'], #id_email2 {
-    margin-bottom: 10px;
-}
 
-.pass-req {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    margin-top: 10px;
-    width: auto;
-}
-
-.pass-req p {
-    margin-bottom: 10px;
-}
-
-.pass-req button {
-    margin-top: 20px;
-}
-
-
+/* Screens up to 1100px width */
 @media screen and (max-width: 1100px) {
+    /* Update width of profile buttons */
     .profile-buttons {
         width: 50%;
     }
 }
 
 
-@media screen and (max-width: 800px) {
-    .orders .prod-table button {
-        width: auto;
-        margin-top: 10px;
-    }
-}
-
-
+/* Screens up to 500px width */
 @media screen and (max-width: 500px) {
+    /* Hide large-screen and displaying mobile elements */
     .desktop {
         display: none;
     }
@@ -126,12 +108,14 @@ label[for='id_email2'], #id_email2 {
         display: block;
     }
 
+    /* Adjust some profile style options */
     .profile {
         flex-direction: column;
         gap: 10px;
         padding: 10px;
     }
 
+    /* Hamburger menu styling for profile pages on mobile screens */
     #ham-menu {
         display: none;
         flex-direction: column;
@@ -149,6 +133,7 @@ label[for='id_email2'], #id_email2 {
         margin: 0;
     }
 
+    /* Width and margin updates for divs and buttons for profile pages */
     .acc-details, .pw-change, .email-change, .email-confirm {
         width: 100%;
     }

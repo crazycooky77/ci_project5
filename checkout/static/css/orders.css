@@ -1,3 +1,4 @@
+/* Orders div and table styling on profile page */
 .orders {
     margin-left: 0;
     margin-top: 0;
@@ -62,7 +63,9 @@
 }
 
 
+/* Screen up to 800px width */
 @media screen and (max-width: 800px) {
+    /* Adjusting width and top margin for orders table on profile page */
     .orders .prod-table button {
         width: auto;
         margin-top: 10px;
@@ -70,7 +73,9 @@
 }
 
 
+/* Screens up to 500px width */
 @media screen and (max-width: 500px) {
+    /* Orders div and table adjustments on profile page */
     .orders {
         width: 100%;
     }

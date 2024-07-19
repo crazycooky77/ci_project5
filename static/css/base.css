@@ -1,3 +1,4 @@
+/* Global styling for width, margins, background, font, and padding for main page sections */
 * {
     max-width: 1920px;
     margin: auto;
@@ -16,6 +17,7 @@ main {
     padding-bottom: 60px;
 }
 
+/* Global styling for all anchor links */
 a {
     color: #6DB1FC;
     text-decoration: none;
@@ -29,6 +31,7 @@ a:active {
     text-shadow: 1px 1px 1px #90CD94;
 }
 
+/* Global button styling */
 button:hover {
     background-color: #90CD94;
 }
@@ -42,27 +45,32 @@ button, button:disabled:hover, button[disabled]:hover, button:disabled:active, b
     border-radius: 5px;
 }
 
+/* Input/Select styling */
 input, select {
     background-color: #9FFFB8;
     border-radius: 5px;
 }
 
+/* Margin for H2 headers */
 h2 {
     margin-bottom: 20px;
 }
 
+/* Styling for labels belonging to required inputs */
 label:has(+input:required):after {
     content: '*';
     color: red;
     margin-right: 3px;
 }
 
+/* Flex style for containers on all pages */
 #container {
     display: flex;
     flex-direction: row;
     justify-content: center;
 }
 
+/* Django message styling */
 .errorlist * {
     list-style: none;
     color: red;
@@ -83,6 +91,17 @@ label:has(+input:required):after {
     margin-top: 0;
 }
 
+/* Navigation section styling */
+/* Overall nav div */
+.nav-div {
+    margin: 20px auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+}
+
+/* Left nav bar */
 #nav-logout {
     background: none;
     border: none;
@@ -101,14 +120,25 @@ label:has(+input:required):after {
     text-decoration: underline;
 }
 
-.nav-div {
-    margin: 20px auto;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    width: 100%;
+.nav-left {
+    margin-top: 0;
+    text-align: left;
+    font-weight: bold;
+    width: 20%;
 }
 
+.nav-left a {
+    display: inline-block;
+    margin: 7px auto;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+.nav-left a:active {
+    text-decoration: underline;
+}
+
+/* Right nav section */
 .nav-right {
     margin-top: 0;
     width: 15%;
@@ -128,6 +158,7 @@ label:has(+input:required):after {
     display: block;
 }
 
+/* Middle nav section */
 .nav-middle {
     display: flex;
     flex-direction: column;
@@ -135,6 +166,7 @@ label:has(+input:required):after {
     width: 60%;
 }
 
+/* Support and Newsletter section */
 .nav-sup-news {
     display: flex;
     flex-direction: row;
@@ -142,6 +174,50 @@ label:has(+input:required):after {
     gap: 60px;
 }
 
+.nav-support *:not(.modal *) {
+    font-size: 16px;
+}
+
+.nav-support a, .nav-support i {
+    text-decoration: underline;
+}
+
+/* Search bar */
+.nav-search input {
+    max-width: 360px;
+    width: 20vw;
+}
+
+.nav-search button {
+    margin-left: 10px;
+}
+
+/* Nav buttons */
+.nav-middle .nav-buttons {
+    margin-top: 20px;
+    background-color: #88FFF9;
+    border-radius: 5px;
+}
+
+.nav-buttons button {
+    margin-left: 10px;
+    margin-right: 10px;
+    border: none;
+    padding: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    background-color: #88FFF9;
+}
+
+.nav-buttons button:hover {
+    text-decoration: underline;
+}
+
+.nav-buttons button:active {
+    color: white;
+}
+
+/* Styling for modal divs */
 .modal {
     display: none;
     position: fixed;
@@ -170,6 +246,7 @@ label:has(+input:required):after {
     background-color: #b5e0b1;
 }
 
+/* Adjusted styling for modal links */
 .modal a, .modal-mailto-email {
     color: black;
     font-weight: bold;
@@ -185,6 +262,7 @@ label:has(+input:required):after {
     color: #90CD94;
 }
 
+/* Modal margins */
 .modal-margin {
     margin-top: 10px;
 }
@@ -193,12 +271,14 @@ label:has(+input:required):after {
     margin-top: 15px;
 }
 
+/* Modal tooltip styling */
 .modal-tooltip {
     display: none;
     margin-top: 5px;
     font-style: italic;
 }
 
+/* Modal close button */
 .modal-close {
     color: red;
     float: right;
@@ -213,65 +293,7 @@ label:has(+input:required):after {
     cursor: pointer;
 }
 
-.nav-support *:not(.modal *) {
-    font-size: 16px;
-}
-
-.nav-support a, .nav-support i {
-    text-decoration: underline;
-}
-
-.nav-search input {
-    max-width: 360px;
-    width: 20vw;
-}
-
-.nav-search button {
-    margin-left: 10px;
-}
-
-.nav-middle .nav-buttons {
-    margin-top: 20px;
-    background-color: #88FFF9;
-    border-radius: 5px;
-}
-
-.nav-buttons button {
-    margin-left: 10px;
-    margin-right: 10px;
-    border: none;
-    padding: 10px;
-    font-size: 18px;
-    font-weight: bold;
-    background-color: #88FFF9;
-}
-
-.nav-buttons button:hover {
-    text-decoration: underline;
-}
-
-.nav-buttons button:active {
-    color: white;
-}
-
-.nav-left {
-    margin-top: 0;
-    text-align: left;
-    font-weight: bold;
-    width: 20%;
-}
-
-.nav-left a {
-    display: inline-block;
-    margin: 7px auto;
-    text-decoration: none;
-    font-size: 18px;
-}
-
-.nav-left a:active {
-    text-decoration: underline;
-}
-
+/* Global styling for mid divs */
 .mid-content {
     width: 60%;
     border: 1px solid black;
@@ -280,22 +302,26 @@ label:has(+input:required):after {
     text-align: left;
 }
 
+/* Global styling for form divs*/
 .form-div {
     display: flex;
     flex-direction: column;
     justify-content: center;
 }
 
+/* Global styling for form label/input pairs */
 .label-input {
     display: flex;
     flex-direction: row;
     margin-bottom: 10px;
 }
 
+/* Margin specifically for account creation email2 field */
 label[for='id_email2'], #id_email2 {
     margin-bottom: 10px;
 }
 
+/* Password requirement styling */
 .pass-req {
     display: flex;
     flex-direction: column;
@@ -312,15 +338,18 @@ label[for='id_email2'], #id_email2 {
     margin-top: 20px;
 }
 
+/* Horizontal line margins splitting content on informational pages */
 .info-split {
     margin-top: 10px;
     margin-bottom: 10px;
 }
 
+/* Horizontal line margin for footer */
 .footer-split {
     margin-bottom: 5px;
 }
 
+/* Global footer styling */
 footer {
     text-align: center;
     position: fixed;
@@ -349,12 +378,16 @@ footer * {
     width: 0;
 }
 
+/* Hide mobile and mid-size screen content by default */
 .mobile, .mid-screen {
     display: none;
 }
 
 
+/* Media Queries */
+/* For screens up to 1100px width */
 @media screen and (max-width: 1100px) {
+    /* Nav styling */
     .nav-buttons button {
         margin: 0;
         padding: 7px;
@@ -364,6 +397,7 @@ footer * {
         width: 25vw;
     }
 
+    /* Increasing width for first div within containers */
     #container > div:first-child {
         width:100%;
         margin: 0;
@@ -371,11 +405,14 @@ footer * {
 }
 
 
+/* Screens up to 800px width */
 @media screen and (max-width: 800px) {
-    .mid-desk, .desktop {
+    /* Hide all larger screen elements */
+    .desktop {
         display: none;
     }
 
+    /* Display mid-sized screen elements */
     nav.mid-screen {
         display: flex;
         flex-direction: column;
@@ -385,6 +422,7 @@ footer * {
         display: block;
     }
 
+    /* Reduce size and margins for left nav */
     .nav-left {
         margin: 0 0 0 5px;
         text-align: left;
@@ -395,14 +433,12 @@ footer * {
         margin: 2px auto;
     }
 
+    /* Increase size for center nav */
     .nav-middle {
         width: 75%;
     }
 
-    .modal {
-        width: 70%;
-    }
-
+    /* Adjust nav button styling */
     .nav-buttons {
         display: flex;
     }
@@ -423,38 +459,51 @@ footer * {
         border-bottom-right-radius: 5px
     }
 
+    /* Reduce margin and remove padding for nav logout button */
     #nav-logout {
         margin: 2px auto;
         padding: 0;
         width: unset;
     }
 
+    /* Set vw width for nav search */
     .nav-search input {
         width: 35vw;
+    }
+
+    /* Specific modal width */
+    .modal {
+        width: 70%;
     }
 }
 
 
+/* Screens up to 500px width */
 @media screen and (max-width: 500px) {
+    /* Display mobile-only elements */
     .mobile {
         display: flex;
         flex-direction: column;
     }
 
+    /* Reduce global font size */
     * {
         font-size: 12px;
     }
 
+    /* Reduce body margins */
     body {
         margin: auto 5px;
     }
 
+    /* Increase main section width and reduce margin */
     main {
         width: 100%;
         max-width: unset;
         margin-top: 15px;
     }
 
+    /* Increase input and button widths */
     input {
         width: 100%;
     }
@@ -463,11 +512,13 @@ footer * {
         width: 100%;
     }
 
+    /* Adjusting nav bar styling */
     .nav-div {
         margin: 5px auto;
         justify-content: unset;
     }
 
+    /* Left nav section */
     .nav-left .fa-solid {
         font-size: 15px;
     }
@@ -476,22 +527,7 @@ footer * {
         font-size: 14px;
     }
 
-    .nav-support *:not(.modal *) {
-        font-size: 12px;
-    }
-
-    .nav-support a, .nav-support i {
-        text-decoration: none;
-    }
-
-    .nav-right {
-        margin: 0 0 auto 0;
-    }
-
-    .nav-right img {
-        border-radius: 10px;
-    }
-
+    /* Middle nav section */
     .nav-sup-news {
         margin-bottom: 5px;
         gap: 9px;
@@ -503,12 +539,16 @@ footer * {
         padding-right: 6px;
     }
 
-    .modal {
-        width: 80%;
-    }
-
     .nav-support {
         margin: auto 0 auto auto;
+    }
+
+    .nav-support *:not(.modal *) {
+        font-size: 12px;
+    }
+
+    .nav-support a, .nav-support i {
+        text-decoration: none;
     }
 
     .nav-search {
@@ -533,22 +573,41 @@ footer * {
         padding: 5px;
     }
 
+    /* Right nav section */
+    .nav-right {
+        margin: 0 0 auto 0;
+    }
+
+    .nav-right img {
+        border-radius: 10px;
+    }
+
+    /* Increase modal width */
+    .modal {
+        width: 80%;
+    }
+
+    /* Increase width of middle page div */
     .mid-content {
         width: 100%;
     }
 
+    /* Setting specific margin for password reset paragraph */
     .form-text {
         margin-bottom: 15px;
     }
 
+    /* Increase width for form label/input pairs */
     .label-input {
         width: 100%;
     }
 
+    /* Set top-margin for first button after label/input pairs */
     .label-input > button:first-child {
         margin-top: 10px;
     }
 
+    /* Adjust width, padding, and margin for password requirements text */
     .pass-req {
         width: 100%;
     }
@@ -561,6 +620,7 @@ footer * {
         margin-top: 5px;
     }
 
+    /* Adjust footer styling */
     footer * {
         font-size: 12px;
     }
@@ -572,21 +632,20 @@ footer * {
 }
 
 
+/* Screens up to 310px width */
 @media screen and (max-width: 310px) {
+    /* Change support/newsletter nav section to flex column */
     .nav-sup-news {
         display: flex;
         flex-direction: column;
         gap: 0;
     }
 
+    /* Adjust middle nav styling */
     .nav-news {
         border-right: none;
         margin: auto;
         padding: 0;
-    }
-
-    .modal {
-        width: 100%;
     }
 
     .nav-support {
@@ -599,5 +658,10 @@ footer * {
 
     .nav-search button {
         margin: 5px 0;
+    }
+
+    /* Increase modal width */
+    .modal {
+        width: 100%;
     }
 }

@@ -1,3 +1,4 @@
+/* Styling for all views including the cart div and it's children */
 .cart {
     width: 80%;
     border: 1px solid black;
@@ -6,6 +7,7 @@
     overflow: auto;
 }
 
+/* Messages for cart stock updates */
 .stock-update-div {
     width: 50%;
     text-align: left;
@@ -20,6 +22,7 @@
     margin-bottom: 20px;
 }
 
+/* Cart product details */
 .cart-prod-img {
     min-width: 75px;
     max-width: 75px;
@@ -37,10 +40,12 @@
     margin-left: 0;
 }
 
+/* Quantity input field */
 .cart-quantity-input {
     width: 50px;
 }
 
+/* Font and table styling for cart totals */
 .cart-totals {
     font-weight: bold;
     white-space: nowrap;
@@ -63,6 +68,7 @@
     text-align: left;
 }
 
+/* Styling for delete from cart button */
 .cart-prod-del {
     color: red;
     font-weight: bold;
@@ -73,6 +79,7 @@
     border: unset;
 }
 
+/* Cart button styling */
 .update-buttons {
     margin-top: 30px;
     float: left;
@@ -87,6 +94,7 @@
     float: right;
 }
 
+/* Styling for cart table */
 .cart .prod-table table, .cart .prod-table-details table {
     text-align: center;
     border-collapse: collapse;
@@ -106,7 +114,10 @@
 }
 
 
+/* Media Queries */
+/* Screens up to 500px width */
 @media screen and (max-width: 500px) {
+    /* Cart padding and width style adjustments */
     .cart {
         padding: 10px;
     }

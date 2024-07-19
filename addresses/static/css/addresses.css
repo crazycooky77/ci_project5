@@ -1,3 +1,4 @@
+/* Addresses div and element styling on profile and checkout pages */
 .addresses {
     display: flex;
     flex-direction: row;
@@ -23,6 +24,7 @@
     margin-left: 0;
 }
 
+/* Default address view */
 .default-addr {
     display: flex;
     flex-direction: column;
@@ -35,6 +37,7 @@
     padding-right: 15px;
 }
 
+/* List for other saved addresses */
 .other-addr {
     display: flex;
     flex-direction: column;
@@ -63,6 +66,7 @@
     margin-bottom: 1px;
 }
 
+/* Buttons for Addresses */
 .addr-view button {
     margin-top: 15px;
 }
@@ -82,6 +86,7 @@
     margin-left: 0;
 }
 
+/* Styling for Add and Edit Address pages */
 .add-addr {
     display: flex;
     flex-direction: column;
@@ -122,7 +127,10 @@
 }
 
 
+/* Media Queries */
+/* Screens up to  1100px width */
 @media screen and (max-width: 1100px) {
+    /* Increase widths on Add and Edit Address pages */
     .add-addr {
         width: 60%;
     }
@@ -132,6 +140,7 @@
         max-width: 100%;
     }
 
+    /* Adjustments for default address styling */
     label[for='id_default_addr'] {
         margin-right: 0;
     }
@@ -144,9 +153,12 @@
 }
 
 
+/* Screens up to 800px width */
 @media screen and (max-width: 800px) {
+    /* Increase widths on Add and Edit Address pages */
     .add-addr {
         max-width: 100%;
+        width: 100%;
     }
 
     .add-addr input {
@@ -162,6 +174,7 @@
         width: 100%;
     }
 
+    /* Address list style adjustments */
     .default-addr {
         border-left: none;
         padding-left: 0;
@@ -173,9 +186,5 @@
 
     .addr-view p {
         margin-bottom: 5px;
-    }
-
-    .add-addr {
-        width: 100%;
     }
 }
