@@ -4,6 +4,7 @@ from django.db import models
 
 
 class UserManager(BaseUserManager):
+    """Custom user manager model"""
     def create_user(self, password=None, **extra_fields):
         user = self.model(**extra_fields)
         user.set_password(password)
@@ -22,6 +23,7 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractUser):
+    """Custom user model"""
     username = None
     first_name = None
     last_name = None
@@ -37,6 +39,7 @@ class User(AbstractUser):
 
 
 class Newsletter(models.Model):
+    """Model for users subscribed to the newsletter"""
     news_uuid = models.CharField(max_length=32,
                                  unique=True,
                                  blank=False,
@@ -45,9 +48,11 @@ class Newsletter(models.Model):
     news_email = models.EmailField(unique=True)
 
     def _generate_news_uuid(self):
+        """Generate a UUID string to use to unsubscribe from newsletter"""
         return uuid.uuid4().hex.upper()
 
     def save(self, *args, **kwargs):
+        """On save, run the function to generate the UUID"""
         if not self.news_uuid:
             self.news_uuid = self._generate_news_uuid()
         super().save(*args, **kwargs)

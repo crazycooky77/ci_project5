@@ -5,7 +5,8 @@ from django.utils.translation import gettext_lazy as _
 
 
 class SavedItems(models.Model):
-
+    """SavedItems model for Cart, Watchlist, and Saved for Later products
+    for registered users"""
     class ListType(models.TextChoices):
         CART = 'CART', _('Cart')
         WATCH = 'WATCH', _('Watchlist')

@@ -2,5 +2,5 @@ from django.contrib import admin
 from .models import *
 
 
-# Register your models here.
+# Admin site registration for Addresses model
 admin.site.register([Addresses])

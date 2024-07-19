@@ -11,6 +11,8 @@ from .models import *
 
 @receiver(user_logged_in)
 def cart_merge(sender, user, request, **kwargs):
+    """Merge session and user cart on login unless during checkout.
+    During checkout, delete saved user cart and replace with session cart"""
     if request.POST.get('checkout-signin-button'):
         cart = request.session.get('cart', {})
         SavedItems.objects.filter(
@@ -71,6 +73,8 @@ def cart_merge(sender, user, request, **kwargs):
 
 
 def add_cart(request, product_id):
+    """Function to add products to session cart.
+    If user is logged in, also add products to user's saved cart"""
     request.session['active_sort'] = request.POST.get('active_sort')
     flavour = request.POST.get(product_id + '-prod-flavours')
     size = request.POST.get(product_id + '-prod-sizes')
@@ -110,6 +114,7 @@ def add_cart(request, product_id):
     prod_stock = ProductDetails.objects.filter(pk=int(details_pk)).values_list(
         'stock_count', flat=True)[0]
 
+    # Check stock quantity before adding items to cart
     if details_pk in list(cart.keys()):
         if cart[details_pk] + quantity <= prod_stock:
             cart[details_pk] += quantity
@@ -119,6 +124,7 @@ def add_cart(request, product_id):
     else:
         cart[details_pk] = quantity
 
+    # Use product quantity being added to customise messages
     if quantity > 1:
         if adjusted_quantity == 0:
             messages.error(
@@ -164,9 +170,11 @@ def add_cart(request, product_id):
 
 
 def cart_contents(request):
+    """Function to get and update cart contents, and cart/stock details"""
     stock_change = None
     stock_list = list()
 
+    # User cart check if user is logged in
     if request.user.is_authenticated:
         user_cart = SavedItems.objects.filter(
             owner=request.user,
@@ -174,6 +182,7 @@ def cart_contents(request):
         cart = {}
         for prod in user_cart:
             cart[str(prod.product.pk)] = prod.quantity
+            # If product cart quantity > stock, update cart quantity
             if prod.quantity > prod.product.stock_count:
                 if prod.product.stock_count > 0:
                     SavedItems.objects.filter(
@@ -186,16 +195,20 @@ def cart_contents(request):
                         owner=request.user,
                         list_type='CART',
                         pk=prod.pk).delete()
+            # If the product is not active, remove it from the cart
             if not prod.product.active:
                 SavedItems.objects.filter(
                     owner=request.user,
                     list_type='CART',
                     pk=prod.pk).delete()
+        # Update the session cart to match the user cart (pre-quantity-changes)
         request.session['cart'] = cart
 
     else:
+        # Get the session cart for users not logged in
         cart = request.session.get('cart', {})
 
+    # Check the session cart
     if cart:
         cart_prods = list()
         subtotal = 0
@@ -203,14 +216,18 @@ def cart_contents(request):
         for product in cart:
             try:
                 prod_details = ProductDetails.objects.get(pk=product)
+                # Check and update cart quantity based on stock count
                 if cart[product] > prod_details.stock_count:
                     stock_list.append(prod_details.pk)
                     cart[product] = prod_details.stock_count
+                # Check for inactive products
                 elif not prod_details.active:
                     stock_list.append(prod_details.pk)
+            # Check for products not in the database
             except ProductDetails.DoesNotExist:
                 del cart[product]
 
+        # Remove out of stock and inactive products from cart
         if stock_list:
             stock_change = ProductDetails.objects.filter(pk__in=stock_list)
             for prod in stock_list:
@@ -220,17 +237,20 @@ def cart_contents(request):
                 elif not prod_details.active:
                     del cart[str(prod_details.pk)]
 
+        # Get cost (subtotal) for all products in cart
         for product in cart:
             prod_details = ProductDetails.objects.get(pk=product)
             subtotal += prod_details.price * cart[product]
             cart_prods.append(prod_details)
 
+        # Get shipping cost
         if subtotal < settings.FREE_SHIPPING_THRESHOLD:
             shipping = round(subtotal * Decimal(
                 settings.STANDARD_SHIPPING_PERCENTAGE)/100, 2)
         else:
             shipping = 0
 
+        # Update session cart and get grand total for cart and shipping
         request.session['cart'] = cart
         grand_total = shipping + subtotal
 
@@ -240,11 +260,13 @@ def cart_contents(request):
         shipping = None
         grand_total = None
 
+    # Return details on cart, stock, changes, and totals
     return (cart_prods, cart, stock_change, stock_list,
             subtotal, shipping, grand_total)
 
 
 def cart_view(request):
+    """View to display cart details and, if applicable, cart changes"""
     (cart_prods, cart, stock_change, stock_list,
      subtotal, shipping, grand_total) = (
         cart_contents(request))
@@ -271,12 +293,14 @@ def cart_view(request):
 
 
 def update_cart(request):
+    """Function for users to update their cart"""
     cart = request.session.get('cart', {})
 
     loop_count = 0
 
     for i in request.POST:
         if request.POST.get('update-cart-button'):
+            # Update quantity for products in cart
             if '-prod-quantity' in i:
                 details_pk = i.split('-prod-quantity')[0]
                 for prod in cart:
@@ -294,6 +318,7 @@ def update_cart(request):
                         if loop_count == 1:
                             messages.success(
                                 request, 'You successfully updated your cart')
+        # Delete product from cart
         elif '-prod-del' in i:
             details_pk = i.split('-prod-del')[0]
             del cart[details_pk]
@@ -310,6 +335,7 @@ def update_cart(request):
                     'You successfully removed the item from your cart')
         request.session['cart'] = cart
 
+    # Empty cart completely
     if request.POST.get('empty-cart-button'):
         del request.session['cart']
         if request.user.is_authenticated:

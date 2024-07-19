@@ -3,11 +3,13 @@ from .models import Addresses
 
 
 class AddressForm(forms.ModelForm):
+    """Form to save addresses to registered users"""
     class Meta:
         model = Addresses
         exclude = ('user', 'email')
 
     def __init__(self, *args, **kwargs):
+        """Provide initial address field details for the form"""
         super().__init__(*args, **kwargs)
         placeholders = {
             'first_name': 'First Name',

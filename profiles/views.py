@@ -17,6 +17,7 @@ from .forms import *
 
 
 class CreateUser(CreateView):
+    """Custom view for account creation"""
     model = User
     fields = ['email', 'password']
     template_name = 'account/signup.html'
@@ -24,23 +25,30 @@ class CreateUser(CreateView):
 
 
 class CustomEmailVerificationSent(EmailVerificationSentView):
+    """Custom view for email verification"""
     template_name = 'account/verification_sent.html'
 
 
 class CustomEmailChangeView(EmailView):
+    """Custom view for email changes"""
     template_name = 'profile.html'
 
 
 class CustomEmailConfirmView(ConfirmEmailView):
+    """Custom view for email confirmation"""
     template_name = 'profile.html'
 
 
 class CustomPasswordChangeView(PasswordChangeView):
+    """Custom view for password changes"""
     template_name = 'profile.html'
 
 
 def newsletter_signup(request):
+    """Newsletter signup function"""
     def _send_signup_email(cust_email, link):
+        """Function to send a confirmation email for the subscription,
+        including unsubscribe link"""
         subject = render_to_string(
             'confirmation_emails/newsletter-signup-subject.txt')
         body = render_to_string(
@@ -59,10 +67,12 @@ def newsletter_signup(request):
             newsletter_form = NewsletterForm(
                 {'news_email': news_email})
             signed_up = Newsletter.objects.filter(news_email__iexact=news_email)
+            # Custom messages following subscription attempt
             if newsletter_form.is_valid() and not signed_up:
                 obj = newsletter_form.save(commit=False)
                 obj.save()
-                unsub_link = request.META['HTTP_ORIGIN'] + '/unsub=' + obj.news_uuid
+                unsub_link =(
+                        request.META['HTTP_ORIGIN'] + '/unsub=' + obj.news_uuid)
                 _send_signup_email(news_email, unsub_link)
                 messages.success(
                     request, 'Thank you for signing up to our newsletter!')
@@ -79,6 +89,7 @@ def newsletter_signup(request):
 
 
 def unsubscribe_view(request, var):
+    """View for those unsubscribing from the newsletter"""
     if var:
         try:
             uuid_var = UUID(var, version=4)
@@ -103,6 +114,7 @@ def unsubscribe_view(request, var):
 
 
 def profile_vars(request):
+    """Function to generate variables needed for profile pages"""
     default_address, other_address = get_addresses(request)
     orders = OrderHistory.objects.filter(
         purchaser=request.user).order_by('-order_dt')
@@ -111,12 +123,15 @@ def profile_vars(request):
 
 
 def unsub_news(request, signed_up):
+    """Function for unsubscribing from the newsletter
+    from the logged in profile > Account Details page"""
     signed_up.delete()
     messages.success(request,
                      'You successfully unsubscribed from our newsletter')
 
 
 def delete_acc(request, signed_up):
+    """Function to delete the user account"""
     signed_up.delete()
     User.delete(request.user)
     logout(request)
@@ -124,22 +139,29 @@ def delete_acc(request, signed_up):
 
 
 def profile_view(request):
+    """View for profile pages"""
     if request.user.is_authenticated:
         default_address, other_address, orders, signed_up \
             = profile_vars(request)
+        # Complete actions based on post requests
         if request.method == 'POST':
+            # User unsubscribing from newsletter
             if request.POST.get('unsub-news-button'):
                 unsub_news(request, signed_up)
                 return redirect('profile')
+            # User deleting account
             if request.POST.get('del-acc-button'):
                 delete_acc(request, signed_up)
                 return redirect(homepage_view)
+            # Making another saved address the default address
             if request.POST.get('mk-default-button'):
                 default_addr(request)
                 return redirect('addresses')
+            # Edit a saved address
             if request.POST.get('edit-addr-button'):
                 edit_addr_id = edit_addr(request)
                 return redirect('edit-address', edit_addr_id)
+            # Delete a saved address
             if request.POST.get('del-addr-button'):
                 delete_addr(request)
                 return redirect('addresses')

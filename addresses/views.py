@@ -7,6 +7,7 @@ from .forms import AddressForm
 
 
 def get_addresses(request):
+    """Get saved addresses for logged-in user"""
     default_address = Addresses.objects.filter(
         user=request.user,
         default_addr=True)
@@ -17,6 +18,7 @@ def get_addresses(request):
 
 
 def default_addr(request):
+    """Function for users to make a saved address their default"""
     make_default = request.POST.get('mk-default-button')
     def_addr_req = Addresses.objects.filter(user=request.user,
                                             pk=make_default)
@@ -31,14 +33,17 @@ def default_addr(request):
 
 
 def edit_addr(request):
+    """Get the address_id for the address the user wants to edit"""
     edit_addr_id = request.POST.get('edit-addr-button')
     return edit_addr_id
 
 
 def delete_addr(request):
+    """Function for users to delete a saved address from their account"""
     del_addr_id = request.POST.get('del-addr-button')
     orders = OrderHistory.objects.filter(Q(
         shipping_addr=del_addr_id) | Q(billing_addr=del_addr_id))
+    # If address is linked to an order, only the reference to user is deleted
     if orders:
         Addresses.objects.filter(user=request.user,
                                  pk=del_addr_id).update(user=None)
@@ -48,6 +53,7 @@ def delete_addr(request):
             'from your account. It remains in our system, as ' +
             'you had an order associated with it. Please contact ' +
             'our support, if you want the address deleted completely.')
+    # Address deleted from database if no order is linked
     else:
         Addresses.objects.get(user=request.user,
                               pk=del_addr_id).delete()
@@ -57,7 +63,9 @@ def delete_addr(request):
             'from your account.')
 
 
-def profile_addr(request):
+def profile_add_addr(request):
+    """View for users to add an address to their account
+    (and the Addresses model)"""
     if request.user.is_authenticated:
         if request.method == 'POST':
             updated_request = request.POST.copy()
@@ -68,7 +76,9 @@ def profile_addr(request):
                     default = Addresses.objects.filter(user=request.user,
                                                        default_addr=True)
                     obj = addr_form.save(commit=False)
+                    # If default address exists and new address is also default
                     if default and obj.default_addr:
+                        # Set default_addr to false for the old saved address
                         default.update(default_addr=False)
                     obj.user = request.user
                     obj.email = request.user.email
@@ -87,6 +97,7 @@ def profile_addr(request):
 
 
 def profile_edit_addr(request, var):
+    """View for users to edit an address saved to their account"""
     if request.user.is_authenticated:
         addr_to_edit = Addresses.objects.filter(user=request.user,
                                                 pk=var)
@@ -100,7 +111,9 @@ def profile_edit_addr(request, var):
                     default = Addresses.objects.filter(user=request.user,
                                                        default_addr=True)
                     obj = edit_addr_form.save(commit=False)
+                    # If default_addr exists and edited address is also default
                     if default and obj.default_addr:
+                        # Set default_addr to false for other saved address
                         default.update(default_addr=False)
                     obj.save()
                     messages.success(

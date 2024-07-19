@@ -6,13 +6,17 @@ from django.template.loader import render_to_string
 
 
 def handler404(request, exception):
+    """Custom 404 handler/view"""
     return render(request, '404.html', status=404)
 
 
 def handler500(request):
+    """Custom 500 handler/view"""
     type_, value, traceback = sys.exc_info()
 
     def _send_admin_500_email(*args):
+        """Function to send an email to admin
+        for any server errors, so they can be investigated"""
         if args:
             e = []
             for arg in args:

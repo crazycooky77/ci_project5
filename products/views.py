@@ -11,6 +11,7 @@ import datetime
 
 
 def product_sort(request, data, active_sort, *args):
+    """Function used to sort products according to the active/session sort"""
     sale_flag = False
     if request.POST.get('brand-asc') or active_sort == 'brand-asc':
         active_sort = 'brand-asc'
@@ -55,6 +56,7 @@ def product_sort(request, data, active_sort, *args):
             on_sale=True).values_list(
             'id', flat=True)
         sale_flag = True
+    # If there's no matching active sort, remove it from the session/variables
     else:
         try:
             del request.session['active_sort']
@@ -62,11 +64,14 @@ def product_sort(request, data, active_sort, *args):
         except KeyError:
             active_sort = None
 
+        # Sort unsorted products by stock count descending
         sorted_data = data.order_by(
             '-stock_count').values_list(
             'product__product_id', flat=True)
 
+    # If additional arguments were received...
     if args:
+        # Get search term from args and filter according to product flavours
         search_term = args[0]
         sorted_data = data.filter(
             flavour__icontains=search_term).values_list(
@@ -80,6 +85,7 @@ def product_sort(request, data, active_sort, *args):
 
 
 def json_sorted_serialise(sorted_data, *args):
+    """Function used to serialise a list of user-sorted products"""
     if sorted_data:
         preserved_list = Case(
             *[When(pk=pk, then=pos) for pos, pk in enumerate(sorted_data)])
@@ -102,6 +108,7 @@ def json_sorted_serialise(sorted_data, *args):
 
 
 def json_serialise(data, *args):
+    """Function used to serialise and sort unsorted products"""
     json_serializer = serializers.get_serializer('json')()
 
     if args:
@@ -127,6 +134,7 @@ def json_serialise(data, *args):
 
 
 def product_pages(request, qs, active_sort, *args):
+    """Get product data to display on product pages"""
     if args:
         search_term = args[0]
         products_sorted, js_products, active_sort, sale_flag = product_sort(
@@ -154,6 +162,7 @@ def product_pages(request, qs, active_sort, *args):
 
 
 def search_sort(request, term):
+    """Get results for products matching search term"""
     product_filter = ProductDetails.objects.exclude(
         active=False).filter(
         Q(flavour__icontains=term) |
@@ -181,6 +190,7 @@ def search_sort(request, term):
 
 
 def get_active_sort(request):
+    """Get active user-set sorting for products"""
     active_sort = request.POST.get('active_sort')
     if active_sort:
         request.session['active_sort'] = active_sort
@@ -195,6 +205,7 @@ def get_active_sort(request):
 
 
 def del_active_sort(request):
+    """Delete active sort when no longer needed"""
     try:
         del request.session['active_sort']
     except KeyError:
@@ -202,8 +213,10 @@ def del_active_sort(request):
 
 
 def homepage_view(request):
+    """Homepage view for featured products"""
     products = ProductDetails.objects.all().exclude(active=False)
 
+    # Get featured new, sport, and health products, based on stock/created date
     if ProductDetails.objects.exclude(
             active=False).exclude(pk=0).filter(stock_count__gte=10):
         new_product = ProductDetails.objects.exclude(
@@ -226,6 +239,7 @@ def homepage_view(request):
         product__main_cat='HEALTH').order_by(
         '-stock_count').first()
 
+    # Serialise data
     if new_product:
         new_product_extras = ProductDetails.objects.exclude(
             active=False).filter(
@@ -243,6 +257,7 @@ def homepage_view(request):
     else:
         sports_product_extras = ''
         js_sports_product = ''
+
     if health_product:
         health_product_extras = ProductDetails.objects.exclude(
             active=False).filter(
@@ -252,6 +267,7 @@ def homepage_view(request):
         health_product_extras = ''
         js_health_product = ''
 
+    # If sport/health product matches new prod, get different sport/health prod
     if (new_product == sports_product
             and new_product != ''
             and sports_product != ''):
@@ -297,11 +313,13 @@ def homepage_view(request):
 
 
 def product_view(request, var):
+    """Single product page view"""
     product = ProductDetails.objects.exclude(active=False).filter(
         product__product_id=var)
     js_product = json_serialise(product)
     product_cats = Products.objects.filter(product_id=var)
 
+    # Get linked products from same category for "You may also like" section
     if product_cats:
         categories = product_cats[0].categories.split(',')
         categories = [cat.strip(' ') for cat in categories]
@@ -342,8 +360,9 @@ def product_view(request, var):
 
 
 def all_products(request):
+    """All products page view"""
     active_sort = get_active_sort(request)
-    products = ProductDetails.objects.all().exclude(active=False)
+    products = ProductDetails.objects.all().exclude(active=False).exclude(pk=0)
     products_distinct, js_products, active_sort = product_pages(
         request, products, active_sort)
     del_active_sort(request)
@@ -356,6 +375,7 @@ def all_products(request):
 
 
 def sports_products(request):
+    """Sports products page view"""
     active_sort = get_active_sort(request)
     products = ProductDetails.objects.exclude(active=False).filter(
         product__main_cat='SPORTS')
@@ -371,6 +391,7 @@ def sports_products(request):
 
 
 def health_products(request):
+    """Health products page view"""
     active_sort = get_active_sort(request)
     products = ProductDetails.objects.exclude(active=False).filter(
         product__main_cat='HEALTH')
@@ -386,6 +407,7 @@ def health_products(request):
 
 
 def new_products(request):
+    """What's New products page view"""
     active_sort = get_active_sort(request)
     prv_mo = datetime.datetime.now(pytz.UTC) - datetime.timedelta(days=30)
     products_init = ProductDetails.objects.exclude(
@@ -406,6 +428,7 @@ def new_products(request):
 
 
 def search_results(request):
+    """Product search results page view"""
     active_sort = get_active_sort(request)
     if (request.method == 'POST'
             or request.get_full_path() == '/products/search'):

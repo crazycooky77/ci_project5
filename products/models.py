@@ -3,7 +3,7 @@ from django.utils.translation import gettext_lazy as _
 
 
 class Products(models.Model):
-
+    """Model for basic product information"""
     class MainCategory(models.TextChoices):
         SPORTS = 'SPORTS', _('Sports')
         HEALTH = 'HEALTH', _('Health')
@@ -32,6 +32,8 @@ class Products(models.Model):
 
 
 class ProductDetails(models.Model):
+    """Model for detailed product information for those in Products
+    e.g. product sizes and flavours"""
     product = models.ForeignKey(Products,
                                 on_delete=models.PROTECT)
     on_sale = models.BooleanField(default=False)

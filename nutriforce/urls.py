@@ -40,7 +40,7 @@ urlpatterns = [
     path('', include('allauth.urls'), name='login'),
     path('profile', profile_view, name='profile'),
     path('profile/addresses', profile_view, name='addresses'),
-    path('profile/add-address', profile_addr, name='add-address'),
+    path('profile/add-address', profile_add_addr, name='add-address'),
     path('profile/edit-address/<var>', profile_edit_addr, name='edit-address'),
     path('profile/orders', profile_view, name='orders'),
     path('profile/orders/id=<var>', profile_orders, name='order-details'),

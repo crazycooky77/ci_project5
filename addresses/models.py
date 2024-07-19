@@ -4,7 +4,8 @@ from django.utils.translation import gettext_lazy as _
 
 
 class Addresses(models.Model):
-
+    """Addresses model for saved addresses for registered users
+    and addresses for orders (registered and guest checkout)"""
     class Countries(models.TextChoices):
         IE = 'IE', _('Ireland')
 

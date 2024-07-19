@@ -6,7 +6,7 @@ from profiles.models import User
 
 
 class OrderHistory(models.Model):
-
+    """Model for completed orders and all relevant details"""
     class Status(models.TextChoices):
         PEND = 'PEND', _('Pending')
         PROCESS = 'PROC', _('Processing')
@@ -51,6 +51,7 @@ class OrderHistory(models.Model):
 
 
 class Purchases(models.Model):
+    """Model for purchased products belonging to orders in OrderHistory model"""
     purchase_id = models.AutoField(primary_key=True)
     order = models.ForeignKey(OrderHistory,
                               on_delete=models.PROTECT)

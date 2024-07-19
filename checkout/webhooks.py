@@ -9,6 +9,7 @@ import stripe
 @require_POST
 @csrf_exempt
 def webhook(request):
+    """Stripe webhook to get success/fail events"""
     wh_secret = settings.STRIPE_WH_SECRET
     stripe.api_key = settings.STRIPE_SECRET_KEY
     payload = request.body

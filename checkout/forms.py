@@ -4,6 +4,7 @@ from addresses.models import Addresses
 
 
 class OrderFormAddr(forms.ModelForm):
+    """Form for users to enter addresses during checkout"""
     class Meta:
         model = Addresses
         fields = ('first_name', 'last_name', 'email', 'phone_nr',
@@ -11,6 +12,7 @@ class OrderFormAddr(forms.ModelForm):
                   'eir_code', 'county', 'country')
 
     def __init__(self, *args, **kwargs):
+        """Provide initial address field details for the form"""
         user_auth = kwargs.pop('user_auth', None)
         super().__init__(*args, **kwargs)
         placeholders = {

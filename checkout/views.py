@@ -19,6 +19,7 @@ from .models import *
 
 @require_POST
 def cache_checkout_data(request):
+    """Get payment and order details necessary for checkout"""
     try:
         pid = request.POST.get('client_secret').split('_secret')[0]
         stripe.api_key = settings.STRIPE_SECRET_KEY
@@ -44,6 +45,7 @@ def cache_checkout_data(request):
 
 
 def profile_orders(request, var):
+    """View to display orders in profile for logged-in users"""
     if request.user.is_authenticated:
         order = OrderHistory.objects.filter(
             purchaser=request.user,
@@ -61,6 +63,8 @@ def profile_orders(request, var):
 
 
 def dual_addr_form(request):
+    """Generate form fields for both shipping and billing addresses
+    for checkout process"""
     shipping_addr = json.loads(request.POST.getlist(
         'shipping-addr')[0].replace("'", '"'))
     billing_addr = json.loads(request.POST.getlist(
@@ -80,11 +84,13 @@ def dual_addr_form(request):
 
 
 def checkout_addr(request, order_addr_form):
+    """Addresses view for checkout"""
     addr_list = Addresses.objects.filter(
         user=request.user)
     js_addr = serializers.serialize('json', addr_list,
                                     ensure_ascii=False)
 
+    # Autofill address form
     if request.POST.get('shipping-addr'):
         ship_order_addr_form, bill_order_addr_form = dual_addr_form(request)
 
@@ -118,13 +124,17 @@ def checkout_addr(request, order_addr_form):
 
 
 def checkout_view(request):
+    """Main function for all checkout page views"""
     cart = request.session.get('cart', {})
     order_note = request.POST.get('checkout-order-note')
 
+    # Views for checkout (from cart), or Edit Address button (from checkout)
     if request.POST.get('checkout-button') or request.POST.get(
             'checkout-edit-addr'):
         order_addr_form = OrderFormAddr()
+        # If a shipping address in POST request, display checkout address view
         if request.POST.get('shipping-addr'):
+            # Get address details to autofill form fields
             if request.user.is_authenticated:
                 (ship_order_addr_form, bill_order_addr_form,
                  addr_list, js_addr) = checkout_addr(
@@ -136,6 +146,7 @@ def checkout_view(request):
                                'addr_list': addr_list,
                                'js_addr': js_addr,
                                'order_note': order_note})
+
             else:
                 ship_order_addr_form, bill_order_addr_form = (
                     dual_addr_form(request))
@@ -145,6 +156,7 @@ def checkout_view(request):
                      'bill_order_addr_form': bill_order_addr_form,
                      'order_note': order_note})
 
+        # If user is logged in, display address view with autofilled form fields
         elif request.user.is_authenticated:
             order_addr_form, addr_list, js_addr = checkout_addr(
                 request, order_addr_form)
@@ -154,6 +166,7 @@ def checkout_view(request):
                            'addr_list': addr_list,
                            'js_addr': js_addr,
                            'order_note': order_note})
+        # Guest Checkout/edit_addr with no ship_addr in POST: checkout addr view
         elif ((request.POST.get('checkout-guest-button')
               or request.POST.get('checkout-edit-addr'))
               and not request.POST.get('shipping-addr')):
@@ -161,9 +174,11 @@ def checkout_view(request):
                           'checkout-addr.html',
                           {'order_addr_form': order_addr_form,
                            'order_note': order_note})
+        # Sign-in action during checkout
         elif request.POST.get('checkout-signin-button'):
             user = authenticate(request, email=request.POST['login'],
                                 password=request.POST['password'])
+            # Get user/cart details for sign-in, show checkout address view
             if user:
                 login(request, user)
                 messages.success(request, 'Logged in successfully')
@@ -176,6 +191,7 @@ def checkout_view(request):
                         product=ProductDetails.objects.get(pk=prod),
                         quantity=cart[prod])
 
+                # Autofill address details if Edit Address was clicked
                 if request.POST.get('shipping-addr'):
                     (ship_order_addr_form, bill_order_addr_form,
                      addr_list, js_addr) = checkout_addr(
@@ -187,6 +203,7 @@ def checkout_view(request):
                          'addr_list': addr_list,
                          'js_addr': js_addr,
                          'order_note': order_note})
+                # Otherwise just display address forms with default data
                 else:
                     order_addr_form, addr_list, js_addr = checkout_addr(
                         request, order_addr_form)
@@ -196,12 +213,14 @@ def checkout_view(request):
                                    'addr_list': addr_list,
                                    'js_addr': js_addr,
                                    'order_note': order_note})
+            # Error for unsuccessful sign-in
             else:
                 messages.error(request, 'Login failed')
+        # Display sign-in/guest checkout options for checkout
         else:
             return render(request,
                           'checkout-signin.html')
-
+    # After user submits checkout address, or "check-stock" is submitted by POST
     elif (request.POST.get('addr-form-button')
           or request.POST.get('check-stock')):
         (cart_prods, cart, stock_change, stock_list,
@@ -220,7 +239,9 @@ def checkout_view(request):
         stripe_public_key = settings.STRIPE_PUBLIC_KEY
         stripe_secret_key = settings.STRIPE_SECRET_KEY
 
+        # If address details are valid...
         if OrderFormAddr().is_valid:
+            # Save address details to variables
             if request.POST.get('shipping-addr'):
                 shipping_addr = json.loads(request.POST.get(
                     'shipping-addr').replace("'", '"'))
@@ -252,26 +273,33 @@ def checkout_view(request):
                     'phone_nr': request.POST.getlist('phone_nr')[1],
                     'email': request.POST.getlist('email')[1]}
 
+            # Get stripe data
             stripe_total = round(grand_total * 100)
             stripe.api_key = stripe_secret_key
 
+            # Get cart and stock information and create stripe intent
             if stock_change and cart:
+                # For stock changes, create SetupIntent for user to confirm cart
                 stock_change = ProductDetails.objects.filter(
                     pk__in=stock_list)
                 intent = stripe.SetupIntent.create(
                     description='stock_change',
                     usage='on_session')
             elif not cart:
+                # If cart is now empty, create SetupIntent with "empty_cart"
                 intent = stripe.SetupIntent.create(
                     description='empty_cart',
                     usage='on_session')
             elif check_stock and cart and not stock_change:
+                # If stock checked, cart present, no changes > PaymentIntent
                 intent = stripe.PaymentIntent.create(
                     amount=stripe_total,
                     currency=settings.STRIPE_CURRENCY)
             else:
+                # For all other scenarios, create only a SetupIntent
                 intent = stripe.SetupIntent.create()
 
+            # Render to view for JS to take over actions based on Stripe data
             return render(request,
                           'checkout-confirm.html',
                           {'shipping_addr': shipping_addr,
@@ -287,18 +315,22 @@ def checkout_view(request):
                            'stripe_public_key': stripe_public_key,
                            'client_secret': intent.client_secret})
 
+    # Edit Address at checkout confirm, send data to checkout address view
     if request.POST.get('shipping-addr'):
         return render(request, 'checkout-addr.html',
                       {'order_note': order_note})
 
 
 def checkout_complete(request):
+    """View for completed checkout process"""
     client_secret = request.POST.get('client-secret')
     cart = request.session.get('cart')
 
+    # For seamless checkouts
     if client_secret and cart:
         order_exists = False
         attempt = 1
+        # Get order details created by webhook
         while attempt <= 10:
             try:
                 try:
@@ -311,6 +343,7 @@ def checkout_complete(request):
             except OrderHistory.DoesNotExist:
                 attempt += 1
                 time.sleep(2)
+        # Once order is found, get necessary data for completed order
         if order_exists:
             cart_prods = list()
             for product in cart:
@@ -321,6 +354,7 @@ def checkout_complete(request):
             shipping = completed_order.shipping_cost
             grand_total = completed_order.grand_total
 
+            # Delete session cart
             del request.session['cart']
 
             return render(request, 'checkout-success.html',
@@ -329,18 +363,22 @@ def checkout_complete(request):
                            'subtotal': subtotal,
                            'shipping': shipping,
                            'grand_total': grand_total})
+        # If no order is found
         else:
+            # Delete session and user cart (if logged in)
             del request.session['cart']
             if request.user.is_authenticated:
                 SavedItems.objects.filter(
                     owner=request.user,
                     list_type='CART').delete()
 
+            # Get PaymentIntent ID and current time
             pid = request.POST.get(
                 'client-secret').split('"')[1].split('_secret')[0]
             time_now = datetime.datetime.now()
 
             def _send_order_error_email(client_secret, pid):
+                """Function to send email to admin for order errors"""
                 admin_email = settings.CONTACT_EMAIL
                 subject = render_to_string(
                     'error_emails/admin-order-error-email-subject.txt',
@@ -356,14 +394,18 @@ def checkout_complete(request):
                     settings.DEFAULT_FROM_EMAIL,
                     [admin_email])
 
+            # Send email to admin, due to order error
             _send_order_error_email(client_secret, pid)
 
+            # Render view to user for checkout error with successful payment
             return render(request, 'checkout-error.html',
                           {'client_secret': client_secret,
                            'cart': True})
+    # If user refreshes page after successful checkout, display custom error
     elif client_secret and not cart:
         return render(request, 'checkout-error.html',
                       {'client_secret': client_secret,
                        'cart': False})
+    # If user access page at any other time, display custom error
     else:
         return render(request, 'checkout-error.html')

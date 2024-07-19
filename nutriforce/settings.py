@@ -60,7 +60,7 @@ INSTALLED_APPS = [
     'django_extensions'
 ]
 
-# Variables for login/logout behaviour and email functions
+# Variables for accounts and email functions
 SITE_ID = 1
 LOGIN_URL = '/login'
 LOGIN_REDIRECT_URL = '/'
@@ -86,6 +86,17 @@ EMAIL_HOST_USER = os.environ.get('EMAIL_USER')
 EMAIL_PORT = 587
 EMAIL_SUBJECT_PREFIX = '[NutriForce] '
 EMAIL_USE_TLS = True
+
+# Variables used for specific views
+CONTACT_EMAIL = os.environ.get('CONTACT_EMAIL', '')
+FREE_SHIPPING_THRESHOLD = 50
+STANDARD_SHIPPING_PERCENTAGE = 10
+
+# Stripe settings
+STRIPE_CURRENCY = 'eur'
+STRIPE_PUBLIC_KEY = os.environ.get('STRIPE_PUBLIC', '')
+STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET', '')
+STRIPE_WH_SECRET = os.environ.get('STRIPE_WH_SECRET', '')
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -179,6 +190,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'), ]
 
+# Amazon S3 storage settings
 if os.environ.get('USE_AWS') == 'True':
     AWS_S3_OBJECT_PARAMETERS = {
         'Expires': 'Thu, 31 Dec 2099 20:00:00 GMT',
@@ -202,12 +214,3 @@ if os.environ.get('USE_AWS') == 'True':
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-CONTACT_EMAIL = os.environ.get('CONTACT_EMAIL', '')
-FREE_SHIPPING_THRESHOLD = 50
-STANDARD_SHIPPING_PERCENTAGE = 10
-# Stripe settings
-STRIPE_CURRENCY = 'eur'
-STRIPE_PUBLIC_KEY = os.environ.get('STRIPE_PUBLIC', '')
-STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET', '')
-STRIPE_WH_SECRET = os.environ.get('STRIPE_WH_SECRET', '')

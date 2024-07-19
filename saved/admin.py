@@ -2,5 +2,5 @@ from django.contrib import admin
 from .models import *
 
 
-# Register your models here.
+# Admin site registration for SavedItems model
 admin.site.register([SavedItems])
