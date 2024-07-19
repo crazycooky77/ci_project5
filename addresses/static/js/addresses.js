@@ -1,18 +1,18 @@
-/* Run all necessary functions once DOM has loaded */
+// Run all necessary functions once DOM has loaded
 window.addEventListener('DOMContentLoaded', () => {
     addrU800()
     addrO800()
     addrInputResize()
 })
 
-/* Run all necessary functions once page content has loaded */
+// Run all necessary functions once page content has loaded
 window.addEventListener('load', () => {
     addrU800()
     addrO800()
     addrInputResize()
 })
 
-/* Run all necessary functions when page is resized */
+// Run all necessary functions when page is resized
 window.addEventListener('resize', () => {
     addrU800()
     addrO800()
@@ -20,7 +20,7 @@ window.addEventListener('resize', () => {
 })
 
 
-/* Function to resize address input fields for consistency */
+// Function to resize address input fields for consistency
 function addrInputResize() {
     if (window.location.pathname === '/profile/add-address' ||
         window.location.pathname.split('/')[2] === 'edit-address') {
@@ -35,7 +35,7 @@ function addrInputResize() {
 }
 
 
-/* Function to remove label text for form fields on add/edit address pages below 800px screen width */
+// Function to remove label text for form fields on add/edit address pages below 800px screen width
 function addrU800() {
     if (window.innerWidth <= 800) {
         if (window.location.pathname.split('/')[2] === 'edit-address' ||
@@ -49,7 +49,7 @@ function addrU800() {
 }
 
 
-/* Function to add label text for form fields on add/edit address pages above 800px screen width */
+// Function to add label text for form fields on add/edit address pages above 800px screen width
 function addrO800() {
     if (window.innerWidth > 800) {
         if (window.location.pathname.split('/')[2] === 'edit-address' ||

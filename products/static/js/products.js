@@ -1,4 +1,4 @@
-/* Run all necessary functions once DOM has loaded */
+// Run all necessary functions once DOM has loaded
 window.addEventListener('DOMContentLoaded', () => {
     featProds()
     allProds()
@@ -7,7 +7,7 @@ window.addEventListener('DOMContentLoaded', () => {
     prodResizeScroll()
 })
 
-/* Run all necessary functions once page content has loaded */
+// Run all necessary functions once page content has loaded
 window.addEventListener('load', () => {
     featProds()
     allProds()
@@ -16,13 +16,13 @@ window.addEventListener('load', () => {
     prodResizeScroll()
 })
 
-/* Run all necessary functions when page is resized */
+// Run all necessary functions when page is resized
 window.addEventListener('resize', () => {
     prodResizeScroll()
 })
 
 
-/* Function to show/hide description and ingredient text on button click on product pages */
+// Function to show/hide description and ingredient text on button click on product pages
 if (window.location.pathname.split('=')[0] === '/products/id') {
     document.body.addEventListener('click', function (e) {
         let descLink = document.getElementById('prod-desc-link');
@@ -47,7 +47,7 @@ if (window.location.pathname.split('=')[0] === '/products/id') {
 }
 
 
-/* Function to dynamically set the height for products in lists */
+// Function to dynamically set the height for products in lists
 function prodElSizes(prodClass) {
     let prodList = document.getElementsByClassName(prodClass)
     for (let i = 0; i < prodList.length; i++) {
@@ -80,7 +80,7 @@ function prodElSizes(prodClass) {
 }
 
 
-/* Function to reposition dynamic sort window dropdown */
+// Function to reposition dynamic sort window dropdown
 function sortDD(sortForm) {
     let buttonPosition = sortForm.children[1].getBoundingClientRect().bottom
     let sortWindow = document.getElementsByClassName('sort-dd')[0]
@@ -92,7 +92,7 @@ function sortDD(sortForm) {
 }
 
 
-/* Run the function to reposition the sort window dropdown when scrolling */
+// Run the function to reposition the sort window dropdown when scrolling
 function sortScroll() {
     let sortForm = document.getElementById('sort-form')
     $(document).scroll(function() {
@@ -101,7 +101,7 @@ function sortScroll() {
 }
 
 
-/* Show/hide the Sort Products dropdown window based on button click */
+// Show/hide the Sort Products dropdown window based on button click
 function sortProds() {
     let prodSort = document.getElementsByClassName('prod-sort')[0]
     let sortOpts = document.getElementsByClassName('sort-dd')[0]
@@ -124,7 +124,7 @@ function sortProds() {
 }
 
 
-/* If a user searched for a flavour, select that flavour for the products in the displayed search results */
+// If a user searched for a flavour, select that flavour for the products in the displayed search results
 function searchSelection(json) {
     if (json.length > 0) {
         json.sort(function(a, b) {
@@ -159,7 +159,7 @@ function searchSelection(json) {
 }
 
 
-/* Function to remove all classes for product sizes and flavours */
+// Function to remove all classes for product sizes and flavours
 function removeClasses(json) {
     for (let i = 0; i < json.length; i++) {
         let prodId = json[i].fields.product
@@ -173,7 +173,7 @@ function removeClasses(json) {
 }
 
 
-/* Sort product flavour options alphabetically */
+// Sort product flavour options alphabetically
 function sortFlavours(json) {
     for (let i = 0; i < json.length; i++) {
         let prodId = json[i].fields.product
@@ -193,7 +193,7 @@ function sortFlavours(json) {
 }
 
 
-/* Set the selected index and attribute for the available in-stock size */
+// Set the selected index and attribute for the available in-stock size
 function sizeSelect(sizes) {
     for (let s = 0; s < sizes.length; s++) {
         if (sizes.selectedIndex === -1) {
@@ -209,7 +209,7 @@ function sizeSelect(sizes) {
 }
 
 
-/* Set the selected index and attribute for the available in-stock flavour */
+// Set the selected index and attribute for the available in-stock flavour
 function flavourSelect(json) {
     for (let i = 0; i < json.length; i++) {
         let flavours = document.getElementById(json[i].fields.product + '-prod-flavours')
@@ -252,7 +252,7 @@ function flavourSelect(json) {
 }
 
 
-/* Add/remove classes and attributes for product size options based on stock availability and selections */
+// Add/remove classes and attributes for product size options based on stock availability and selections
 function oosSizes(json) {
     for (let i = 0; i < json.length; i++) {
         let obj = json[i]
@@ -301,7 +301,7 @@ function oosSizes(json) {
 }
 
 
-/* Add/remove classes and attributes for product flavour options based on stock availability and selections */
+// Add/remove classes and attributes for product flavour options based on stock availability and selections
 function oosFlavours(flavours, obj) {
     let selectedSize = $('#' + obj.fields.product + '-prod-sizes :selected').val()
     for (let f = 0; f < flavours.length; f++) {
@@ -328,7 +328,7 @@ function oosFlavours(flavours, obj) {
 }
 
 
-/* Run the functions to check for out of stock sizes and flavours, check for unavailable flavours, and select available flavour option */
+// Run the functions to check for out of stock sizes and flavours, check for unavailable flavours, and select available flavour option
 function oosProducts(json) {
     oosSizes(json)
 
@@ -359,7 +359,7 @@ function oosProducts(json) {
 }
 
 
-/* Customise display for product details based on selections */
+// Customise display for product details based on selections
 function prodDetails(json) {
     for (let i = 0; i < json.length; i++) {
         let obj = json[i]
@@ -417,7 +417,7 @@ function prodDetails(json) {
 }
 
 
-/* Hide duplicate select options */
+// Hide duplicate select options
 function dupeOpts(json, option) {
     for (let i = 0; i < json.length; i++) {
         let fieldId = json[i].fields.product + '-prod-' + option
@@ -435,7 +435,7 @@ function dupeOpts(json, option) {
 }
 
 
-/* Main function to run all product functions */
+// Main function to run all product functions
 function prodFunctions(json) {
     if (json) {
         removeClasses(json)
@@ -448,7 +448,7 @@ function prodFunctions(json) {
 }
 
 
-/* Function to check if any products on the product browser pages are available before running the main product function */
+// Function to check if any products on the product browser pages are available before running the main product function
 function multiProd(json) {
     // Check if any products are visible on the page
     let noResults = document.getElementsByClassName('prod-oos')
@@ -463,7 +463,7 @@ function multiProd(json) {
 }
 
 
-/* Run the main product function for each featured product */
+// Run the main product function for each featured product
 function featOptions() {
     prodFunctions(json_new_prod)
     prodFunctions(json_sports_prod)
@@ -471,13 +471,13 @@ function featOptions() {
 }
 
 
-/* Run the main product function for the product on the individual product page, which in turn runs the main product function */
+// Run the main product function for the product on the individual product page, which in turn runs the main product function
 function productOptions() {
     prodFunctions(json_prod)
 }
 
 
-/* For linked products on individual product pages, run the function for multi-product pages, which in turn runs the main product function */
+// For linked products on individual product pages, run the function for multi-product pages, which in turn runs the main product function
 function linkedOptions() {
     if (typeof json_linked_prods !== 'undefined') {
         multiProd(json_linked_prods)
@@ -485,13 +485,13 @@ function linkedOptions() {
 }
 
 
-/* Run the function for multi-product pages */
+// Run the function for multi-product pages
 function allOptions() {
     multiProd(json_prods)
 }
 
 
-/* On the individual product pages, run relevant functions that in turn run the main product function */
+// On the individual product pages, run relevant functions that in turn run the main product function
 function prodPage() {
     if (window.location.pathname.split('=')[0] === '/products/id') {
         productOptions()
@@ -500,7 +500,7 @@ function prodPage() {
 }
 
 
-/* On the homepage, run relevant function that in turn runs the main product function */
+// On the homepage, run relevant function that in turn runs the main product function
 function featProds() {
     if (window.location.pathname === '/') {
         featOptions()
@@ -508,7 +508,7 @@ function featProds() {
 }
 
 
-/* On the multi-product pages, run relevant function that in turn runs the main product function */
+// On the multi-product pages, run relevant function that in turn runs the main product function
 function allProds() {
     if ((window.location.pathname === '/products/health') ||
         (window.location.pathname === '/products/new') ||
@@ -519,7 +519,7 @@ function allProds() {
 }
 
 
-/* On the product search page, run relevant functions that in turn run the main product function */
+// On the product search page, run relevant functions that in turn run the main product function
 function searchedProds() {
     if (window.location.pathname === '/products/search') {
         if (window.json_searched_prods && json_searched_prods) {
@@ -530,7 +530,7 @@ function searchedProds() {
 }
 
 
-/* On all product pages, run the function to resize heights for product rows and the sort window repositioning function */
+// On all product pages, run the function to resize heights for product rows and the sort window repositioning function
 function prodResizeScroll() {
     if ((window.location.pathname === '/products/health') ||
         (window.location.pathname === '/products/new') ||

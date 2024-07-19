@@ -1,4 +1,4 @@
-/* Function to get ISO country code for Stripe data */
+// Function to get ISO country code for Stripe data
 function generateCountryMap() {
   const countries = new Intl.DisplayNames(['en'], {type: 'region'})
   const countryMap = {}
@@ -15,7 +15,7 @@ function generateCountryMap() {
 }
 
 
-/* Function to generate Stripe styling based on screen width */
+// Function to generate Stripe styling based on screen width
 function stripeStyle() {
     if (window.innerWidth > 500) {
         return {
@@ -66,7 +66,7 @@ let card = elements.create('card', {style: style});
 card.mount('#card-element');
 
 
-/* Function to run when users enter characters into the stripe input form field */
+// Function to run when users enter characters into the stripe input form field
 card.addEventListener('change', function(event) {
     // Display errors as needed
     let errorDiv = document.getElementById('card-errors');
@@ -85,7 +85,7 @@ card.addEventListener('change', function(event) {
 // Get the payment form
 let stripeForm = document.getElementById('payment-form')
 
-/* Function to run on checkout confirmation form submit */
+// Function to run on checkout confirmation form submit
 stripeForm.addEventListener('submit', function(ev) {
     // Prevent default form actions and get form data
     ev.preventDefault()

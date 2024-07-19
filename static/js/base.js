@@ -1,4 +1,4 @@
-/* Run all necessary functions once DOM has loaded */
+// Run all necessary functions once DOM has loaded
 window.addEventListener('DOMContentLoaded', () => {
     logoResize()
     scrollOpt()
@@ -6,14 +6,14 @@ window.addEventListener('DOMContentLoaded', () => {
     baseO500()
 })
 
-/* Run all necessary functions once page content has loaded */
+// Run all necessary functions once page content has loaded
 window.addEventListener('load', () => {
     logoResize()
     baseU500()
     baseO500()
 })
 
-/* Run all necessary functions when page is resized */
+// Run all necessary functions when page is resized
 window.addEventListener('resize', () => {
     logoResize()
     footerResize()
@@ -22,7 +22,7 @@ window.addEventListener('resize', () => {
 })
 
 
-/* Restrict the width of the logo img and anchor elements to the div width */
+// Restrict the width of the logo img and anchor elements to the div width
 function logoResize() {
     let logo = document.getElementsByClassName('nav-right')[0]
     let width = window.getComputedStyle(logo).getPropertyValue('width')
@@ -31,7 +31,7 @@ function logoResize() {
 }
 
 
-/* Function to display and style the Back to Top button for the site */
+// Function to display and style the Back to Top button for the site
 function scrollOpt() {
     let scrollBtn = document.getElementById('footer-top-link');
     let footLinks = document.getElementById('footer-links');
@@ -53,7 +53,7 @@ function scrollOpt() {
 }
 
 
-/* Function to style footer elements based on screen width and Back to Top button visibility */
+// Function to style footer elements based on screen width and Back to Top button visibility
 function footerResize() {
     let scrollBtn = document.getElementById('footer-top-link');
     let footLinks = document.getElementById('footer-links');
@@ -79,14 +79,14 @@ function footerResize() {
 }
 
 
-/* Function to scroll to the top of the page */
+// Function to scroll to the top of the page
 function topScroll() {
     document.body.scrollTop = 0; // For Safari
     document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
 }
 
 
-/* Function to show/hide modals for various features on different pages */
+// Function to show/hide modals for various features on different pages
 function modals(buttonId, modalId) {
     let button = document.getElementById(buttonId)
     let modal = document.getElementById(modalId)
@@ -110,7 +110,7 @@ function modals(buttonId, modalId) {
 }
 
 
-/* Function to copy the support email to clipboard */
+// Function to copy the support email to clipboard
 function copyMailto(modalId) {
     let modal = document.getElementById(modalId)
     navigator.clipboard.writeText(event.target.innerText).then(() => {
@@ -120,7 +120,7 @@ function copyMailto(modalId) {
 }
 
 
-/* Replace elements in nav bar for screens under 500px width */
+// Replace elements in nav bar for screens under 500px width
 function baseU500() {
     if (window.innerWidth <= 800) {
         // Remove text content from left nav buttons/links (only icons remain)
@@ -149,7 +149,7 @@ function baseU500() {
 }
 
 
-/* Replace elements in nav bar for screens above 500px width */
+// Replace elements in nav bar for screens above 500px width
 function baseO500() {
     if (window.innerWidth > 800) {
         // Add text content to left nav buttons/links (icons remain)
