@@ -120,7 +120,7 @@ function copyMailto(modalId) {
 }
 
 
-// Replace elements in nav bar for screens under 500px width
+// Replace elements in nav bar for screens up to 500px width
 function baseU500() {
     if (window.innerWidth <= 800) {
         // Remove text content from left nav buttons/links (only icons remain)

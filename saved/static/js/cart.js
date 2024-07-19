@@ -17,7 +17,7 @@ window.addEventListener('resize', () => {
 })
 
 
-// Replace table headers with icons for cart views for screens under 800px width
+// Replace table headers with icons for cart views for screens up to 800px width
 function cartU800() {
     if (window.innerWidth <= 800) {
         if (window.location.pathname === '/cart') {

@@ -23,7 +23,7 @@ window.addEventListener('resize', () => {
 })
 
 
-// Replace View Order button text with View on the profile orders page for screens with less than 500px width
+// Replace View Order button text with View on the profile orders page for screens up to 500px width
 function profileOrdersU500() {
     if (window.innerWidth <= 500) {
         if (window.location.pathname.includes('/profile/orders')) {
@@ -59,7 +59,7 @@ function profileOrdersO500() {
 }
 
 
-// Replace table headers with icons on the profile orders page for screens under 1100px width
+// Replace table headers with icons on the profile orders page for screens up to 1100px width
 function profileOrdersU1100() {
     if (window.innerWidth <= 1100) {
         if (window.location.pathname.includes('/profile/orders')) {

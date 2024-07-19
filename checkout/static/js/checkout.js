@@ -130,7 +130,7 @@ function resizeCheckoutFields() {
 }
 
 
-// For screens below 800px width, replace cart headers with icons
+// For screens up to 800px width, replace cart headers with icons
 function checkoutU800() {
     if (window.innerWidth <= 800) {
         if (window.location.pathname === '/checkout' || window.location.pathname === '/checkout/success') {
