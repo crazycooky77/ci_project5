@@ -1,15 +1,18 @@
+/* Run all necessary functions once DOM has loaded */
 window.addEventListener('DOMContentLoaded', () => {
     checkoutSizing()
     checkoutU800()
     checkoutO800()
 })
 
+/* Run all necessary functions once page content has loaded */
 window.addEventListener('load', () => {
     checkoutSizing()
     checkoutU800()
     checkoutO800()
 })
 
+/* Run all necessary functions when page is resized */
 window.addEventListener('resize', () => {
     checkoutSizing()
     checkoutU800()
@@ -17,6 +20,7 @@ window.addEventListener('resize', () => {
 })
 
 
+/* Get selected address and fill out the corresponding checkout address form fields */
 function addressSelection(select, addrForm) {
     let selectedAddr = select.options[select.options.selectedIndex]
     let selectedAddrId = Number(selectedAddr.value.split('-')[0])
@@ -46,18 +50,21 @@ function addressSelection(select, addrForm) {
 }
 
 
+/* Run the address selection function for the shipping address form fields */
 function shipAddrSelection(select) {
     let shipForm = document.getElementsByClassName('shipping-addr-form')[0]
     addressSelection(select, shipForm)
 }
 
 
+/* Run the address selection function for the billing address form fields */
 function billAddrSelection(select) {
     let billForm = document.getElementsByClassName('billing-addr-form')[0]
     addressSelection(select, billForm)
 }
 
 
+/* Function for users to show/hide cart contents on checkout pages */
 function toggleCart() {
     let cartTable = document.getElementsByClassName('cart-tbl-prod')
     for (let i = 0; i < cartTable.length; i++) {
@@ -71,6 +78,7 @@ function toggleCart() {
 }
 
 
+/* Function to POST address and order data when a user is at the checkout confirmation page and wants to Edit Address */
 function checkoutEditAddr() {
     let shippingAddr = document.querySelector('input[name="shipping-addr"]').value
     let billingAddr = document.querySelector('input[name="billing-addr"]').value
@@ -92,6 +100,7 @@ function checkoutEditAddr() {
 }
 
 
+/* Function to autofill the billing address with the shipping address details */
 function addrMatch() {
     let shipForm = document.getElementsByClassName('shipping-addr-form')[0]
     let billForm = document.getElementsByClassName('billing-addr-form')[0]
@@ -106,6 +115,7 @@ function addrMatch() {
 }
 
 
+/* Function to resize checkout address input fields for consistency */
 function resizeCheckoutFields() {
     let formInputs = document.getElementsByClassName('stripe-input')
     if (formInputs.length > 0) {
@@ -120,6 +130,7 @@ function resizeCheckoutFields() {
 }
 
 
+/* For screens below 800px width, replace cart headers with icons */
 function checkoutU800() {
     if (window.innerWidth <= 800) {
         if (window.location.pathname === '/checkout' || window.location.pathname === '/checkout/success') {
@@ -140,6 +151,7 @@ function checkoutU800() {
 }
 
 
+/* For screens above 800px width, replace icons with cart headers */
 function checkoutO800() {
     if (window.innerWidth > 800) {
         if (window.location.pathname === '/checkout' || window.location.pathname === '/checkout/success') {
@@ -152,6 +164,7 @@ function checkoutO800() {
 }
 
 
+/* Run the function to make checkout field sizes consistent on the checkout page */
 function checkoutSizing() {
     if (window.location.pathname === '/checkout') {
         resizeCheckoutFields()

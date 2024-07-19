@@ -1,3 +1,4 @@
+/* Run all necessary functions once DOM has loaded */
 window.addEventListener('DOMContentLoaded', () => {
     profileOrdersU500()
     profileOrdersO500()
@@ -5,6 +6,7 @@ window.addEventListener('DOMContentLoaded', () => {
     profileOrdersO1100()
 })
 
+/* Run all necessary functions once page content has loaded */
 window.addEventListener('load', () => {
     profileOrdersU500()
     profileOrdersO500()
@@ -12,6 +14,7 @@ window.addEventListener('load', () => {
     profileOrdersO1100()
 })
 
+/* Run all necessary functions when page is resized */
 window.addEventListener('resize', () => {
     profileOrdersU500()
     profileOrdersO500()
@@ -20,6 +23,7 @@ window.addEventListener('resize', () => {
 })
 
 
+/* Replace View Order button text with View on the profile orders page for screens with less than 500px width */
 function profileOrdersU500() {
     if (window.innerWidth <= 500) {
         if (window.location.pathname.includes('/profile/orders')) {
@@ -37,6 +41,7 @@ function profileOrdersU500() {
 }
 
 
+/* Replace View button text with View Orders on the profile orders page for screens with above 500px width */
 function profileOrdersO500() {
     if (window.innerWidth > 500) {
         if (window.location.pathname.includes('/profile/orders')) {
@@ -54,6 +59,7 @@ function profileOrdersO500() {
 }
 
 
+/* Replace table headers with icons on the profile orders page for screens under 1100px width */
 function profileOrdersU1100() {
     if (window.innerWidth <= 1100) {
         if (window.location.pathname.includes('/profile/orders')) {
@@ -88,6 +94,7 @@ function profileOrdersU1100() {
 }
 
 
+/* Replace icons with table headers on the profile orders page for screens above 1100px width */
 function profileOrdersO1100() {
     if (window.innerWidth > 1100) {
         if (window.location.pathname.includes('/profile/orders')) {

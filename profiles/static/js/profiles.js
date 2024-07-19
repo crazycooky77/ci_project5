@@ -1,3 +1,4 @@
+/* Hide/display expanded hamburger menu on profile pages for screens below 500px width */
 if (window.location.pathname.includes('profile') ||
     window.location.pathname.includes('email') ||
     window.location.pathname === '/password/change/') {

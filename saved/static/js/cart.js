@@ -1,19 +1,23 @@
+/* Run all necessary functions once DOM has loaded */
 window.addEventListener('DOMContentLoaded', () => {
     cartU800()
     cartO800()
 })
 
+/* Run all necessary functions once page content has loaded */
 window.addEventListener('load', () => {
     cartU800()
     cartO800()
 })
 
+/* Run all necessary functions when page is resized */
 window.addEventListener('resize', () => {
     cartU800()
     cartO800()
 })
 
 
+/* Replace table headers with icons for cart views for screens under 800px width */
 function cartU800() {
     if (window.innerWidth <= 800) {
         if (window.location.pathname === '/cart') {
@@ -34,6 +38,7 @@ function cartU800() {
 }
 
 
+/* Replace icons with table headers for cart views for screens above 800px width */
 function cartO800() {
     if (window.innerWidth > 800) {
         if (window.location.pathname === '/cart') {
