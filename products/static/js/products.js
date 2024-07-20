@@ -86,7 +86,7 @@ function sortDD(sortForm) {
     let sortWindow = document.getElementsByClassName('sort-dd')[0];
     let sortPosition = sortWindow.getBoundingClientRect().top;
 
-    if (sortPosition && !(sortPosition === buttonPosition + 10)) {
+    if (sortPosition && sortPosition !== buttonPosition + 10) {
         sortWindow.style.top = buttonPosition + 'px';
     }
 }
@@ -129,7 +129,7 @@ function searchSelection(json) {
     if (json.length > 0) {
         json.sort(function(a, b) {
             return a.fields.product - b.fields.product;
-        })
+        });
         for (let prod in json) {
             if (Number(prod) === 0 ||
                 (Number(prod) > 0 && json[prod].fields.product !== json[prod - 1].fields.product)) {
@@ -421,14 +421,14 @@ function prodDetails(json) {
 function dupeOpts(json, option) {
     for (let i = 0; i < json.length; i++) {
         let fieldId = json[i].fields.product + '-prod-' + option;
-        let dupeOpts = {};
+        let dupes = {};
         $('select[name=' + fieldId + '] > option').each(function() {
-            if (dupeOpts[this.text]) {
+            if (dupes[this.text]) {
                 $(this).hide();
                 $(this).addClass('hidden');
                 $(this).prop('disabled', false);
             } else {
-                dupeOpts[this.text] = this.value;
+                dupes[this.text] = this.value;
             }
         });
     }

@@ -49,7 +49,7 @@ function scrollOpt() {
                 footLinks.style.width = '100%';
             }
         }
-    }
+    };
 }
 
 
@@ -98,17 +98,17 @@ function modals(buttonId, modalId) {
     span.onclick = function() {
         modal.style.display = 'none';
         toolTip.style.display = 'none';
-    }
+    };
     window.onclick = function(event) {
         if (!(modal.contains(event.target)) && button !== event.target) {
             modal.style.display = 'none';
             toolTip.style.display = 'none';
         }
-    }
+    };
     window.onresize = function() {
         modal.style.display = 'none';
         toolTip.style.display = 'none';
-    }
+    };
 }
 
 

@@ -33,7 +33,7 @@ function stripeStyle() {
                 color: 'red',
                 iconColor: 'red'
             },
-        }
+        };
     }
 
     if (window.innerWidth <= 500) {
@@ -52,7 +52,7 @@ function stripeStyle() {
                 color: 'red',
                 iconColor: 'red'
             }
-        }
+        };
     }
 }
 
@@ -75,7 +75,7 @@ card.addEventListener('change', function(event) {
         <span class="icon" role="alert">
             <i class="fas fa-times"></i>
         </span>
-        <span>${event.error.message}</span>`
+        <span>${event.error.message}</span>`;
         $(errorDiv).html(html);
     } else {
         errorDiv.textContent = '';
@@ -136,7 +136,7 @@ stripeForm.addEventListener('submit', function(ev) {
                     <span class="icon" role="alert">
                         <i class="fas fa-times"></i>
                     </span>
-                    <span>Some item(s) in your cart have changed, due to stock updates. Please review your cart and make any necessary adjustments before checking out again.</span>`
+                    <span>Some item(s) in your cart have changed, due to stock updates. Please review your cart and make any necessary adjustments before checking out again.</span>`;
                         $(errorDiv).html(html);
                         // Remove the Processing message and re-enable card field/button
                         document.getElementById('pay-process').style.display = 'none';
@@ -174,28 +174,28 @@ stripeForm.addEventListener('submit', function(ev) {
                 'csrfmiddlewaretoken': document.querySelector('[name=csrfmiddlewaretoken]').value,
                 'client_secret': clientSecret,
                 'order_note': $('#checkout-order-note').val(),
-                'ship_first_name': ship_addr_json['first_name'],
-                'bill_first_name': bill_addr_json['first_name'],
-                'ship_last_name': ship_addr_json['last_name'],
-                'bill_last_name': bill_addr_json['last_name'],
-                'ship_addr_line3': ship_addr_json['addr_line3'],
-                'bill_addr_line3': bill_addr_json['addr_line3']
+                'ship_first_name': ship_addr_json.first_name,
+                'bill_first_name': bill_addr_json.first_name,
+                'ship_last_name': ship_addr_json.last_name,
+                'bill_last_name': bill_addr_json.last_name,
+                'ship_addr_line3': ship_addr_json.addr_line3,
+                'bill_addr_line3': bill_addr_json.addr_line3
             };
             if (document.querySelectorAll('.cart-totals').length === 3) {
                 let subtotal = document.querySelectorAll('.cart-totals')[0].lastElementChild.textContent.split(' ')[1];
                 let shipping = document.querySelectorAll('.cart-totals')[1].lastElementChild.textContent.split(' ')[1];
                 let total = document.querySelectorAll('.cart-totals')[2].lastElementChild.textContent.split(' ')[1];
-                postData['subtotal'] = subtotal;
-                postData['shipping'] = shipping;
-                postData['grand_total'] = total;
+                postData.subtotal = subtotal;
+                postData.shipping = shipping;
+                postData.grand_total = total;
             }
             else {
                 let total = document.querySelectorAll('.cart-totals')[1].lastElementChild.textContent.split(' ')[1];
-                postData['subtotal'] = total;
-                postData['shipping'] = 0;
-                postData['grand_total'] = total;
+                postData.subtotal = total;
+                postData.shipping = 0;
+                postData.grand_total = total;
             }
-            let url = '/checkout/cache_checkout_data/'
+            let url = '/checkout/cache_checkout_data/';
             // POST order data
             $.post(url, postData).done(function() {
                 // Confirm the stripe payment, while adding address details
@@ -203,28 +203,28 @@ stripeForm.addEventListener('submit', function(ev) {
                     payment_method: {
                         card: card,
                         billing_details: {
-                            name: $.trim(bill_addr_json['first_name']) + ' ' + $.trim(bill_addr_json['last_name']),
-                            phone: $.trim(bill_addr_json['phone_nr']),
-                            email: $.trim(bill_addr_json['email']),
+                            name: $.trim(bill_addr_json.first_name) + ' ' + $.trim(bill_addr_json.last_name),
+                            phone: $.trim(bill_addr_json.phone_nr),
+                            email: $.trim(bill_addr_json.email),
                             address: {
-                                line1: $.trim(bill_addr_json['addr_line1']),
-                                line2: $.trim(bill_addr_json['addr_line2']),
-                                city: $.trim(bill_addr_json['city']),
-                                country: $.trim(countries[bill_addr_json['country']]),
-                                state: $.trim(bill_addr_json['county'])
+                                line1: $.trim(bill_addr_json.addr_line1),
+                                line2: $.trim(bill_addr_json.addr_line2),
+                                city: $.trim(bill_addr_json.city),
+                                country: $.trim(countries[bill_addr_json.country]),
+                                state: $.trim(bill_addr_json.county)
                             }
                         }
                     },
                     shipping: {
-                        name: $.trim(ship_addr_json['first_name']) + ' ' + $.trim(ship_addr_json['last_name']),
-                        phone: $.trim(ship_addr_json['phone_nr']),
+                        name: $.trim(ship_addr_json.first_name) + ' ' + $.trim(ship_addr_json.last_name),
+                        phone: $.trim(ship_addr_json.phone_nr),
                         address: {
-                            line1: $.trim(ship_addr_json['addr_line1']),
-                            line2: $.trim(ship_addr_json['addr_line2']),
-                            city: $.trim(ship_addr_json['city']),
-                            country: $.trim(countries[ship_addr_json['country']]),
-                            postal_code: $.trim(ship_addr_json['eir_code']),
-                            state: $.trim(ship_addr_json['county'])
+                            line1: $.trim(ship_addr_json.addr_line1),
+                            line2: $.trim(ship_addr_json.addr_line2),
+                            city: $.trim(ship_addr_json.city),
+                            country: $.trim(countries[ship_addr_json.country]),
+                            postal_code: $.trim(ship_addr_json.eir_code),
+                            state: $.trim(ship_addr_json.county)
                         }
                     }
                 }).then(function (result) {
@@ -235,7 +235,7 @@ stripeForm.addEventListener('submit', function(ev) {
                         <span class="icon" role="alert">
                             <i class="fas fa-times"></i>
                         </span>
-                        <span>${result.error.message}</span>`
+                        <span>${result.error.message}</span>`;
                         $(errorDiv).html(html);
                         document.getElementById('pay-process').style.display = 'none';
                         card.update({'disabled': false});
