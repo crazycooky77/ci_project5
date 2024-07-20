@@ -28,14 +28,14 @@ if (window.location.pathname === '/checkout' && document.getElementById('shippin
     let billSelect = document.getElementById('billing-addr-list');
     addrForm.addEventListener('input', (e) => {
         if (e.target.localName === 'input') {
-            if (e.target.parentElement.parentElement.className === 'shipping-addr-form'
-                && shipSelect.options.selectedIndex !== 0) {
+            if (e.target.parentElement.parentElement.className === 'shipping-addr-form' &&
+                shipSelect.options.selectedIndex !== 0) {
                 shipSelect.options[shipSelect.options.selectedIndex].removeAttribute('selected');
                 shipSelect.options.selectedIndex = 0;
                 shipSelect.options[0].setAttribute('selected', true);
             }
-            else if (e.target.parentElement.parentElement.className === 'billing-addr-form'
-                && billSelect.options.selectedIndex !== 0) {
+            else if (e.target.parentElement.parentElement.className === 'billing-addr-form' &&
+                billSelect.options.selectedIndex !== 0) {
                 billSelect.options[billSelect.options.selectedIndex].removeAttribute('selected');
                 billSelect.options.selectedIndex = 0;
                 billSelect.options[0].setAttribute('selected', true);
