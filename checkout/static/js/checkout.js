@@ -1,5 +1,6 @@
 // Run all necessary functions once DOM has loaded
 window.addEventListener('DOMContentLoaded', () => {
+    initAddrSel()
     checkoutSizing()
     checkoutU800()
     checkoutO800()
@@ -20,9 +21,34 @@ window.addEventListener('resize', () => {
 })
 
 
+// Function to update selected dropdown option once user starts changing any autofilled address fields
+if (window.location.pathname === '/checkout' && document.getElementById('shipping-addr-list')) {
+    let addrForm = document.getElementsByClassName('checkout-addr')[0]
+    let shipSelect = document.getElementById('shipping-addr-list')
+    let billSelect = document.getElementById('billing-addr-list')
+    addrForm.addEventListener('input', (e) => {
+        if (e.target.localName === 'input') {
+            if (e.target.parentElement.parentElement.className === 'shipping-addr-form'
+                && shipSelect.options.selectedIndex !== 0) {
+                shipSelect.options[shipSelect.options.selectedIndex].removeAttribute('selected')
+                shipSelect.options.selectedIndex = 0
+                shipSelect.options[0].setAttribute('selected', true)
+            }
+            else if (e.target.parentElement.parentElement.className === 'billing-addr-form'
+                && billSelect.options.selectedIndex !== 0) {
+                billSelect.options[billSelect.options.selectedIndex].removeAttribute('selected')
+                billSelect.options.selectedIndex = 0
+                billSelect.options[0].setAttribute('selected', true)
+            }
+        }
+    })
+}
+
+
 // Get selected address and fill out the corresponding checkout address form fields
 function addressSelection(select, addrForm) {
     let selectedAddr = select.options[select.options.selectedIndex]
+    selectedAddr.setAttribute('selected', true)
     let selectedAddrId = Number(selectedAddr.value.split('-')[0])
     addrForm.querySelectorAll('input').forEach(
     e => json_addr.forEach(
@@ -50,17 +76,25 @@ function addressSelection(select, addrForm) {
 }
 
 
-// Run the address selection function for the shipping address form fields
-function shipAddrSelection(select) {
-    let shipForm = document.getElementsByClassName('shipping-addr-form')[0]
-    addressSelection(select, shipForm)
+// Run the address selection function for address form fields
+function selectAddr(addrList, addrForm) {
+    let select = document.getElementById(addrList)
+    let form = document.getElementsByClassName(addrForm)[0]
+    for (let i = 0; i < select.options.length; i++) {
+        if (select.options[i].getAttribute('selected')) {
+            select.options[i].removeAttribute('selected')
+        }
+    }
+    addressSelection(select, form)
 }
 
 
-// Run the address selection function for the billing address form fields
-function billAddrSelection(select) {
-    let billForm = document.getElementsByClassName('billing-addr-form')[0]
-    addressSelection(select, billForm)
+// Run address selection functions (for initial page load)
+function initAddrSel() {
+    if (window.location.pathname === '/checkout' && document.getElementById('shipping-addr-list')) {
+        selectAddr('shipping-addr-list', 'shipping-addr-form')
+        selectAddr('billing-addr-list', 'billing-addr-form')
+    }
 }
 
 
@@ -104,6 +138,8 @@ function checkoutEditAddr() {
 function addrMatch() {
     let shipForm = document.getElementsByClassName('shipping-addr-form')[0]
     let billForm = document.getElementsByClassName('billing-addr-form')[0]
+    let shipSelectIndex = document.getElementById('shipping-addr-list').options.selectedIndex
+    let billSelect = document.getElementById('billing-addr-list')
     shipForm.querySelectorAll('input').forEach(
         sInput => billForm.querySelectorAll('input').forEach(
             bInput =>
@@ -112,6 +148,9 @@ function addrMatch() {
             }
         )
     )
+    billSelect.options[billSelect.options.selectedIndex].removeAttribute('selected')
+    billSelect.options.selectedIndex = shipSelectIndex
+    billSelect.options[shipSelectIndex].setAttribute('selected', true)
 }
 
 
