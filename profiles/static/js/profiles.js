@@ -13,5 +13,5 @@ if (window.location.pathname.includes('profile') ||
                 hamMenu.style.display = 'none';
             }
         }
-    })
+    });
 }
