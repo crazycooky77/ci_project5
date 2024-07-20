@@ -31,7 +31,7 @@ function logoResize() {
 }
 
 
-// Function to display and style the Back to Top button for the site
+// Function to display and style the Back to top button for the site
 function scrollOpt() {
     let scrollBtn = document.getElementById('footer-top-link');
     let footLinks = document.getElementById('footer-links');
@@ -53,7 +53,7 @@ function scrollOpt() {
 }
 
 
-// Function to style footer elements based on screen width and Back to Top button visibility
+// Function to style footer elements based on screen width and Back to top button visibility
 function footerResize() {
     let scrollBtn = document.getElementById('footer-top-link');
     let footLinks = document.getElementById('footer-links');
