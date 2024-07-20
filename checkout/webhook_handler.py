@@ -249,8 +249,9 @@ class StripeHWHandler:
             except Exception as e:
                 if order:
                     order.delete()
-                return HttpResponse(content=f'Webhook received: {event["type"]}'
-                                            f' | ERROR: {e}', status=500)
+                return HttpResponse(
+                    content=f'Webhook received: {event["type"]}'
+                            f' | ERROR: {e}', status=500)
 
         # Send the confirmation emails
         self._send_confirmation_email(order)

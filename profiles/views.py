@@ -66,13 +66,16 @@ def newsletter_signup(request):
             news_email = request.POST.get('news_email')
             newsletter_form = NewsletterForm(
                 {'news_email': news_email})
-            signed_up = Newsletter.objects.filter(news_email__iexact=news_email)
+            signed_up = Newsletter.objects.filter(
+                news_email__iexact=news_email)
             # Custom messages following subscription attempt
             if newsletter_form.is_valid() and not signed_up:
                 obj = newsletter_form.save(commit=False)
                 obj.save()
-                unsub_link =(
-                        request.META['HTTP_ORIGIN'] + '/unsub=' + obj.news_uuid)
+                unsub_link = (
+                        request.META['HTTP_ORIGIN'] +
+                        '/unsub=' +
+                        obj.news_uuid)
                 _send_signup_email(news_email, unsub_link)
                 messages.success(
                     request, 'Thank you for signing up to our newsletter!')
@@ -120,7 +123,8 @@ def profile_vars(request):
     default_address, other_address = get_addresses(request)
     orders = OrderHistory.objects.filter(
         purchaser=request.user).order_by('-order_dt')
-    signed_up = Newsletter.objects.filter(news_email__iexact=request.user.email)
+    signed_up = Newsletter.objects.filter(
+        news_email__iexact=request.user.email)
     return default_address, other_address, orders, signed_up
 
 

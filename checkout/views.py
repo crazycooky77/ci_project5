@@ -156,7 +156,7 @@ def checkout_view(request):
                      'bill_order_addr_form': bill_order_addr_form,
                      'order_note': order_note})
 
-        # If user is logged in, display address view with autofilled form fields
+        # If user is logged in, display autofilled form fields in address view
         elif request.user.is_authenticated:
             order_addr_form, addr_list, js_addr = checkout_addr(
                 request, order_addr_form)
@@ -166,7 +166,7 @@ def checkout_view(request):
                            'addr_list': addr_list,
                            'js_addr': js_addr,
                            'order_note': order_note})
-        # Guest Checkout/edit_addr with no ship_addr in POST: checkout addr view
+        # Guest Checkout/edit_addr w/o no ship_addr in POST: checkout addr view
         elif ((request.POST.get('checkout-guest-button')
               or request.POST.get('checkout-edit-addr'))
               and not request.POST.get('shipping-addr')):
@@ -220,7 +220,7 @@ def checkout_view(request):
         else:
             return render(request,
                           'checkout-signin.html')
-    # After user submits checkout address, or "check-stock" is submitted by POST
+    # After user submits checkout address, or "check-stock" is in POST
     elif (request.POST.get('addr-form-button')
           or request.POST.get('check-stock')):
         (cart_prods, cart, stock_change, stock_list,
@@ -279,7 +279,7 @@ def checkout_view(request):
 
             # Get cart and stock information and create stripe intent
             if stock_change and cart:
-                # For stock changes, create SetupIntent for user to confirm cart
+                # For cart changes, create SetupIntent for user to confirm cart
                 stock_change = ProductDetails.objects.filter(
                     pk__in=stock_list)
                 intent = stripe.SetupIntent.create(

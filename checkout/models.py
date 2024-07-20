@@ -51,7 +51,8 @@ class OrderHistory(models.Model):
 
 
 class Purchases(models.Model):
-    """Model for purchased products belonging to orders in OrderHistory model"""
+    """Model for purchased products
+    belonging to orders in OrderHistory model"""
     purchase_id = models.AutoField(primary_key=True)
     order = models.ForeignKey(OrderHistory,
                               on_delete=models.PROTECT)
