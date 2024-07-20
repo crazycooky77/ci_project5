@@ -309,6 +309,11 @@ label:has(+input:required):after {
     justify-content: center;
 }
 
+/* Setting specific margin for password reset paragraph */
+.form-text {
+    margin-bottom: 15px;
+}
+
 /* Global styling for form label/input pairs */
 .label-input {
     display: flex;
@@ -590,11 +595,6 @@ footer * {
     /* Increase width of middle page div */
     .mid-content {
         width: 100%;
-    }
-
-    /* Setting specific margin for password reset paragraph */
-    .form-text {
-        margin-bottom: 15px;
     }
 
     /* Increase width for form label/input pairs */
