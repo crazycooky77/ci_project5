@@ -78,10 +78,12 @@ def newsletter_signup(request):
                     request, 'Thank you for signing up to our newsletter!')
             elif signed_up:
                 messages.success(
-                    request, "Good news, you're already signed up!")
+                    request, "Good news, you're already signed"
+                             " up to our newsletter!")
             else:
                 messages.error(
-                    request, 'Please enter a valid email address')
+                    request, 'Please enter a valid email address to subscribe '
+                             'to our newsletter')
             if '/unsub=' in redirect_url:
                 return redirect('/')
             else:
