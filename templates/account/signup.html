@@ -1,6 +1,8 @@
+{# Load base template and modules #}
 {% extends "base.html" %}
 {% load allauth i18n %}
 
+{# Display account creation page #}
 {% block content %}
     <div class="mid-content">
         <h2>Create Account</h2>
@@ -8,7 +10,9 @@
         {% element form form=form method="post" action=action_url tags="entrance,signup" %}
             {% slot body %}
                 {% csrf_token %}
+                {# Include Django messages #}
                 {% include "form-responses.html" %}
+                {# Display email and password form fields #}
                 <div class="form-div">
                     <div class="label-input">
                         <label for="id_email" aria-label="Email Address"></label>
@@ -27,6 +31,7 @@
                         <input type="password" id="id_password2" placeholder="re-enter password" name="password2" required>
                     </div>
                 </div>
+                {# Display password requirements #}
                 <div class="pass-req">
                     <p>Note, your password:</p>
                     <ul>
@@ -36,21 +41,20 @@
                         <li>can’t be entirely numeric</li>
                     </ul>
                     {% if redirect_field_value %}
-                        <input type="hidden"
-                               name="{{ redirect_field_name }}"
-                               value="{{ redirect_field_value }}" />
+                        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}">
                     {% endif %}
                 </div>
             {% endslot %}
             {% slot actions %}
                 <div class="pass-req">
+                    {# Create Account button to submit form and account details #}
                     {% element button tags="prominent,signup" type="submit" %}
                         {% trans "Create Account" %}
                     {% endelement %}
                 </div>
             {% endslot %}
         {% endelement %}
-        <!-- Social account signup (not yet enabled) -->
+        {# Social media account signup (not yet enabled) #}
         {% if SOCIALACCOUNT_ENABLED %}
             {% include "socialaccount/snippets/login.html" with page_layout="entrance" %}
         {% endif %}

@@ -1,21 +1,28 @@
-<!-- Load the base html file -->
+{# Load base template and static files #}
 {% extends "base.html" %}
 {% load static %}
 
+{# Load additional CSS file #}
 {% block extracss %}
     <link rel="stylesheet" href="{% static 'css/products.css' %}">
 {% endblock %}
 
+{# Display list of products #}
 {% block content %}
     <div class="all-prod-div">
+        {# Include Django messages #}
         {% include "form-responses.html" %}
+        {# Additional content for product searches #}
         {% if request.get_full_path == "/products/search" %}
             <div class="search-results-div">
                 {% if search_term or sort_search %}
+                    {# Message for user indicating available products for their search term #}
                     {% if products %}
                         <p>Here are the products matching your search for "{{ search_term }}"</p>
+                    {# Message for user indicating no products are available for their search term #}
                     {% else %}
                         <p>We don't have products matching your search for "{{ search_term }}". You can <a href="javascript:modals('prod-req-mailto-anchor', 'prod-req-mailto-modal')" id="prod-req-mailto-anchor">email us</a> to request we add products to our stock.</p>
+                        {# Modal for user to contact support to request the product be stocked #}
                         <div id="prod-req-mailto-modal" class="modal">
                             <div class="modal-content">
                                 <span class="modal-close">&times;</span>
@@ -25,21 +32,25 @@
                             </div>
                         </div>
                     {% endif %}
+                {# Message for user indicating an empty search term #}
                 {% else %}
                     <p>Your search was made with an empty search term. Please try again or check out our <a href="/products/all">list of products here</a></p>
                 {% endif %}
             </div>
         {% endif %}
         {% if request.get_full_path == "/products/search" and search_term == None and sort_search == None %}
+        {# Display product sorting for all pages that include products in the results #}
         {% else %}
             {% if products %}
                 {% include "sorting.html" %}
             {% endif %}
         {% endif %}
+        {# Product list div #}
         <div class="all-prod-page">
             {% if products %}
                 {% if products_distinct %}
                     {% for prod in products_distinct %}
+                        {# Display product details for listed products #}
                         <div class="all-prod-ver">
                             <a href="/products/id={{ prod.product.product_id }}">
                                 <img class="all-prod-img" src="{{ prod.product.product_pic.url }}" alt="Sports/Health Product image">
@@ -53,6 +64,7 @@
                                 <div class="all-prod-other">
                                     <form action="{% url 'add-cart' prod.product_id %}" method="POST">
                                     {% csrf_token %}
+                                        {# Display flavour select if available #}
                                         {% if prod.flavour %}
                                             <p>
                                                 <label for="{{ prod.product_id }}-prod-flavours">Flavour:</label>
@@ -65,6 +77,7 @@
                                                 </select>
                                             </p>
                                         {% endif %}
+                                        {# Display size select #}
                                         <p>
                                             <label for="{{ prod.product_id }}-prod-sizes">Size:</label>
                                             <select name="{{ prod.product_id }}-prod-sizes" id="{{ prod.product_id }}-prod-sizes" onChange=allOptions()>
@@ -77,8 +90,10 @@
                                         </p>
                                         <p id="{{ prod.product_id }}-prod-price"></p>
                                         <div id="{{ prod.product_id }}-prod-cart" class="add-cart">
+                                            {# Field for user to select quantity they want to purchase #}
                                             <label for="{{ prod.product_id }}-prod-quantity" aria-label="Quantity"></label>
                                             <input type="number" id="{{ prod.product_id }}-prod-quantity" name="{{ prod.product_id }}-prod-quantity" value="1" min="1" max="{{ prod.stock_count }}">
+                                            {# Add selected product and quantity to cart #}
                                             <button class="all-prod-button">Add to Cart</button>
                                         </div>
                                         <input type="hidden" name="redirect_url" value="{{ request.path }}">
@@ -88,6 +103,7 @@
                             </div>
                         </div>
                     {% endfor %}
+                {# Custom message when user sorts products and nothing is available (specifically for "on sale" #}
                 {% else %}
                     {% if request.get_full_path != "/products/search" %}
                         <div class="prod-oos">
@@ -95,6 +111,7 @@
                         </div>
                     {% endif %}
                 {% endif %}
+            {# Custom message for user when no products are available in the overall list #}
             {% elif not products and not products_distinct and request.get_full_path != "/products/search" %}
                 <div class="prod-oos">
                     <p>We currently don't have products to show you in this category. Stay tuned!</p>
@@ -104,6 +121,7 @@
     </div>
 {% endblock %}
 
+{# Parse JSON data and store in variables for JS functions, and include additional Javascript file #}
 {% block postloadjs %}
     <script>
         if ("{{ js_products }}" !== "") {

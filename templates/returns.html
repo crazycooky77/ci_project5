@@ -1,7 +1,10 @@
+{# Load base template #}
 {% extends "base.html" %}
 
+{# Display refund and return information #}
 {% block content %}
     <div class="mid-content">
+        {# Include Django messages #}
         {% include "form-responses.html" %}
         <h2>Returns and Refunds</h2>
         <p>Last updated: July 08, 2024</p>

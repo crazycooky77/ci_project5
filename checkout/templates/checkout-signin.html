@@ -1,16 +1,20 @@
-<!-- Load the base html file -->
+{# Load base template and static files #}
 {% extends "base.html" %}
 {% load static %}
 
+{# Load additional CSS file #}
 {% block extracss %}
     <link rel="stylesheet" href="{% static 'css/checkout.css' %}">
 {% endblock %}
 
+{# Display first checkout page to log in or check out as guest #}
 {% block content %}
     <div class="mid-content">
         <h2>Checkout</h2>
+        {# Include Django messages #}
         {% include "form-responses.html" %}
         <div class="checkout-signin">
+            {# Check Out As Guest option #}
             <form method="POST" action="">
                 {% csrf_token %}
                 <div class="checkout-guest">
@@ -18,10 +22,12 @@
                     <input type="hidden" name="checkout-button" value="checkout-button">
                 </div>
             </form>
+            {# Account-specific options #}
             <form method="POST" action="">
                 {% csrf_token %}
                 <div class="checkout-signin-split">or</div>
                 <div class="checkout-signin">
+                    {# Login #}
                     <div class="form-div">
                         <div class="label-input">
                             <label for="id_login" aria-label="Email Address"></label>
@@ -35,16 +41,20 @@
                             <button type="submit" name="checkout-signin-button" value="checkout-signin-button">Log In</button>
                         </div>
                     </div>
+                    {# Forgot Password #}
                     <div class="form-div">
                         <button onclick="location=/password\reset/" type="button">Forgot Password</button>
                     </div>
                 </div>
                 <div class="checkout-signin-split">or</div>
+                {# Account creation #}
                 <div class="checkout-create">
                     <button type="button" onclick="location.href='/signup'">Create an Account</button>
                 </div>
                 <input type="hidden" name="checkout-button" value="checkout-button">
             </form>
+            {# Link for user to go back to their cart at any time during checkout #}
+            <button type="button" class="cart-back-button" onclick="location.href='/cart'">Back to Cart</button>
         </div>
     </div>
 {% endblock %}

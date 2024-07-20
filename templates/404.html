@@ -1,11 +1,14 @@
+{# Load base template #}
 {% extends "base.html" %}
-{% load static %}
 
+{# Display custom 404 page #}
 {% block content %}
     <div class="mid-content">
+        {# Include Django messages #}
         {% include "form-responses.html" %}
         <h2>Page Not Found</h2>
         <p>The page you are looking for isn't available. If this error is unexpected, please <a href="javascript:modals('404-mailto-anchor', '404-mailto-modal')" id="404-mailto-anchor">contact us</a>.</p>
+        {# Modal for customer support if needed #}
         <div id="404-mailto-modal" class="modal">
             <div class="modal-content">
                 <span class="modal-close">&times;</span>

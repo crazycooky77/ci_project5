@@ -1,27 +1,34 @@
-<!-- Load the base html file -->
+{# Load base template and static files #}
 {% extends "base.html" %}
 {% load static %}
 
+{# Load additional CSS file #}
 {% block extracss %}
     <link rel="stylesheet" href="{% static 'css/checkout.css' %}">
 {% endblock %}
 
+{# Display Checkout Address page #}
 {% block content %}
     <div class="checkout">
         <h2>Checkout</h2>
+        {# Include Django messages #}
         {% include "form-responses.html" %}
         <form method="POST" action="" class="checkout-addr-form">
             {% csrf_token %}
             <div class="checkout-addr">
+                {# Shipping Address details #}
                 <div class="addr-form-div">
                     <div class="checkout-h3">
                         <h3>Shipping Address</h3>
                     </div>
                     <div class="shipping-addr-form">
+                        {# If saved addresses exist, display in a Select element #}
                         {% if addr_list %}
                             <label for="shipping-addr-list" aria-label="Saved Addresses"></label>
-                            <select name="shipping-addr-list" id="shipping-addr-list" onchange="shipAddrSelection(this)">
+                            <select name="shipping-addr-list" id="shipping-addr-list" onchange="selectAddr('shipping-addr-list', 'shipping-addr-form')">
+                                <option disabled>Select Saved Address</option>
                                 {% for addr in addr_list %}
+                                    {# Set the default address to "selected" #}
                                     {% if addr.default_addr %}
                                         <option selected value="{{ addr.address_id }}-addr">{{ addr.addr_line1 }} | {{ addr.city }} | {{ addr.eir_code }}</option>
                                     {% else %}
@@ -30,6 +37,7 @@
                                 {% endfor %}
                             </select>
                         {% endif %}
+                        {# Display checkout address form fields, using autofilled fields if available #}
                         {% if order_addr_form %}
                             {{ order_addr_form.as_p }}
                         {% else %}
@@ -37,16 +45,21 @@
                         {% endif %}
                     </div>
                 </div>
+                {# Billing Address details #}
                 <div class="addr-form-div">
                     <div class="checkout-h3">
                         <h3>Billing Address</h3>
                     </div>
                     <div class="billing-addr-form">
+                        {# Button for user to autofill the billing to match the shipping address #}
                         <button type="button" onclick="addrMatch()">Same as Shipping</button>
+                        {# If saved addresses exist, display in a Select element #}
                         {% if addr_list %}
                             <label for="billing-addr-list" aria-label="Saved Addresses"></label>
-                            <select name="billing-addr-list" id="billing-addr-list" onchange="billAddrSelection(this)">
+                            <select name="billing-addr-list" id="billing-addr-list" onchange="selectAddr('billing-addr-list', 'billing-addr-form')">
+                                <option disabled>Select Saved Address</option>
                                 {% for addr in addr_list %}
+                                    {# Set the default address to "selected" #}
                                     {% if addr.default_addr %}
                                         <option selected value="{{ addr.address_id }}-addr">{{ addr.addr_line1 }} | {{ addr.city }} | {{ addr.eir_code }}</option>
                                     {% else %}
@@ -55,6 +68,7 @@
                                 {% endfor %}
                             </select>
                         {% endif %}
+                        {# Display checkout address form fields, using autofilled fields if available #}
                         {% if order_addr_form %}
                             {{ order_addr_form.as_p }}
                         {% else %}
@@ -66,10 +80,12 @@
             <button type="submit" class="addr-form-button" name="addr-form-button" value="addr-form-button">Next</button>
             <input type="hidden" name="checkout-order-note" value="{{ order_note }}">
         </form>
+        {# Link for user to go back to their cart at any time during checkout #}
         <button type="button" class="cart-back-button" onclick="location.href='/cart'">Back to Cart</button>
     </div>
 {% endblock %}
 
+{# Parse JSON data and store in variable for JS function, and include additional Javascript file #}
 {% block postloadjs %}
     <script>
         if ("{{ js_addr }}" !== "") {

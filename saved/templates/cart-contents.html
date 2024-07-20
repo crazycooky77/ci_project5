@@ -1,10 +1,13 @@
+{# Load module #}
 {% load mathfilters %}
 
+{# Display products in cart #}
 <table id="cart-detail">
     <tr class="cart-tbl-prod">
         <th aria-label="Product" title="Product">Product</th>
         <th aria-label="Size" title="Size">Size</th>
         <th aria-label="Quantity" title="Quantity">Quantity</th>
+        {# Only display Individual Price column on larger screens #}
         <th aria-label="Individual Price" title="Individual Price" class="desktop">Individual Price</th>
         <th aria-label="Sum" title="Sum">Sum</th>
 {#        Feature to be implemented in version 1.1#}
@@ -14,11 +17,13 @@
 {#            {% endif %}#}
 {#        {% endif %}#}
     </tr>
+    {# Display product details #}
     {% for product, quantity in cart_prods %}
         <tr class="cart-tbl-prod">
             <td><a href="/products/id={{ product.product.product_id }}">
                 <div class="cart-prod">
                     <img class="desktop cart-prod-img" src="{{ product.product.product_pic.url }}" alt="Sports/Health Product image">
+                    {# Display selected product flavour if available #}
                     {% if product.flavour %}
                         <p>{{ product.product.brand }} {{ product.product.product_name }} {{ product.flavour }}</p>
                     {% else %}
@@ -27,23 +32,22 @@
                 </div>
             </a></td>
             <td>{{ product.size }} {{ product.size_unit }}</td>
+            {# Add cart editing features only on the /cart page #}
             {% if request.get_full_path == "/cart" %}
                 <td>
                     <div class="cart-quantity">
+                        {# Display quantity input and button to delete product from cart #}
                         <label for="{{ product.id }}-prod-quantity" aria-label="quantity"></label>
-                        {% if product.stock_count > 0 %}
-                            <input type="number" id="{{ product.id }}-prod-quantity" name="{{ product.id }}-prod-quantity" class="cart-quantity-input" value="{{ quantity }}" min="1" max="{{ product.stock_count }}">
-                            <input type="submit" id="{{ product.id }}-prod-del" name="{{ product.id }}-prod-del" class="cart-prod-del" value="X">
-                        {% else %}
-                            <p>Out of stock, sorry!</p>
-                            <input type="submit" id="{{ product.id }}-prod-del" name="{{ product.id }}-prod-del" class="cart-prod-del" value="X">
-                        {% endif %}
+                        <input type="number" id="{{ product.id }}-prod-quantity" name="{{ product.id }}-prod-quantity" class="cart-quantity-input" value="{{ quantity }}" min="1" max="{{ product.stock_count }}">
                         <label for="{{ product.id }}-prod-del" aria-label="Delete from cart"></label>
+                        <input type="submit" id="{{ product.id }}-prod-del" name="{{ product.id }}-prod-del" class="cart-prod-del" value="X">
                     </div>
                 </td>
+            {# Display un-editable quantity field if not on /cart page #}
             {% else %}
                 <td>{{ quantity }}</td>
             {% endif %}
+            {# Only display Individual Price column on larger screens #}
             <td class="desktop">€ {{ product.price }}</td>
             <td>€ {{ product.price|mul:quantity }}</td>
 {#            Feature to be implemented in version 1.1#}
@@ -54,6 +58,7 @@
 {#            {% endif %}#}
         </tr>
     {% endfor %}
+    {# Display subtotal for cart if not equal to grand total #}
     {% if subtotal != grand_total %}
         <tr class="cart-totals">
             <td class="sum-title">Subtotal</td>
@@ -65,15 +70,20 @@
             <td>€ {{ subtotal }}</td>
         </tr>
     {% endif %}
+    {# Display shipping charges #}
     <tr class="cart-totals">
         <td class="sum-title">Shipping</td>
         <td></td>
         <td></td>
         <td class="desktop"></td>
+        {# If shipping is not free, display price #}
         {% if shipping != 0 %}
             <td>€ {{ shipping }}</td>
+        {# Display text for free shipping #}
         {% else %}
+            {# Text for larger screens #}
             <td class="desktop">Free Shipping</td>
+            {# Text for smaller screens #}
             <td class="mobile">Free</td>
         {% endif %}
 {#        Feature to be implemented in version 1.1#}
@@ -81,6 +91,7 @@
 {#            <td></td>#}
 {#        {% endif %}#}
     </tr>
+    {# Display grand total for all cart products plus shipping #}
     <tr class="cart-totals">
         <td class="sum-title">Grand Total</td>
         <td></td>

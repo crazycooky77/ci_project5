@@ -1,11 +1,15 @@
+{# Load base template and modules #}
 {% extends "base.html" %}
 {% load i18n %}
 {% load allauth %}
 
+{# Display email verification page #}
 {% block content %}
     <div class="mid-content">
         <h2>Verify Your Email Address</h2>
+        {# Include Django messages #}
         {% include "form-responses.html" %}
+        {# Inform user of verification email sent to their email address #}
         {% blocktrans %}We have sent an email to you for verification. Follow the link provided to finalise the signup process. If you do not see the verification email in your main inbox, please check your spam folder.{% endblocktrans %}
     </div>
 {% endblock content %}

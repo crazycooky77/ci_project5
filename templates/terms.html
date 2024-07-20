@@ -1,7 +1,10 @@
+{# Load base template #}
 {% extends "base.html" %}
 
+{# Display T&C #}
 {% block content %}
     <div class="mid-content">
+        {# Include Django messages #}
         {% include "form-responses.html" %}
         <h2>Terms and Conditions</h2>
         <p>Welcome to NutriForce Sports and Health Nutrition!</p>

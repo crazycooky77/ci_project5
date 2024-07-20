@@ -1,9 +1,14 @@
+{# Load module #}
 {% load mathfilters %}
 
+{# Order details on Profile page #}
 <div class="orders">
     <h2>Order Details</h2>
+    {# Include Django messages #}
     {% include "form-responses.html" %}
+    {# Display order data and details if the order exists #}
     {% if order %}
+        {# Div and table for basic order data #}
         <div class="prod-table">
             <table>
                 <tr class="cart-tbl-prod">
@@ -16,13 +21,16 @@
                 <tr class="cart-tbl-prod">
                     <td>{{ order.order_dt|date:"Y-m-d" }}</td>
                     <td>{{ order.order_id }}</td>
+                    {# Include tracking link if available #}
                     {% if order.tracking_link %}
                         <td><a href="{{ order.tracking_link }}" target="_blank" rel="external nofollow noopener">Track</a></td>
                     {% else %}
                         <td>N/A</td>
                     {% endif %}
                     <td>{{ order.get_status_display }}</td>
+                {# Custom support button based on order status specifically for larger screens #}
                 {% if order.status in "PEND,PROC,RDY" %}
+                    {# Request Cancellation button and modal #}
                     <td class="desktop"><button type="button" onclick="modals('cancel-req-mailto-btn', 'cancel-req-mailto-modal')" id="cancel-req-mailto-btn">Request Cancellation</button></td>
                     <div id="cancel-req-mailto-modal" class="modal">
                         <div class="modal-content">
@@ -33,6 +41,7 @@
                         </div>
                     </div>
                 {% else %}
+                    {# Request Refund button and modal #}
                     <td class="desktop"><button type="button" onclick="modals('refund-req-mailto-btn', 'refund-req-mailto-modal')" id="refund-req-mailto-btn">Request Refund</button>
                     <div id="refund-req-mailto-modal" class="modal">
                         <div class="modal-content">
@@ -45,7 +54,9 @@
                 {% endif %}
                 </tr>
             </table>
+            {# Custom support button based on order status for mid to small screens #}
             {% if order.status in "PEND,PROC,RDY" %}
+                {# Request Cancellation button and modal #}
                 <button class="mid-screen" type="button" onclick="modals('mid-cancel-req-mailto-btn', 'mid-cancel-req-mailto-modal')" id="mid-cancel-req-mailto-btn">Request Cancellation</button></td>
                 <div id="mid-cancel-req-mailto-modal" class="modal">
                     <div class="modal-content">
@@ -56,6 +67,7 @@
                     </div>
                 </div>
             {% else %}
+                {# Request Refund button and modal #}
                 <button class="mid-screen" type="button" onclick="modals('mid-refund-req-mailto-btn', 'mid-refund-req-mailto-modal')" id="mid-refund-req-mailto-btn">Request Refund</button>
                 <div id="mid-refund-req-mailto-modal" class="modal">
                     <div class="modal-content">
@@ -67,15 +79,18 @@
                 </div>
             {% endif %}
         </div>
+        {# Detailed order data #}
         <div class="prod-table-details">
             <table>
                 <tr class="cart-tbl-prod">
                     <th aria-label="Product" title="Product">Product</th>
                     <th aria-label="Size" title="Size">Size</th>
                     <th aria-label="Quantity" title="Quantity">Quantity</th>
+                    {# Only show the Individual Price column on larger screens #}
                     <th aria-label="Individual Price" title="Individual Price" class="desktop">Individual Price</th>
                     <th aria-label="Sum" title="Sum">Sum</th>
                 </tr>
+                {# All product details for products in order #}
                 {% for item, product in order_details %}
                     <tr class="cart-tbl-prod">
                         <td><a href="/products/id={{ item.product.product_id }}">
@@ -94,6 +109,7 @@
                         <td>{{ item.product.price|mul:item.quantity }}</td>
                     </tr>
                 {% endfor %}
+                {# Shipping cost and total #}
                 <tr class="order-sums">
                     <td class="sum-title">Shipping</td>
                     <td></td>
@@ -110,6 +126,7 @@
                 </tr>
             </table>
         </div>
+    {# If the order number does not exist in that user's account, display a custom message #}
     {% else %}
         <p>This order number ({{ request.path|slice:"19:" }}) does not exist.</p>
     {% endif %}

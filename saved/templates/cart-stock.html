@@ -1,21 +1,32 @@
+{# Div to display cart changes #}
 <div class="stock-update-div">
     {% for product in stock_change %}
+        {# Display product brand, name, size, and flavour #}
         {% if product.flavour %}
+            {# If stock is available, display product details for quantity change #}
             {% if product.stock_count > 0 %}
                 <li class="form-error">{{ product.product.brand }} {{ product.product.product_name }} {{ product.flavour }} {{ product.size }} {{ product.size_unit }}</li>
+            {# If stock is empty #}
             {% else %}
+                {# If cart was emptied during checkout, just list the product details #}
                 {% if checkout_empty %}
                     <li class="form-error">{{ product.product.brand }} {{ product.product.product_name }} {{ product.flavour }} {{ product.size }} {{ product.size_unit }}</li>
+                {# If product was removed from the cart outside of the checkout process, add a note that the product was completely removed #}
                 {% else %}
                     <li class="form-error"><strong>Removed (out of stock):</strong> {{ product.product.brand }} {{ product.product.product_name }} {{ product.flavour }} {{ product.size }} {{ product.size_unit }}</li>
                 {% endif %}
             {% endif %}
+        {# Display product brand, name, and size #}
         {% else %}
+            {# If stock is available, display product details for quantity change #}
             {% if product.stock_count > 0 %}
                 <li class="form-error">{{ product.product.brand }} {{ product.product.product_name }} {{ product.size }} {{ product.size_unit }}</li>
+            {# If stock is empty #}
             {% else %}
+                {# If cart was emptied during checkout, just list the product details #}
                 {% if checkout_empty %}
                     <li class="form-error">{{ product.product.brand }} {{ product.product.product_name }} {{ product.size }} {{ product.size_unit }}</li>
+                {# If product was removed from the cart outside of the checkout process, add a note that the product was completely removed #}
                 {% else %}
                     <li class="form-error"><strong>Removed (out of stock):</strong> {{ product.product.brand }} {{ product.product.product_name }} {{ product.size }} {{ product.size_unit }}</li>
                 {% endif %}

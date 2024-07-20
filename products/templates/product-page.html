@@ -1,14 +1,18 @@
-<!-- Load the base html file -->
+{# Load base template and static files #}
 {% extends "base.html" %}
 {% load static %}
 
+{# Load additional CSS file #}
 {% block extracss %}
     <link rel="stylesheet" href="{% static 'css/products.css' %}">
 {% endblock %}
 
+{# Display individual product page #}
 {% block content %}
     <div class="prod-div">
+        {# Include Django messages #}
         {% include "form-responses.html" %}
+        {# If the product ID for the page exists, display the details #}
         {% if product %}
             <div class="hor-prod-div">
                 <img class="prod-img" src="{{ product.first.product.product_pic.url }}" alt="Sports/Health Product image">
@@ -17,6 +21,7 @@
                     <p>Product: {{ product.first.product.product_name }}</p>
                     <form action="{% url 'add-cart' product.first.product.product_id %}" method="POST">
                     {% csrf_token %}
+                        {# If the product has flavours, display the select options #}
                         {% if product.first.flavour %}
                             <p>
                                 <label for="{{ product.first.product.product_id }}-prod-flavours">Flavour:</label>
@@ -31,6 +36,7 @@
                                 </select>
                             </p>
                         {% endif %}
+                        {# Display selection options for product sizes #}
                         <p>
                             <label for="{{ product.first.product.product_id }}-prod-sizes">Size:</label>
                             <select name="{{ product.first.product.product_id }}-prod-sizes" id="{{ product.first.product.product_id }}-prod-sizes" onChange=productOptions()>
@@ -45,8 +51,10 @@
                         </p>
                         <p id="{{ product.first.product.product_id }}-prod-price"></p>
                         <div id="{{ product.first.product.product_id }}-prod-cart">
+                            {# Field for user to select quantity they want to purchase #}
                             <label for="{{ product.first.product.product_id }}-prod-quantity">Quantity: </label>
                             <input type="number" id="{{ product.first.product.product_id }}-prod-quantity" name="{{ product.first.product.product_id }}-prod-quantity" value="1" min="1">
+                            {# Add selected product and quantity to cart #}
                             <button>Add to Cart</button>
                         </div>
                         <input type="hidden" name="redirect_url" value="{{ request.path }}">
@@ -54,6 +62,7 @@
                     <p id="{{ product.first.product.product_id }}-prod-stock"></p>
                 </div>
             </div>
+            {# Display product description and ingredient details with show/hide options #}
             <div class="prod-details">
                 <h2>Description</h2>
                 <a href="javascript:void(0);" id="prod-desc-link">Show description <i class="fa-solid fa-square-caret-down"></i></a>
@@ -63,10 +72,12 @@
                 <a href="javascript:void(0);" id="prod-ing-link">Show ingredients <i class="fa-solid fa-square-caret-down"></i></a>
                 <p id="prod-ing">{{ product.first.ingredients }}</p>
             </div>
+            {# If linked products exist, display them #}
             {% if linked_sorted %}
                 <div class="similar-prod">
                     <p>You may also like...</p>
                     <div class="linked-hor">
+                        {# Display all linked product details #}
                         {% for item in linked_sorted_distinct %}
                             <div class="linked-ver">
                                 <a href="/products/id={{ item.product.product_id }}">
@@ -81,6 +92,7 @@
                                     <div class="linked-other">
                                         <form action="{% url 'add-cart' item.product_id %}" method="POST">
                                         {% csrf_token %}
+                                            {# Include flavour select if product has flavours #}
                                             {% if item.flavour %}
                                                 <p>
                                                     <label for="{{ item.product_id }}-prod-flavours" aria-label="Flavour"></label>
@@ -93,6 +105,7 @@
                                                     </select>
                                                 </p>
                                             {% endif %}
+                                            {# Include size select #}
                                             <p>
                                                 <label for="{{ item.product_id }}-prod-sizes" aria-label="Size"></label>
                                                 <select name="{{ item.product_id }}-prod-sizes" id="{{ item.product_id }}-prod-sizes" onChange=linkedOptions()>
@@ -105,8 +118,10 @@
                                             </p>
                                             <p id="{{ item.product_id }}-prod-price"></p>
                                             <div id="{{ item.product_id }}-prod-cart" class="add-cart">
+                                                {# Field for user to select quantity they want to purchase #}
                                                 <label for="{{ item.product_id }}-prod-quantity" aria-label="Quantity"></label>
                                                 <input type="number" id="{{ item.product_id }}-prod-quantity" name="{{ item.product_id }}-prod-quantity" value="1" min="1" max="{{ item.stock_count }}">
+                                                {# Add selected product and quantity to cart #}
                                                 <button class="linked-button">Add to Cart</button>
                                             </div>
                                             <input type="hidden" name="redirect_url" value="{{ request.path }}">
@@ -118,6 +133,7 @@
                     </div>
                 </div>
             {% endif %}
+        {# If the product ID doesn't exist, display the error message to the user #}
         {% else %}
             <div class="prod-oos">
                 <p>No product with this ID exists</p>
@@ -126,6 +142,7 @@
     </div>
 {% endblock %}
 
+{# Parse JSON data and store in variable for JS function, and include additional Javascript file #}
 {% block postloadjs %}
     <script>
         const js_prod = "{{ js_product }}".replace(/&quot;/ig,'"')

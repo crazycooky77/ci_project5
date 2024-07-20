@@ -1,3 +1,5 @@
+{# Display Django errors/messages #}
+{# Form errors #}
 {% if form.errors %}
     {% for field in form %}
         {% for error in field.errors %}
@@ -12,6 +14,7 @@
         </div>
     {% endfor %}
 {% endif %}
+{# Django messages #}
 {% if messages %}
     {% for message in messages %}
         {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR or message.level == DEFAULT_MESSAGE_LEVELS.WARNING %}

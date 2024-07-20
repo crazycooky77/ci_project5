@@ -1,32 +1,39 @@
-<!-- Load the base html file -->
+{# Load base template and static files #}
 {% extends "base.html" %}
 {% load static %}
 
+{# Load additional CSS files #}
 {% block extracss %}
     <link rel="stylesheet" href="{% static 'css/checkout.css' %}">
     <link rel="stylesheet" href="{% static 'css/cart.css' %}">
 {% endblock %}
 
+{# Page for user to confirm their order before completing it #}
 {% block content %}
     <div class="checkout">
         <h2>Confirm and Complete Purchase</h2>
+        {# Include Django messages #}
         {% include "form-responses.html" %}
         <div class="checkout-summary">
             <div class="prod-table-details">
+                {# Show/Hide Cart option #}
                 <div class="cart-toggle-div">
                     <a href="javascript:toggleCart()">Show/Hide Cart</a>
                 </div>
                 <div id="checkout-stock-change">
+                    {# Display cart changes, if applicable #}
                     {% if js_stock and not checkout_empty %}
                         <p class="form-error">The quantity for the following items in your cart has changed, due to stock updates:</p>
                         {% include "cart-stock.html" %}
                     {% endif %}
                 </div>
+                {# Display Cart contents (products being purchased) #}
                 {% include "cart-contents.html" %}
             </div>
             <div class="summ-split">
                 <hr>
             </div>
+            {# Edit Address for user to make adjustments, while saving data entered so far #}
             <div class="edit-addr-div">
                 <form id="checkout-edit-addr" action="" method="POST">
                     {% csrf_token %}
@@ -37,7 +44,9 @@
                     <input type="hidden" name="checkout-order-note">
                 </form>
             </div>
+            {# Display checkout addresses #}
             <div class="checkout-summ-addr-outer">
+                {# Shipping address fields #}
                 <div class="checkout-summ-addr-div">
                     <div class="checkout-summ-h3">
                         <h3>Shipping Address</h3>
@@ -45,6 +54,7 @@
                     <div class="checkout-summ-addr-view">
                         <p>{{ shipping_addr.first_name }} {{ shipping_addr.last_name }}</p>
                         <p>{{ shipping_addr.addr_line1 }}</p>
+                        {# Only display optional fields if they were used #}
                         {% if shipping_addr.addr_line2 %}
                             <p>{{ shipping_addr.addr_line2 }}</p>
                         {% endif %}
@@ -56,11 +66,13 @@
                         <p>{{ shipping_addr.county }},
                         {{ shipping_addr.country }}</p>
                         <p>{{ shipping_addr.phone_nr }}</p>
+                        {# Display email address entered if user is not logged in #}
                         {% if not user.is_authenticated %}
                             <p>{{ shipping_addr.email }}</p>
                         {% endif %}
                     </div>
                 </div>
+                {# Billing address fields #}
                 <div class="checkout-summ-addr-div">
                     <div class="checkout-summ-h3">
                         <h3>Billing Address</h3>
@@ -68,6 +80,7 @@
                     <div class="checkout-summ-addr-view">
                         <p>{{ billing_addr.first_name }} {{ billing_addr.last_name }}</p>
                         <p>{{ billing_addr.addr_line1 }}</p>
+                        {# Only display optional fields if they were used #}
                         {% if billing_addr.addr_line2 %}
                             <p>{{ billing_addr.addr_line2 }}</p>
                         {% endif %}
@@ -79,6 +92,7 @@
                         <p>{{ billing_addr.county }},
                         {{ billing_addr.country }}</p>
                         <p>{{ billing_addr.phone_nr }}</p>
+                        {# Display email address entered if user is not logged in #}
                         {% if not user.is_authenticated %}
                             <p>{{ billing_addr.email }}</p>
                         {% endif %}
@@ -88,13 +102,16 @@
             <div class="summ-split">
                 <hr>
             </div>
+            {# Form for final checkout confirmation #}
             <form method="POST" action="{% url 'checkout-success' %}" id="payment-form">
                 {% csrf_token %}
+                {# Note to Seller option #}
                 <div class="order-note-h3">
                     <h3>Note to Seller</h3>
                 </div>
                 <div class="order-note">
                     <label for="checkout-order-note" aria-label="Note to Seller"></label>
+                    {# Autofill the order note, if applicable #}
                     {% if order_note and order_note != "None" %}
                         <textarea id="checkout-order-note" name="checkout-order-note">{{ order_note }}</textarea>
                     {% else %}
@@ -104,11 +121,16 @@
                 <div class="summ-split">
                     <hr>
                 </div>
+                {# Area for user to enter their card details #}
                 <div class="mb-3" id="card-element"></div>
+                {# Display stripe card errors #}
                 <div class="mb-3 text-danger" id="card-errors" role="alert"></div>
                 <div class="confirm-checkout">
+                    {# Message ensuring customer knows they'll be immediately charged #}
                     <span>Your card will be charged € {{ grand_total }} once you confirm your purchase.</span>
+                    {# Confirm Purchase button to complete checkout process #}
                     <button id="payment-button" name="payment-button" value="payment-button" type="submit">Confirm Purchase</button>
+                    {# Message to display while payment is being processed, so user doesn't refresh/leave the page #}
                     <p id="pay-process">Processing, please wait...</p>
                     <input type="hidden" name="shipping-addr" value="{{ shipping_addr }}">
                     <input type="hidden" name="billing-addr" value="{{ billing_addr }}">
@@ -116,16 +138,19 @@
                     <input type="hidden" name="js-stock" value="{{ js_stock }}">
                 </div>
             </form>
+            {# Form to redirect the customer back to their cart, if it becomes empty during checkout #}
             <form method="POST" action="{% url 'cart' %}" id="empty-cart-form" class="hidden-empty-submit">
                 {% csrf_token %}
                 <button type="submit" class="hidden-empty-submit" name="checkout-empty" value="checkout-empty"></button>
                 <input type="hidden" name="js-stock" value="{{ js_stock }}">
             </form>
+            {# Link for user to go back to their cart at any time during checkout #}
             <button type="button" class="cart-back-button" onclick="location.href='/cart'">Back to Cart</button>
         </div>
     </div>
 {% endblock %}
 
+{# Add stripe scripts and include additional Javascript files #}
 {% block postloadjs %}
     <script src="{% static 'js/checkout.js' %}"></script>
     {{ block.super }}

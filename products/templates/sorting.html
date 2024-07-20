@@ -1,7 +1,10 @@
+{# Product sort function div #}
 <div class="prod-sort">
     <form id="sort-form" action="" method="POST">
         {% csrf_token %}
+        {# Button for user to display the sort options #}
         <button onclick=sortProds() type="button">Sort Products</button>
+        {# Display sort options for user to select #}
         <div class="sort-dd">
             <input type="hidden" name="sort-search" id="sort-search" value="{{ search_term }}">
             <input type="submit" name="brand-asc" value="Brand (A-Z)">

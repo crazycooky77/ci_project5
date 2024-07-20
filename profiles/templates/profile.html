@@ -1,29 +1,27 @@
+{# Load base template and static files #}
 {% extends "base.html" %}
 {% load static %}
 
+{# Load additional CSS files #}
 {% block extracss %}
     <link rel="stylesheet" href="{% static 'css/profiles.css' %}">
     <link rel="stylesheet" href="{% static 'css/addresses.css' %}">
     <link rel="stylesheet" href="{% static 'css/orders.css' %}">
 {% endblock %}
 
+{# Display Profile pages #}
 {% block content %}
     <div class="profile">
+        {# Load email confirmation template if user visits the link and is not logged in #}
         {% if request.get_full_path|slice:"0:15" == "/confirm-email/" and not request.user.is_authenticated %}
-                {% include "account/email_confirm.html" %}
+            {% include "account/email_confirm.html" %}
+        {# Load other Profile pages only if user is logged in #}
         {% elif request.user.is_authenticated %}
-            <div class="desktop profile-menu">
-                <a href="/profile">Account Details</a>
-                <a href="/profile/addresses">Addresses</a>
-                <a href="/profile/orders">Orders</a>
-{#                Functionality will be implemented in version 1.1#}
-{#                <a href="">Watchlist</a>#}
-{#                <a href="">Saved for Later</a>#}
-            </div>
+            {# Display menu for Profile pages #}
             <div class="mobile" id="ham-icon">
                 <a href="javascript:void(0);" id="ham-icon-button">Menu <i class="fa-solid fa-square-caret-down"></i></a>
             </div>
-            <div class="mobile" id="ham-menu">
+            <div class="profile-menu" id="ham-menu">
                 <a href="/profile">Account Details</a>
                 <a href="/profile/addresses">Addresses</a>
                 <a href="/profile/orders">Orders</a>
@@ -31,31 +29,42 @@
 {#                <a href="">Watchlist</a>#}
 {#                <a href="">Saved for Later</a>#}
             </div>
+            {# Load Account Details template for the main profile page link #}
             {% if request.get_full_path == "/profile" %}
                 {% include "account-details.html" %}
+            {# Load Email Change template for the email link #}
             {% elif request.get_full_path == "/email/" %}
                 {% include "account/email_change.html" %}
+            {# Load the Email Confirm template for the email confirmation link #}
             {% elif request.get_full_path|slice:"0:15" == "/confirm-email/" %}
                 {% include "account/email_confirm.html" %}
+            {# Load the Password Change template for the password change link #}
             {% elif request.get_full_path == "/password/change/" %}
                 {% include "account/password_change.html" %}
+            {# Load the profile Addresses template for the address link #}
             {% elif request.get_full_path == "/profile/addresses" %}
                 {% include "addresses.html" %}
+            {# Load the Add Address template for the add address link #}
             {% elif request.get_full_path == "/profile/add-address" %}
                 {% include "add-address.html" %}
+            {# Load the Edit Address template for the edit address link #}
             {% elif request.get_full_path|slice:"0:22" == "/profile/edit-address/" %}
                 {% include "edit-address.html" %}
+            {# Load the Orders template for the orders link #}
             {% elif request.get_full_path == "/profile/orders" %}
                 {% include "orders.html" %}
+            {# Load the Order Details template for the order detail link #}
             {% elif request.get_full_path|slice:"0:21" == "/profile/orders/id%3D" %}
                 {% include "order-details.html" %}
             {% endif %}
+        {# If the user is not logged in, display an error requesting login #}
         {% else %}
             <p>You need to <a href="/login">log in</a> to view this page.</p>
         {% endif %}
     </div>
 {% endblock %}
 
+{# Load additional Javascript files #}
 {% block postloadjs %}
     <script src="{% static 'js/profiles.js' %}"></script>
     <script src="{% static 'js/addresses.js' %}"></script>

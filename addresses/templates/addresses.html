@@ -1,13 +1,18 @@
+{# Profile Addresses div #}
 <div class="addr-msg">
+    {# Include Django message s#}
     {% include "form-responses.html" %}
     <div class="addresses">
+        {# Default Address section #}
         <div class="default-addr">
             <h2>Default Address</h2>
             {% if default_address %}
+                {# Display default address fields #}
                 <div class="addr-view">
                     <p>{{ default_address.first.first_name }}
                     {{ default_address.first.last_name }}</p>
                     <p>{{ default_address.first.addr_line1 }}</p>
+                    {# Only display optional fields if data is present #}
                     {% if default_address.first.addr_line2 %}
                         <p>{{ default_address.first.addr_line2 }}</p>
                     {% endif %}
@@ -19,28 +24,35 @@
                     <p>{{ default_address.first.county }},
                     {{ default_address.first.get_country_display }}</p>
                     <p>{{ default_address.first.phone_nr }}</p>
+                    {# Edit Address button for Default Address #}
                     <form method="POST" action="" class="addr-buttons">
                         {% csrf_token %}
                         <button type="submit" name="edit-addr-button" value="{{ default_address.first.pk }}">Edit Address</button>
                     </form>
                 </div>
+            {# If no Default Address is present, use Add Address button in that section #}
             {% else %}
                 <button type="button" class="add-def-addr-button" onclick="location.href='/profile/add-address'">Add Address</button>
             {% endif %}
         </div>
+        {# Section for all other saved addresses #}
         <div class="other-addr">
             <h2>Other Addresses</h2>
+            {# If a Default Address is present, use Add Address button in this section #}
             {% if default_address %}
                 <button type="button" class="add-addr-button" onclick="location.href='/profile/add-address'">Add Address</button>
             {% endif %}
             {% if other_address %}
+                {# Display all other addresses saved to account #}
                 <div class="other-addr-list">
                     {% for addr in other_address %}
+                        {# Display other address fields #}
                         <div class="addr-view">
                             <h3>Address {{ forloop.counter }}</h3>
                             <p>{{ addr.first_name }}
                             {{ addr.last_name }}</p>
                             <p>{{ addr.addr_line1 }}</p>
+                            {# Only display optional fields if data is present #}
                             {% if addr.addr_line2 %}
                                 <p>{{ addr.addr_line2 }}</p>
                             {% endif %}
@@ -52,6 +64,7 @@
                             <p>{{ addr.county }},
                             {{ addr.get_country_display }}</p>
                             <p>{{ addr.phone_nr }}</p>
+                            {# Buttons for all other addresses, to Make Default, Edit, or Delete #}
                             <form method="POST" action="" class="addr-buttons">
                                 {% csrf_token %}
                                 <button type="submit" name="mk-default-button" value="{{ addr.pk }}">Make Default</button>

@@ -1,7 +1,10 @@
+{# Load base template #}
 {% extends "base.html" %}
 
+{# Display Privacy Policy page #}
 {% block content %}
     <div class="mid-content">
+        {# Include Django messages #}
         {% include "form-responses.html" %}
         <h2>Privacy Policy</h2>
         <p>Last updated: July 08, 2024</p>

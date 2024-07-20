@@ -1,11 +1,15 @@
+{# Load base template #}
 {% extends "base.html" %}
 
+{# Display login page #}
 {% block content %}
     <div class="mid-content">
         <h2>Log In</h2>
         <form method="POST" action="{% url 'account_login' %}">
             {% csrf_token %}
+            {# Include Django messages #}
             {% include "form-responses.html" %}
+            {# Display login form fields #}
             <div class="form-div">
                 <div class="label-input">
                     <label for="id_login" aria-label="Email Address"></label>
@@ -15,11 +19,13 @@
                     <label for="id_password" aria-label="Password"></label>
                     <input type="password" id="id_password" placeholder="password" name="password" required>
                 </div>
+                {# Login button #}
                 <div class="label-input">
                     <button type="submit">Log In</button>
                 </div>
             </div>
         </form>
+        {# Forgot Password button #}
         <div class="form-div">
             <button onclick="location=/password\reset/">Forgot Password</button>
         </div>

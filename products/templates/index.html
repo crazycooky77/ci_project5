@@ -1,24 +1,31 @@
-<!-- Load the base html file -->
+{# Load base template and static files #}
 {% extends "base.html" %}
 {% load static %}
 
+{# Load additional CSS file #}
 {% block extracss %}
     <link rel="stylesheet" href="{% static 'css/products.css' %}">
 {% endblock %}
 
+{# Display homepage of featured products #}
 {% block content %}
     <div class="home-div">
+        {# Include Django messages #}
         {% include "form-responses.html" %}
+        {# If a new featured product exists, display product details #}
         {% if new_product %}
             <div class="feat-prod-div">
+                {# Large screen image display #}
                 <div class="desktop feat-img-div">
                     <a href="/products/id={{ new_product.product.product_id }}"><img class="feat-img" src="{{ new_product.product.product_pic.url }}" alt="New featured Sports/Health product"></a>
                 </div>
                 <div class="feat-prod-details-div">
+                    {# Large screen product brand and name display #}
                     <a href="/products/id={{ new_product.product.product_id }}" class="desktop">
                         <p class="desktop feat-prod-details">{{ new_product.product.brand }}</p>
                         <p class="desktop feat-prod-details">{{ new_product.product.product_name }}</p>
                     </a>
+                    {# Small screen product image, brand, and name display #}
                     <div class="mobile feat-prod-img-name">
                         <div class="feat-img-div">
                             <a href="/products/id={{ new_product.product.product_id }}">
@@ -34,6 +41,7 @@
                     </div>
                     <form action="{% url 'add-cart' new_product.product_id %}" method="POST">
                         {% csrf_token %}
+                        {# Display flavour select if available #}
                         {% if new_product.flavour %}
                             <p class="feat-prod-details">
                                 <label for="{{ new_product.product_id }}-prod-flavours">Flavour:</label>
@@ -48,6 +56,7 @@
                                 </select>
                             </p>
                         {% endif %}
+                        {# Display size select #}
                         <p class="feat-prod-details">
                             <label for="{{ new_product.product_id }}-prod-sizes">Size:</label>
                             <select name="{{ new_product.product_id }}-prod-sizes" id="{{ new_product.product_id }}-prod-sizes" onChange=featOptions()>
@@ -62,30 +71,37 @@
                         </p>
                         <p id="{{ new_product.product_id }}-prod-price" class="feat-prod-details"></p>
                         <div id="{{ new_product.product_id }}-prod-cart">
+                            {# Field for user to select quantity they want to purchase #}
                             <label for="{{ new_product.product_id }}-prod-quantity">Quantity: </label>
                             <input type="number" id="{{ new_product.product_id }}-prod-quantity" name="{{ new_product.product_id }}-prod-quantity" value="1" min="1">
+                            {# Add selected product and quantity to cart #}
                             <button class="{{ new_product.product_id }}-add-cart" type="submit">Add to Cart</button>
                         </div>
                         <input type="hidden" name="redirect_url" value="{{ request.path }}">
                     </form>
                 </div>
             </div>
+        {# If no featured new product is available, display message for user #}
         {% else %}
             <div class="prod-oos">
-                <p>We don't have a featured health product to show you yet. Stay tuned!</p>
+                <p>We don't have a featured new product to show you yet. Stay tuned!</p>
             </div>
         {% endif %}
         <div class="home-row">
+            {# If a featured sports product exists, display product details #}
             {% if sports_product %}
                 <div class="feat-prod-div">
+                    {# Large screen image display #}
                     <div class="desktop feat-img-div">
                         <a href="/products/id={{ sports_product.product.product_id }}"><img class="feat-img" src="{{ sports_product.product.product_pic.url }}" alt="Featured sports product"></a>
                     </div>
                     <div class="feat-prod-details-div">
+                        {# Large screen product brand and name display #}
                         <a href="/products/id={{ sports_product.product.product_id }}" class="desktop">
                             <p class="desktop feat-prod-details">{{ sports_product.product.brand }}</p>
                             <p class="desktop feat-prod-details">{{ sports_product.product.product_name }}</p>
                         </a>
+                        {# Small screen product image, brand, and name display #}
                         <div class="mobile feat-prod-img-name">
                             <div class="feat-img-div">
                                 <a href="/products/id={{ sports_product.product.product_id }}">
@@ -101,6 +117,7 @@
                         </div>
                         <form action="{% url 'add-cart' sports_product.product_id %}" method="POST">
                             {% csrf_token %}
+                            {# Display flavour select if available #}
                             {% if sports_product.flavour %}
                                 <p class="feat-prod-details">
                                     <label for="{{ sports_product.product_id }}-prod-flavours">Flavour:</label>
@@ -115,6 +132,7 @@
                                     </select>
                                 </p>
                             {% endif %}
+                            {# Display size select #}
                             <p class="feat-prod-details">
                                 <label for="{{ sports_product.product_id }}-prod-sizes">Size:</label>
                                 <select name="{{ sports_product.product_id }}-prod-sizes" id="{{ sports_product.product_id }}-prod-sizes" onChange=featOptions()>
@@ -129,29 +147,36 @@
                             </p>
                             <p id="{{ sports_product.product_id }}-prod-price" class="feat-prod-details"></p>
                              <div id="{{ sports_product.product_id }}-prod-cart">
-                                <label for="{{ sports_product.product_id }}-prod-quantity">Quantity: </label>
-                                <input type="number" id="{{ sports_product.product_id }}-prod-quantity" name="{{ sports_product.product_id }}-prod-quantity" value="1" min="1">
-                                <button class="{{ sports_product.product_id }}-add-cart" type="submit">Add to Cart</button>
+                                 {# Field for user to select quantity they want to purchase #}
+                                 <label for="{{ sports_product.product_id }}-prod-quantity">Quantity: </label>
+                                 <input type="number" id="{{ sports_product.product_id }}-prod-quantity" name="{{ sports_product.product_id }}-prod-quantity" value="1" min="1">
+                                 {# Add selected product and quantity to cart #}
+                                 <button class="{{ sports_product.product_id }}-add-cart" type="submit">Add to Cart</button>
                             </div>
                             <input type="hidden" name="redirect_url" value="{{ request.path }}">
                         </form>
                     </div>
                 </div>
+            {# If no featured sports product is available, display message for user #}
             {% else %}
                 <div class="prod-oos">
-                    <p>We don't have a featured health product to show you yet. Stay tuned!</p>
+                    <p>We don't have a featured sports product to show you yet. Stay tuned!</p>
                 </div>
             {% endif %}
+            {# If a featured health product exists, display product details #}
             {% if health_product %}
                 <div class="feat-prod-div">
+                    {# Large screen image display #}
                     <div class="desktop feat-img-div">
                         <a href="/products/id={{ health_product.product.product_id }}"><img class="feat-img" src="{{ health_product.product.product_pic.url }}" alt="Featured health product"></a>
                     </div>
                     <div class="feat-prod-details-div">
+                        {# Large screen product brand and name display #}
                         <a href="/products/id={{ health_product.product.product_id }}" class="desktop">
                             <p class="desktop feat-prod-details">{{ health_product.product.brand }}</p>
                             <p class="desktop feat-prod-details">{{ health_product.product.product_name }}</p>
                         </a>
+                        {# Small screen product image, brand, and name display #}
                         <div class="mobile feat-prod-img-name">
                             <div class="feat-img-div">
                                 <a href="/products/id={{ health_product.product.product_id }}">
@@ -167,6 +192,7 @@
                         </div>
                         <form action="{% url 'add-cart' health_product.product_id %}" method="POST">
                             {% csrf_token %}
+                            {# Display flavour select if available #}
                             {% if health_product.flavour %}
                                 <p class="feat-prod-details">
                                     <label for="{{ health_product.product_id }}-prod-flavours">Flavour:</label>
@@ -181,6 +207,7 @@
                                     </select>
                                 </p>
                             {% endif %}
+                            {# Display size select #}
                             <p class="feat-prod-details">
                                 <label for="{{ health_product.product_id }}-prod-sizes">Size:</label>
                                 <select name="{{ health_product.product_id }}-prod-sizes" id="{{ health_product.product_id }}-prod-sizes" onChange=featOptions()>
@@ -195,14 +222,17 @@
                             </p>
                             <p id="{{ health_product.product_id }}-prod-price" class="feat-prod-details"></p>
                             <div id="{{ health_product.product_id }}-prod-cart">
+                                {# Field for user to select quantity they want to purchase #}
                                 <label for="{{ health_product.product_id }}-prod-quantity">Quantity: </label>
                                 <input type="number" id="{{ health_product.product_id }}-prod-quantity" name="{{ health_product.product_id }}-prod-quantity" value="1" min="1">
+                                {# Add selected product and quantity to cart #}
                                 <button class="{{ health_product.product_id }}-add-cart" type="submit">Add to Cart</button>
                             </div>
                             <input type="hidden" name="redirect_url" value="{{ request.path }}">
                         </form>
                     </div>
                 </div>
+            {# If no featured health product is available, display message for user #}
             {% else %}
                 <div class="prod-oos">
                     <p>We don't have a featured health product to show you yet. Stay tuned!</p>
@@ -212,6 +242,7 @@
     </div>
 {% endblock %}
 
+{# Parse JSON data and store in variables for JS functions, and include additional Javascript file #}
 {% block postloadjs %}
     <script>
         if ("{{ js_new_product }}" !== "") {

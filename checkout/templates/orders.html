@@ -1,6 +1,9 @@
+{# Orders div on Profile page #}
 <div class="orders">
     <h2>Orders</h2>
+    {# Include Django messages #}
     {% include "form-responses.html" %}
+    {# Display orders table if orders are present #}
     {% if orders %}
         <div class="prod-table">
             <table>
@@ -15,17 +18,20 @@
                     <tr class="cart-tbl-prod">
                         <td>{{ order.order_dt|date:"Y-m-d" }}</td>
                         <td>{{ order.order_id }}</td>
+                        {# Insert Tracking link if available #}
                         {% if order.tracking_link %}
                             <td><a href="{{ order.tracking_link }}" target="_blank" rel="external nofollow noopener">Track</a></td>
                         {% else %}
                             <td>N/A</td>
                         {% endif %}
                         <td>{{ order.get_status_display }}</td>
+                        {# Link to detailed order data #}
                         <td><button type="button" onclick="location.href='/profile/orders/id={{ order.order_id }}'">View Order</button></td>
                     </tr>
                 {% endfor %}
             </table>
         </div>
+    {# Custom message if no orders are linked to the account #}
     {% else %}
         <p>No orders to display</p>
     {% endif %}

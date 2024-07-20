@@ -1,11 +1,11 @@
-<!-- Load static files folder -->
+{# Load static files folder #}
 {% load static %}
 
 <!DOCTYPE html>
 <html lang="en">
     <head>
+        {# metadata for the site #}
         {% block meta %}
-            <!-- Metadata for the site -->
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1">
             <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -14,39 +14,43 @@
         {% endblock %}
 
         {% block corecss %}
-            <!-- Google fonts -->
+            {# Google font #}
             <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap">
-            <!-- Link to the stylesheet -->
+            {# Base stylesheet #}
             <link rel="stylesheet" href="{% static 'css/base.css' %}">
         {% endblock %}
 
+        {# Section for extra app-specific CSS files #}
         {% block extracss %}
         {% endblock %}
 
         {% block extras %}
-            <!-- Site title -->
+            {# Site title #}
             <title>NutriForce Sports and Health Nutrition</title>
-            <!-- Load favicon -->
+            {# Load favicon #}
             <link rel="icon" type="image/x-icon" href="{{ MEDIA_URL }}favicon.ico">
         {% endblock %}
 
         {% block corejs %}
-            <!-- Jquery script -->
+            {# Jquery script #}
             <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-            <!-- Font Awesome script -->
+            {# Font Awesome script #}
             <script src="https://kit.fontawesome.com/3e8d6f7307.js" crossorigin="anonymous"></script>
-            <!-- Stripe script -->
+            {# Stripe script #}
             <script src="https://js.stripe.com/v3/"></script>
-            <!-- Base project JS -->
+            {# Base JavaScript file #}
             <script src="{% static 'js/base.js' %}"></script>
         {% endblock %}
     </head>
     <body>
+        {# Navigation bar #}
         <nav>
-            <!-- Nav bar -->
             <div class="nav-div">
+                {# Left-side bar for user actions #}
                 <div class="nav-left">
+                    {# View Cart option #}
                     <a href="/cart" aria-label="View Cart" title="View Cart"><i class="fa-solid fa-cart-shopping"></i> View Cart</a>
+                    {# If user is logged in, display Profile and Log Out buttons #}
                     {% if user.is_authenticated %}
                         <br>
                         <a href="/profile" aria-label="Profile" title="Profile"><i class="fa-solid fa-user"></i> Profile</a>
@@ -58,6 +62,7 @@
                             {% endif %}
                             <button type="submit" id="nav-logout" aria-label="Log Out" title="Log Out"><i class="fa-solid fa-right-from-bracket"></i> Log Out</button>
                         </form>
+                    {# If not logged in, display Log In and Create Account buttons #}
                     {% else %}
                         <br>
                         <a href="/login" aria-label="Log In" title="Log In"><i class="fa-regular fa-user"></i> Log In</a>
@@ -65,13 +70,15 @@
                         <a href="/signup" aria-label="Create Account" title="Create Account"><i class="fa-solid fa-user-plus"></i> Create Account</a>
                     {% endif %}
                 </div>
+                {# Center nav section #}
                 <div class="nav-middle">
                     <div class="nav-sup-news">
                         <div class="nav-news">
+                            {# Newsletter signup #}
                             <form action="/newsletter" method="POST" id="news-signup-form">
                                 {% csrf_token %}
-                                <!-- Newsletter signup -->
                                 <a href="javascript:modals('news-signup-anchor', 'news-modal')" id="news-signup-anchor">Newsletter Signup</a>
+                                {# Modal to complete subscription #}
                                 <div id="news-modal" class="modal">
                                     <div class="modal-content">
                                         <span class="modal-close">&times;</span>
@@ -83,9 +90,10 @@
                                 </div>
                             </form>
                         </div>
+                        {# Support details #}
                         <div class="nav-support">
-                            <!-- Contact details -->
                             <a href="javascript:modals('sup-mailto-anchor', 'sup-mailto-modal')" id="sup-mailto-anchor"><i class="fa-solid fa-envelope"></i> Support</a>
+                            {# Modal to display customer support details #}
                             <div id="sup-mailto-modal" class="modal">
                                 <div class="modal-content">
                                     <span class="modal-close">&times;</span>
@@ -96,16 +104,17 @@
                             </div>
                         </div>
                     </div>
+                    {# Product search bar #}
                     <div class="nav-search">
-                        <!-- Search bar -->
                         <form action="{% url 'search-results' %}" role="search" method="POST">
                             {% csrf_token %}
                             <label for="nav-search" aria-label="Search Bar"></label>
-                            <input type="search" id="nav-search" name="nav-search" placeholder="Search">
+                            <input type="search" id="nav-search" name="nav-search" placeholder="Search products">
+                            {# Submit search #}
                             <button type="submit">Search</button>
                         </form>
                     </div>
-                    <!-- Nav buttons -->
+                    {# Site navigation buttons #}
                     <div class="nav-buttons">
                         <button onclick="location.href='/products/all'" title="All Products" aria-label="All Products">All Products</button>
                         |
@@ -116,24 +125,26 @@
                         <button onclick="location.href='/products/new'" title="New Products" aria-label="New Products">What's New</button>
                     </div>
                 </div>
+                {# Right navigation section #}
                 <div class="nav-right">
-                    <!-- Site logo -->
+                    {# Site logo with link to homepage #}
                     <a href="/"><img src="{{ MEDIA_URL }}logo.jpeg" alt="NutriForce Sports and Health Nutrition Logo"></a>
                 </div>
             </div>
         </nav>
         <main>
             <div id="container">
+                {# Main site content from other templates #}
                 {% block content %}
-                <!-- Main site content -->
                 {% endblock content %}
             </div>
         </main>
         <footer>
             <hr class="footer-split">
-            <!-- Footer for copyright -->
+            {# Footer details #}
             {% block copyright %}
                 <div class="footer-content">
+                    {# Footer links to other pages #}
                     <p id="footer-links">
                         <a href="https://www.facebook.com/profile.php?id=100094712224458" target="_blank" rel="external nofollow noopener"><i class="fa-brands fa-facebook"></i>ollow Us</a>
                          |
@@ -147,12 +158,14 @@
                          |
                         <a href="{% url 'privacy' %}">Privacy Policy</a>
                     </p>
+                    {# Footer "Back to top" function #}
                     <p id="footer-top-link">
                         <a href="javascript:topScroll()">Back to top</a>
                     </p>
                 </div>
             {% endblock copyright %}
         </footer>
+        {# Section for app-specific JS files #}
         {% block postloadjs %}
         {% endblock %}
     </body>

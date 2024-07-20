@@ -1,13 +1,16 @@
+{# Load modules #}
 {% load i18n %}
 {% load account %}
 {% load allauth %}
 
+{# Display email confirmation page for email changes #}
 <div class="border">
     <h2>Confirm Email</h2>
     {% include "form-responses.html" %}
     {% if confirmation %}
         {% user_display confirmation.email_address.user as user_display %}
         {% if can_confirm %}
+            {# Ask user to confirm their email address #}
             {% element p %}
                 {% blocktrans with confirmation.email_address.email as email %}Please confirm that {{ email }} is an email address for user {{ user_display }}.{% endblocktrans %}
             {% endelement %}
@@ -16,16 +19,19 @@
                 {% slot actions %}
                     {% csrf_token %}
                     {{ redirect_field }}
+                    {# Confirm button #}
                     {% element button type="submit" %}
                         {% trans "Confirm" %}
                     {% endelement %}
                 {% endslot %}
             {% endelement %}
+        {# Error message when email cannot be verified and changed for the account, as it's already linked to another #}
         {% else %}
             {% element p %}
                 {% blocktrans %}Unable to confirm {{ email }} because it is already confirmed by a different account.{% endblocktrans %}
             {% endelement %}
         {% endif %}
+    {# Error message for invalid/expired email confirmation link, with link to issue a new confirmation request #}
     {% else %}
         {% url "account_email" as email_url %}
             {% blocktrans %}This email confirmation link expired or is invalid. Please <a href="{{ email_url }}">issue a new email confirmation request</a>.{% endblocktrans %}
