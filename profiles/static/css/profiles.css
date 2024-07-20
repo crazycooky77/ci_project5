@@ -125,6 +125,11 @@ label[for='id_email'], .label-input #id_email {
         padding: 3px;
     }
 
+    .profile-menu, .profile-menu * {
+        width: unset;
+        margin: auto;
+    }
+
     #ham-menu a {
         margin-left: 0;
     }
