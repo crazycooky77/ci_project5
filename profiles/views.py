@@ -42,6 +42,7 @@ class CustomEmailConfirmView(ConfirmEmailView):
 class CustomPasswordChangeView(PasswordChangeView):
     """Custom view for password changes"""
     template_name = 'profile.html'
+    success_url = reverse_lazy('profile')
 
 
 def newsletter_signup(request):
