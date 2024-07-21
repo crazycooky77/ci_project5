@@ -26,7 +26,7 @@ class AddressForm(forms.ModelForm):
         self.fields['first_name'].widget.attrs['autofocus'] = True
         self.fields['country'].widget.attrs['disabled'] = True
         for field in self.fields:
-            if field != 'default_addr':
+            if field != 'default_addr' and field != 'country':
                 placeholder = placeholders[field]
                 self.fields[field].widget.attrs['placeholder'] = placeholder
                 self.fields[field].widget.attrs['aria-label'] = placeholder
