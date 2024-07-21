@@ -25,7 +25,7 @@
                     {{ default_address.first.get_country_display }}</p>
                     <p>{{ default_address.first.phone_nr }}</p>
                     {# Edit Address button for Default Address #}
-                    <form method="POST" action="" class="addr-buttons">
+                    <form method="POST" action="{% url 'edit-address' default_address.first.pk %}" class="addr-buttons">
                         {% csrf_token %}
                         <button type="submit" name="edit-addr-button" value="{{ default_address.first.pk }}">Edit Address</button>
                     </form>
@@ -65,7 +65,7 @@
                             {{ addr.get_country_display }}</p>
                             <p>{{ addr.phone_nr }}</p>
                             {# Buttons for all other addresses, to Make Default, Edit, or Delete #}
-                            <form method="POST" action="" class="addr-buttons">
+                            <form method="POST" action="{% url 'addresses' %}" class="addr-buttons">
                                 {% csrf_token %}
                                 <button type="submit" name="mk-default-button" value="{{ addr.pk }}">Make Default</button>
                                 <button type="submit" name="edit-addr-button" value="{{ addr.pk }}">Edit Address</button>

@@ -1,5 +1,5 @@
 {# Add Address form for Profile #}
-<form method="POST" action="" class="add-addr">
+<form method="POST" action="{% url 'add-address' %}" class="add-addr">
     {% csrf_token %}
     {# Include Django messages #}
     {% include "form-responses.html" %}

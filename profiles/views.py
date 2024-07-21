@@ -172,6 +172,12 @@ def profile_view(request):
             if request.POST.get('del-addr-button'):
                 delete_addr(request)
                 return redirect('addresses')
+            else:
+                return render(request, 'profile.html',
+                              {'default_address': default_address,
+                               'other_address': other_address,
+                               'orders': orders,
+                               'signed_up': signed_up})
         else:
             return render(request, 'profile.html',
                           {'default_address': default_address,

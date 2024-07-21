@@ -15,7 +15,7 @@
         {% include "form-responses.html" %}
         <div class="checkout-signin">
             {# Check Out As Guest option #}
-            <form method="POST" action="">
+            <form method="POST" action="{% url 'checkout' %}">
                 {% csrf_token %}
                 <div class="checkout-guest">
                     <button type="submit" name="checkout-guest-button" value="checkout-guest-button">Check Out As Guest</button>
@@ -23,7 +23,7 @@
                 </div>
             </form>
             {# Account-specific options #}
-            <form method="POST" action="">
+            <form method="POST" action="{% url 'checkout' %}">
                 {% csrf_token %}
                 <div class="checkout-signin-split">or</div>
                 <div class="checkout-signin">

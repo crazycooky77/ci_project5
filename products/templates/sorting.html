@@ -1,6 +1,6 @@
 {# Product sort function div #}
 <div class="prod-sort">
-    <form id="sort-form" action="" method="POST">
+    <form id="sort-form" action="{{ request.META.PATH_INFO }}" method="POST">
         {% csrf_token %}
         {# Button for user to display the sort options #}
         <button onclick=sortProds() type="button">Sort Products</button>

@@ -35,10 +35,10 @@
             </div>
             {# Edit Address for user to make adjustments, while saving data entered so far #}
             <div class="edit-addr-div">
-                <form id="checkout-edit-addr" action="" method="POST">
+                <form id="checkout-edit-addr" action="{% url 'checkout' %}" method="POST">
                     {% csrf_token %}
                     <a href="javascript:checkoutEditAddr()" class="hidden-addr-submit">Edit Address</a>
-                    <button type="submit" class="hidden-addr-submit" name="checkout-edit-addr" value="checkout-edit-addr" formaction="{% url 'checkout' %}"></button>
+                    <button type="submit" class="hidden-addr-submit" name="checkout-edit-addr" value="checkout-edit-addr"></button>
                     <input type="hidden" name="shipping-addr" value="{{ shipping_addr }}">
                     <input type="hidden" name="billing-addr" value="{{ billing_addr }}">
                     <input type="hidden" name="checkout-order-note">

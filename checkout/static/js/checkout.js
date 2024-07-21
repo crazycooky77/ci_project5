@@ -121,7 +121,7 @@ function checkoutEditAddr() {
 
     $.ajax({
         method: 'POST',
-        url: $('button.hidden-addr-submit').attr('formaction'),
+        url: $('#checkout-edit-addr').attr('action'),
         data: {'csrfmiddlewaretoken': document.querySelector('[name=csrfmiddlewaretoken]').value,
             'checkout-edit-addr': 'checkout-edit-addr',
             'billing-addr': billingAddr,

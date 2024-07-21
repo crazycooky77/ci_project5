@@ -10,13 +10,13 @@
         <button type="button" class="prof-button" onclick="location=/password\change/">Change Password</button>
         {# Unsubscribe option if user email is signed up to the newsletter #}
         {% if signed_up %}
-            <form method="POST" action="">
+            <form method="POST" action="{% url 'profile' %}">
                 {% csrf_token %}
                 <button class="prof-button" name="unsub-news-button" id="unsub-news-button" value="unsub-news-button" type="submit">Unsubscribe from Newsletter</button>
             </form>
         {% endif %}
         {# Delete account feature #}
-        <form method="POST" action="">
+        <form method="POST" action="{% url 'home' %}">
             {% csrf_token %}
             <button type="button" class="del-button" id="del-acc-btn" onclick="modals('del-acc-btn', 'del-acc-modal')">Delete Account</button>
             {# Modal for user to confirm deletion #}

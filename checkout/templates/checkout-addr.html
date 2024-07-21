@@ -13,7 +13,7 @@
         <h2>Checkout</h2>
         {# Include Django messages #}
         {% include "form-responses.html" %}
-        <form method="POST" action="" class="checkout-addr-form">
+        <form method="POST" action="{% url 'checkout' %}" class="checkout-addr-form">
             {% csrf_token %}
             <div class="checkout-addr">
                 {# Shipping Address details #}
