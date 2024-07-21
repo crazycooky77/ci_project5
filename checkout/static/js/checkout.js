@@ -21,6 +21,14 @@ window.addEventListener('resize', () => {
 });
 
 
+// Set checkout address dropdown selection to index 0
+function removeAddrSel(select) {
+    select.options[select.options.selectedIndex].removeAttribute('selected');
+    select.options.selectedIndex = 0;
+    select.options[0].setAttribute('selected', true);
+}
+
+
 // Function to update selected dropdown option once user starts changing any autofilled address fields
 if (window.location.pathname === '/checkout' && document.getElementById('shipping-addr-list')) {
     let addrForm = document.getElementsByClassName('checkout-addr')[0];
@@ -30,15 +38,11 @@ if (window.location.pathname === '/checkout' && document.getElementById('shippin
         if (e.target.localName === 'input') {
             if (e.target.parentElement.parentElement.className === 'shipping-addr-form' &&
                 shipSelect.options.selectedIndex !== 0) {
-                shipSelect.options[shipSelect.options.selectedIndex].removeAttribute('selected');
-                shipSelect.options.selectedIndex = 0;
-                shipSelect.options[0].setAttribute('selected', true);
+                removeAddrSel(shipSelect)
             }
             else if (e.target.parentElement.parentElement.className === 'billing-addr-form' &&
                 billSelect.options.selectedIndex !== 0) {
-                billSelect.options[billSelect.options.selectedIndex].removeAttribute('selected');
-                billSelect.options.selectedIndex = 0;
-                billSelect.options[0].setAttribute('selected', true);
+                removeAddrSel(billSelect)
             }
         }
     });
@@ -49,30 +53,37 @@ if (window.location.pathname === '/checkout' && document.getElementById('shippin
 function addressSelection(select, addrForm) {
     let selectedAddr = select.options[select.options.selectedIndex];
     selectedAddr.setAttribute('selected', true);
-    let selectedAddrId = Number(selectedAddr.value.split('-')[0]);
-    addrForm.querySelectorAll('input').forEach(
-    e => json_addr.forEach(
-        a =>  { if (a.pk === selectedAddrId) {
-            if (e.name === 'first_name')
-                e.value = a.fields.first_name;
-            else if (e.name === 'last_name')
-                e.value = a.fields.last_name;
-            else if (e.name === 'phone_nr')
-                e.value = a.fields.phone_nr;
-            else if (e.name === 'addr_line1')
-                e.value = a.fields.addr_line1;
-            else if (e.name === 'addr_line2')
-                e.value = a.fields.addr_line2;
-            else if (e.name === 'addr_line3')
-                e.value = a.fields.addr_line3;
-            else if (e.name === 'city')
-                e.value = a.fields.city;
-            else if (e.name === 'eir_code')
-                e.value = a.fields.eir_code;
-            else if (e.name === 'county')
-                e.value = a.fields.county;
-        }})
-    );
+    if (select.options.selectedIndex !== 0) {
+        let selectedAddrId = Number(selectedAddr.value.split('-')[0]);
+        addrForm.querySelectorAll('input').forEach(
+            e => json_addr.forEach(
+                a => {
+                    if (selectedAddrId) {
+                        if (a.pk === selectedAddrId) {
+                            if (e.name.slice(5) === 'first_name')
+                                e.value = a.fields.first_name;
+                            else if (e.name.slice(5) === 'last_name')
+                                e.value = a.fields.last_name;
+                            else if (e.name.slice(5) === 'phone_nr')
+                                e.value = a.fields.phone_nr;
+                            else if (e.name.slice(5) === 'addr_line1')
+                                e.value = a.fields.addr_line1;
+                            else if (e.name.slice(5) === 'addr_line2')
+                                e.value = a.fields.addr_line2;
+                            else if (e.name.slice(5) === 'addr_line3')
+                                e.value = a.fields.addr_line3;
+                            else if (e.name.slice(5) === 'city')
+                                e.value = a.fields.city;
+                            else if (e.name.slice(5) === 'eir_code')
+                                e.value = a.fields.eir_code;
+                            else if (e.name.slice(5) === 'county')
+                                e.value = a.fields.county;
+                        }
+                    }
+                }
+            )
+        );
+    }
 }
 
 
@@ -92,8 +103,16 @@ function selectAddr(addrList, addrForm) {
 // Run address selection functions (for initial page load)
 function initAddrSel() {
     if (window.location.pathname === '/checkout' && document.getElementById('shipping-addr-list')) {
-        selectAddr('shipping-addr-list', 'shipping-addr-form');
-        selectAddr('billing-addr-list', 'billing-addr-form');
+        if (sessionStorage['ajax-post'] !== undefined) {
+            sessionStorage.removeItem('ajax-post')
+            let shipSelect = document.getElementById('shipping-addr-list');
+            let billSelect = document.getElementById('billing-addr-list');
+            removeAddrSel(shipSelect)
+            removeAddrSel(billSelect)
+        } else {
+            selectAddr('shipping-addr-list', 'shipping-addr-form');
+            selectAddr('billing-addr-list', 'billing-addr-form');
+        }
     }
 }
 
@@ -128,6 +147,7 @@ function checkoutEditAddr() {
             'shipping-addr': shippingAddr,
             'checkout-order-note': checkoutNote},
         success: function() {
+            sessionStorage.setItem('ajax-post', 'editAddr')
             $('button.hidden-addr-submit').click();
         }
     });
@@ -138,19 +158,22 @@ function checkoutEditAddr() {
 function addrMatch() {
     let shipForm = document.getElementsByClassName('shipping-addr-form')[0];
     let billForm = document.getElementsByClassName('billing-addr-form')[0];
-    let shipSelectIndex = document.getElementById('shipping-addr-list').options.selectedIndex;
+    let shipSelect = document.getElementById('shipping-addr-list');
     let billSelect = document.getElementById('billing-addr-list');
     shipForm.querySelectorAll('input').forEach(
         sInput => billForm.querySelectorAll('input').forEach(
-            bInput =>
-            { if (sInput.id === bInput.id)
-                bInput.value = sInput.value;
+            bInput => {
+                if (sInput.id.slice(7) === bInput.id.slice(7))
+                    bInput.value = sInput.value;
             }
         )
     );
-    billSelect.options[billSelect.options.selectedIndex].removeAttribute('selected');
-    billSelect.options.selectedIndex = shipSelectIndex;
-    billSelect.options[shipSelectIndex].setAttribute('selected', true);
+    if (shipSelect) {
+        let shipSelectIndex = shipSelect.options.selectedIndex;
+        billSelect.options[billSelect.options.selectedIndex].removeAttribute('selected');
+        billSelect.options.selectedIndex = shipSelectIndex;
+        billSelect.options[shipSelectIndex].setAttribute('selected', true);
+    }
 }
 
 

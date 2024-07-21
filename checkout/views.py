@@ -62,118 +62,103 @@ def profile_orders(request, var):
     return render(request, 'profile.html')
 
 
-def dual_addr_form(request):
+def dual_addr_form(request, shipping_addr, billing_addr):
     """Generate form fields for both shipping and billing addresses
     for checkout process"""
-    shipping_addr = json.loads(request.POST.getlist(
-        'shipping-addr')[0].replace("'", '"'))
-    billing_addr = json.loads(request.POST.getlist(
-        'billing-addr')[0].replace("'", '"'))
-
-    if request.user.is_authenticated:
+    if isinstance(shipping_addr, Addresses):
         ship_order_addr_form = OrderFormAddr(
-            initial=shipping_addr, user_auth=True)
+            instance=shipping_addr,
+            prefix='ship')
         bill_order_addr_form = OrderFormAddr(
-            initial=billing_addr, user_auth=True)
+            instance=billing_addr,
+            prefix='bill')
+    elif request.user.is_authenticated:
+        ship_order_addr_form = OrderFormAddr(
+            initial=shipping_addr,
+            user_auth=True,
+            prefix='ship')
+        bill_order_addr_form = OrderFormAddr(
+            initial=billing_addr,
+            user_auth=True,
+            prefix='bill')
     else:
         ship_order_addr_form = OrderFormAddr(
-            initial=shipping_addr)
+            initial=shipping_addr,
+            prefix='ship')
         bill_order_addr_form = OrderFormAddr(
-            initial=billing_addr)
+            initial=billing_addr,
+            prefix='bill')
     return ship_order_addr_form, bill_order_addr_form
 
 
-def checkout_addr(request, order_addr_form):
-    """Addresses view for checkout"""
-    addr_list = Addresses.objects.filter(
-        user=request.user)
-    js_addr = serializers.serialize('json', addr_list,
-                                    ensure_ascii=False)
-
-    # Autofill address form
-    if request.POST.get('shipping-addr'):
-        ship_order_addr_form, bill_order_addr_form = dual_addr_form(request)
-
-        return ship_order_addr_form, bill_order_addr_form, addr_list, js_addr
-
-    else:
+def checkout_addr(request, ship_order_addr_form, bill_order_addr_form):
+    """Get data for Checkout Address view"""
+    # For logged in users, get saved addresses
+    if request.user.is_authenticated:
+        addr_list = Addresses.objects.filter(
+            user=request.user)
+        js_addr = serializers.serialize('json', addr_list,
+                                        ensure_ascii=False)
         def_addr = Addresses.objects.filter(
             user=request.user,
             default_addr=True)
+    else:
+        addr_list = Addresses.objects.none()
+        js_addr = ''
+        def_addr = Addresses.objects.none()
+
+    # Autofill address form
+    if request.POST.get('shipping-addr'):
+        shipping_addr = json.loads(request.POST.getlist(
+            'shipping-addr')[0].replace("'", '"'))
+        billing_addr = json.loads(request.POST.getlist(
+            'billing-addr')[0].replace("'", '"'))
+
+        ship_order_addr_form, bill_order_addr_form = dual_addr_form(
+            request, shipping_addr, billing_addr)
+    else:
         form_addr = None
         if def_addr:
             form_addr = def_addr[0]
         elif not def_addr and addr_list:
             form_addr = addr_list.last()
         if form_addr:
-            order_addr_form = OrderFormAddr(initial={
-                'first_name': form_addr.first_name,
-                'last_name': form_addr.last_name,
-                'addr_line1': form_addr.addr_line1,
-                'addr_line2': form_addr.addr_line2,
-                'addr_line3': form_addr.addr_line3,
-                'city': form_addr.city,
-                'eir_code': form_addr.eir_code,
-                'county': form_addr.county,
-                'country': form_addr.country,
-                'phone_nr': str(form_addr.phone_nr),
-                'email': form_addr.user.email},
-                user_auth=True)
+            ship_order_addr_form = form_addr
+            bill_order_addr_form = form_addr
+            ship_order_addr_form, bill_order_addr_form = dual_addr_form(
+                request, ship_order_addr_form, bill_order_addr_form)
 
-        return order_addr_form, addr_list, js_addr
+    return ship_order_addr_form, bill_order_addr_form, addr_list, js_addr
 
 
 def checkout_view(request):
     """Main function for all checkout page views"""
     cart = request.session.get('cart', {})
     order_note = request.POST.get('checkout-order-note')
+    # Create initial checkout address forms
+    ship_order_addr_form = OrderFormAddr(prefix='ship')
+    bill_order_addr_form = OrderFormAddr(prefix='bill')
+    # Get data for checkout address, where available
+    (ship_order_addr_form, bill_order_addr_form,
+     addr_list, js_addr) = checkout_addr(
+        request, ship_order_addr_form, bill_order_addr_form)
 
-    # Views for checkout (from cart), or Edit Address button (from checkout)
-    if request.POST.get('checkout-button') or request.POST.get(
-            'checkout-edit-addr'):
-        order_addr_form = OrderFormAddr()
-        # If a shipping address in POST request, display checkout address view
-        if request.POST.get('shipping-addr'):
-            # Get address details to autofill form fields
-            if request.user.is_authenticated:
-                (ship_order_addr_form, bill_order_addr_form,
-                 addr_list, js_addr) = checkout_addr(
-                    request, order_addr_form)
-                return render(request,
-                              'checkout-addr.html',
-                              {'ship_order_addr_form': ship_order_addr_form,
-                               'bill_order_addr_form': bill_order_addr_form,
-                               'addr_list': addr_list,
-                               'js_addr': js_addr,
-                               'order_note': order_note})
-
-            else:
-                ship_order_addr_form, bill_order_addr_form = (
-                    dual_addr_form(request))
-                return render(
-                    request, 'checkout-addr.html',
-                    {'ship_order_addr_form': ship_order_addr_form,
-                     'bill_order_addr_form': bill_order_addr_form,
-                     'order_note': order_note})
-
-        # If user is logged in, display autofilled form fields in address view
-        elif request.user.is_authenticated:
-            order_addr_form, addr_list, js_addr = checkout_addr(
-                request, order_addr_form)
-            return render(request,
-                          'checkout-addr.html',
-                          {'order_addr_form': order_addr_form,
-                           'addr_list': addr_list,
-                           'js_addr': js_addr,
-                           'order_note': order_note})
-        # Guest Checkout/edit_addr w/o no ship_addr in POST: checkout addr view
-        elif ((request.POST.get('checkout-guest-button')
-              or request.POST.get('checkout-edit-addr'))
-              and not request.POST.get('shipping-addr')):
-            return render(request,
-                          'checkout-addr.html',
-                          {'order_addr_form': order_addr_form,
-                           'order_note': order_note})
+    # Initial checkout page
+    if request.POST.get('checkout-button'):
+        # Guest Checkout
+        if (request.POST.get('checkout-guest-button') or
+                request.user.is_authenticated):
+            # Autofill address form details where available
+            (ship_order_addr_form, bill_order_addr_form,
+             addr_list, js_addr) = checkout_addr(
+                request, ship_order_addr_form, bill_order_addr_form)
+            return render(
+                request, 'checkout-addr.html',
+                {'ship_order_addr_form': ship_order_addr_form,
+                 'bill_order_addr_form': bill_order_addr_form,
+                 'addr_list': addr_list,
+                 'js_addr': js_addr,
+                 'order_note': order_note})
         # Sign-in action during checkout
         elif request.POST.get('checkout-signin-button'):
             user = authenticate(request, email=request.POST['login'],
@@ -190,36 +175,25 @@ def checkout_view(request):
                         list_type='CART',
                         product=ProductDetails.objects.get(pk=prod),
                         quantity=cart[prod])
-
-                # Autofill address details if Edit Address was clicked
-                if request.POST.get('shipping-addr'):
-                    (ship_order_addr_form, bill_order_addr_form,
-                     addr_list, js_addr) = checkout_addr(
-                        request, order_addr_form)
-                    return render(
-                        request, 'checkout-addr.html',
-                        {'ship_order_addr_form': ship_order_addr_form,
-                         'bill_order_addr_form': bill_order_addr_form,
-                         'addr_list': addr_list,
-                         'js_addr': js_addr,
-                         'order_note': order_note})
-                # Otherwise just display address forms with default data
-                else:
-                    order_addr_form, addr_list, js_addr = checkout_addr(
-                        request, order_addr_form)
-                    return render(request,
-                                  'checkout-addr.html',
-                                  {'order_addr_form': order_addr_form,
-                                   'addr_list': addr_list,
-                                   'js_addr': js_addr,
-                                   'order_note': order_note})
+                # Autofill address form details where available
+                (ship_order_addr_form, bill_order_addr_form,
+                 addr_list, js_addr) = checkout_addr(
+                    request, ship_order_addr_form, bill_order_addr_form)
+                return render(
+                    request, 'checkout-addr.html',
+                    {'ship_order_addr_form': ship_order_addr_form,
+                     'bill_order_addr_form': bill_order_addr_form,
+                     'addr_list': addr_list,
+                     'js_addr': js_addr,
+                     'order_note': order_note})
             # Error for unsuccessful sign-in
             else:
                 messages.error(request, 'Login failed')
-        # Display sign-in/guest checkout options for checkout
+                return render(request,
+                              'checkout-signin.html')
+        # Render checkout sign-in if no other scenarios apply
         else:
-            return render(request,
-                          'checkout-signin.html')
+            return render(request, 'checkout-signin.html')
     # After user submits checkout address, or "check-stock" is in POST
     elif (request.POST.get('addr-form-button')
           or request.POST.get('check-stock')):
@@ -249,29 +223,29 @@ def checkout_view(request):
                     'billing-addr').replace("'", '"'))
             else:
                 shipping_addr = {
-                    'first_name': request.POST.getlist('first_name')[0],
-                    'last_name': request.POST.getlist('last_name')[0],
-                    'addr_line1': request.POST.getlist('addr_line1')[0],
-                    'addr_line2': request.POST.getlist('addr_line2')[0],
-                    'addr_line3': request.POST.getlist('addr_line3')[0],
-                    'city': request.POST.getlist('city')[0],
-                    'eir_code': request.POST.getlist('eir_code')[0],
-                    'county': request.POST.getlist('county')[0],
+                    'first_name': request.POST.get('ship-first_name'),
+                    'last_name': request.POST.get('ship-last_name'),
+                    'addr_line1': request.POST.get('ship-addr_line1'),
+                    'addr_line2': request.POST.get('ship-addr_line2'),
+                    'addr_line3': request.POST.get('ship-addr_line3'),
+                    'city': request.POST.get('ship-city'),
+                    'eir_code': request.POST.get('ship-eir_code'),
+                    'county': request.POST.get('ship-county'),
                     'country': 'Ireland',
-                    'phone_nr': request.POST.getlist('phone_nr')[0],
-                    'email': request.POST.getlist('email')[0]}
+                    'phone_nr': request.POST.get('ship-phone_nr'),
+                    'email': request.POST.get('ship-email')}
                 billing_addr = {
-                    'first_name': request.POST.getlist('first_name')[1],
-                    'last_name': request.POST.getlist('last_name')[1],
-                    'addr_line1': request.POST.getlist('addr_line1')[1],
-                    'addr_line2': request.POST.getlist('addr_line2')[1],
-                    'addr_line3': request.POST.getlist('addr_line3')[1],
-                    'city': request.POST.getlist('city')[1],
-                    'eir_code': request.POST.getlist('eir_code')[1],
-                    'county': request.POST.getlist('county')[1],
+                    'first_name': request.POST.get('bill-first_name'),
+                    'last_name': request.POST.get('bill-last_name'),
+                    'addr_line1': request.POST.get('bill-addr_line1'),
+                    'addr_line2': request.POST.get('bill-addr_line2'),
+                    'addr_line3': request.POST.get('bill-addr_line3'),
+                    'city': request.POST.get('bill-city'),
+                    'eir_code': request.POST.get('bill-eir_code'),
+                    'county': request.POST.get('bill-county'),
                     'country': 'Ireland',
-                    'phone_nr': request.POST.getlist('phone_nr')[1],
-                    'email': request.POST.getlist('email')[1]}
+                    'phone_nr': request.POST.get('bill-phone_nr'),
+                    'email': request.POST.get('bill-email')}
 
             # Get stripe data
             stripe_total = round(grand_total * 100)
@@ -314,11 +288,15 @@ def checkout_view(request):
                            'order_note': order_note,
                            'stripe_public_key': stripe_public_key,
                            'client_secret': intent.client_secret})
-
-    # Edit Address at checkout confirm, send data to checkout address view
-    if request.POST.get('shipping-addr'):
-        return render(request, 'checkout-addr.html',
-                      {'order_note': order_note})
+    # For all other address scenarios, display checkout address, autofill form
+    else:
+        return render(request,
+                      'checkout-addr.html',
+                      {'ship_order_addr_form': ship_order_addr_form,
+                       'bill_order_addr_form': bill_order_addr_form,
+                       'addr_list': addr_list,
+                       'js_addr': js_addr,
+                       'order_note': order_note})
 
 
 def checkout_complete(request):

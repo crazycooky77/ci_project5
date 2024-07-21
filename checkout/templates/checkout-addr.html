@@ -38,11 +38,7 @@
                             </select>
                         {% endif %}
                         {# Display checkout address form fields, using autofilled fields if available #}
-                        {% if order_addr_form %}
-                            {{ order_addr_form.as_p }}
-                        {% else %}
-                            {{ ship_order_addr_form.as_p }}
-                        {% endif %}
+                        {{ ship_order_addr_form.as_p }}
                     </div>
                 </div>
                 {# Billing Address details #}
@@ -69,11 +65,7 @@
                             </select>
                         {% endif %}
                         {# Display checkout address form fields, using autofilled fields if available #}
-                        {% if order_addr_form %}
-                            {{ order_addr_form.as_p }}
-                        {% else %}
-                            {{ bill_order_addr_form.as_p }}
-                        {% endif %}
+                        {{ bill_order_addr_form.as_p }}
                     </div>
                 </div>
             </div>
