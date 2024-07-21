@@ -16,7 +16,7 @@
             </form>
         {% endif %}
         {# Delete account feature #}
-        <form method="POST" action="{% url 'home' %}">
+        <form method="POST" action="{% url 'profile' %}">
             {% csrf_token %}
             <button type="button" class="del-button" id="del-acc-btn" onclick="modals('del-acc-btn', 'del-acc-modal')">Delete Account</button>
             {# Modal for user to confirm deletion #}
