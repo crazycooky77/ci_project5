@@ -29,6 +29,7 @@ from nutriforce.views import *
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', homepage_view, name='home'),
+    path('signup/', CustomSignup.as_view(), name='signup'),
     path('email/', CustomEmailChangeView.as_view(),
          name='email-change'),
     path('confirm-email/', CustomEmailVerificationSent.as_view(),

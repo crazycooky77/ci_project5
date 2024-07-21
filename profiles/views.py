@@ -6,9 +6,8 @@ from addresses.views import default_addr, edit_addr, delete_addr, get_addresses
 from checkout.models import OrderHistory
 from .models import *
 from allauth.account.views import PasswordChangeView, EmailView, \
-    ConfirmEmailView, EmailVerificationSentView
+    ConfirmEmailView, EmailVerificationSentView, SignupView
 from django.urls import reverse_lazy
-from django.views.generic.edit import CreateView
 from django.contrib.auth import logout
 from django.contrib import messages
 from django.shortcuts import render, redirect
@@ -16,7 +15,7 @@ from products.views import homepage_view
 from .forms import *
 
 
-class CreateUser(CreateView):
+class CustomSignup(SignupView):
     """Custom view for account creation"""
     model = User
     fields = ['email', 'password']
