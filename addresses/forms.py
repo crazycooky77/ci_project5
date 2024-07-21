@@ -23,7 +23,6 @@ class AddressForm(forms.ModelForm):
             'country': 'Country',
             'phone_nr': 'Phone Number'
         }
-        self.fields['first_name'].widget.attrs['autofocus'] = True
         self.fields['country'].widget.attrs['disabled'] = True
         for field in self.fields:
             if field != 'default_addr' and field != 'country':

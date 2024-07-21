@@ -32,7 +32,6 @@ class OrderFormAddr(forms.ModelForm):
         self.fields['phone_nr'].widget.attrs['onkeydown']\
             = 'return event.keyCode !== 69'
         self.fields['phone_nr'].widget.attrs.pop('maxlength', None)
-        self.fields['first_name'].widget.attrs['autofocus'] = True
         self.fields['country'].widget.attrs['disabled'] = True
         if user_auth:
             self.fields['email'].widget = HiddenInput()
