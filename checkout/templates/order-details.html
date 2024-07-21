@@ -31,46 +31,30 @@
                 {# Custom support button based on order status specifically for larger screens #}
                 {% if order.status in "PEND,PROC,RDY" %}
                     {# Request Cancellation button #}
-                    <td class="desktop"><button type="button" onclick="modals('cancel-req-mailto-btn', 'canref-req-mailto-modal')" id="cancel-req-mailto-btn">Request Cancellation</button></td>
+                    <td class="desktop"><button type="button" onclick="modals('cancel-req-mailto-btn', 'can-ref-req-mailto-modal')" id="cancel-req-mailto-btn">Request Cancellation</button></td>
                 {% else %}
                     {# Request Refund button #}
-                    <td class="desktop"><button type="button" onclick="modals('refund-req-mailto-btn', 'canref-req-mailto-modal')" id="refund-req-mailto-btn">Request Refund</button>
+                    <td class="desktop"><button type="button" onclick="modals('refund-req-mailto-btn', 'can-ref-req-mailto-modal')" id="refund-req-mailto-btn">Request Refund</button>
                 {% endif %}
                 </tr>
             </table>
+            {# Custom support button based on order status for mid to small screens #}
+            {% if order.status in "PEND,PROC,RDY" %}
+                {# Request Cancellation button #}
+                <button class="mid-screen" type="button" onclick="modals('mid-cancel-req-mailto-btn', 'can-ref-req-mailto-modal')" id="mid-cancel-req-mailto-btn">Request Cancellation</button>
+            {% else %}
+                {# Request Refund button #}
+                <button class="mid-screen" type="button" onclick="modals('mid-refund-req-mailto-btn', 'can-ref-req-mailto-modal')" id="mid-refund-req-mailto-btn">Request Refund</button>
+            {% endif %}
             {# Modal for request cancellation/refund #}
-            <div id="canref-req-mailto-modal" class="modal">
+            <div id="can-ref-req-mailto-modal" class="modal">
                 <div class="modal-content">
                     <span class="modal-close">&times;</span>
-                    <p>You can <a href="mailto:{{ contact_email }}?subject=Cancellation Request for Order {{ order.order_id }}&body=Please add details for your request: ">click here</a> to automatically open your email client.</p>
-                    <p class="modal-margin">Alternatively, you can reach us at: <span class="modal-mailto-email" onclick="copyMailto('canref-req-mailto-modal')">{{ contact_email }}</span></p>
+                    <p>You can <a href="mailto:{{ contact_email }}?subject=Cancellation%20Request%20for%20Order%20{{ order.order_id }}&body=Please%20add%20details%20for%20your%20request:%20">click here</a> to automatically open your email client.</p>
+                    <p class="modal-margin">Alternatively, you can reach us at: <span class="modal-mailto-email" onclick="copyMailto('can-ref-req-mailto-modal')">{{ contact_email }}</span></p>
                     <span class="modal-tooltip">Copied!</span>
                 </div>
             </div>
-            {# Custom support button based on order status for mid to small screens #}
-            {% if order.status in "PEND,PROC,RDY" %}
-                {# Request Cancellation button and modal #}
-                <button class="mid-screen" type="button" onclick="modals('mid-cancel-req-mailto-btn', 'mid-cancel-req-mailto-modal')" id="mid-cancel-req-mailto-btn">Request Cancellation</button></td>
-                <div id="mid-cancel-req-mailto-modal" class="modal">
-                    <div class="modal-content">
-                        <span class="modal-close">&times;</span>
-                        <p>You can <a href="mailto:{{ contact_email }}?subject=Cancellation Request for Order {{ order.order_id }}&body=Please add details for your request: ">click here</a> to automatically open your email client.</p>
-                        <p class="modal-margin">Alternatively, you can reach us at: <span class="modal-mailto-email" onclick="copyMailto('mid-cancel-req-mailto-modal')">{{ contact_email }}</span></p>
-                        <span class="modal-tooltip">Copied!</span>
-                    </div>
-                </div>
-            {% else %}
-                {# Request Refund button and modal #}
-                <button class="mid-screen" type="button" onclick="modals('mid-refund-req-mailto-btn', 'mid-refund-req-mailto-modal')" id="mid-refund-req-mailto-btn">Request Refund</button>
-                <div id="mid-refund-req-mailto-modal" class="modal">
-                    <div class="modal-content">
-                        <span class="modal-close">&times;</span>
-                        <p>You can <a href="mailto:{{ contact_email }}?subject=Refund Request for Order {{ order.order_id }}&body=Please add details for your request: ">click here</a> to automatically open your email client.</p>
-                        <p class="modal-margin">Alternatively, you can reach us at: <span class="modal-mailto-email" onclick="copyMailto('mid-refund-req-mailto-modal')">{{ contact_email }}</span></p>
-                        <span class="modal-tooltip">Copied!</span>
-                    </div>
-                </div>
-            {% endif %}
         </div>
         {# Detailed order data #}
         <div class="prod-table-details">
