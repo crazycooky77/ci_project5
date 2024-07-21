@@ -202,7 +202,6 @@
 .order-note {
     width: 40%;
     margin-top: 10px;
-    text-align: center;
 }
 
 .order-note-h3 {
@@ -213,6 +212,10 @@
     background-color: #9FFFB8;
     border-radius: 5px;
     width: 100%;
+}
+
+#checkout-success-order-note {
+    text-align: center;
 }
 
 /* Hidden buttons for custom form submits on Checkout Summary page*/
