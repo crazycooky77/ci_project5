@@ -79,7 +79,7 @@
     margin-bottom: 10px;
 }
 
-.email-change label[for='current_email'] {
+.email-change label[for='current_email'], .email-change label[for='new_email'] {
     margin-right: 10px;
 }
 
