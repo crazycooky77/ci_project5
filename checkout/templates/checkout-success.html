@@ -98,8 +98,7 @@
                     <h3>Note to Seller</h3>
                 </div>
                 <div class="order-note">
-                    <label for="checkout-order-note" aria-label="Note to Seller"></label>
-                    {{ completed_order.order_note }}
+                    <p id="checkout-success-order-note">{{ completed_order.order_note }}</p>
                 </div>
             {% endif %}
         </div>
