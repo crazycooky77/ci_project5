@@ -322,9 +322,8 @@ def product_view(request, var):
     # Get linked products from same category for "You may also like" section
     if product_cats:
         categories = product_cats[0].categories.split(',')
-        categories = [cat.strip(' ') for cat in categories]
-        for cat in categories:
-            cat.strip()
+        categories = [cat.strip() for cat in categories]
+        categories = list(filter(None, categories))
 
         if categories:
             linked_products = ProductDetails.objects.exclude(
