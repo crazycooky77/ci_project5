@@ -66,12 +66,22 @@ def dual_addr_form(request, shipping_addr, billing_addr):
     """Generate form fields for both shipping and billing addresses
     for checkout process"""
     if isinstance(shipping_addr, Addresses):
-        ship_order_addr_form = OrderFormAddr(
-            instance=shipping_addr,
-            prefix='ship')
-        bill_order_addr_form = OrderFormAddr(
-            instance=billing_addr,
-            prefix='bill')
+        if request.user.is_authenticated:
+            ship_order_addr_form = OrderFormAddr(
+                instance=shipping_addr,
+                user_auth=True,
+                prefix='ship')
+            bill_order_addr_form = OrderFormAddr(
+                instance=billing_addr,
+                user_auth=True,
+                prefix='bill')
+        else:
+            ship_order_addr_form = OrderFormAddr(
+                instance=shipping_addr,
+                prefix='ship')
+            bill_order_addr_form = OrderFormAddr(
+                instance=billing_addr,
+                prefix='bill')
     elif request.user.is_authenticated:
         ship_order_addr_form = OrderFormAddr(
             initial=shipping_addr,

@@ -25,7 +25,6 @@ class OrderFormAddr(forms.ModelForm):
             'eir_code': 'Eir Code',
             'county': 'County',
             'country': 'Country',
-            'email': 'Email Address',
             'phone_nr': 'Phone Number'
         }
         self.fields['phone_nr'].widget.input_type = 'number'
@@ -35,10 +34,12 @@ class OrderFormAddr(forms.ModelForm):
         self.fields['country'].widget.attrs['disabled'] = True
         if user_auth:
             self.fields['email'].widget = HiddenInput()
+        else:
+            self.fields['email'].widget.attrs['placeholder'] = 'Email Address'
         for field in self.fields:
             self.fields[field].widget.attrs['class'] = 'stripe-input'
             self.fields[field].label = False
-            if field != 'country':
+            if field != 'country' and field != 'email':
                 placeholder = placeholders[field]
                 self.fields[field].widget.attrs['placeholder'] = placeholder
                 self.fields[field].widget.attrs['aria-label'] = placeholder
