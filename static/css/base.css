@@ -144,18 +144,14 @@ label:has(+input:required):after {
     width: 15%;
 }
 
-.nav-right img {
+.nav-right img, .nav-right a {
     border-radius: 20px;
     display: block;
-    margin: auto;
+    margin: auto 0 auto auto;
     position: relative;
     width: 100%;
     max-width: 190px;
     height: auto;
-}
-
-.nav-right a {
-    display: block;
 }
 
 /* Middle nav section */
@@ -359,6 +355,7 @@ footer {
     text-align: center;
     position: fixed;
     left: 0;
+    right: 0;
     bottom: 0;
     width: 100%;
 }
@@ -380,7 +377,7 @@ footer * {
 
 #footer-top-link {
     visibility: hidden;
-    width: 0;
+    width: 15%;
 }
 
 /* Hide mobile and mid-size screen content by default */

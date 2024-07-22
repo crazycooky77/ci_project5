@@ -1,6 +1,5 @@
 // Run all necessary functions once DOM has loaded
 window.addEventListener('DOMContentLoaded', () => {
-    logoResize();
     scrollOpt();
     baseU500();
     baseO500();
@@ -8,27 +7,16 @@ window.addEventListener('DOMContentLoaded', () => {
 
 // Run all necessary functions once page content has loaded
 window.addEventListener('load', () => {
-    logoResize();
     baseU500();
     baseO500();
 });
 
 // Run all necessary functions when page is resized
 window.addEventListener('resize', () => {
-    logoResize();
     footerResize();
     baseU500();
     baseO500();
 });
-
-
-// Restrict the width of the logo img and anchor elements to the div width
-function logoResize() {
-    let logo = document.getElementsByClassName('nav-right')[0];
-    let width = window.getComputedStyle(logo).getPropertyValue('width');
-    logo.querySelector('a').style.width = width;
-    logo.querySelector('img').style.width = width;
-}
 
 
 // Function to display and style the Back to top button for the site
