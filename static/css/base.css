@@ -190,19 +190,31 @@ label:has(+input:required):after {
 
 /* Nav buttons */
 .nav-middle .nav-buttons {
+    display: flex;
     margin-top: 20px;
     background-color: #88FFF9;
     border-radius: 5px;
 }
 
 .nav-buttons button {
-    margin-left: 10px;
-    margin-right: 10px;
     border: none;
-    padding: 10px;
+    border-right: 1px solid #6DB1FC;
+    border-radius: unset;
+    padding: 10px 20px;
     font-size: 18px;
     font-weight: bold;
     background-color: #88FFF9;
+}
+
+.nav-buttons button:first-child {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px
+}
+
+.nav-buttons button:last-child {
+    border-right: none;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px
 }
 
 .nav-buttons button:hover {
@@ -438,27 +450,6 @@ footer * {
     /* Increase size for center nav */
     .nav-middle {
         width: 75%;
-    }
-
-    /* Adjust nav button styling */
-    .nav-buttons {
-        display: flex;
-    }
-
-    .nav-buttons button {
-        border-right: 1px solid #6DB1FC;
-        border-radius: unset;
-    }
-
-    .nav-buttons button:first-child {
-        border-top-left-radius: 5px;
-        border-bottom-left-radius: 5px
-    }
-
-    .nav-buttons button:last-child {
-        border-right: none;
-        border-top-right-radius: 5px;
-        border-bottom-right-radius: 5px
     }
 
     /* Reduce margin and remove padding for nav logout button */

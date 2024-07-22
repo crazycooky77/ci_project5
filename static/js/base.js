@@ -127,14 +127,10 @@ function baseU500() {
         for (let j = 0; j < navButtons.length; j++) {
             if (navButtons[j].title === 'All Products') {
                 navButtons[j].innerHTML = 'All';
-            }
-            else if (navButtons[j].title === 'New Products') {
+            } else if (navButtons[j].title === 'New Products') {
                 navButtons[j].innerHTML = 'New';
             }
         }
-        // Remove pipe characters from within middle navigation bar
-        let navPipes = document.getElementsByClassName('nav-buttons')[0];
-        navPipes.innerHTML = navPipes.innerHTML.replace(/\|/g, '');
     }
 }
 
@@ -159,19 +155,6 @@ function baseO500() {
             }
             else if (navButtons[j].title === 'New Products') {
                 navButtons[j].innerHTML = "What's New";
-            }
-        }
-        // Add pipe characters to middle navigation bar
-        let navPipes = document.getElementsByClassName('nav-buttons')[0].childNodes;
-        for (let k = 1; k < navPipes.length - 1; k++) {
-            if ((navPipes[k].nodeName === 'BUTTON' &&
-                navPipes[k+1].nodeName === 'BUTTON')) {
-                navPipes[k].parentNode.insertBefore(document.createTextNode('|'), navPipes[k].nextSibling);
-            }
-            else if ((navPipes[k].nodeName === '#text' &&
-                navPipes[k-1].nodeName === 'BUTTON' &&
-                navPipes[k+1].nodeName === 'BUTTON')) {
-                navPipes[k].replaceWith(document.createTextNode('|'));
             }
         }
     }
