@@ -25,7 +25,7 @@
                         {# If saved addresses exist, display in a Select element #}
                         {% if addr_list %}
                             <label for="shipping-addr-list" aria-label="Saved Addresses"></label>
-                            <select name="shipping-addr-list" id="shipping-addr-list" onchange="selectAddr('shipping-addr-list', 'shipping-addr-form')">
+                            <select name="shipping-addr-list" id="shipping-addr-list" onchange="selectAddr('shipping-addr-list', 'shipping-addr-form'); emptyAddr(value, 'shipping-addr-form')">
                                 <option disabled>Select Saved Address</option>
                                 {% for addr in addr_list %}
                                     {# Set the default address to "selected" #}
@@ -35,6 +35,7 @@
                                         <option value="{{ addr.address_id }}-addr">{{ addr.addr_line1 }} | {{ addr.city }} | {{ addr.eir_code }}</option>
                                     {% endif %}
                                 {% endfor %}
+                                <option value="New Address">New Address</option>
                             </select>
                         {% endif %}
                         {# Display checkout address form fields, using autofilled fields if available #}
@@ -52,7 +53,7 @@
                         {# If saved addresses exist, display in a Select element #}
                         {% if addr_list %}
                             <label for="billing-addr-list" aria-label="Saved Addresses"></label>
-                            <select name="billing-addr-list" id="billing-addr-list" onchange="selectAddr('billing-addr-list', 'billing-addr-form')">
+                            <select name="billing-addr-list" id="billing-addr-list" onchange="selectAddr('billing-addr-list', 'billing-addr-form'); emptyAddr(value, 'billing-addr-form')">
                                 <option disabled>Select Saved Address</option>
                                 {% for addr in addr_list %}
                                     {# Set the default address to "selected" #}
@@ -62,6 +63,7 @@
                                         <option value="{{ addr.address_id }}-addr">{{ addr.addr_line1 }} | {{ addr.city }} | {{ addr.eir_code }}</option>
                                     {% endif %}
                                 {% endfor %}
+                                <option value="New Address">New Address</option>
                             </select>
                         {% endif %}
                         {# Display checkout address form fields, using autofilled fields if available #}

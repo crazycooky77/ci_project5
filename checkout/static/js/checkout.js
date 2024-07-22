@@ -117,6 +117,19 @@ function initAddrSel() {
 }
 
 
+// Function to empty inputs from checkout address form
+function emptyAddr(value, formClass) {
+    if (value === 'New Address') {
+        let form = document.getElementsByClassName(formClass)[0]
+        form.querySelectorAll('input').forEach(
+            i => {
+                i.value = ''
+            }
+        )
+    }
+}
+
+
 // Function for users to show/hide cart contents on checkout pages
 function toggleCart() {
     let cartTable = document.getElementsByClassName('cart-tbl-prod');
