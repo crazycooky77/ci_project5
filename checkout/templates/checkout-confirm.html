@@ -23,7 +23,7 @@
                 <div id="checkout-stock-change">
                     {# Display cart changes, if applicable #}
                     {% if js_stock and not checkout_empty %}
-                        <p class="form-error">The quantity for the following items in your cart has changed, due to stock updates:</p>
+                        <p class="form-error">The quantity for the following products in your cart has changed, due to stock updates:</p>
                         {% include "cart-stock.html" %}
                     {% endif %}
                 </div>

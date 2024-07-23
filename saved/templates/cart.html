@@ -17,13 +17,13 @@
         {% if checkout_empty %}
             <p class="form-error">We could not continue the checkout process, as stock changes resulted in your cart being emptied. You have not been charged.</p>
             {# Display removed products #}
-            <p class="form-error">The following items were removed:</p>
+            <p class="form-error">The following products were removed:</p>
             {% include "cart-stock.html" %}
         {% endif %}
         {# Display cart changes where cart is not empty #}
         {% if stock_change and not checkout_empty %}
             {# Display changed products #}
-            <p class="form-error">The quantity for the following items in your cart has changed, due to stock updates:</p>
+            <p class="form-error">The quantity for the following products in your cart has changed, due to stock updates:</p>
             {% include "cart-stock.html" %}
         {% endif %}
         {# Display cart contents #}
@@ -56,7 +56,7 @@
                 </form>
             {# Display custom message when user cart is empty #}
             {% else %}
-                <p>You don't have any items in your cart. <a href="/products/all">Start shopping now!</a></p>
+                <p>You don't have any products in your cart. <a href="/products/all">Start shopping now!</a></p>
             {% endif %}
         </div>
     </div>
