@@ -40,13 +40,13 @@ def product_sort(request, data, active_sort, *args):
     elif request.POST.get('price-asc') or active_sort == 'price-asc':
         active_sort = 'price-asc'
         request.session['active_sort'] = active_sort
-        sorted_data = data.order_by(
+        sorted_data = data.exclude(stock_count__lte=0).order_by(
             'price').values_list(
             'product__product_id', flat=True)
     elif request.POST.get('price-desc') or active_sort == 'price-desc':
         active_sort = 'price-desc'
         request.session['active_sort'] = active_sort
-        sorted_data = data.order_by(
+        sorted_data = data.exclude(stock_count__lte=0).order_by(
             '-price').values_list(
             'product__product_id', flat=True)
     elif request.POST.get('sale') or active_sort == 'sale':
