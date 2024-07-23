@@ -131,7 +131,7 @@ def add_cart(request, product_id):
                 request,
                 'The item was not added to your cart. ' +
                 'You already have the maximum possible for ' +
-                'this item in your cart.')
+                'this item in your cart. <a href="/cart">View Cart</a>')
         elif not adjusted_quantity:
             messages.success(
                 request,
