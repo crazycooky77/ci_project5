@@ -176,7 +176,7 @@ def search_sort(request, term):
     flavour_searched = []
     for prod in product_filter:
         if prod.flavour:
-            if prod.flavour.lower() == term.lower():
+            if term.lower() in prod.flavour.lower():
                 if prod.pk not in flavour_searched:
                     flavour_searched.append(prod.pk)
 

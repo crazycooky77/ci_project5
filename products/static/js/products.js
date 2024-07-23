@@ -523,8 +523,8 @@ function allProds() {
 function searchedProds() {
     if (window.location.pathname === '/products/search') {
         if (window.json_searched_prods && json_searched_prods) {
-            searchSelection(json_searched_prods);
             allOptions();
+            searchSelection(json_searched_prods);
         }
     }
 }
