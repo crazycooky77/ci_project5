@@ -48,9 +48,10 @@
     margin-top: 0;
 }
 
-/* Margin for Back to Cart button */
+/* Margins for Back to Cart button */
 .cart-back-button {
     margin-left: 0;
+    margin-top: 20px;
 }
 
 /* Checkout Address page styling */
@@ -309,11 +310,6 @@ button.hidden-addr-submit, .hidden-empty-submit {
     /* Reduce padding on checkout pages */
     .checkout {
         padding: 10px;
-    }
-
-    /* Add top margin for Back to Cart button */
-    .cart-back-button {
-        margin-top: 20px;
     }
 
     /* Styling adjustments for Checkout Address page */
