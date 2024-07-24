@@ -44,14 +44,23 @@
                 <button class="mid-screen" type="button" onclick="modals('mid-cancel-req-mailto-btn', 'can-ref-req-mailto-modal')" id="mid-cancel-req-mailto-btn">Request Cancellation</button>
             {% else %}
                 {# Request Refund button #}
-                <button class="mid-screen" type="button" onclick="modals('mid-refund-req-mailto-btn', 'can-ref-req-mailto-modal')" id="mid-refund-req-mailto-btn">Request Refund</button>
+                <button class="mid-screen" type="button" onclick="modals('mid-refund-req-mailto-btn', 'mid-ref-req-mailto-modal')" id="mid-refund-req-mailto-btn">Request Refund</button>
             {% endif %}
-            {# Modal for request cancellation/refund #}
+            {# Modal for request cancellation #}
             <div id="can-ref-req-mailto-modal" class="modal">
                 <div class="modal-content">
                     <span class="modal-close">&times;</span>
                     <p>You can <a href="mailto:{{ contact_email }}?subject=Cancellation%20Request%20for%20Order%20{{ order.order_id }}&body=Please%20add%20details%20for%20your%20request:%20">click here</a> to automatically open your email client.</p>
                     <p class="modal-margin">Alternatively, you can reach us at: <span class="modal-mailto-email" onclick="copyMailto('can-ref-req-mailto-modal')">{{ contact_email }}</span></p>
+                    <span class="modal-tooltip">Copied!</span>
+                </div>
+            </div>
+            {# Modal for request refund #}
+            <div id="mid-ref-req-mailto-modal" class="modal">
+                <div class="modal-content">
+                    <span class="modal-close">&times;</span>
+                    <p>You can <a href="mailto:{{ contact_email }}?subject=Refund%20Request%20for%20Order%20{{ order.order_id }}&body=Please%20add%20details%20for%20your%20request:%20">click here</a> to automatically open your email client.</p>
+                    <p class="modal-margin">Alternatively, you can reach us at: <span class="modal-mailto-email" onclick="copyMailto('mid-ref-req-mailto-modal')">{{ contact_email }}</span></p>
                     <span class="modal-tooltip">Copied!</span>
                 </div>
             </div>
