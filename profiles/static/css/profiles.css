@@ -23,7 +23,7 @@
 }
 
 .profile-buttons {
-    width: 35%;
+    width: 50%;
 }
 
 .prof-button {
@@ -94,15 +94,6 @@ label[for='id_email'], .label-input #id_email {
 .email-change label[for='new_email'], .email-change #new_email {
     margin-top: 10px;
     margin-bottom: 10px;
-}
-
-
-/* Screens up to 1100px width */
-@media screen and (max-width: 1100px) {
-    /* Update width of profile buttons */
-    .profile-buttons {
-        width: 50%;
-    }
 }
 
 
