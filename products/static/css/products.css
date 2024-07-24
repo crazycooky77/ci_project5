@@ -352,11 +352,6 @@ button[class$='add-cart'], .home-row button[class$='add-cart'], .hor-prod-div di
         margin-top: 50px;
     }
 
-    .linked-ver {
-        width: 100%;
-        min-width: 60%;
-    }
-
     .linked-img {
         height: 100px;
     }
