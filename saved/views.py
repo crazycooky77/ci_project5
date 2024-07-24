@@ -64,7 +64,8 @@ def cart_merge(sender, user, request, **kwargs):
 
             messages.success(
                 request,
-                'Your guest and account cart contents have been merged.')
+                'Your guest and account cart contents have been merged. ' +
+                f'<a href="/cart">View Cart</a>')
 
             return cart
 
@@ -129,7 +130,7 @@ def add_cart(request, product_id):
         if adjusted_quantity == 0:
             messages.error(
                 request,
-                'The product was not added to your cart. ' +
+                f'The product was not added to your cart. ' +
                 'You already have the maximum possible for ' +
                 'this product in your cart. <a href="/cart">View Cart</a>')
         elif not adjusted_quantity:
