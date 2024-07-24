@@ -65,19 +65,14 @@
 
 /* Screen up to 800px width */
 @media screen and (max-width: 800px) {
-    /* Adjusting width and top margin for orders table on profile page */
+   /* Orders div and table adjustments on profile page */
+    .orders {
+        width: 100%;
+    }
+
     .orders .prod-table button {
         width: auto;
         margin-top: 10px;
-    }
-}
-
-
-/* Screens up to 500px width */
-@media screen and (max-width: 500px) {
-    /* Orders div and table adjustments on profile page */
-    .orders {
-        width: 100%;
     }
 
     .orders .prod-table table th, .orders .prod-table table td, .orders .prod-table-details table th, .orders .prod-table-details table td {
