@@ -65,7 +65,7 @@
 
 /* Screen up to 800px width */
 @media screen and (max-width: 800px) {
-   /* Orders div and table adjustments on profile page */
+    /* Orders div and table adjustments on profile page */
     .orders {
         width: 100%;
     }
@@ -74,7 +74,12 @@
         width: auto;
         margin-top: 10px;
     }
+}
 
+
+/* Screen up to 500px width */
+@media screen and (max-width: 500px) {
+    /* Orders table adjustments on profile page */
     .orders .prod-table table th, .orders .prod-table table td, .orders .prod-table-details table th, .orders .prod-table-details table td {
         padding: 5px;
     }
