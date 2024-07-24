@@ -35,10 +35,15 @@ button[class$='add-cart'], .home-row button[class$='add-cart'], .hor-prod-div di
     width: 100%;
 }
 
-/* Styling for all product images on all product pages except homepage */
-.hor-prod-div .prod-img, .all-prod-div .prod-img, .order-prod .prod-img {
+/* Styling for all product images on all product pages */
+.feat-img, .all-prod-div .prod-img, .order-prod .prod-img {
     max-height: 300px;
     width: 100%;
+    object-position: center;
+}
+
+.hor-prod-div .prod-img {
+    max-height: 300px;
     object-position: center;
 }
 
@@ -65,12 +70,6 @@ button[class$='add-cart'], .home-row button[class$='add-cart'], .hor-prod-div di
 
 .feat-img-div {
     max-width: 35%;
-}
-
-.feat-img {
-    max-height: 300px;
-    width: 100%;
-    object-position: center;
 }
 
 .feat-prod-details-div {
