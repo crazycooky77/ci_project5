@@ -20,7 +20,7 @@
             <p>If this was a mistake, you can resubscribe at any time. We hope you still enjoy <a href="{% url 'all-products' %}">shopping with us</a>.</p>
         {# User re-used an unsubscribe link (no longer valid) #}
         {% elif valid_uuid %}
-            <p>This link is no longer valid. It has already been used to unsubscribe from our newsletter. If you have any issues or concerns, please <a href="javascript:modals('unsub-mailto-anchor', 'unsub-mailto-modal')" id="unsub-mailto-anchor">contact us directly</a>, and we'll look into it.</p>
+            <p>This link is no longer valid. It has already been used to unsubscribe from our newsletter. If you have any issues or concerns, please <a href="javascript:modals('unsub-mailto-anchor', 'unsub-mailto-modal')" id="unsub-mailto-anchor">contact us directly</a>, and we'll look into it. If the contact link doesn't work for you, please <a href="{% url 'support' %}">visit our support page here</a> instead.</p>
             {# Modal for support details if needed #}
             <div id="unsub-mailto-modal" class="modal">
                 <div class="modal-content">

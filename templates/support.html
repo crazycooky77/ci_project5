@@ -1,0 +1,16 @@
+{# Load base template #}
+{% extends "base.html" %}
+
+{# Display Support Details #}
+{% block content %}
+    <div class="mid-content">
+        {# Include Django messages #}
+        {% include "form-responses.html" %}
+        <h2>Support</h2>
+        <p>We're sorry to hear that you've encountered some difficulties!</p>
+        <br>
+        <p>You can get in touch with us at any time by emailing us here: <strong>{{ contact_email }}</strong></p>
+        <br>
+        <p>We'll get back to you as quick as possible, but please be aware that it can take up to 5 business days.</p>
+    </div>
+{% endblock %}

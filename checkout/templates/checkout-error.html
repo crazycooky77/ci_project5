@@ -16,7 +16,7 @@
         <div class="checkout-error">
             {# Custom message when a payment has gone through but the order was not created in the database #}
             {% if client_secret and cart %}
-                <p>An error occurred during checkout that prevented us from displaying your order summary. Please <strong>do not</strong> make a second purchase, to avoid a duplicate charge. We have been notified of this error during your purchase, will investigate this urgently, and contact you with the outcome. We sincerely apologise for any inconvenience. If you wish to get in touch with us in the meantime, please <a href="javascript:modals('checkout-error-mailto-anchor', 'checkout-error-mailto-modal')" id="checkout-error-mailto-anchor">contact us</a>.</p>
+                <p>An error occurred during checkout that prevented us from displaying your order summary. Please <strong>do not</strong> make a second purchase, to avoid a duplicate charge. We have been notified of this error during your purchase, will investigate this urgently, and contact you with the outcome. We sincerely apologise for any inconvenience. If you wish to get in touch with us in the meantime, please <a href="javascript:modals('checkout-error-mailto-anchor', 'checkout-error-mailto-modal')" id="checkout-error-mailto-anchor">contact us</a>. If the contact link doesn't work for you, please <a href="{% url 'support' %}">visit our support page here</a> instead.</p>
                 {# Modal for contact options if needed #}
                 <div id="checkout-error-mailto-modal" class="modal">
                     <div class="modal-content">
@@ -28,7 +28,7 @@
                 </div>
             {# Page refreshed after successful order #}
             {% elif client_secret and not cart %}
-                <p>It seems you might have tried to refresh this page after completing a purchase. To avoid a duplicate charge, we prevented a refresh of the order details. If you encountered an issue and wish to get in touch with us, please <a href="javascript:modals('checkout-refresh-mailto-anchor', 'checkout-refresh-mailto-modal')" id="checkout-refresh-mailto-anchor">contact us</a>.</p>
+                <p>It seems you might have tried to refresh this page after completing a purchase. To avoid a duplicate charge, we prevented a refresh of the order details. If you encountered an issue and wish to get in touch with us, please <a href="javascript:modals('checkout-refresh-mailto-anchor', 'checkout-refresh-mailto-modal')" id="checkout-refresh-mailto-anchor">contact us</a>. If the contact link doesn't work for you, please <a href="{% url 'support' %}">visit our support page here</a> instead.</p>
                 {# Modal for contact options if needed #}
                 <div id="checkout-refresh-mailto-modal" class="modal">
                     <div class="modal-content">

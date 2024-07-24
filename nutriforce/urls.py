@@ -68,6 +68,8 @@ urlpatterns = [
          name='shipping'),
     path('about', TemplateView.as_view(template_name='about.html'),
          name='about'),
+    path('support', TemplateView.as_view(template_name='support.html'),
+         name='support'),
     path('wh/', webhook, name='webhook'),
     path('checkout/cache_checkout_data/', cache_checkout_data,
          name='cache_checkout_data')

@@ -7,7 +7,7 @@
         {# Include Django messages #}
         {% include "form-responses.html" %}
         <h2>Server Error</h2>
-        <p>An error has occurred. We apologise for any inconvenience, but have notified the cleaners to check for bugs! If you have any concerns about this error, please <a href="javascript:modals('500-mailto-anchor', '500-mailto-modal')" id="500-mailto-anchor">contact us</a>.</p>
+        <p>An error has occurred. We apologise for any inconvenience, but have notified the cleaners to check for bugs! If you have any concerns about this error, please <a href="javascript:modals('500-mailto-anchor', '500-mailto-modal')" id="500-mailto-anchor">contact us</a>. If the contact link doesn't work for you, please <a href="{% url 'support' %}">visit our support page here</a> instead.</p>
         {# Modal for support contact if needed #}
         <div id="500-mailto-modal" class="modal">
             <div class="modal-content">
