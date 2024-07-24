@@ -108,8 +108,14 @@ label[for='id_email'], .label-input #id_email {
 
 /* Screens up to 800px width */
 @media screen and (max-width: 800px) {
+    /* Increase profile page button widths */
     .profile-buttons {
         width: 100%;
+    }
+
+    .email-change button, .pw-change button {
+        width: 100%;
+        margin-right: auto;
     }
 }
 
@@ -155,14 +161,9 @@ label[for='id_email'], .label-input #id_email {
         margin: 0;
     }
 
-    /* Width and margin updates for divs and buttons for profile pages */
+    /* Width and margin updates for divs and inputs for profile pages */
     .acc-details, .pw-change, .email-change, .email-confirm {
         width: 100%;
-    }
-
-    .email-change button, .pw-change button {
-        width: 100%;
-        margin-right: auto;
     }
 
     #current_email {
