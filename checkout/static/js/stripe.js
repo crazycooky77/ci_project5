@@ -136,7 +136,7 @@ stripeForm.addEventListener('submit', function(ev) {
                     <span class="icon" role="alert">
                         <i class="fas fa-times"></i>
                     </span>
-                    <span>Some item(s) in your cart have changed, due to stock updates. Please review your cart and make any necessary adjustments before checking out again.</span>`;
+                    <span>Some product(s) in your cart have changed, due to stock updates. Please review your cart and make any necessary adjustments before checking out again.</span>`;
                         $(errorDiv).html(html);
                         // Remove the Processing message and re-enable card field/button
                         document.getElementById('pay-process').style.display = 'none';
