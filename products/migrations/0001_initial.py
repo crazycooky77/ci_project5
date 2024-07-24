@@ -19,7 +19,7 @@ class Migration(migrations.Migration):
                 ('brand', models.CharField(max_length=50)),
                 ('product_name', models.CharField(max_length=50)),
                 ('product_pic_url', models.URLField(blank=True, max_length=1024, null=True)),
-                ('product_pic', models.ImageField(blank=True, default='products/default_img.jpeg', null=True, upload_to='')),
+                ('product_pic', models.ImageField(blank=True, default='products/default_img.webp', null=True, upload_to='')),
                 ('description', models.TextField()),
                 ('main_cat', models.CharField(choices=[('SPORTS', 'Sports'), ('HEALTH', 'Health')], max_length=50)),
                 ('categories', models.TextField(blank=True, null=True)),

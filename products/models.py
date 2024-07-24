@@ -14,7 +14,7 @@ class Products(models.Model):
     product_pic_url = models.URLField(max_length=1024,
                                       null=True,
                                       blank=True)
-    product_pic = models.ImageField(default='products/default_img.jpeg',
+    product_pic = models.ImageField(default='products/default_img.webp',
                                     null=True,
                                     blank=True)
     description = models.TextField()
