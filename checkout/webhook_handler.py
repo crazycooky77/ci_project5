@@ -210,7 +210,7 @@ class StripeHWHandler:
                 if user:
                     order = OrderHistory.objects.create(
                         purchaser=user,
-                        purchaser_email=billing_details['email'],
+                        purchaser_email=email,
                         billing_addr=Addresses.objects.get(pk=bill_addr_id),
                         shipping_addr=Addresses.objects.get(pk=ship_addr_id),
                         order_note=order_note,
@@ -221,7 +221,7 @@ class StripeHWHandler:
                         stripe_pid=pid)
                 else:
                     order = OrderHistory.objects.create(
-                        purchaser_email=billing_details['email'],
+                        purchaser_email=email,
                         billing_addr=Addresses.objects.get(pk=bill_addr_id),
                         shipping_addr=Addresses.objects.get(pk=ship_addr_id),
                         order_note=order_note,
