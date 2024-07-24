@@ -99,20 +99,6 @@ label[for='id_email'], .label-input #id_email {
 
 /* Screens up to 800px width */
 @media screen and (max-width: 800px) {
-    /* Increase profile page button widths */
-    .profile-buttons {
-        width: 100%;
-    }
-
-    .email-change button, .pw-change button {
-        width: 100%;
-        margin-right: auto;
-    }
-}
-
-
-/* Screens up to 500px width */
-@media screen and (max-width: 500px) {
     /* Hide large-screen and displaying mobile elements */
     .desktop {
         display: none;
@@ -152,6 +138,20 @@ label[for='id_email'], .label-input #id_email {
         margin: 0;
     }
 
+    /* Increase profile page button widths */
+    .profile-buttons {
+        width: 100%;
+    }
+
+    .email-change button, .pw-change button {
+        width: 100%;
+        margin-right: auto;
+    }
+}
+
+
+/* Screens up to 500px width */
+@media screen and (max-width: 500px) {
     /* Width and margin updates for divs and inputs for profile pages */
     .acc-details, .pw-change, .email-change, .email-confirm {
         width: 100%;

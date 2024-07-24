@@ -1,9 +1,9 @@
-// Hide/display expanded hamburger menu on profile pages for screens up to 500px width
+// Hide/display expanded hamburger menu on profile pages for screens up to 800px width
 if (window.location.pathname.includes('profile') ||
     window.location.pathname.includes('email') ||
     window.location.pathname === '/password/change/') {
     document.body.addEventListener('click', function (e) {
-        if (window.innerWidth <= 500) {
+        if (window.innerWidth <= 800) {
             let hamMenu = document.getElementById('ham-menu');
             let hamIcon = document.getElementById('ham-icon-button');
 
