@@ -9,7 +9,7 @@
 
 /* Messages for cart stock updates */
 .stock-update-div {
-    width: 50%;
+    width: 70%;
     text-align: left;
 }
 
@@ -115,6 +115,16 @@
 
 
 /* Media Queries */
+/* Screens up to 1100px width */
+@media screen and (max-width: 1100px) {
+    /* Messages for cart stock updates */
+    .stock-update-div {
+        width: 100%;
+        text-align: left;
+    }
+}
+
+
 /* Screens up to 500px width */
 @media screen and (max-width: 500px) {
     /* Cart padding and width style adjustments */
