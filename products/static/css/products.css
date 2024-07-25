@@ -38,12 +38,13 @@ button[class$='add-cart'], .home-row button[class$='add-cart'], .hor-prod-div di
 /* Styling for all product images on all product pages */
 .feat-img, .all-prod-div .prod-img, .order-prod .prod-img {
     max-height: 300px;
-    width: 100%;
+    max-width: 100%;
     object-position: center;
 }
 
 .hor-prod-div .prod-img {
     max-height: 300px;
+    max-width: 100%;
     object-position: center;
 }
 
