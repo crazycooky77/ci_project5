@@ -225,27 +225,34 @@ function flavourSelect(json) {
                             !($(flavours.options[f]).hasClass('na')) &&
                             flavours.options[f].disabled === false) {
                             $(flavours.options[f]).removeClass();
+                            flavours.options[f].setAttribute('selected', true);
                             flavours.selectedIndex = f;
                             flavours.options[f].classList.add('stock');
-                            flavours.options[f].setAttribute('selected', true);
+
                         }
                         else if ($(flavours.options[f]).hasClass('hidden')) {
                             $(flavours.options[f]).removeClass();
+                            flavours.options[f].setAttribute('selected', true);
                             flavours.options[f].disabled = false;
                             flavours.selectedIndex = f;
                             flavours.options[f].classList.add('stock');
-                            flavours.options[f].setAttribute('selected', true);
+
                         }
-                    }
-                    else if (flavours.selectedIndex !== -1 &&
-                        flavours.options[flavours.selectedIndex].disabled === false) {
-                        flavours.options[flavours.selectedIndex].setAttribute('selected', true);
                     }
                 }
                 else if (flavours.selectedIndex !== -1 &&
                     flavours.options[flavours.selectedIndex].disabled === true) {
                     flavours.selectedIndex = -1;
                 }
+            }
+        }
+    }
+    for (let i = 0; i < json.length; i++) {
+        let flavours = document.getElementById(json[i].fields.product + '-prod-flavours');
+        if (flavours) {
+            if (flavours.selectedIndex !== -1 &&
+                flavours.options[flavours.selectedIndex].disabled === false) {
+                flavours.options[flavours.selectedIndex].setAttribute('selected', true);
             }
         }
     }
@@ -260,7 +267,7 @@ function oosSizes(json) {
         let flavours = document.getElementById(obj.fields.product + '-prod-flavours');
         for (let s = 0; s < sizes.length; s++) {
             if (Number(obj.fields.size) === Number(sizes.options[s].value) &&
-                (obj.fields.flavour === null || (flavours && flavours.options[s].value === obj.fields.flavour))) {
+                (obj.fields.flavour === null || flavours.options[s] != null && flavours.options[s].value === obj.fields.flavour)) {
                 if (obj.fields.stock_count < 1 && !($(sizes.options[s]).hasClass('hidden'))) {
                     sizes.options[s].disabled = true;
                     sizes.options[s].classList.add('oos');
@@ -435,15 +442,39 @@ function dupeOpts(json, option) {
 }
 
 
+// Function to unwrap hidden select options in a span for Safari/IE
+function safariUnhideDupes() {
+    let hiddenOpts = document.getElementsByClassName('hidden');
+    for (let i = 0; i < hiddenOpts.length; i++) {
+        if ($(hiddenOpts[i]).parent().is('span')) {
+            $(hiddenOpts[i]).unwrap();
+        }
+    }
+}
+
+
+// Function to wrap hidden select options in a span for Safari/IE
+function safariHideDupes() {
+    let hiddenOpts = document.querySelectorAll('.hidden');
+    for (let i = 0; i < hiddenOpts.length; i++) {
+        if (!($(hiddenOpts[i]).parent().is('span'))) {
+            $(hiddenOpts[i]).wrap('<span>');
+        }
+    }
+}
+
+
 // Main function to run all product functions
 function prodFunctions(json) {
     if (json) {
+        safariUnhideDupes();
         removeClasses(json);
         sortFlavours(json);
         dupeOpts(json, 'flavours');
         dupeOpts(json, 'sizes');
         oosProducts(json);
         prodDetails(json);
+        safariHideDupes();
     }
 }
 
