@@ -553,10 +553,6 @@ footer * {
         flex-direction: row;
     }
 
-    .nav-search input {
-        width: unset;
-    }
-
     .nav-search button {
         margin-left: 5px;
     }
