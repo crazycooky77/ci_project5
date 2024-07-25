@@ -2,4 +2,4 @@ A payment has gone through that does not seem to have created an order in our sy
 
 The client secret for the payment is: {{ client_secret }}
 The PID is: {{ pid }}
-This occurred around: {{ time_now }}
+This occurred around: {{ time_now }} GMT
