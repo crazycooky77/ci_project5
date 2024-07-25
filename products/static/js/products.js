@@ -70,13 +70,9 @@ function prodElSizes(prodClass) {
                         }
                     }
                 }
-            }
-            if ($(prodList[i].children[1]).find('.add-cart')[0].textContent === 'Out Of Stock') {
-                if (i !== 0) {
+
+                if ($(prodList[i].children[1]).find('.add-cart')[0].textContent === 'Out Of Stock') {
                     prodList[i].children[1].style.height = prodList[i - 1].children[1].getBoundingClientRect().height + 'px';
-                }
-                else {
-                    prodList[i].children[1].style.height = prodList[i + 1].children[1].getBoundingClientRect().height + 'px';
                 }
             }
         }
