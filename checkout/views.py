@@ -270,10 +270,17 @@ def checkout_view(request):
                     description='stock_change',
                     usage='on_session')
             elif not cart:
-                # If cart is now empty, create SetupIntent with "empty_cart"
-                intent = stripe.SetupIntent.create(
-                    description='empty_cart',
-                    usage='on_session')
+                # If cart was emptied during address checkout, load the cart
+                if request.POST.get('addr-form-button'):
+                    return render(request, 'cart.html',
+                                  {'js_stock': js_stock,
+                                   'stock_change': stock_change,
+                                   'checkout_empty': True})
+                # Create "empty_cart" SetupIntent if emptied on confirm
+                else:
+                    intent = stripe.SetupIntent.create(
+                        description='empty_cart',
+                        usage='on_session')
             elif check_stock and cart and not stock_change:
                 # If stock checked, cart present, no changes > PaymentIntent
                 intent = stripe.PaymentIntent.create(
