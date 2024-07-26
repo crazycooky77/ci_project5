@@ -42,6 +42,9 @@ function scrollOpt() {
     };
 }
 
+window.addEventListener('submit', function() {
+    $("input").blur();
+})
 
 // Function to style footer elements based on screen width and Back to top button visibility
 function footerResize() {
