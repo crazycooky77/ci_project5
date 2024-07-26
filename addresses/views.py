@@ -101,29 +101,36 @@ def profile_edit_addr(request, var):
     if request.user.is_authenticated:
         addr_to_edit = Addresses.objects.filter(user=request.user,
                                                 pk=var)
-        if request.method == 'POST':
-            updated_request = request.POST.copy()
-            updated_request.update({'country': 'IE'})
-            edit_addr_form = AddressForm(updated_request,
-                                         instance=addr_to_edit[0])
-            if edit_addr_form.is_valid():
-                if request.POST.get('save-edit-addr-button'):
-                    default = Addresses.objects.filter(user=request.user,
-                                                       default_addr=True)
-                    obj = edit_addr_form.save(commit=False)
-                    # If default_addr exists and edited address is also default
-                    if default and obj.default_addr:
-                        # Set default_addr to false for other saved address
-                        default.update(default_addr=False)
-                    obj.save()
-                    messages.success(
-                        request,
-                        'You successfully edited your address.')
-                    return redirect('addresses')
+        if addr_to_edit:
+            if request.method == 'POST':
+                updated_request = request.POST.copy()
+                updated_request.update({'country': 'IE'})
+                edit_addr_form = AddressForm(updated_request,
+                                             instance=addr_to_edit[0])
+                if edit_addr_form.is_valid():
+                    if request.POST.get('save-edit-addr-button'):
+                        default = Addresses.objects.filter(user=request.user,
+                                                           default_addr=True)
+                        obj = edit_addr_form.save(commit=False)
+                        # If default_addr and edited address is also default
+                        if default and obj.default_addr:
+                            # Set default_addr to false for other saved address
+                            default.update(default_addr=False)
+                        obj.save()
+                        messages.success(
+                            request,
+                            'You successfully edited your address.')
+                        return redirect('addresses')
+            else:
+                edit_addr_form = AddressForm()
+                return render(request, 'profile.html',
+                              {'edit_addr_form': edit_addr_form,
+                               'addr_to_edit': addr_to_edit[0]})
         else:
-            edit_addr_form = AddressForm()
-        return render(request, 'profile.html',
-                      {'edit_addr_form': edit_addr_form,
-                       'addr_to_edit': addr_to_edit[0]})
+            messages.error(
+                request, f'This address ID ({var}) does not exist. ' +
+                         f'Please select one to edit from below, or ' +
+                         f'<a href="/">continue shopping</a>.')
+            return redirect('addresses')
     else:
         return render(request, 'profile.html')
