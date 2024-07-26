@@ -1,0 +1,1 @@
+ERROR: CSRF failure occurred

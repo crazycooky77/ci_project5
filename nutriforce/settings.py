@@ -91,6 +91,7 @@ EMAIL_USE_TLS = True
 CONTACT_EMAIL = os.environ.get('CONTACT_EMAIL', '')
 FREE_SHIPPING_THRESHOLD = 50
 STANDARD_SHIPPING_PERCENTAGE = 10
+CSRF_FAILURE_VIEW = 'nutriforce.views.csrf_failure'
 
 # Stripe settings
 STRIPE_CURRENCY = 'eur'

@@ -2,3 +2,9 @@ A server error 500 has occurred. Please review the error and logs, and make any 
 
 Error:
 {{ e }}
+
+Location:
+{{ loc }}
+
+Originated from:
+{{ origin }}
