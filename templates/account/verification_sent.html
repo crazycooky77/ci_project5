@@ -9,7 +9,12 @@
         <h2>Verify Your Email Address</h2>
         {# Include Django messages #}
         {% include "form-responses.html" %}
-        {# Inform user of verification email sent to their email address #}
-        {% blocktrans %}We have sent an email to you for verification. Follow the link provided to finalise the signup process. If you do not see the verification email in your main inbox, please check your spam folder.{% endblocktrans %}
+        {# Inform user of verification email sent to their email address if accessing the page from the /signup page #}
+        {% if request.META.HTTP_REFERER|slice:"-7:-1" == "/signup" %}
+            {% blocktrans %}We have sent an email to you for verification. Follow the link provided to finalise the signup process. If you do not see the verification email in your main inbox, please check your spam folder.{% endblocktrans %}
+        {# If the user accesses the page via any other referer, display an error #}
+        {% else %}
+            {% blocktrans %}It looks like you may have manually accessed this page. It's only available during signup or email change processes. If you're waiting for a verification email and do not see it in your main inbox, please check your spam folder.{% endblocktrans %}
+        {% endif %}
     </div>
 {% endblock content %}
