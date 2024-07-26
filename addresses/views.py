@@ -122,11 +122,11 @@ def profile_edit_addr(request, var):
                             request,
                             'You successfully edited your address.')
                         return redirect('addresses')
-            else:
-                edit_addr_form = AddressForm()
-                return render(request, 'profile.html',
-                              {'edit_addr_form': edit_addr_form,
-                               'addr_to_edit': addr_to_edit[0]})
+                else:
+                    edit_addr_form = AddressForm()
+                    return render(request, 'profile.html',
+                                  {'edit_addr_form': edit_addr_form,
+                                   'addr_to_edit': addr_to_edit[0]})
         # Redirect and display an error for invalid address IDs
         else:
             messages.error(
