@@ -101,6 +101,7 @@ def profile_edit_addr(request, var):
     if request.user.is_authenticated:
         addr_to_edit = Addresses.objects.filter(user=request.user,
                                                 pk=var)
+        # For valid address IDs
         if addr_to_edit:
             if request.method == 'POST':
                 updated_request = request.POST.copy()
@@ -126,6 +127,7 @@ def profile_edit_addr(request, var):
                 return render(request, 'profile.html',
                               {'edit_addr_form': edit_addr_form,
                                'addr_to_edit': addr_to_edit[0]})
+        # Redirect and display an error for invalid address IDs
         else:
             messages.error(
                 request, f'This address ID ({var}) does not exist. ' +

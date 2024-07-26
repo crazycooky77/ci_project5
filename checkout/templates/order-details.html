@@ -6,114 +6,108 @@
     <h2>Order Details</h2>
     {# Include Django messages #}
     {% include "form-responses.html" %}
-    {# Display order data and details if the order exists #}
-    {% if order %}
-        {# Div and table for basic order data #}
-        <div class="prod-table">
-            <table>
-                <tr class="cart-tbl-prod">
-                    <th title="Date">Date</th>
-                    <th title="Order #">Order #</th>
-                    <th title="Tracking">Tracking</th>
-                    <th title="Order Status">Order Status</th>
-                    <th title="Action" class="desktop">Action</th>
-                </tr>
-                <tr class="cart-tbl-prod">
-                    <td>{{ order.order_dt|date:"Y-m-d" }}</td>
-                    <td>{{ order.order_id }}</td>
-                    {# Include tracking link if available #}
-                    {% if order.tracking_link %}
-                        <td><a href="{{ order.tracking_link }}" target="_blank" rel="external nofollow noopener">Track</a></td>
-                    {% else %}
-                        <td>N/A</td>
-                    {% endif %}
-                    <td>{{ order.get_status_display }}</td>
-                {# Custom support button based on order status specifically for larger screens #}
-                {% if order.status in "PEND,PROC,RDY" %}
-                    {# Request Cancellation button #}
-                    <td class="desktop"><button type="button" onclick="modals('cancel-req-mailto-btn', 'can-ref-req-mailto-modal')" id="cancel-req-mailto-btn">Request Cancellation</button></td>
+    {# Div and table for basic order data #}
+    <div class="prod-table">
+        <table>
+            <tr class="cart-tbl-prod">
+                <th title="Date">Date</th>
+                <th title="Order #">Order #</th>
+                <th title="Tracking">Tracking</th>
+                <th title="Order Status">Order Status</th>
+                <th title="Action" class="desktop">Action</th>
+            </tr>
+            <tr class="cart-tbl-prod">
+                <td>{{ order.order_dt|date:"Y-m-d" }}</td>
+                <td>{{ order.order_id }}</td>
+                {# Include tracking link if available #}
+                {% if order.tracking_link %}
+                    <td><a href="{{ order.tracking_link }}" target="_blank" rel="external nofollow noopener">Track</a></td>
                 {% else %}
-                    {# Request Refund button #}
-                    <td class="desktop"><button type="button" onclick="modals('refund-req-mailto-btn', 'mid-ref-req-mailto-modal')" id="refund-req-mailto-btn">Request Refund</button>
+                    <td>N/A</td>
                 {% endif %}
-                </tr>
-            </table>
-            {# Custom support button based on order status for mid to small screens #}
+                <td>{{ order.get_status_display }}</td>
+            {# Custom support button based on order status specifically for larger screens #}
             {% if order.status in "PEND,PROC,RDY" %}
                 {# Request Cancellation button #}
-                <button class="mid-screen" type="button" onclick="modals('mid-cancel-req-mailto-btn', 'can-ref-req-mailto-modal')" id="mid-cancel-req-mailto-btn">Request Cancellation</button>
+                <td class="desktop"><button type="button" onclick="modals('cancel-req-mailto-btn', 'can-ref-req-mailto-modal')" id="cancel-req-mailto-btn">Request Cancellation</button></td>
             {% else %}
                 {# Request Refund button #}
-                <button class="mid-screen" type="button" onclick="modals('mid-refund-req-mailto-btn', 'mid-ref-req-mailto-modal')" id="mid-refund-req-mailto-btn">Request Refund</button>
+                <td class="desktop"><button type="button" onclick="modals('refund-req-mailto-btn', 'mid-ref-req-mailto-modal')" id="refund-req-mailto-btn">Request Refund</button>
             {% endif %}
-            {# Modal for request cancellation #}
-            <div id="can-ref-req-mailto-modal" class="modal">
-                <div class="modal-content">
-                    <span class="modal-close">&times;</span>
-                    <p>You can <a href="mailto:{{ contact_email }}?subject=Cancellation%20Request%20for%20Order%20{{ order.order_id }}&body=Please%20add%20details%20for%20your%20request:%20">click here</a> to automatically open your email client.</p>
-                    <p class="modal-margin">Alternatively, you can reach us at: <span class="modal-mailto-email" onclick="copyMailto('can-ref-req-mailto-modal')">{{ contact_email }}</span></p>
-                    <span class="modal-tooltip">Copied!</span>
-                </div>
-            </div>
-            {# Modal for request refund #}
-            <div id="mid-ref-req-mailto-modal" class="modal">
-                <div class="modal-content">
-                    <span class="modal-close">&times;</span>
-                    <p>You can <a href="mailto:{{ contact_email }}?subject=Refund%20Request%20for%20Order%20{{ order.order_id }}&body=Please%20add%20details%20for%20your%20request:%20">click here</a> to automatically open your email client.</p>
-                    <p class="modal-margin">Alternatively, you can reach us at: <span class="modal-mailto-email" onclick="copyMailto('mid-ref-req-mailto-modal')">{{ contact_email }}</span></p>
-                    <span class="modal-tooltip">Copied!</span>
-                </div>
+            </tr>
+        </table>
+        {# Custom support button based on order status for mid to small screens #}
+        {% if order.status in "PEND,PROC,RDY" %}
+            {# Request Cancellation button #}
+            <button class="mid-screen" type="button" onclick="modals('mid-cancel-req-mailto-btn', 'can-ref-req-mailto-modal')" id="mid-cancel-req-mailto-btn">Request Cancellation</button>
+        {% else %}
+            {# Request Refund button #}
+            <button class="mid-screen" type="button" onclick="modals('mid-refund-req-mailto-btn', 'mid-ref-req-mailto-modal')" id="mid-refund-req-mailto-btn">Request Refund</button>
+        {% endif %}
+        {# Modal for request cancellation #}
+        <div id="can-ref-req-mailto-modal" class="modal">
+            <div class="modal-content">
+                <span class="modal-close">&times;</span>
+                <p>You can <a href="mailto:{{ contact_email }}?subject=Cancellation%20Request%20for%20Order%20{{ order.order_id }}&body=Please%20add%20details%20for%20your%20request:%20">click here</a> to automatically open your email client.</p>
+                <p class="modal-margin">Alternatively, you can reach us at: <span class="modal-mailto-email" onclick="copyMailto('can-ref-req-mailto-modal')">{{ contact_email }}</span></p>
+                <span class="modal-tooltip">Copied!</span>
             </div>
         </div>
-        {# Detailed order data #}
-        <div class="prod-table-details">
-            <table>
+        {# Modal for request refund #}
+        <div id="mid-ref-req-mailto-modal" class="modal">
+            <div class="modal-content">
+                <span class="modal-close">&times;</span>
+                <p>You can <a href="mailto:{{ contact_email }}?subject=Refund%20Request%20for%20Order%20{{ order.order_id }}&body=Please%20add%20details%20for%20your%20request:%20">click here</a> to automatically open your email client.</p>
+                <p class="modal-margin">Alternatively, you can reach us at: <span class="modal-mailto-email" onclick="copyMailto('mid-ref-req-mailto-modal')">{{ contact_email }}</span></p>
+                <span class="modal-tooltip">Copied!</span>
+            </div>
+        </div>
+    </div>
+    {# Detailed order data #}
+    <div class="prod-table-details">
+        <table>
+            <tr class="cart-tbl-prod">
+                <th title="Product">Product</th>
+                <th title="Size">Size</th>
+                <th title="Quantity">Quantity</th>
+                {# Only show the Individual Price column on larger screens #}
+                <th title="Individual Price" class="desktop">Individual Price</th>
+                <th title="Sum">Sum</th>
+            </tr>
+            {# All product details for products in order #}
+            {% for item, product in order_details %}
                 <tr class="cart-tbl-prod">
-                    <th title="Product">Product</th>
-                    <th title="Size">Size</th>
-                    <th title="Quantity">Quantity</th>
-                    {# Only show the Individual Price column on larger screens #}
-                    <th title="Individual Price" class="desktop">Individual Price</th>
-                    <th title="Sum">Sum</th>
+                    <td><a href="/products/id={{ item.product.product_id }}">
+                        <div class="order-prod">
+                            <img class="desktop order-prod-img" src="{{ item.product.product.product_pic.url }}" alt="Sports/Health Product image">
+                            {% if item.product.flavour %}
+                                <p>{{ item.product.product.brand }} {{ item.product.product.product_name }} {{ item.product.flavour }}</p>
+                            {% else %}
+                                <p>{{ item.product.product.brand }} {{ item.product.product.product_name }}</p>
+                            {% endif %}
+                        </div>
+                    </a></td>
+                    <td>{{ item.product.size }} {{ item.product.size_unit }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td class="desktop">{{ item.product.price }}</td>
+                    <td>{{ item.product.price|mul:item.quantity }}</td>
                 </tr>
-                {# All product details for products in order #}
-                {% for item, product in order_details %}
-                    <tr class="cart-tbl-prod">
-                        <td><a href="/products/id={{ item.product.product_id }}">
-                            <div class="order-prod">
-                                <img class="desktop order-prod-img" src="{{ item.product.product.product_pic.url }}" alt="Sports/Health Product image">
-                                {% if item.product.flavour %}
-                                    <p>{{ item.product.product.brand }} {{ item.product.product.product_name }} {{ item.product.flavour }}</p>
-                                {% else %}
-                                    <p>{{ item.product.product.brand }} {{ item.product.product.product_name }}</p>
-                                {% endif %}
-                            </div>
-                        </a></td>
-                        <td>{{ item.product.size }} {{ item.product.size_unit }}</td>
-                        <td>{{ item.quantity }}</td>
-                        <td class="desktop">{{ item.product.price }}</td>
-                        <td>{{ item.product.price|mul:item.quantity }}</td>
-                    </tr>
-                {% endfor %}
-                {# Shipping cost and total #}
-                <tr class="order-sums">
-                    <td class="sum-title">Shipping</td>
-                    <td></td>
-                    <td></td>
-                    <td class="desktop"></td>
-                    <td>€ {{ order.shipping_cost }}</td>
-                </tr>
-                <tr class="order-sums">
-                    <td class="sum-title">Grand Total</td>
-                    <td></td>
-                    <td></td>
-                    <td class="desktop"></td>
-                    <td>€ {{ order.grand_total }}</td>
-                </tr>
-            </table>
-        </div>
-    {# If the order number does not exist in that user's account, display a custom message #}
-    {% else %}
-        <p>This order number ({{ request.path|slice:"19:" }}) does not exist.</p>
-    {% endif %}
+            {% endfor %}
+            {# Shipping cost and total #}
+            <tr class="order-sums">
+                <td class="sum-title">Shipping</td>
+                <td></td>
+                <td></td>
+                <td class="desktop"></td>
+                <td>€ {{ order.shipping_cost }}</td>
+            </tr>
+            <tr class="order-sums">
+                <td class="sum-title">Grand Total</td>
+                <td></td>
+                <td></td>
+                <td class="desktop"></td>
+                <td>€ {{ order.grand_total }}</td>
+            </tr>
+        </table>
+    </div>
 </div>

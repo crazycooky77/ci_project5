@@ -4,8 +4,9 @@ import time
 from django.core.mail import send_mail
 from django.http import HttpResponse
 from django.template.loader import render_to_string
+from django.urls import reverse
 from django.views.decorators.http import require_POST
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from saved.models import SavedItems
 from django.contrib import messages
 from django.conf import settings
@@ -50,6 +51,7 @@ def profile_orders(request, var):
         order = OrderHistory.objects.filter(
             purchaser=request.user,
             pk=var)
+        # For valid order numbers
         if order:
             order_details = Purchases.objects.filter(
                 order=order[0]).order_by('product__product_id')
@@ -59,6 +61,13 @@ def profile_orders(request, var):
             return render(request, 'profile.html',
                           {'order': order[0],
                            'order_details': zip(order_details, products)})
+        # Redirect and display an error for invalid order numbers
+        else:
+            messages.error(
+                request, f'This order number ({var}) does not exist. ' +
+                         f'Please select one to view from below, or ' +
+                         f'<a href="/">continue shopping</a>.')
+            return redirect(reverse('orders'))
     return render(request, 'profile.html')
 
 
