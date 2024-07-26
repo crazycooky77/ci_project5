@@ -1,6 +1,5 @@
 {# Edit Address form with prefilled data for Profile #}
 <form method="POST" action="{% url 'edit-address' addr_to_edit.pk %}" class="add-addr">
-    {% csrf_token %}
     {# Include Django messages #}
     {% include "form-responses.html" %}
     {# Display address form fields #}
