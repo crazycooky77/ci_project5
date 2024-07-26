@@ -106,8 +106,7 @@ def profile_edit_addr(request, var):
             if request.method == 'POST':
                 updated_request = request.POST.copy()
                 updated_request.update({'country': 'IE'})
-                edit_addr_form = AddressForm(updated_request,
-                                             instance=addr_to_edit[0])
+                edit_addr_form = AddressForm(updated_request, addr_to_edit[0])
                 if edit_addr_form.is_valid():
                     if request.POST.get('save-edit-addr-button'):
                         default = Addresses.objects.filter(user=request.user,
