@@ -12,11 +12,14 @@ window.addEventListener('load', () => {
     addrInputResize();
 });
 
-// Run all necessary functions when page is resized
+// Run all necessary functions when page width is resized
 window.addEventListener('resize', () => {
-    addrU800();
-    addrO800();
-    addrInputResize();
+    let curWidth = window.innerWidth;
+    if (curWidth !== prvWidth) {
+        addrU800();
+        addrO800();
+        addrInputResize();
+    }
 });
 
 

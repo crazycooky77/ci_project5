@@ -10,10 +10,13 @@ window.addEventListener('load', () => {
     cartO800();
 });
 
-// Run all necessary functions when page is resized
+// Run all necessary functions when page width is resized
 window.addEventListener('resize', () => {
-    cartU800();
-    cartO800();
+    let curWidth = window.innerWidth;
+    if (curWidth !== prvWidth) {
+        cartU800();
+        cartO800();
+    }
 });
 
 

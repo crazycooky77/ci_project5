@@ -13,11 +13,15 @@ window.addEventListener('load', () => {
     baseO500();
 });
 
-// Run all necessary functions when page is resized
+// Run all necessary functions when page width is resized
+let prvWidth = window.innerWidth;
 window.addEventListener('resize', () => {
-    footerResize();
-    baseU500();
-    baseO500();
+    let curWidth = window.innerWidth;
+    if (curWidth !== prvWidth) {
+        footerResize();
+        baseU500();
+        baseO500();
+    }
 });
 
 
@@ -47,23 +51,23 @@ function scrollOpt() {
 function footerResize() {
     let scrollBtn = document.getElementById('footer-top-link');
     let footLinks = document.getElementById('footer-links');
-    if (scrollBtn.style.visibility === 'hidden' || scrollBtn.style.visibility === '') {
-        if (window.innerWidth <= 500) {
-            scrollBtn.style.width = '0%';
-            footLinks.style.width = '100%';
-        }
-        else {
-            scrollBtn.style.width = '15%';
-            footLinks.style.width = '70%';
-        }
-    } else {
-        if (window.innerWidth <= 500) {
-            scrollBtn.style.width = '15%';
-            footLinks.style.width = '85%';
-        }
-        else {
-            scrollBtn.style.width = '15%';
-            footLinks.style.width = '70%';
+    if (scrollBtn) {
+        if (scrollBtn.style.visibility === 'hidden' || scrollBtn.style.visibility === '') {
+            if (window.innerWidth <= 500) {
+                scrollBtn.style.width = '0%';
+                footLinks.style.width = '100%';
+            } else {
+                scrollBtn.style.width = '15%';
+                footLinks.style.width = '70%';
+            }
+        } else {
+            if (window.innerWidth <= 500) {
+                scrollBtn.style.width = '15%';
+                footLinks.style.width = '85%';
+            } else {
+                scrollBtn.style.width = '15%';
+                footLinks.style.width = '70%';
+            }
         }
     }
 }
@@ -87,17 +91,27 @@ function modals(buttonId, modalId) {
     let span = modal.getElementsByClassName('modal-close')[0];
     span.onclick = function() {
         modal.style.display = 'none';
-        toolTip.style.display = 'none';
+        if (toolTip) {
+            toolTip.style.display = 'none';
+        }
     };
     window.onclick = function(event) {
         if (!(modal.contains(event.target)) && button !== event.target) {
             modal.style.display = 'none';
-            toolTip.style.display = 'none';
+            if (toolTip) {
+                toolTip.style.display = 'none';
+            }
         }
     };
+    let prvWidth = window.innerWidth;
     window.onresize = function() {
-        modal.style.display = 'none';
-        toolTip.style.display = 'none';
+        let curWidth = window.innerWidth;
+        if (curWidth !== prvWidth) {
+            modal.style.display = 'none';
+            if (toolTip) {
+                toolTip.style.display = 'none';
+            }
+        }
     };
 }
 

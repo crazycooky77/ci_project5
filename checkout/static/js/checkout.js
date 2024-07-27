@@ -13,11 +13,14 @@ window.addEventListener('load', () => {
     checkoutO800();
 });
 
-// Run all necessary functions when page is resized
+// Run all necessary functions when page width is resized
 window.addEventListener('resize', () => {
-    checkoutSizing();
-    checkoutU800();
-    checkoutO800();
+    let curWidth = window.innerWidth;
+    if (curWidth !== prvWidth) {
+        checkoutSizing();
+        checkoutU800();
+        checkoutO800();
+    }
 });
 
 

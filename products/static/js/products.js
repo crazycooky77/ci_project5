@@ -16,9 +16,12 @@ window.addEventListener('load', () => {
     prodResizeScroll();
 });
 
-// Run all necessary functions when page is resized
+// Run all necessary functions when page width is resized
 window.addEventListener('resize', () => {
-    prodResizeScroll();
+    let curWidth = window.innerWidth;
+    if (curWidth !== prvWidth) {
+        prodResizeScroll();
+    }
 });
 
 

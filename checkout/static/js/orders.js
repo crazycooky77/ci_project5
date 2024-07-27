@@ -14,12 +14,15 @@ window.addEventListener('load', () => {
     profileOrdersO1100();
 });
 
-// Run all necessary functions when page is resized
+// Run all necessary functions when page width is resized
 window.addEventListener('resize', () => {
-    profileOrdersU500();
-    profileOrdersO500();
-    profileOrdersU1100();
-    profileOrdersO1100();
+    let curWidth = window.innerWidth;
+    if (curWidth !== prvWidth) {
+        profileOrdersU500();
+        profileOrdersO500();
+        profileOrdersU1100();
+        profileOrdersO1100();
+    }
 });
 
 
