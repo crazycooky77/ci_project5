@@ -151,7 +151,7 @@ def product_pages(request, qs, active_sort, *args):
             'product__product_id')
         products_distinct = list()
         for product_id in products_sorted:
-            if product_id not in product_list.values_list('pk', flat=True):
+            if product_id in product_list.values_list('pk', flat=True):
                 products_distinct.append(product_list.get(pk=product_id))
     else:
         product_list = ProductDetails.objects.filter(
