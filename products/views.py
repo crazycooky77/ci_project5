@@ -239,6 +239,32 @@ def homepage_view(request):
         product__main_cat='HEALTH').order_by(
         '-stock_count').first()
 
+    # If sport/health product matches new prod, get different sport/health prod
+    if (Products.objects.get(pk=new_product.product_id) ==
+            Products.objects.get(pk=sports_product.product_id)
+            and new_product != ''
+            and sports_product != ''):
+        all_sports = ProductDetails.objects.all().exclude(
+            active=False).exclude(pk=0).filter(
+            product__main_cat='SPORTS').order_by(
+            '-stock_count')
+        if all_sports.count() > 1:
+            sports_product = all_sports[1]
+        else:
+            sports_product = ProductDetails.objects.none()
+    if (Products.objects.get(pk=new_product.product_id) ==
+            Products.objects.get(pk=health_product.product_id)
+            and new_product != ''
+            and health_product != ''):
+        all_health = ProductDetails.objects.exclude(
+            active=False).exclude(pk=0).filter(
+            product__main_cat='HEALTH').order_by(
+            '-stock_count')
+        if all_health.count() > 1:
+            health_product = all_health[1]
+        else:
+            health_product = ProductDetails.objects.none()
+
     # Serialise data
     if new_product:
         new_product_extras = ProductDetails.objects.exclude(
@@ -266,38 +292,6 @@ def homepage_view(request):
     else:
         health_product_extras = ''
         js_health_product = ''
-
-    # If sport/health product matches new prod, get different sport/health prod
-    if (new_product == sports_product
-            and new_product != ''
-            and sports_product != ''):
-        all_sports = ProductDetails.objects.all().exclude(
-            active=False).exclude(pk=0).filter(
-            product__main_cat='SPORTS').order_by(
-            '-stock_count')
-        if all_sports.count() > 1:
-            sports_product = all_sports[1]
-            sports_product_extras = ProductDetails.objects.exclude(
-                active=False).filter(
-                product__product_id=sports_product.product_id)
-        else:
-            sports_product = ProductDetails.objects.none()
-            sports_product_extras = ProductDetails.objects.none()
-    if (new_product == health_product
-            and new_product != ''
-            and health_product != ''):
-        all_health = ProductDetails.objects.exclude(
-            active=False).exclude(pk=0).filter(
-            product__main_cat='HEALTH').order_by(
-            '-stock_count')
-        if all_health.count() > 1:
-            health_product = all_health[1]
-            health_product_extras = ProductDetails.objects.exclude(
-                active=False).filter(
-                product__product_id=health_product.product_id)
-        else:
-            health_product = ProductDetails.objects.none()
-            health_product_extras = ProductDetails.objects.none()
 
     return render(request, 'index.html',
                   {'products': products,
