@@ -46,7 +46,7 @@
                             <p class="feat-prod-details">
                                 <label for="{{ new_product.product_id }}-prod-flavours">Flavour:</label>
                                 <select name="{{ new_product.product_id }}-prod-flavours" id="{{ new_product.product_id }}-prod-flavours" onChange=featOptions()>
-                                    {% for option in new_product_extras|dictsort:"flavour" %}
+                                    {% for option in new_product_extras %}
                                         {% if option.flavour == new_product.flavour %}
                                             {% ifchanged %}
                                                 <option value="{{ option.flavour }}" selected="selected">{{ option.flavour }}</option>
@@ -64,7 +64,7 @@
                         <p class="feat-prod-details">
                             <label for="{{ new_product.product_id }}-prod-sizes">Size:</label>
                             <select name="{{ new_product.product_id }}-prod-sizes" id="{{ new_product.product_id }}-prod-sizes" onChange=featOptions()>
-                                {% for option in new_product_extras|dictsort:"size" %}
+                                {% for option in new_product_extras %}
                                     {% if option.size == new_product.size %}
                                         {% ifchanged %}
                                             <option value="{{ option.size }}" selected="selected">{{ option.size }} {{ option.size_unit }}</option>
@@ -130,7 +130,7 @@
                                 <p class="feat-prod-details">
                                     <label for="{{ sports_product.product_id }}-prod-flavours">Flavour:</label>
                                     <select name="{{ sports_product.product_id }}-prod-flavours" id="{{ sports_product.product_id }}-prod-flavours" onChange=featOptions()>
-                                        {% for option in sports_product_extras|dictsort:"flavour" %}
+                                        {% for option in sports_product_extras %}
                                             {% if option.flavour == sports_product.flavour %}
                                                 {% ifchanged %}
                                                     <option value="{{ option.flavour }}" selected="selected">{{ option.flavour }}</option>
@@ -148,7 +148,7 @@
                             <p class="feat-prod-details">
                                 <label for="{{ sports_product.product_id }}-prod-sizes">Size:</label>
                                 <select name="{{ sports_product.product_id }}-prod-sizes" id="{{ sports_product.product_id }}-prod-sizes" onChange=featOptions()>
-                                    {% for option in sports_product_extras|dictsort:"size" %}
+                                    {% for option in sports_product_extras %}
                                         {% if option.size == sports_product.size %}
                                             {% ifchanged %}
                                                 <option value="{{ option.size }}" selected="selected">{{ option.size }} {{ option.size_unit }}</option>
@@ -213,7 +213,7 @@
                                 <p class="feat-prod-details">
                                     <label for="{{ health_product.product_id }}-prod-flavours">Flavour:</label>
                                     <select name="{{ health_product.product_id }}-prod-flavours" id="{{ health_product.product_id }}-prod-flavours" onChange=featOptions()>
-                                        {% for option in health_product_extras|dictsort:"flavour" %}
+                                        {% for option in health_product_extras %}
                                             {% if option.flavour == health_product.flavour %}
                                                 {% ifchanged %}
                                                     <option value="{{ option.flavour }}" selected="selected">{{ option.flavour }}</option>
@@ -231,7 +231,7 @@
                             <p class="feat-prod-details">
                                 <label for="{{ health_product.product_id }}-prod-sizes">Size:</label>
                                 <select name="{{ health_product.product_id }}-prod-sizes" id="{{ health_product.product_id }}-prod-sizes" onChange=featOptions()>
-                                    {% for option in health_product_extras|dictsort:"size" %}
+                                    {% for option in health_product_extras %}
                                         {% if option.size == health_product.size %}
                                             {% ifchanged %}
                                                 <option value="{{ option.size }}" selected="selected">{{ option.size }} {{ option.size_unit }}</option>

@@ -185,22 +185,48 @@ function removeClasses(json) {
 }
 
 
-// Sort product flavour options alphabetically
-function sortFlavours(json) {
+// Sort product options according to JSON object
+function unsortSelect(json) {
     for (let i = 0; i < json.length; i++) {
         let prodId = json[i].fields.product;
         if (json[i].fields.flavour !== null) {
             let flavours = '#' + prodId + '-prod-flavours';
-            let options = $(flavours + ' option');
+            let fOptions = $(flavours + ' option');
+            $(fOptions).each(function() {
+                [fOptions[$(this)[0].index], fOptions[i]] = [fOptions[i], fOptions[$(this)[0].index]]
+            });
+        }
+        let sizes = '#' + prodId + '-prod-sizes';
+        let sOptions = $(sizes + ' option');
+        $(sOptions).each(function() {
+            [sOptions[$(this)[0].index], sOptions[i]] = [sOptions[i], sOptions[$(this)[0].index]]
+        })
+    }
+}
 
-            options.sort(function (a, b) {
+
+// Sort product options alphabetically/ascending
+function sortSelect(json) {
+    for (let i = 0; i < json.length; i++) {
+        let prodId = json[i].fields.product;
+        if (json[i].fields.flavour !== null) {
+            let flavours = '#' + prodId + '-prod-flavours';
+            let fOptions = $(flavours + ' option');
+            fOptions.sort(function (a, b) {
                 if (a.text.toUpperCase() > b.text.toUpperCase()) return 1;
                 else if (a.text.toUpperCase() < b.text.toUpperCase()) return -1;
                 else return 0;
             });
-
-            $(flavours).empty().append(options);
+            $(flavours).empty().append(fOptions);
         }
+        let sizes = '#' + prodId + '-prod-sizes';
+        let sOptions = $(sizes + ' option');
+        sOptions.sort(function (a, b) {
+            if (Number(a.value) > Number(b.value)) return 1;
+            else if (Number(a.value) < Number(b.value)) return -1;
+            else return 0;
+        });
+        $(sizes).empty().append(sOptions);
     }
 }
 
@@ -480,12 +506,13 @@ function safariHideDupes() {
 function prodFunctions(json) {
     if (json) {
         safariUnhideDupes();
+        unsortSelect(json);
         removeClasses(json);
-        sortFlavours(json);
         dupeOpts(json, 'flavours');
         dupeOpts(json, 'sizes');
         oosProducts(json);
         prodDetails(json);
+        sortSelect(json);
         safariHideDupes();
     }
 }

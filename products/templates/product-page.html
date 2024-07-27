@@ -26,7 +26,7 @@
                             <p>
                                 <label for="{{ product.first.product.product_id }}-prod-flavours">Flavour:</label>
                                 <select name="{{ product.first.product.product_id }}-prod-flavours" id="{{ product.first.product.product_id }}-prod-flavours" onChange=productOptions()>
-                                    {% for option in product|dictsort:"flavour" %}
+                                    {% for option in product %}
                                         {% if option.stock_count < 1 %}
                                             <option value="{{ option.flavour }}" class="oos" disabled>{{ option.flavour }}</option>
                                         {% else %}
@@ -40,7 +40,7 @@
                         <p>
                             <label for="{{ product.first.product.product_id }}-prod-sizes">Size:</label>
                             <select name="{{ product.first.product.product_id }}-prod-sizes" id="{{ product.first.product.product_id }}-prod-sizes" onChange=productOptions()>
-                                {% for option in product|dictsort:"size" %}
+                                {% for option in product %}
                                     {% if option.stock_count < 1 %}
                                         <option value="{{ option.size }}" class="oos" disabled>{{ option.size }} {{ option.size_unit }}</option>
                                     {% else %}
@@ -109,7 +109,7 @@
                                             <p>
                                                 <label for="{{ item.product_id }}-prod-sizes" aria-label="Size"></label>
                                                 <select name="{{ item.product_id }}-prod-sizes" id="{{ item.product_id }}-prod-sizes" onChange=linkedOptions()>
-                                                    {% for option in linked_sorted|dictsort:"size" %}
+                                                    {% for option in linked_sorted %}
                                                         {% if item.product_id == option.product.product_id %}
                                                             <option value="{{ option.size }}">{{ option.size }} {{ option.size_unit }}</option>
                                                         {% endif %}

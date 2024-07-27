@@ -81,7 +81,7 @@
                                         <p>
                                             <label for="{{ prod.product_id }}-prod-sizes">Size:</label>
                                             <select name="{{ prod.product_id }}-prod-sizes" id="{{ prod.product_id }}-prod-sizes" onChange=allOptions()>
-                                                {% for option in products|dictsort:"size" %}
+                                                {% for option in products %}
                                                     {% if prod.product_id == option.product.product_id %}
                                                         <option value="{{ option.size }}">{{ option.size }} {{ option.size_unit }}</option>
                                                     {% endif %}
