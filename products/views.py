@@ -77,6 +77,8 @@ def product_sort(request, data, active_sort, *args):
             flavour__icontains=search_term).values_list(
             'id', flat=True)
         js_products = json_sorted_serialise(sorted_data, search_term)
+    elif sale_flag:
+        js_products = json_sorted_serialise(sorted_data, sale_flag)
     else:
         js_products = json_sorted_serialise(sorted_data)
 
@@ -149,7 +151,8 @@ def product_pages(request, qs, active_sort, *args):
             'product__product_id')
         products_distinct = list()
         for product_id in products_sorted:
-            products_distinct.append(product_list.get(pk=product_id))
+            if product_id not in product_list.values_list('pk', flat=True):
+                products_distinct.append(product_list.get(pk=product_id))
     else:
         product_list = ProductDetails.objects.filter(
             product__product_id__in=products_sorted).distinct(
@@ -360,6 +363,8 @@ def all_products(request):
     products = ProductDetails.objects.all().exclude(active=False).exclude(pk=0)
     products_distinct, js_products, active_sort = product_pages(
         request, products, active_sort)
+    if active_sort == 'sale':
+        products = products.filter(on_sale=1)
     del_active_sort(request)
 
     return render(request, 'all-products.html',
@@ -376,6 +381,8 @@ def sports_products(request):
         product__main_cat='SPORTS')
     products_distinct, js_products, active_sort = product_pages(
         request, products, active_sort)
+    if active_sort == 'sale':
+        products = products.filter(on_sale=1)
     del_active_sort(request)
 
     return render(request, 'all-products.html',
@@ -392,6 +399,8 @@ def health_products(request):
         product__main_cat='HEALTH')
     products_distinct, js_products, active_sort = product_pages(
         request, products, active_sort)
+    if active_sort == 'sale':
+        products = products.filter(on_sale=1)
     del_active_sort(request)
 
     return render(request, 'all-products.html',
@@ -413,6 +422,8 @@ def new_products(request):
             'product_id', flat=True))
     products_distinct, js_products, active_sort = product_pages(
         request, products, active_sort)
+    if active_sort == 'sale':
+        products = products.filter(on_sale=1)
     del_active_sort(request)
 
     return render(request, 'all-products.html',
@@ -456,6 +467,8 @@ def search_results(request):
             product_searched, js_searched, searched_sort = product_pages(
                 request, product_searched, active_sort)
 
+        if active_sort == 'sale':
+            products = products.filter(on_sale=1)
         del_active_sort(request)
 
         return render(request, 'all-products.html',
