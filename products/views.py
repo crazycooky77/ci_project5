@@ -245,11 +245,12 @@ def homepage_view(request):
             and new_product != ''
             and sports_product != ''):
         all_sports = ProductDetails.objects.all().exclude(
-            active=False).exclude(pk=0).filter(
+            active=False).exclude(
+            product__product_id__in=[0, sports_product.product_id]).filter(
             product__main_cat='SPORTS').order_by(
             '-stock_count')
-        if all_sports.count() > 1:
-            sports_product = all_sports[1]
+        if all_sports.count() > 0:
+            sports_product = all_sports[0]
         else:
             sports_product = ProductDetails.objects.none()
     if (Products.objects.get(pk=new_product.product_id) ==
@@ -257,11 +258,12 @@ def homepage_view(request):
             and new_product != ''
             and health_product != ''):
         all_health = ProductDetails.objects.exclude(
-            active=False).exclude(pk=0).filter(
+            active=False).exclude(
+            product__product_id__in=[0, health_product.product_id]).filter(
             product__main_cat='HEALTH').order_by(
             '-stock_count')
-        if all_health.count() > 1:
-            health_product = all_health[1]
+        if all_health.count() > 0:
+            health_product = all_health[0]
         else:
             health_product = ProductDetails.objects.none()
 
