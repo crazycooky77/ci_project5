@@ -171,6 +171,7 @@ button[class$='add-cart'], .home-row button[class$='add-cart'], .hor-prod-div di
 /* Styling for out of stock and search result divs */
 .prod-oos, .search-results-div {
     padding: 15px;
+    margin-top: 20px;
     margin-bottom: 20px;
     text-align: center;
     border: solid 1px black;
@@ -269,6 +270,7 @@ button[class$='add-cart'], .home-row button[class$='add-cart'], .hor-prod-div di
     }
 
     .prod-oos {
+        margin-top: 0;
         margin-bottom: 0;
     }
 
