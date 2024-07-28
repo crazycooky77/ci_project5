@@ -362,15 +362,22 @@ def product_view(request, var):
                        'js_product': js_product})
 
 
-def all_products(request):
-    """All products page view"""
+def prod_list_functions(request, products):
     active_sort = get_active_sort(request)
-    products = ProductDetails.objects.all().exclude(active=False).exclude(pk=0)
     products_distinct, js_products, active_sort = product_pages(
         request, products, active_sort)
     if active_sort == 'sale':
         products = products.filter(on_sale=1)
     del_active_sort(request)
+
+    return active_sort, products_distinct, js_products, products
+
+
+def all_products(request):
+    """All products page view"""
+    products = ProductDetails.objects.all().exclude(active=False).exclude(pk=0)
+    active_sort, products_distinct, js_products, products = (
+        prod_list_functions(request, products))
 
     return render(request, 'all-products.html',
                   {'active_sort': active_sort,
@@ -381,14 +388,10 @@ def all_products(request):
 
 def sports_products(request):
     """Sports products page view"""
-    active_sort = get_active_sort(request)
     products = ProductDetails.objects.exclude(active=False).filter(
         product__main_cat='SPORTS')
-    products_distinct, js_products, active_sort = product_pages(
-        request, products, active_sort)
-    if active_sort == 'sale':
-        products = products.filter(on_sale=1)
-    del_active_sort(request)
+    active_sort, products_distinct, js_products, products = (
+        prod_list_functions(request, products))
 
     return render(request, 'all-products.html',
                   {'active_sort': active_sort,
@@ -399,14 +402,10 @@ def sports_products(request):
 
 def health_products(request):
     """Health products page view"""
-    active_sort = get_active_sort(request)
     products = ProductDetails.objects.exclude(active=False).filter(
         product__main_cat='HEALTH')
-    products_distinct, js_products, active_sort = product_pages(
-        request, products, active_sort)
-    if active_sort == 'sale':
-        products = products.filter(on_sale=1)
-    del_active_sort(request)
+    active_sort, products_distinct, js_products, products = (
+        prod_list_functions(request, products))
 
     return render(request, 'all-products.html',
                   {'active_sort': active_sort,
@@ -417,19 +416,12 @@ def health_products(request):
 
 def new_products(request):
     """What's New products page view"""
-    active_sort = get_active_sort(request)
     prv_mo = datetime.datetime.now(pytz.UTC) - datetime.timedelta(days=30)
-    products_init = ProductDetails.objects.exclude(
+    products = ProductDetails.objects.exclude(
         active=False).exclude(
         stock_count__lte=0).filter(created_ts__gte=prv_mo)
-    products = ProductDetails.objects.filter(
-        product__product_id__in=products_init.values_list(
-            'product_id', flat=True))
-    products_distinct, js_products, active_sort = product_pages(
-        request, products, active_sort)
-    if active_sort == 'sale':
-        products = products.filter(on_sale=1)
-    del_active_sort(request)
+    active_sort, products_distinct, js_products, products = (
+        prod_list_functions(request, products))
 
     return render(request, 'all-products.html',
                   {'active_sort': active_sort,
