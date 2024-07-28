@@ -248,10 +248,9 @@ def homepage_view(request):
         '-stock_count').first()
 
     # If sport/health product matches new prod, get different sport/health prod
-    if (Products.objects.get(pk=new_product.product_id) ==
-            Products.objects.get(pk=sports_product.product_id)
-            and new_product != ''
-            and sports_product != ''):
+    if (sports_product and new_product and
+            Products.objects.get(pk=new_product.product_id) ==
+            Products.objects.get(pk=sports_product.product_id)):
         all_sports = ProductDetails.objects.all().exclude(
             active=False).exclude(
             stock_count__lte=0).exclude(
@@ -262,10 +261,9 @@ def homepage_view(request):
             sports_product = all_sports[0]
         else:
             sports_product = ProductDetails.objects.none()
-    if (Products.objects.get(pk=new_product.product_id) ==
-            Products.objects.get(pk=health_product.product_id)
-            and new_product != ''
-            and health_product != ''):
+    if (new_product and health_product and
+            Products.objects.get(pk=new_product.product_id) ==
+            Products.objects.get(pk=health_product.product_id)):
         all_health = ProductDetails.objects.exclude(
             active=False).exclude(
             stock_count__lte=0).exclude(
