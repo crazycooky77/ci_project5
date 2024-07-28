@@ -111,7 +111,7 @@
 /* Styling for required address inputs */
 .addr-form-div p:has(>input:required)::after {
     content: '*';
-    color: red;
+    color: #B30000;
     margin: 0;
     display: inline-block;
 }
@@ -260,7 +260,7 @@ button.hidden-addr-submit, .hidden-empty-submit {
 
 /* Warning for users that their card will be charged */
 .confirm-checkout span {
-    color: red;
+    color: #B30000;
     text-align: center;
 }
 

@@ -69,13 +69,17 @@
 
 /* Styling for delete from cart button */
 .cart-prod-del {
-    color: red;
+    color: #B30000;
     font-weight: bold;
     margin-right: -5px;
     cursor: pointer;
     min-width: unset;
     background-color: unset;
     border: unset;
+}
+
+.cart-prod-del:hover {
+    color: darkred;
 }
 
 /* Cart button styling */

@@ -62,7 +62,7 @@ h2 {
 /* Styling for labels belonging to required inputs */
 label:has(+input:required):after {
     content: '*';
-    color: red;
+    color: #B30000;
     margin-right: 3px;
 }
 
@@ -81,12 +81,12 @@ label:has(+input:required):after {
 /* Django message styling */
 .errorlist * {
     list-style: none;
-    color: red;
+    color: #B30000;
     text-align: center;
 }
 
 .form-error {
-    color: red;
+    color: #B30000;
     text-align: center;
     margin-bottom: 20px;
     margin-top: 0;
@@ -300,7 +300,7 @@ label:has(+input:required):after {
 
 /* Modal close button */
 .modal-close {
-    color: red;
+    color: #B30000;
     float: right;
     font-size: 28px;
     font-weight: bold;
