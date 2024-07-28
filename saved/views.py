@@ -64,8 +64,8 @@ def cart_merge(sender, user, request, **kwargs):
 
             messages.success(
                 request,
-                'Your guest and account cart contents have been merged. ' +
-                f'<a href="/cart">View Cart</a>')
+                f'Your guest and account cart contents have been merged. ' +
+                f'<a class="inline-link" href="/cart">View Cart</a>')
 
             return cart
 
@@ -131,39 +131,43 @@ def add_cart(request, product_id):
             messages.error(
                 request,
                 f'The product was not added to your cart. ' +
-                'You already have the maximum possible for ' +
-                'this product in your cart. <a href="/cart">View Cart</a>')
+                f'You already have the maximum possible for ' +
+                f'this product in your cart. <a class="inline-link" ' +
+                f'href="/cart">View Cart</a>')
         elif not adjusted_quantity:
             messages.success(
                 request,
                 f'You successfully added {quantity} products to your cart. ' +
-                '<a href="/cart">View Cart</a>')
+                f'<a class="inline-link" href="/cart">View Cart</a>')
         elif adjusted_quantity > 1:
             messages.success(
                 request,
                 f'You successfully added {adjusted_quantity} products to ' +
-                'your cart. The quantity was reduced, as the product(s) ' +
-                'already in your cart, plus those you added, ' +
-                'exceeded our stock. <a href="/cart">View Cart</a>')
+                f'your cart. The quantity was reduced, as the product(s) ' +
+                f'already in your cart, plus those you added, ' +
+                f'exceeded our stock. <a class="inline-link" ' +
+                f'href="/cart">View Cart</a>')
         else:
             messages.success(
                 request,
                 f'You successfully added {adjusted_quantity} product to ' +
-                'your cart. The quantity was reduced, as the product(s) ' +
-                'already in your cart, plus those you added, ' +
-                'exceeded our stock. <a href="/cart">View Cart</a>')
+                f'your cart. The quantity was reduced, as the product(s) ' +
+                f'already in your cart, plus those you added, ' +
+                f'exceeded our stock. <a class="inline-link" ' +
+                f'href="/cart">View Cart</a>')
     else:
         if adjusted_quantity or adjusted_quantity == 0:
             messages.error(
                 request,
                 f'The product was not added to your cart. ' +
-                'You already have the maximum possible for ' +
-                'this product in your cart. <a href="/cart">View Cart</a>')
+                f'You already have the maximum possible for ' +
+                f'this product in your cart. <a class="inline-link" ' +
+                f'href="/cart">View Cart</a>')
         else:
             messages.success(
                 request,
                 f'You successfully added {quantity} product to your cart. ' +
-                '<a href="/cart">View Cart</a>')
+                f'<a class="inline-link" href="/cart">View Cart</a>')
 
     request.session['cart'] = cart
     redirect_url = request.POST.get('redirect_url')

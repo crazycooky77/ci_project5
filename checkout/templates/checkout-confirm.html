@@ -18,7 +18,7 @@
             <div class="prod-table-details">
                 {# Show/Hide Cart option #}
                 <div class="cart-toggle-div">
-                    <a href="javascript:toggleCart()">Show/Hide Cart</a>
+                    <a class="inline-link" href="javascript:toggleCart()">Show/Hide Cart</a>
                 </div>
                 <div id="checkout-stock-change">
                     {# Display cart changes, if applicable #}
@@ -37,7 +37,7 @@
             <div class="edit-addr-div">
                 <form id="checkout-edit-addr" action="{% url 'checkout' %}" method="POST">
                     {% csrf_token %}
-                    <a href="javascript:checkoutEditAddr()" class="hidden-addr-submit">Edit Address</a>
+                    <a class="hidden-addr-submit inline-link" href="javascript:checkoutEditAddr()">Edit Address</a>
                     <button type="submit" class="hidden-addr-submit" name="checkout-edit-addr" value="checkout-edit-addr"></button>
                     <input type="hidden" name="shipping-addr" value="{{ shipping_addr }}">
                     <input type="hidden" name="billing-addr" value="{{ billing_addr }}">

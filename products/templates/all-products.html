@@ -21,7 +21,7 @@
                         <p>Here are the products matching your search for "{{ search_term }}"</p>
                     {# Message for user indicating no products are available for their search term #}
                     {% else %}
-                        <p>We don't have products matching your search for "{{ search_term }}". You can <a href="javascript:modals('prod-req-mailto-anchor', 'prod-req-mailto-modal')" id="prod-req-mailto-anchor">email us</a> to request we add products to our stock. If the email link doesn't work for you, please <a href="{% url 'support' %}">visit our support page here</a> instead.</p>
+                        <p>We don't have products matching your search for "{{ search_term }}". You can <a class="inline-link" href="javascript:modals('prod-req-mailto-anchor', 'prod-req-mailto-modal')" id="prod-req-mailto-anchor">email us</a> to request we add products to our stock. If the email link doesn't work for you, please <a class="inline-link" href="{% url 'support' %}">visit our support page here</a> instead.</p>
                         {# Modal for user to contact support to request the product be stocked #}
                         <div id="prod-req-mailto-modal" class="modal">
                             <div class="modal-content">
@@ -34,7 +34,7 @@
                     {% endif %}
                 {# Message for user indicating an empty search term #}
                 {% else %}
-                    <p>Your search was made with an empty search term. Please try again or check out our <a href="/products/all">list of products here</a></p>
+                    <p>Your search was made with an empty search term. Please try again or check out our <a class="inline-link" href="/products/all">list of products here</a></p>
                 {% endif %}
             </div>
         {% endif %}

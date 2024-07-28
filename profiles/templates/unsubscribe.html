@@ -17,10 +17,10 @@
         {% if unsub %}
             <p>You successfully unsubscribed from our newsletter.</p>
             <br>
-            <p>If this was a mistake, you can resubscribe at any time. We hope you still enjoy <a href="{% url 'all-products' %}">shopping with us</a>.</p>
+            <p>If this was a mistake, you can resubscribe at any time. We hope you still enjoy <a class="inline-link" href="{% url 'all-products' %}">shopping with us</a>.</p>
         {# User re-used an unsubscribe link (no longer valid) #}
         {% elif valid_uuid %}
-            <p>This link is no longer valid. It has already been used to unsubscribe from our newsletter. If you have any issues or concerns, please <a href="javascript:modals('unsub-mailto-anchor', 'unsub-mailto-modal')" id="unsub-mailto-anchor">contact us directly</a>, and we'll look into it. If the contact link doesn't work for you, please <a href="{% url 'support' %}">visit our support page here</a> instead.</p>
+            <p>This link is no longer valid. It has already been used to unsubscribe from our newsletter. If you have any issues or concerns, please <a class="inline-link" href="javascript:modals('unsub-mailto-anchor', 'unsub-mailto-modal')" id="unsub-mailto-anchor">contact us directly</a>, and we'll look into it. If the contact link doesn't work for you, please <a class="inline-link" href="{% url 'support' %}">visit our support page here</a> instead.</p>
             {# Modal for support details if needed #}
             <div id="unsub-mailto-modal" class="modal">
                 <div class="modal-content">
@@ -32,10 +32,10 @@
             </div>
         {# Invalid UUID in the link #}
         {% elif invalid_uuid %}
-            <p>This link is not formatted correctly. If you want to unsubscribe, you can use the link at the bottom of any newsletter. Otherwise, feel free to keep <a href="{% url 'all-products' %}">shopping with us</a>.</p>
+            <p>This link is not formatted correctly. If you want to unsubscribe, you can use the link at the bottom of any newsletter. Otherwise, feel free to keep <a class="inline-link" href="{% url 'all-products' %}">shopping with us</a>.</p>
         {# No POST request received #}
         {% else %}
-            <p>Uh oh! It seems you might have accessed this page manually, and not through one of our unsubscribe links. If you want to unsubscribe, you can use the link at the bottom of any newsletter. Otherwise, feel free to keep <a href="{% url 'all-products' %}">shopping with us</a>.</p>
+            <p>Uh oh! It seems you might have accessed this page manually, and not through one of our unsubscribe links. If you want to unsubscribe, you can use the link at the bottom of any newsletter. Otherwise, feel free to keep <a class="inline-link" href="{% url 'all-products' %}">shopping with us</a>.</p>
         {% endif %}
     </div>
 {% endblock %}

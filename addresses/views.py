@@ -134,7 +134,8 @@ def profile_edit_addr(request, var):
             messages.error(
                 request, f'This address ID ({var}) does not exist. ' +
                          f'Please select one to edit from below, or ' +
-                         f'<a href="/">continue shopping</a>.')
+                         f'<a class="inline-link" href="/">' +
+                         f'continue shopping</a>.')
             return redirect('addresses')
     else:
         return render(request, 'profile.html')

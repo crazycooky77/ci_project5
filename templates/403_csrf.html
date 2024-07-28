@@ -7,7 +7,7 @@
         {# Include Django messages #}
         {% include "form-responses.html" %}
         <h2>Error</h2>
-        <p>An error has occurred. We apologise for any inconvenience, but have notified the cleaners to check for bugs! If you have any concerns about this error, please <a href="javascript:modals('csrf-mailto-anchor', 'csrf-mailto-modal')" id="csrf-mailto-anchor">contact us</a>. If the contact link doesn't work for you, please <a href="{% url 'support' %}">visit our support page here</a> instead.</p>
+        <p>An error has occurred. We apologise for any inconvenience, but have notified the cleaners to check for bugs! If you have any concerns about this error, please <a class="inline-link" href="javascript:modals('csrf-mailto-anchor', 'csrf-mailto-modal')" id="csrf-mailto-anchor">contact us</a>. If the contact link doesn't work for you, please <a class="inline-link" href="{% url 'support' %}">visit our support page here</a> instead.</p>
         {# Modal for customer support if needed #}
         <div id="csrf-mailto-modal" class="modal">
             <div class="modal-content">
@@ -18,6 +18,6 @@
             </div>
         </div>
         <br>
-        <p><a href="/products/all">Continue shopping</a></p>
+        <p><a class="inline-link" href="/products/all">Continue shopping</a></p>
     </div>
 {% endblock %}

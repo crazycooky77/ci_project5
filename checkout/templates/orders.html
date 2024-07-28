@@ -20,7 +20,7 @@
                         <td>{{ order.order_id }}</td>
                         {# Insert Tracking link if available #}
                         {% if order.tracking_link %}
-                            <td><a href="{{ order.tracking_link }}" target="_blank" rel="external nofollow noopener">Track</a></td>
+                            <td><a class="inline-link" href="{{ order.tracking_link }}" target="_blank" rel="external nofollow noopener">Track</a></td>
                         {% else %}
                             <td>N/A</td>
                         {% endif %}

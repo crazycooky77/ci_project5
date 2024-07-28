@@ -34,6 +34,6 @@
     {# Error message for invalid/expired email confirmation link, with link to issue a new confirmation request #}
     {% else %}
         {% url "account_email" as email_url %}
-            {% blocktrans %}This email confirmation link expired or is invalid. Please <a href="{{ email_url }}">issue a new email confirmation request</a>.{% endblocktrans %}
+            {% blocktrans %}This email confirmation link expired or is invalid. Please <a class="inline-link" href="{{ email_url }}">issue a new email confirmation request</a>.{% endblocktrans %}
     {% endif %}
 </div>

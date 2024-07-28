@@ -73,6 +73,11 @@ label:has(+input:required):after {
     justify-content: center;
 }
 
+/* Inline link styling for better visibility */
+.inline-link {
+    font-weight: bold;
+}
+
 /* Django message styling */
 .errorlist * {
     list-style: none;
@@ -87,11 +92,19 @@ label:has(+input:required):after {
     margin-top: 0;
 }
 
+.form-error a {
+    font-weight: bold;
+}
+
 .form-confirm {
     color: green;
     text-align: center;
     margin-bottom: 10px;
     margin-top: 0;
+}
+
+.form-confirm a {
+    font-weight: bold;
 }
 
 /* Navigation section styling */

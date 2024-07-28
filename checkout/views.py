@@ -66,7 +66,8 @@ def profile_orders(request, var):
             messages.error(
                 request, f'This order number ({var}) does not exist. ' +
                          f'Please select one to view from below, or ' +
-                         f'<a href="/">continue shopping</a>.')
+                         f'<a class="inline-link" href="/"> ' +
+                         f'continue shopping</a>.')
             return redirect(reverse('orders'))
     return render(request, 'profile.html')
 
