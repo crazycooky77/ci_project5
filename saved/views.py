@@ -284,7 +284,7 @@ def cart_view(request):
                        'subtotal': subtotal,
                        'shipping': shipping,
                        'grand_total': grand_total})
-    if checkout_empty:
+    elif checkout_empty:
         js_stock = json.loads(request.POST.get('js-stock'))
         js_stock_list = []
         for item in js_stock:
@@ -293,6 +293,10 @@ def cart_view(request):
         return render(request, 'cart.html', {
             'checkout_empty': checkout_empty,
             'stock_change': stock_change})
+    elif not cart and stock_change:
+        return render(request, 'cart.html',
+                      {'stock_change': stock_change,
+                       'emptied_cart': True})
     else:
         return render(request, 'cart.html')
 

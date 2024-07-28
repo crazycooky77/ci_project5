@@ -9,8 +9,8 @@
                     <li class="form-error">{{ product.product.brand }} {{ product.product.product_name }} {{ product.flavour }} {{ product.size }} {{ product.size_unit }}</li>
                 {# If stock is empty #}
                 {% else %}
-                    {# If cart was emptied during checkout, just list the product details #}
-                    {% if checkout_empty %}
+                    {# If cart was completely emptied, just list the product details #}
+                    {% if checkout_empty or emptied_cart %}
                         <li class="form-error">{{ product.product.brand }} {{ product.product.product_name }} {{ product.flavour }} {{ product.size }} {{ product.size_unit }}</li>
                     {# If product was removed from the cart outside of the checkout process, add a note that the product was completely removed #}
                     {% else %}
@@ -25,7 +25,7 @@
                 {# If stock is empty #}
                 {% else %}
                     {# If cart was emptied during checkout, just list the product details #}
-                    {% if checkout_empty %}
+                    {% if checkout_empty or emptied_cart %}
                         <li class="form-error">{{ product.product.brand }} {{ product.product.product_name }} {{ product.size }} {{ product.size_unit }}</li>
                     {# If product was removed from the cart outside of the checkout process, add a note that the product was completely removed #}
                     {% else %}

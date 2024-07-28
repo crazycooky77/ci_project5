@@ -19,11 +19,16 @@
             {# Display removed products #}
             <p class="form-error">The following products were removed:</p>
             {% include "cart-stock.html" %}
-        {% endif %}
         {# Display cart changes where cart is not empty #}
-        {% if stock_change and not checkout_empty %}
+        {% elif cart_prods and stock_change and not checkout_empty and not emptied_cart %}
             {# Display changed products #}
             <p class="form-error">The quantity for the following products in your cart has changed, due to stock updates:</p>
+            {% include "cart-stock.html" %}
+        {# Custom error message for emptied cart outside of checkout process #}
+        {% elif emptied_cart %}
+            <p class="form-error">Stock changes resulted in your cart being emptied. We apologise for any inconvenience.</p>
+            {# Display removed products #}
+            <p class="form-error">The following products were removed:</p>
             {% include "cart-stock.html" %}
         {% endif %}
         {# Display cart contents #}
