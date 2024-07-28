@@ -500,10 +500,93 @@ Automated testing has not yet been implemented. This has been postponed to the 1
 
 
 #### WAVE
-
+The majority of issues were contrast errors. Styling on the site was updated to alleviate this for better accessibility.
+<img src='media/readme/validator-wave.webp' alt='WAVE validator results'>
 
 #### Lighthouse
+Several performance issues (most notably on [All Products](#all-products)) are due to HTTP/1.1 requests, unused JavaScript (stripe), and render-blocking resources, that are all necessary. Amazon S3 does not support HTTP/2, so [an enhancement was raised](https://github.com/crazycooky77/ci_project5/issues/49) to potentially switch over to [Amazon CloudFront](https://aws.amazon.com/ru/blogs/aws/new-http2-support-for-cloudfront/), which seems even more cost-effective.
 
+##### Homepage
+<img src='media/readme/lh-home.webp' alt='Lighthouse homepage results'>
+
+##### Signup
+<img src='media/readme/lh-signup.webp' alt='Lighthouse sign-up results'>
+
+##### Login
+<img src='media/readme/lh-login.webp' alt='Lighthouse login results'>
+
+##### Forgot Password
+<img src='media/readme/lh-pw-reset.webp' alt='Lighthouse password reset results'>
+
+#### Profile Pages
+Profile pages have an SEO score of only 91, due to the mobile hamburger menu being an uncrawlable link (`javascript:void(0);`).
+
+##### Profile - Account Details
+<img src='media/readme/lh-profile.webp' alt='Lighthouse profile account details results'>
+
+##### Profile - Email Change
+<img src='media/readme/lh-profile-email-change.webp' alt='Lighthouse profile email change results'>
+
+##### Profile - Password Change
+<img src='media/readme/lh-profile-pw-change.webp' alt='Lighthouse profile password change results'>
+
+##### Profile - Addresses
+<img src='media/readme/lh-profile-addresses.webp' alt='Lighthouse profile addresses results'>
+
+##### Profile - Add Address
+<img src='media/readme/lh-profile-add-addr.webp' alt='Lighthouse profile add address results'>
+
+##### Profile - Edit Address
+<img src='media/readme/lh-profile-edit-addr.webp' alt='Lighthouse profile edit address results'>
+
+##### Profile - Orders
+<img src='media/readme/lh-profile-orders.webp' alt='Lighthouse profile orders results'>
+
+##### Profile - Order Details
+<img src='media/readme/lh-profile-order-details.webp' alt='Lighthouse profile order details results'>
+
+##### All Products
+<img src='media/readme/lh-all-prod.webp' alt='Lighthouse all products results'>
+
+##### Sports
+<img src='media/readme/lh-sports.webp' alt='Lighthouse sports products results'>
+
+##### Health
+<img src='media/readme/lh-health.webp' alt='Lighthouse health products results'>
+
+##### What's New
+<img src='media/readme/lh-new.webp' alt='Lighthouse new products results'>
+
+##### Product Search
+<img src='media/readme/lh-search.webp' alt='Lighthouse product search results'>
+
+##### Product Page
+<img src='media/readme/lh-prod-page.webp' alt='Lighthouse product page results'>
+
+##### View Cart
+<img src='media/readme/lh-cart.webp' alt='Lighthouse view cart results'>
+
+##### Checkout
+All checkout pages share the same link, so Lighthouse could not evaluate them separately (always loads the checkout address page while Lighthouse is running).
+<img src='media/readme/lh-checkout.webp' alt='Lighthouse checkout results'>
+
+##### Support
+<img src='media/readme/lh-support.webp' alt='Lighthouse support page results'>
+
+##### Privacy Policy
+<img src='media/readme/lh-privacy.webp' alt='Lighthouse privacy policy page results'>
+
+##### Terms & Conditions
+<img src='media/readme/lh-terms.webp' alt='Lighthouse T&C page results'>
+
+##### About Us
+<img src='media/readme/lh-about.webp' alt='Lighthouse about us page results'>
+
+##### Returns
+<img src='media/readme/lh-returns.webp' alt='Lighthouse returns and refunds page results'>
+
+##### Shipping
+<img src='media/readme/lh-shipping.webp' alt='Lighthouse shipping page results'>
 
 
 ### Bugs - UPDATE
