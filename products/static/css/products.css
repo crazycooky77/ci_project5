@@ -69,13 +69,19 @@ button[class$='add-cart'], .home-row button[class$='add-cart'], .hor-prod-div di
     width: 50%;
 }
 
+.home-row .feat-prod-details-div {
+    width: 65%;
+}
+
+.home-row .feat-img-div {
+    width: 35%;
+}
+
 .feat-img-div {
-    max-width: 35%;
     margin-right: 0;
 }
 
 .feat-prod-details-div {
-    width: 65%;
     padding: 10px;
     margin-left: 0;
 }
