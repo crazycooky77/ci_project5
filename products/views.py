@@ -226,19 +226,24 @@ def homepage_view(request):
             active=False).exclude(pk=0).filter(
             stock_count__gte=10).latest('created_ts')
     elif ProductDetails.objects.all().exclude(
-            active=False).exclude(pk=0):
+            active=False).exclude(pk=0).exclude(
+            stock_count__lte=0):
         new_product = ProductDetails.objects.all().exclude(
-            active=False).exclude(pk=0).latest(
+            active=False).exclude(pk=0).exclude(
+            stock_count__lte=0).latest(
             'created_ts')
     else:
         new_product = ProductDetails.objects.all().exclude(
-            active=False).exclude(pk=0)
+            active=False).exclude(pk=0).exclude(
+            stock_count__lte=0)
     sports_product = ProductDetails.objects.exclude(
-        active=False).exclude(pk=0).filter(
+        active=False).exclude(pk=0).exclude(
+        stock_count__lte=0).filter(
         product__main_cat='SPORTS').order_by(
         '-stock_count').first()
     health_product = ProductDetails.objects.exclude(
-        active=False).exclude(pk=0).filter(
+        active=False).exclude(pk=0).exclude(
+        stock_count__lte=0).filter(
         product__main_cat='HEALTH').order_by(
         '-stock_count').first()
 
@@ -249,6 +254,7 @@ def homepage_view(request):
             and sports_product != ''):
         all_sports = ProductDetails.objects.all().exclude(
             active=False).exclude(
+            stock_count__lte=0).exclude(
             product__product_id__in=[0, sports_product.product_id]).filter(
             product__main_cat='SPORTS').order_by(
             '-stock_count')
@@ -262,6 +268,7 @@ def homepage_view(request):
             and health_product != ''):
         all_health = ProductDetails.objects.exclude(
             active=False).exclude(
+            stock_count__lte=0).exclude(
             product__product_id__in=[0, health_product.product_id]).filter(
             product__main_cat='HEALTH').order_by(
             '-stock_count')
