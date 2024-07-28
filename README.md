@@ -486,12 +486,16 @@ All "Inspector" tests were conducted in Chrome on macOS.
 Automated testing has not yet been implemented. This has been postponed to the 1.1 release.
 
 ### Validator Testing
-
 #### HTML
+All pages were checked with [Nu HTML Checker](https://validator.w3.org/nu/#textarea). Pages with cart contents (cart, checkout-confirm, checkout-success) have a warning, as there are 5 columns, but one row has 6. This is expected behaviour, as 1 row will always have the "display: none" style, depending on screen size, making only 5 visible at a time. This is to make better use of available space on mobile screens ("Free Shipping" is replaced with "Free").
+<img src='media/readme/html-warning.webp' alt='Nu HTML Checker warning'>
 
+No errors and no other warnings were displayed.
+<img src='media/readme/html-passed.webp' alt='Nu HTML Checker passed'>
 
 #### CSS
-
+Contents of every CSS file validate without errors.
+<img src='media/readme/w3c.webp' alt='W3C CSS Checker results'>
 
 #### JSHint
 [JSHint](https://jshint.com/) mentions "undefined variables", however they are all from JQuery ($), the base.js file (prvWidth) that is pre-loaded separately, or the HTML file (json_addr). "unused variables" are also mentioned, but they are used in the HTML files as on-click functions.
@@ -535,7 +539,7 @@ Several performance issues (most notably on [All Products](#all-products)) are d
 ##### Forgot Password
 <img src='media/readme/lh-pw-reset.webp' alt='Lighthouse password reset results'>
 
-#### Profile Pages
+##### Profile Pages
 Profile pages have an SEO score of only 91, due to the mobile hamburger menu being an uncrawlable link (`javascript:void(0);`).
 
 ##### Profile - Account Details
