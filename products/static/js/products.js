@@ -80,9 +80,16 @@ function prodElSizes(prodClass) {
                     prodList[i - 1].children[1].style.height = prodList[i].children[1].clientHeight + 'px';
                 }
                 for (let y = 0; y < i; y++) {
-                    if (typeof prodList[y].children[1] === 'object') {
-                        if ($(prodList[y].children[1]).find('.add-cart')[0].textContent !== 'Out Of Stock') {
-                            prodList[y].children[1].removeAttribute('style')
+                    if (typeof prodList[y] === 'object') {
+                        if (prodList[i].getBoundingClientRect().top === prodList[y].getBoundingClientRect().top) {
+                            prodList[y].children[1].style.height = prodList[i].children[1].clientHeight + 'px';
+                        }
+                    }
+                }
+                for (let z = 0; z < i; z++) {
+                    if (typeof prodList[z].children[1] === 'object') {
+                        if ($(prodList[z].children[1]).find('.add-cart')[0].textContent !== 'Out Of Stock') {
+                            prodList[z].children[1].removeAttribute('style')
                         }
                     }
                 }
