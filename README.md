@@ -610,7 +610,7 @@ All checkout pages share the same link, so Lighthouse could not evaluate them se
 <img src='media/readme/lh-shipping.webp' alt='Lighthouse shipping page results'>
 
 
-### Bugs - UPDATE
+### Bugs
 #### Fixed Bugs
 ##### Product Sorting
 JavaScript product functionality is dependent on the select option dropdowns being sorted the same as the JavaScript JSON. A specific product flavour/size/stock combination helped identify an issue with inconsistent sorting, that led to incorrect/unexpected results being displayed on the page. This, and hopefully any other issues, were resolved by implementing/updating 2 sort functions. Near the start of the product scripts, the product select options on the page are sorted to match the JSON. Near the end, the product select options are sorted for aesthetics (alphabetically/ascending).
