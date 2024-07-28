@@ -236,7 +236,7 @@ button[class$='add-cart'], .home-row button[class$='add-cart'], .hor-prod-div di
     position: fixed;
     margin-top: 10px;
     text-align: left;
-    background-color: #9FFFB8;
+    background-color: #c8fad5;
     border-radius: 5px;
     width: 190px;
 }
@@ -246,12 +246,12 @@ button[class$='add-cart'], .home-row button[class$='add-cart'], .hor-prod-div di
     margin-left: 0;
     margin-top: 5px;
     padding: 0 10px;
-    text-decoration: underline;
     border: none;
 }
 
 .sort-dd input:hover {
-    color: white;
+    color: #226244;
+    text-decoration: underline;
 }
 
 .sort-dd input:active {

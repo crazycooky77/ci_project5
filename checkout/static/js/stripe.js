@@ -23,7 +23,7 @@ function stripeStyle() {
                 color: '#000',
                 fontFamily: '"Montserrat", sans-serif',
                 fontSize: '18px',
-                backgroundColor: '#9FFFB8',
+                backgroundColor: '#c8fad5',
                 fontSmoothing: 'antialiased',
                 '::placeholder': {
                     color: '#aab7c4'
@@ -42,7 +42,7 @@ function stripeStyle() {
                 color: '#000',
                 fontFamily: '"Montserrat", sans-serif',
                 fontSize: '12px',
-                backgroundColor: '#9FFFB8',
+                backgroundColor: '#c8fad5',
                 fontSmoothing: 'antialiased',
                 '::placeholder': {
                     color: '#aab7c4'

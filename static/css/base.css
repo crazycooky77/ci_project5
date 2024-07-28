@@ -19,35 +19,38 @@ main {
 
 /* Global styling for all anchor links */
 a {
-    color: #6DB1FC;
+    color: #3e75b0;
     text-decoration: none;
 }
 
 a:hover {
-    color: #90CD94;
+    color: #226244;
+    text-decoration: underline;
 }
 
 a:active {
-    text-shadow: 1px 1px 1px #90CD94;
+    text-shadow: 1px 1px 10px #226244;
 }
 
 /* Global button styling */
 button:hover {
-    background-color: #90CD94;
+    text-decoration: underline;
+    background-color: #226244;
 }
 
 button:active {
-    color: white;
+    text-shadow: 1px 1px 10px #F5FEFD;
 }
 
 button, button:disabled:hover, button[disabled]:hover, button:disabled:active, button[disabled]:active {
-    background-color: #6DB1FC;
+    background-color: #3e75b0;
     border-radius: 5px;
+    color: #F5FEFD;
 }
 
 /* Input/Select styling */
 input, select {
-    background-color: #9FFFB8;
+    background-color: #c8fad5;
     border-radius: 5px;
 }
 
@@ -106,18 +109,20 @@ label:has(+input:required):after {
     background: none;
     border: none;
     border-radius: unset;
-    color: #6DB1FC;
+    color: #3e75b0;
     font-weight: bold;
     margin: 5px auto;
     padding-left: 0;
 }
 
 #nav-logout:hover {
-    color: #90CD94;
+    color: #226244;
+    text-decoration: underline;
 }
 
 #nav-logout:active {
     text-decoration: underline;
+    text-shadow: 1px 1px 10px #226244;
 }
 
 .nav-left {
@@ -130,12 +135,7 @@ label:has(+input:required):after {
 .nav-left a {
     display: inline-block;
     margin: 7px auto;
-    text-decoration: none;
     font-size: 18px;
-}
-
-.nav-left a:active {
-    text-decoration: underline;
 }
 
 /* Right nav section */
@@ -174,10 +174,6 @@ label:has(+input:required):after {
     font-size: 16px;
 }
 
-.nav-support a, .nav-support i {
-    text-decoration: underline;
-}
-
 /* Search bar */
 .nav-search input {
     max-width: 360px;
@@ -192,18 +188,19 @@ label:has(+input:required):after {
 .nav-middle .nav-buttons {
     display: flex;
     margin-top: 20px;
-    background-color: #88FFF9;
+    background-color: #aafaf6;
     border-radius: 5px;
 }
 
 .nav-buttons button {
     border: none;
-    border-right: 1px solid #6DB1FC;
+    border-right: 1px solid #3e75b0;
     border-radius: unset;
     padding: 10px 20px;
     font-size: 18px;
     font-weight: bold;
-    background-color: #88FFF9;
+    background-color: #aafaf6;
+    color: black;
 }
 
 .nav-buttons button:first-child {
@@ -222,7 +219,7 @@ label:has(+input:required):after {
 }
 
 .nav-buttons button:active {
-    color: white;
+    color: #226244;
 }
 
 /* Styling for modal divs */
@@ -263,11 +260,13 @@ label:has(+input:required):after {
 }
 
 .modal a:hover, .modal-mailto-email:hover {
-    color: #6DB1FC;
+    color: #3e75b0;
+    text-decoration: underline;
 }
 
 .modal a:active, .modal-mailto-email:active {
-    color: #90CD94;
+    text-shadow: 1px 1px 10px #226244;
+    color: #226244;
 }
 
 /* Modal margins */

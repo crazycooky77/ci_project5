@@ -210,7 +210,7 @@
 }
 
 #checkout-order-note {
-    background-color: #9FFFB8;
+    background-color: #c8fad5;
     border-radius: 5px;
     width: 100%;
 }
@@ -232,7 +232,7 @@ button.hidden-addr-submit, .hidden-empty-submit {
 /* Additional styling for stripe card input element */
 .StripeElement {
     width: 40%;
-    background-color: #9FFFB8;
+    background-color: #c8fad5;
     border: 1px solid black;
     border-radius: 5px;
     margin-top: 10px;
