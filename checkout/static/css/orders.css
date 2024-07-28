@@ -107,7 +107,7 @@
     }
 
     .orders .prod-table-details {
-        overflow: scroll;
+        overflow: auto;
         margin: 20px auto auto auto;
     }
 
