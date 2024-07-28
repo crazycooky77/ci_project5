@@ -494,10 +494,27 @@ Automated testing has not yet been implemented. This has been postponed to the 1
 
 
 #### JSHint
+[JSHint](https://jshint.com/) mentions "undefined variables", however they are all from JQuery ($), the base.js file (prvWidth) that is pre-loaded separately, or the HTML file (json_addr). "unused variables" are also mentioned, but they are used in the HTML files as on-click functions.
 
+5 warnings from JSHint remain:
+- Use ES10 for optional catch binding (catch binding works on the live site without issue)
+- Body of for should be wrapped in if; it is already wrapped in an if statement
+- 3x Confusing semantics due to in-loop functions referencing outer-scoped variables; this is incorrect, the in-loop reference is to make updates related to that specific element
+
+All other (syntax) issues were resolved.
+
+stripe.py:
+<img src='media/readme/jshint-stripe.webp' alt='JSHint stripe errors'>
+
+products.py:
+<img src='media/readme/jshint-products.webp' alt='JSHint product errors'>
+
+checkout.py:
+<img src='media/readme/jshint-checkout.webp' alt='JSHint checkout errors'>
 
 #### PEP8
-
+The only errors from [PEP8](https://pep8ci.herokuapp.com/) are from Django "AUTH_PASSWORD_VALIDATORS" in the settings.py file (lines too long).
+<img src='media/readme/pep8.webp' alt='PEP8 validator results'>
 
 #### WAVE
 The majority of issues were contrast errors. Styling on the site was updated to alleviate this for better accessibility.
