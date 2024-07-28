@@ -38,7 +38,7 @@
                 <form id="checkout-edit-addr" action="{% url 'checkout' %}" method="POST">
                     {% csrf_token %}
                     <a class="hidden-addr-submit inline-link" href="javascript:checkoutEditAddr()">Edit Address</a>
-                    <button type="submit" class="hidden-addr-submit" name="checkout-edit-addr" value="checkout-edit-addr"></button>
+                    <button type="submit" class="hidden-addr-submit" name="checkout-edit-addr" value="checkout-edit-addr" aria-label="hidden"></button>
                     <input type="hidden" name="shipping-addr" value="{{ shipping_addr }}">
                     <input type="hidden" name="billing-addr" value="{{ billing_addr }}">
                     <input type="hidden" name="checkout-order-note">
@@ -141,7 +141,7 @@
             {# Form to redirect the customer back to their cart, if it becomes empty during checkout #}
             <form method="POST" action="{% url 'cart' %}" id="empty-cart-form" class="hidden-empty-submit">
                 {% csrf_token %}
-                <button type="submit" class="hidden-empty-submit" name="checkout-empty" value="checkout-empty"></button>
+                <button type="submit" class="hidden-empty-submit" name="checkout-empty" value="checkout-empty" aria-label="hidden"></button>
                 <input type="hidden" name="js-stock" value="{{ js_stock }}">
             </form>
             {# Link for user to go back to their cart at any time during checkout #}
