@@ -89,7 +89,7 @@ function prodElSizes(prodClass) {
                 for (let z = 0; z < i; z++) {
                     if (typeof prodList[z].children[1] === 'object') {
                         if ($(prodList[z].children[1]).find('.add-cart')[0].textContent !== 'Out Of Stock') {
-                            prodList[z].children[1].removeAttribute('style')
+                            prodList[z].children[1].removeAttribute('style');
                         }
                     }
                 }
@@ -197,14 +197,14 @@ function unsortSelect(json) {
             let flavours = '#' + prodId + '-prod-flavours';
             let fOptions = $(flavours + ' option');
             $(fOptions).each(function() {
-                [fOptions[$(this)[0].index], fOptions[i]] = [fOptions[i], fOptions[$(this)[0].index]]
+                [fOptions[$(this)[0].index], fOptions[i]] = [fOptions[i], fOptions[$(this)[0].index]];
             });
         }
         let sizes = '#' + prodId + '-prod-sizes';
         let sOptions = $(sizes + ' option');
         $(sOptions).each(function() {
-            [sOptions[$(this)[0].index], sOptions[i]] = [sOptions[i], sOptions[$(this)[0].index]]
-        })
+            [sOptions[$(this)[0].index], sOptions[i]] = [sOptions[i], sOptions[$(this)[0].index]];
+        });
     }
 }
 
