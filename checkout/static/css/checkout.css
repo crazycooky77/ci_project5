@@ -249,13 +249,13 @@ button.hidden-addr-submit, .hidden-empty-submit {
     text-align: center;
     color:red;
     font-weight: bold;
-    margin-bottom: 20px;
 }
 
 /* Section for user to confirm checkout/purchase */
 .confirm-checkout {
     display: flex;
     flex-direction: column;
+    margin-top: 20px;
 }
 
 /* Warning for users that their card will be charged */
