@@ -363,6 +363,7 @@ def product_view(request, var):
 
 
 def prod_list_functions(request, products):
+    """Function to get product details for various product pages"""
     active_sort = get_active_sort(request)
     products_distinct, js_products, active_sort = product_pages(
         request, products, active_sort)
