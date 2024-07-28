@@ -150,24 +150,21 @@ function searchSelection(json) {
             return a.fields.product - b.fields.product;
         });
         for (let prod in json) {
-            if (Number(prod) === 0 ||
-                (Number(prod) > 0 && json[prod].fields.product !== json[prod - 1].fields.product)) {
-                let prodId = json[prod].fields.product;
-                let prodFlavours = document.getElementById(prodId + '-prod-flavours');
-                if (prodFlavours.options.length > 1) {
-                    for (let i = 0; i < prodFlavours.options.length; i++) {
-                        if ((!($(prodFlavours.options[i]).hasClass('hidden'))) &&
-                            (json[prod].fields.flavour === prodFlavours.options[i].value) &&
-                            (json[prod].fields.stock_count > 0) &&
-                            (prodFlavours.options[i].selected !== true)) {
-                            let prodSizes = document.getElementById(prodId + '-prod-sizes');
-                            for (let j = 0; j < prodSizes.options.length; j++) {
-                                if (Number(json[prod].fields.size) === Number(prodSizes.options[j].value)) {
-                                    prodFlavours.options[i].setAttribute('selected', true);
-                                    prodFlavours.options[i].selectedIndex = i;
-                                    prodSizes.options[j].setAttribute('selected', true);
-                                    prodSizes.options[j].selectedIndex = j;
-                                }
+            let prodId = json[prod].fields.product;
+            let prodFlavours = document.getElementById(prodId + '-prod-flavours');
+            if (prodFlavours.options.length > 1) {
+                for (let i = 0; i < prodFlavours.options.length; i++) {
+                    if ((!($(prodFlavours.options[i]).hasClass('hidden'))) &&
+                        (json[prod].fields.flavour === prodFlavours.options[i].value) &&
+                        (json[prod].fields.stock_count > 0) &&
+                        (prodFlavours.options[i].selected !== true)) {
+                        let prodSizes = document.getElementById(prodId + '-prod-sizes');
+                        for (let j = 0; j < prodSizes.options.length; j++) {
+                            if (Number(json[prod].fields.size) === Number(prodSizes.options[j].value)) {
+                                prodFlavours.options[i].setAttribute('selected', true);
+                                prodFlavours.options[i].selectedIndex = i;
+                                prodSizes.options[j].setAttribute('selected', true);
+                                prodSizes.options[j].selectedIndex = j;
                             }
                         }
                     }
