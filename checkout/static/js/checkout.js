@@ -41,11 +41,11 @@ if (window.location.pathname === '/checkout' && document.getElementById('shippin
         if (e.target.localName === 'input') {
             if (e.target.parentElement.parentElement.className === 'shipping-addr-form' &&
                 shipSelect.options.selectedIndex !== 0) {
-                removeAddrSel(shipSelect)
+                removeAddrSel(shipSelect);
             }
             else if (e.target.parentElement.parentElement.className === 'billing-addr-form' &&
                 billSelect.options.selectedIndex !== 0) {
-                removeAddrSel(billSelect)
+                removeAddrSel(billSelect);
             }
         }
     });
@@ -107,11 +107,11 @@ function selectAddr(addrList, addrForm) {
 function initAddrSel() {
     if (window.location.pathname === '/checkout' && document.getElementById('shipping-addr-list')) {
         if (sessionStorage['ajax-post'] !== undefined) {
-            sessionStorage.removeItem('ajax-post')
+            sessionStorage.removeItem('ajax-post');
             let shipSelect = document.getElementById('shipping-addr-list');
             let billSelect = document.getElementById('billing-addr-list');
-            removeAddrSel(shipSelect)
-            removeAddrSel(billSelect)
+            removeAddrSel(shipSelect);
+            removeAddrSel(billSelect);
         } else {
             selectAddr('shipping-addr-list', 'shipping-addr-form');
             selectAddr('billing-addr-list', 'billing-addr-form');
@@ -123,12 +123,12 @@ function initAddrSel() {
 // Function to empty inputs from checkout address form
 function emptyAddr(value, formClass) {
     if (value === 'New Address') {
-        let form = document.getElementsByClassName(formClass)[0]
+        let form = document.getElementsByClassName(formClass)[0];
         form.querySelectorAll('input').forEach(
             i => {
-                i.value = ''
+                i.value = '';
             }
-        )
+        );
     }
 }
 
@@ -163,7 +163,7 @@ function checkoutEditAddr() {
             'shipping-addr': shippingAddr,
             'checkout-order-note': checkoutNote},
         success: function() {
-            sessionStorage.setItem('ajax-post', 'editAddr')
+            sessionStorage.setItem('ajax-post', 'editAddr');
             $('button.hidden-addr-submit').click();
         }
     });
