@@ -280,7 +280,7 @@ Some additional minor features have been implemented, to promote customer satisf
 - [ADB](https://developer.android.com/tools/adb) to debug Android-specific issue (see [Android](#android))
 
 
-## Testing - TO BE UPDATED
+## Testing
 
 ### Manual Testing
 All "Inspector" tests were conducted in Chrome on macOS.
