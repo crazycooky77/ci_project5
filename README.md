@@ -182,6 +182,7 @@ Wireframes were used to plan out the pages for the site. Minor adjustments were 
 1. The Newsletter Signup option was added next to the Support Contact details and both are now above the search bar
 2. The site logo and customer action buttons (view cart, log in, create account) have swapped sides
 3. The customer action buttons all have icons added (instead of only the Cart button)
+4. A Support page was added, and is now linked in the site footer
 
 ##### Login / Create Account
 <ins>Login:</ins>
