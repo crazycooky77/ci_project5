@@ -14,6 +14,7 @@ NutriForce is a B2C online shop for sports and health nutrition in Ireland. The 
       3. [Returns](#returns)
       4. [Privacy Policy](#privacy-policy)
       5. [Terms & Conditions](#terms--conditions)
+      6. [Support](#support)
 2. [User Experience](#user-experience)
     1. [Visitor Goals](#visitor-goals)
        1. [First-Time Visitor Goals](#first-time-visitor-goals)
@@ -790,7 +791,7 @@ JavaScript product functionality is dependent on the select option dropdowns bei
 The main focus of fixes during testing were due to unique Safari browser behaviours, as the same features worked without issue in Chrome during development and testing.
 
 ##### Android
-Additionally, Android keyboards fire a window resize event, which caused some issues with JavaScript modals. All resize event listeners were updated to check for screen width* resizes instead (Android keyboards resize height only).
+Android keyboards fire a window resize event, which caused some issues with JavaScript modals. All resize event listeners were updated to check for screen width* resizes instead (Android keyboards resize height only).
 
 ##### Modals
 While not a bug, of particular note is that the JavaScript modals and mailto links throughout the site are dependent on the user's system and browser settings. This means that the mailto link may not open, and the entire modal may not even appear, for certain users. To help with this, an extra support page was added to the footer, with the support contact email. A link to that page was added to the texts that open the mailto modal, where possible. There are a few areas on the site, where users with strict security settings will still encounter issues, e.g. the Newsletter Signup, and any mailto modals linked specifically to buttons (e.g. order cancellation/refund requests). These users can, of course, still access the support page via the footer, and reach out manually.
@@ -857,7 +858,7 @@ The site was deployed on Heroku. ElephantSQL was used for the database, as end o
 11. The final iteration of this app uses Amazon S3 for static and media storage, so the necessary changes needed to be made to [settings.py](https://github.com/crazycooky77/ci_project5/blob/main/nutriforce/settings.py) for this as well
 
 ### Important Extras
-Heroku re-uploads the entirety of the static files to AWS with every commit, which causes the free tier limit to be reached within days. To avoid this, DISABLE_COLLECTSTATIC = 1 was added to Config Vars on Heroku. Then needed to manually python3 manage.py collectstatic locally with USE_AWS set to True in local environment variables (based on [settings.py](https://github.com/crazycooky77/ci_project5/blob/main/nutriforce/settings.py) in this project). Set this variable back to False when developing locally and using python3 manage.py runserver to see local static file changes. Otherwise the files (CSS, images...) already uploaded to Amazon S3 would be used in runserver and no local changes are visible.
+Heroku re-uploads the entirety of the static files to AWS with every commit, which causes the free tier limit to be reached within days. To avoid this, DISABLE_COLLECTSTATIC = 1 was added to Config Vars on Heroku. It is then necessary to manually run `env USE_AWS='True' bash -c 'python3 manage.py collectstatic'` locally to push the static file changes to production (used by Heroku).
 
 ---
 
