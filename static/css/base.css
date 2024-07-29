@@ -119,6 +119,7 @@ label:has(+input:required):after {
 
 /* Left nav bar */
 #nav-logout {
+    cursor: pointer;
     background: none;
     border: none;
     border-radius: unset;
