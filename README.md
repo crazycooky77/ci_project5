@@ -253,6 +253,10 @@ All user stories, features, and bugs are listed in the repository's projects. [F
 Some additional minor features have been implemented, to promote customer satisfaction and loyalty, such as mailto links with predefined email subjects and bodies, where customers can request products be stocked, that are not in the database.
 
 ### Feature Details
+#### Back to top
+When a user scrolls down on any page on the site, a "Back to top" link will appear on the right side of the footer. When a customer clicks this, it will bring them to the top of the page again. This should make for easier site navigation, particularly on pages with a lot of content (e.g. the All Products page).
+<img src='media/readme/feature-top.webp' alt='Back to top feature'>
+
 #### Modals
 JavaScript modals are implemented throughout the site to provide support details to customers. As mailto links opening are dependent on a user's browser and system settings, relying solely on these would cause problems for some customers. Therefore, modals were implemented to display the mailto link, as well as the plain-text support email address. Huge thanks to [my mentor](https://github.com/CluelessBiker) for identifying this issue and providing the suggestion. 
 <img src='media/readme/feature-modals.webp' alt='(Mailto) modals'>
