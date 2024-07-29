@@ -164,7 +164,7 @@ All EPICs and related user stories are listed in the [repository Issues here](ht
 ### Design
 
 #### Colour Palette
-<img src='media/readme/wf-colormind.webp' alt='Colour palette for the site'>
+<img src='media/readme/colormind.webp' alt='Colour palette for the site'>
 
 #### Typography
 The [Montserrat Google font](https://fonts.google.com/specimen/Montserrat) is used throughout the site.
@@ -179,7 +179,7 @@ The [Montserrat Google font](https://fonts.google.com/specimen/Montserrat) is us
 
 #### Wireframes
 Wireframes were used to plan out the pages for the site. Minor adjustments were made throughout, as the pages were being created. The navigation menu was reorganised in the final site iteration, and differs from the wireframes below as follows:
-1. The Newsletter Signup option was added next to the Support Contact details
+1. The Newsletter Signup option was added next to the Support Contact details and both are now above the search bar
 2. The site logo and customer action buttons (view cart, log in, create account) have swapped sides
 3. The customer action buttons all have icons added (instead of only the Cart button)
 
