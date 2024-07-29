@@ -250,7 +250,7 @@ _Show/Hide Cart and Edit Address links were added to this page. A Note to Seller
 ## Features
 All user stories, features, and bugs are listed in the repository's projects. [For release 1.0, the kanban board can be found here](https://github.com/users/crazycooky77/projects/2/views/1). Completed and postponed (Cancelled) features are outlined in the board.
 
-Some additional minor features have been implemented, to promote customer satisfaction and loyalty, such as mailto links with predefined email subjects and bodies, where customers can request products be stocked, that are not in the database.
+Some additional unplanned minor features have been implemented, not outlined in user stories/features, to promote customer satisfaction and loyalty, such as mailto links with predefined email subjects and bodies, where customers can request products be stocked, that are not in the database. These features are still outlined below as well.
 
 ### Feature Details
 #### Back to top
@@ -333,6 +333,8 @@ Verification and confirmation emails are automatically sent by the system for va
 - Allauth emails (account creation, password reset, email change)
 - Confirmation emails (newsletter subscription, completed orders)
 - Admin emails (completed orders, error at checkout (stripe payment received but order not created in database), error 500, csrf errors)
+
+Some example screenshots have been added below.
 
 ---
 
