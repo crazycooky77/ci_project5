@@ -35,7 +35,7 @@ NutriForce is a B2C online shop for sports and health nutrition in Ireland. The 
    1. [Feature Details](#feature-details)
    2. [Future Features](#future-features)
 4. [Technologies](#technologies)
-5. [Testing](#testing---to-be-updated)
+5. [Testing](#testing)
    1. [Manual Testing](#manual-testing)
    2. [Automated Testing](#automated-testing)
    3. [Validator Testing](#validator-testing)
@@ -79,9 +79,11 @@ The shop only has an online presence, but ensures to let customers know that it'
 Pricing for products on the site will be competitive, as there are many large companies selling such products. While a slight increase to big box store prices is typically acceptable for customers interested in shopping locally, if the prices are too high, the benefits of using a small business will not be enough to attract and keep customers.
 
 ### Newsletter
-A newsletter signup link is available on every page of the site. The prominent but unobtrusive display of this feature makes it easy for customers to make use of it, without being bothered by it. When a user signs up, a confirmation email is sent out to the email address used. This helps to ensure no one's email is used or stored for this, without their consent (in case someone uses an email address that does not belong to them). The confirmation email includes a link to unsubscribe from the mailing list that can be used at any time. If the email address used is linked to a registered account, the user can also unsubscribe from their Profile at any time as well.
+A newsletter signup link is available on every page of the site. The prominent but unobtrusive display of this feature makes it easy for customers to make use of it, without being bothered by it. When a customer signs up, a confirmation email is sent out to the email address used. This helps to ensure no one's email is used or stored for this, without their consent (in case someone uses an email address that does not belong to them). The confirmation email includes a link to unsubscribe from the mailing list that can be used at any time. If the email address used is linked to a registered account, the customer can also unsubscribe from their Profile at any time as well.
 
 Privacy and customer experience concerns aside, the newsletter is used to promote special deals and new products, which should help entice some customers to make additional purchases.
+
+See details and screenshots in the Feature Details section. [Newsletter](#newsletter-1) and [Automated Emails > Customer Newsletter](#customer-newsletter).
 
 ### Facebook Page
 A social media presence is critical for any business in current times. A mock-up Facebook page was created for the business that can be viewed below. [An actual business page already exists](https://www.facebook.com/profile.php?id=100094712224458), created by the business owner, but has not been used for this project. It is also not yet complete.
@@ -111,6 +113,8 @@ robots.txt and sitemap.xml files were created to ensure search engines know whic
 ### Informational Pages
 Additional pages - all in the site footer - were created to ensure customers have all the necessary information about the company, their data and it's usage, and orders. Everything below in this section will help show customers that this is a trusted site they can make purchases from, as we are transparent, and all information is readily available. The Shipping, Returns, and Privacy pages additionally include details on how to get in touch with the support team, should the customers need this.
 
+See details and an example screenshot in the Future Details > [Information Pages](#information-pages) section.
+
 #### About
 This page gives an introduction about the company and what is important to us. It should help customers feel more connected to us, and hopefully instill some confidence, as our values greatly relate to quality and integrity, as stated on the page.
 
@@ -134,6 +138,7 @@ A page outlining the full T&C for the site is available.
 ## User Experience
 
 ### Visitor Goals
+Screenshots and more details on the features implemented to achieve the visitor goals are available in the [Feature Details section](#feature-details).
 
 #### First-Time Visitor Goals
 - As a first-time visitor to the site, I can make purchases to buy health and sports nutrition products that I need.
@@ -175,8 +180,8 @@ The [Montserrat Google font](https://fonts.google.com/specimen/Montserrat) is us
 #### Wireframes
 Wireframes were used to plan out the pages for the site. Minor adjustments were made throughout, as the pages were being created. The navigation menu was reorganised in the final site iteration, and differs from the wireframes below as follows:
 1. The Newsletter Signup option was added next to the Support Contact details
-2. The site logo and user action buttons (view cart, log in, create account) have swapped sides
-3. The user action buttons all have icons added (instead of only the Cart button)
+2. The site logo and customer action buttons (view cart, log in, create account) have swapped sides
+3. The customer action buttons all have icons added (instead of only the Cart button)
 
 ##### Login / Create Account
 <ins>Login:</ins>
@@ -247,9 +252,158 @@ All user stories, features, and bugs are listed in the repository's projects. [F
 Some additional minor features have been implemented, to promote customer satisfaction and loyalty, such as mailto links with predefined email subjects and bodies, where customers can request products be stocked, that are not in the database.
 
 ### Feature Details
+#### Modals
+JavaScript modals are implemented throughout the site to provide support details to customers. As mailto links opening are dependent on a user's browser and system settings, relying solely on these would cause problems for some customers. Therefore, modals were implemented to display the mailto link, as well as the plain-text support email address. Huge thanks to [my mentor](https://github.com/CluelessBiker) for identifying this issue and providing the suggestion. 
+<img src='media/readme/feature-modals.webp' alt='(Mailto) modals'>
+
+#### Newsletter
+[The related user story is here](https://github.com/crazycooky77/ci_project5/issues/42). The site has a newsletter signup button, that sends an email confirmation to the address entered. This way, if someone's email is used without their knowledge, or if they just no longer want to be subscribed, they can directly unsubscribe using the link in that same email. Customers can be kept up-to-date on new promotions and products via the newsletter.
+<img src='media/readme/feature-news.webp' alt='Newsletter'>
+
+#### Account Creation
+Customers can create an account, so they can save and view their addresses, cart contents, and orders ([user story](https://github.com/crazycooky77/ci_project5/issues/15)).
+<img src='media/readme/feature-signup.webp' alt='Account Creation'>
+
+#### Profile
+The profile page offers various features for customers. They can change the email and/or password associated with their account. They can completely delete their account from the database. Addresses can be saved to the account, and those can be edited or deleted. Lastly, customers can view all their orders and the order details for each, such as order status and tracking links.
+
+User stories for these features are below:
+- [Profile page, saved addresses, order history](https://github.com/crazycooky77/ci_project5/issues/19)
+- [Account editing (email, password, addresses)](https://github.com/crazycooky77/ci_project5/issues/16)
+- [Account deletion](https://github.com/crazycooky77/ci_project5/issues/17)
+<img src='media/readme/feature-profile.webp' alt='Profile options'>
+
+#### Products
+Main categories (Sports, Health) are available for customers to browse products specific to their needs via the navigation bar. Dropdowns are available for sizes, and if applicable, flavours, for each product. The price displayed for the product immediately updates, depending on the size/flavour selected. Customers can then set a quantity for how much of the product they want, and add it to their cart ([user story](https://github.com/crazycooky77/ci_project5/issues/22)). Product pages include links to expand the description and ingredients for the products. This way, space on the page is saved. The [user story for product details is here](https://github.com/crazycooky77/ci_project5/issues/21). Lastly, product pages also include a list of similar items, if available. These are determined by matching sub-categories for the products. The [user story for linked products is here](https://github.com/crazycooky77/ci_project5/issues/34).
+<img src='media/readme/feature-products.webp' alt='Product options'>
+
+#### Product Sorting
+All navigation bar product view options (All Products, Sports, Health, What's New) offer a button to sort/filter the products on the page by Brand, Product (name), Price, and On Sale products. This should make it easier for customers to find what they're looking for, while browsing.
+<img src='media/readme/feature-sorting.webp' alt='Product sorting'>
+
+#### Product Search
+A search bar is available at the top of the site, so customers can search for products. This function looks for partial matches to brand names, product names, or flavours. If a flavour is searched, the relevant dropdown is pre-selected, if the flavour is in-stock.
+<img src='media/readme/feature-search.webp' alt='Product search'>
+
+#### Cart
+If a customer is logged in, products added to cart will be added to both the session cart, and the SavedItems Django model for their account cart. The contents of the account cart are always available and saved until the customer empties it, or checks out. If not logged in, contents are just added to the session cart. Various features are available in the cart view:
+- Update the quantity for products in the cart ([user story](https://github.com/crazycooky77/ci_project5/issues/23))
+- Remove products from the cart entirely ("X" beside the quantity input) ([user story](https://github.com/crazycooky77/ci_project5/issues/24))
+- Empty Cart completely of all items ([user story](https://github.com/crazycooky77/ci_project5/issues/29))
+- View cart totals
+- Start the secure checkout process
+<img src='media/readme/feature-cart.webp' alt='Cart view and options'>
+
+#### Cart Merge
+When logging in on any page except during checkout, if the customer has products in their session cart that they don't already have saved to their account cart, the session cart products will be added to the account cart.
+<img src='media/readme/feature-cart-merge.webp' alt='Cart merge'>
+
+#### Checkout
+The [user story for checkouts is here](https://github.com/crazycooky77/ci_project5/issues/30). Customers can check out as a guest, or while logged in. Doing so while logged in provides some useful features, [such as being able to used saved addresses](#checkout-addresses), and having their order saved to their account for later viewing.
+<img src='media/readme/feature-checkout.webp' alt='Checkout Sign-in'>
+
+#### Checkout Addresses
+A "Same as Shipping" feature is available for all customers during checkout, to match their billing with their entered shipping address. When logged in, if addresses are saved to the account, the address form is autofilled with the default address, if available, and otherwise the most recently saved address. A dropdown is available to select any address saved to the account, which will autofill the form with the newly selected address details. The dropdown also includes a "New Address" option to clear the form, so the customer can enter new details without having to manually delete the autofilled address first.
+
+---
+
+##### Checkout Addresses View
+<img src='media/readme/feature-checkout-addr.webp' alt='Checkout Addresses'>
+
+##### Saved Address Selection
+<img src='media/readme/feature-checkout-addr-select.webp' alt='Checkout Address selection'>
+
+---
+
+#### Checkout Cart
+At the last checkout page to confirm the purchase, a "Show/Hide Cart" feature is available. By default, the cart contents are not displayed, only the cart totals, to save space and show a cleaner, less-busy overview.
+<img src='media/readme/feature-checkout-cart.webp' alt='Show/Hide Cart at Checkout'>
+
+#### Information Pages
+While not exactly a feature, the informational pages on the site, linked in the footer, serve to provide customers with details they may need to common questions or problems. They help promote trust in the site, and ensure that customers can receive the support they need, for any possible issue.
+<img src='media/readme/feature-info.webp' alt='Informational pages'>
+
+#### Automated Emails
+Verification and confirmation emails are automatically sent by the system for various features. These are sent to customers to ensure they have all the necessary information for various actions. There are also some that are sent to the admin of the site, where action may be required of them.
+- Allauth emails (account creation, password reset, email change)
+- Confirmation emails (newsletter subscription, completed orders)
+- Admin emails (completed orders, error at checkout (stripe payment received but order not created in database), error 500, csrf errors)
+
+---
+
+##### Customer Newsletter
+<img src='media/readme/feature-newsletter.webp' alt='Newsletter email'>
+
+##### Customer Order Confirmation
+<img src='media/readme/feature-order-conf.webp' alt='Order confirmation email'>
+
+##### Admin New Order
+<img src='media/readme/feature-new-order.webp' alt='New order email'>
+
+##### Admin Order Error
+<img src='media/readme/feature-order-error.webp' alt='Order error email'>
+
+##### Admin Server Error
+<img src='media/readme/feature-server-error.webp' alt='Server error email'>
+
+#### Responsive Design
+The [user story for mobile views is here](https://github.com/crazycooky77/ci_project5/issues/40). Based on the customer's screen width, various parts of the website are adjusted to better utilise the available space. The main changes between larger and smaller screens are that text is updated to icons or shorter text, and lesser-important information is removed from tables. Specifically:
+- Navigation bar text is shortened (All Products > All, Whats New > New)
+- Profile menu changes from permanently visible links to a dropdown menu
+- Top left customer action buttons (View Cart etc) change to icons
+- Table headers (for orders and cart views) change to icons
+- "Individual Price" column is removed from order details and cart tables
+- Product images are removed from order details and cart tables
+- "View Order" button text updates to "View" for orders
+- For all icons and shortened text, hovering over them displays the original full button/header text
+
+---
+
+##### Responsive Design - Large Screens
+###### Left navigation menu
+<img src='media/readme/feature-large-nav-left.webp' alt='Large screen left nav'>
+
+###### Center navigation menu
+<img src='media/readme/feature-large-nav-menu.webp' alt='Large screen nav menu'>
+
+###### Profile menu
+<img src='media/readme/feature-large-profile-menu.webp' alt='Large screen profile menu'>
+
+###### Orders table headers
+<img src='media/readme/feature-large-orders-headers.webp' alt='Large screen order table headers'>
+
+###### Order details table headers and product image
+<img src='media/readme/feature-large-order-details.webp' alt='Large screen order details headers'>
+
+###### Cart table headers and product image
+<img src='media/readme/feature-large-cart.webp' alt='Large screen cart headers'>
+
+---
+
+##### Responsive Design - Small Screens
+###### Left navigation menu with hover-text
+<img src='media/readme/feature-small-nav-left.webp' alt='Small screen left nav'>
+
+###### Center navigation menu
+<img src='media/readme/feature-small-nav-menu.webp' alt='Small screen nav menu'>
+
+###### Profile menu
+Show/hide the box with links via clicking "Menu".
+
+<img src='media/readme/feature-small-profile-menu.webp' alt='Small screen profile menu'>
+
+###### Orders table icons
+<img src='media/readme/feature-small-orders-headers.webp' alt='Small screen order table headers'>
+
+###### Order details table icons
+<img src='media/readme/feature-small-order-details.webp' alt='Small screen order details headers'>
+
+###### Cart table icons
+<img src='media/readme/feature-small-cart.webp' alt='Small screen cart headers'>
+
 
 ### Future Features
-[For release 1.1, the kanban board is here](https://github.com/users/crazycooky77/projects/3/views/1). Postponed User Stories from 1.0 are planned for release 1.1, as well as features and minor bugs identified during initial project release.
+[For release 1.1, the kanban board is here](https://github.com/users/crazycooky77/projects/3/views/1). Postponed User Stories from 1.0 are planned for release 1.1, as well as enhancements and minor bugs identified during initial project release. They can also be found in the repository's Issues. [Enhancements](https://github.com/crazycooky77/ci_project5/issues?q=is%3Aopen+is%3Aissue+label%3Aenhancement) are labelled with "enhancement" and the [postponed user stories](https://github.com/crazycooky77/ci_project5/issues?q=is%3Aopen+is%3Aissue+label%3Auser-story) are labelled with "user-story".
 
 ## Technologies
 - [Balsamiq](https://balsamiq.com/wireframes/) to plan out the pages using wireframes
@@ -260,7 +414,7 @@ Some additional minor features have been implemented, to promote customer satisf
 - [Python](https://www.python.org/) for project functionality
   - [Coverage](https://coverage.readthedocs.io/en/7.4.1/) will be used for release 1.1+ to check test coverage for the project
   - [dj-database-url](https://pypi.org/project/dj-database-url/) for easier database configuration
-  - [django-allauth](https://docs.allauth.org/en/latest/) for user creation, authentication, and management
+  - [django-allauth](https://docs.allauth.org/en/latest/) for account creation, authentication, and management
   - [django-extensions](https://yathomasi.medium.com/1-using-django-extensions-to-visualize-the-database-diagram-in-django-application-c5fa7e710e16) for pygraphviz to generate the ER diagram
   - [Gunicorn](https://gunicorn.org/) to enable web services
   - [Pillow](https://pypi.org/project/pillow/) for image processing
@@ -628,7 +782,7 @@ While not a bug, of particular note is that the JavaScript modals and mailto lin
 Additional minor updates were made throughout testing, when it was determined that better styling or functionality would improve the user experience.
 
 #### Remaining Bugs
-Remaining unfixed bugs can be found [in the kanban board for release 1.1](https://github.com/users/crazycooky77/projects/3/views/1) (prepended with [BUG]).
+Remaining unfixed bugs can be found [in the kanban board for release 1.1](https://github.com/users/crazycooky77/projects/3/views/1) (prepended with [BUG]). Alternatively, [in the repository's Issues using the "bug" label](https://github.com/crazycooky77/ci_project5/issues?q=is%3Aopen+is%3Aissue+label%3Abug).
 
 
 ## Deployment
