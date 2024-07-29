@@ -401,6 +401,16 @@ Show/hide the box with links via clicking "Menu".
 ###### Cart table icons
 <img src='media/readme/feature-small-cart.webp' alt='Small screen cart headers'>
 
+---
+
+#### Admin Panel
+An admin panel is available for the site owner to view, edit, create, and delete any contents in/from the database. The Django Admin Panel is fully sufficient for this purpose, so no custom views or functionality were included, beyond special sorting for products. The admin panel cannot be accessed by standard user accounts. Related user stories are:
+- [Admin Panel View](https://github.com/crazycooky77/ci_project5/issues/12)
+- [Admin Panel Users View](https://github.com/crazycooky77/ci_project5/issues/13)
+- [Admin Panel Products View](https://github.com/crazycooky77/ci_project5/issues/14)
+
+<img src='media/readme/feature-admin.webp' alt='Admin Panel'>
+
 
 ### Future Features
 [For release 1.1, the kanban board is here](https://github.com/users/crazycooky77/projects/3/views/1). Postponed User Stories from 1.0 are planned for release 1.1, as well as enhancements and minor bugs identified during initial project release. They can also be found in the repository's Issues. [Enhancements](https://github.com/crazycooky77/ci_project5/issues?q=is%3Aopen+is%3Aissue+label%3Aenhancement) are labelled with "enhancement" and the [postponed user stories](https://github.com/crazycooky77/ci_project5/issues?q=is%3Aopen+is%3Aissue+label%3Auser-story) are labelled with "user-story".
