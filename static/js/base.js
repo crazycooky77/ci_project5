@@ -2,6 +2,8 @@
 window.addEventListener('DOMContentLoaded', () => {
     scrollOpt();
     footerResize();
+    baseU320();
+    baseO320();
     baseU500();
     baseO500();
 });
@@ -9,6 +11,8 @@ window.addEventListener('DOMContentLoaded', () => {
 // Run all necessary functions once page content has loaded
 window.addEventListener('load', () => {
     footerResize();
+    baseU320();
+    baseO320();
     baseU500();
     baseO500();
 });
@@ -19,6 +23,8 @@ window.addEventListener('resize', () => {
     let curWidth = window.innerWidth;
     if (curWidth !== prvWidth) {
         footerResize();
+        baseU320();
+        baseO320();
         baseU500();
         baseO500();
     }
@@ -123,6 +129,22 @@ function copyMailto(modalId) {
         let toolTip = modal.querySelector('.modal-tooltip');
         toolTip.style.display = 'block';
     });
+}
+
+
+// Move nav buttons for screens up to 320px width
+function baseU320() {
+    if (window.innerWidth <= 320) {
+        $(document.getElementsByClassName('sub-nav-div')[0]).detach().appendTo("nav");
+    }
+}
+
+
+// Move nav buttons for screens above 320px width
+function baseO320() {
+    if (window.innerWidth > 320) {
+        $(document.getElementsByClassName('sub-nav-div')[0]).detach().appendTo(".nav-middle");
+    }
 }
 
 
