@@ -19,12 +19,12 @@
                         <p>Here are the products matching your search for "{{ search_term }}"</p>
                     {# Message for user indicating no products are available for their search term #}
                     {% else %}
-                        <p>We don't have products matching your search for "{{ search_term }}". You can <a class="inline-link" href="javascript:modals('prod-req-mailto-anchor', 'prod-req-mailto-modal')" id="prod-req-mailto-anchor">email us</a> to request we add products to our stock. If the email link doesn't work for you, please <a class="inline-link" href="{% url 'support' %}">visit our support page here</a> instead.</p>
+                        <p>We don't have products matching your search for "{{ search_term }}". You can <a class="inline-link" href="javascript:modals('prod-req-mailto-anchor', 'prod-req-mailto-modal')" id="prod-req-mailto-anchor" aria-label="Open an overlay on the same page with our contact details">email us</a> to request we add products to our stock. If the email link doesn't work for you, please <a class="inline-link" href="{% url 'support' %}">visit our support page here</a> instead.</p>
                         {# Modal for user to contact support to request the product be stocked #}
                         <div id="prod-req-mailto-modal" class="modal">
                             <div class="modal-content">
                                 <span class="modal-close">&times;</span>
-                                <p>You can <a href="mailto:{{ contact_email }}?subject=Product%20Request&body=Please%20add%20details%20for%20your%20request:%20">click here</a> to automatically open your email client.</p>
+                                <p>You can <a href="mailto:{{ contact_email }}?subject=Product%20Request&body=Please%20add%20details%20for%20your%20request:%20" aria-label="Open a draft email to us that contains pre-filled contents (opens your system's mail client)">click here</a> to automatically open your email client.</p>
                                 <p class="modal-margin">Alternatively, you can reach us at: <span class="modal-mailto-email" onclick="copyMailto('prod-req-mailto-modal')">{{ contact_email }}</span></p>
                                 <span class="modal-tooltip">Copied!</span>
                             </div>
@@ -50,12 +50,12 @@
                     {% for prod in products_distinct %}
                         {# Display product details for listed products #}
                         <div class="all-prod-ver">
-                            <a href="/products/id={{ prod.product.product_id }}">
+                            <a href="/products/id={{ prod.product.product_id }}" aria-label="Open this product's page (loads in the same tab)">
                                 <img class="all-prod-img" src="{{ prod.product.product_pic.url }}" alt="Sports/Health Product image">
                             </a>
                             <div class="all-prod-details">
                                 <div class="all-prod-name">
-                                    <a href="/products/id={{ prod.product.product_id }}">
+                                    <a href="/products/id={{ prod.product.product_id }}" aria-label="Open this product's page (loads in the same tab)">
                                         {{ prod.product.brand }} {{ prod.product.product_name }}
                                     </a>
                                 </div>

@@ -5,12 +5,12 @@
 {% block content %}
     <div class="mid-content">
         <h2>Server Error</h2>
-        <p>An error has occurred. We apologise for any inconvenience, but have notified the cleaners to check for bugs! If you have any concerns about this error, please <a class="inline-link" href="javascript:modals('500-mailto-anchor', '500-mailto-modal')" id="500-mailto-anchor">contact us</a>. If the contact link doesn't work for you, please <a class="inline-link" href="{% url 'support' %}">visit our support page here</a> instead.</p>
+        <p>An error has occurred. We apologise for any inconvenience, but have notified the cleaners to check for bugs! If you have any concerns about this error, please <a class="inline-link" href="javascript:modals('500-mailto-anchor', '500-mailto-modal')" id="500-mailto-anchor" aria-label="Open an overlay on the same page with our contact details">contact us</a>. If the contact link doesn't work for you, please <a class="inline-link" href="{% url 'support' %}">visit our support page here</a> instead.</p>
         {# Modal for support contact if needed #}
         <div id="500-mailto-modal" class="modal">
             <div class="modal-content">
                 <span class="modal-close">&times;</span>
-                <p>You can <a href="mailto:{{ contact_email }}">click here</a> to automatically open your email client.</p>
+                <p>You can <a href="mailto:{{ contact_email }}" aria-label="Open a draft email to us (opens your system's mail client)">click here</a> to automatically open your email client.</p>
                 <p class="modal-margin">Alternatively, you can reach us at: <span class="modal-mailto-email" onclick="copyMailto('500-mailto-modal')">{{ contact_email }}</span></p>
                 <span class="modal-tooltip">Copied!</span>
             </div>

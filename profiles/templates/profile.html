@@ -19,7 +19,7 @@
         {% elif request.user.is_authenticated %}
             {# Display menu for Profile pages #}
             <div class="mobile" id="ham-icon">
-                <a href="javascript:void(0);" id="ham-icon-button">Menu <i class="fa-solid fa-square-caret-down"></i></a>
+                <a href="javascript:void(0);" id="ham-icon-button" aria-label="Display the Profile Menu options">Menu <i class="fa-solid fa-square-caret-down"></i></a>
             </div>
             <div class="profile-menu" id="ham-menu">
                 <a href="/profile">Account Details</a>

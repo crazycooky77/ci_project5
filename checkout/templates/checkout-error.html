@@ -14,24 +14,24 @@
         <div class="checkout-error">
             {# Custom message when a payment has gone through but the order was not created in the database #}
             {% if client_secret and cart %}
-                <p>An error occurred during checkout that prevented us from displaying your order summary. Please <strong>do not</strong> make a second purchase, to avoid a duplicate charge. We have been notified of this error during your purchase, will investigate this urgently, and contact you with the outcome. We sincerely apologise for any inconvenience. If you wish to get in touch with us in the meantime, please <a class="inline-link" href="javascript:modals('checkout-error-mailto-anchor', 'checkout-error-mailto-modal')" id="checkout-error-mailto-anchor">contact us</a>. If the contact link doesn't work for you, please <a class="inline-link" href="{% url 'support' %}">visit our support page here</a> instead.</p>
+                <p>An error occurred during checkout that prevented us from displaying your order summary. Please <strong>do not</strong> make a second purchase, to avoid a duplicate charge. We have been notified of this error during your purchase, will investigate this urgently, and contact you with the outcome. We sincerely apologise for any inconvenience. If you wish to get in touch with us in the meantime, please <a class="inline-link" href="javascript:modals('checkout-error-mailto-anchor', 'checkout-error-mailto-modal')" id="checkout-error-mailto-anchor" aria-label="Open an overlay on the same page with our contact details">contact us</a>. If the contact link doesn't work for you, please <a class="inline-link" href="{% url 'support' %}">visit our support page here</a> instead.</p>
                 {# Modal for contact options if needed #}
                 <div id="checkout-error-mailto-modal" class="modal">
                     <div class="modal-content">
                         <span class="modal-close">&times;</span>
-                        <p>You can <a class="inline-link" href="mailto:{{ contact_email }}">click here</a> to automatically open your email client.</p>
+                        <p>You can <a class="inline-link" href="mailto:{{ contact_email }}" aria-label="Open a draft email to us (opens your system's mail client)">click here</a> to automatically open your email client.</p>
                         <p class="modal-margin">Alternatively, you can reach us at: <span class="modal-mailto-email" onclick="copyMailto('checkout-error-mailto-modal')">{{ contact_email }}</span></p>
                         <span class="modal-tooltip">Copied!</span>
                     </div>
                 </div>
             {# Page refreshed after successful order #}
             {% elif client_secret and not cart %}
-                <p>It seems you might have tried to refresh this page after completing a purchase. To avoid a duplicate charge, we prevented a refresh of the order details. If you encountered an issue and wish to get in touch with us, please <a class="inline-link" href="javascript:modals('checkout-refresh-mailto-anchor', 'checkout-refresh-mailto-modal')" id="checkout-refresh-mailto-anchor">contact us</a>. If the contact link doesn't work for you, please <a class="inline-link" href="{% url 'support' %}">visit our support page here</a> instead.</p>
+                <p>It seems you might have tried to refresh this page after completing a purchase. To avoid a duplicate charge, we prevented a refresh of the order details. If you encountered an issue and wish to get in touch with us, please <a class="inline-link" href="javascript:modals('checkout-refresh-mailto-anchor', 'checkout-refresh-mailto-modal')" id="checkout-refresh-mailto-anchor" aria-label="Open an overlay on the same page with our contact details">contact us</a>. If the contact link doesn't work for you, please <a class="inline-link" href="{% url 'support' %}">visit our support page here</a> instead.</p>
                 {# Modal for contact options if needed #}
                 <div id="checkout-refresh-mailto-modal" class="modal">
                     <div class="modal-content">
                         <span class="modal-close">&times;</span>
-                        <p>You can <a href="mailto:{{ contact_email }}">click here</a> to automatically open your email client.</p>
+                        <p>You can <a href="mailto:{{ contact_email }}" aria-label="Open a draft email to us (opens your system's mail client)">click here</a> to automatically open your email client.</p>
                         <p class="modal-margin">Alternatively, you can reach us at: <span class="modal-mailto-email" onclick="copyMailto('checkout-refresh-mailto-modal')">{{ contact_email }}</span></p>
                         <span class="modal-tooltip">Copied!</span>
                     </div>
@@ -40,7 +40,7 @@
             {% else %}
                 {# Custom message when user is logged in #}
                 {% if request.user.is_authenticated %}
-                    <p>You cannot access your checkout summary via direct link or after refreshing the page. This is to prevent duplicate purchases and charges. You can view your order summary in your order confirmation email, or <a class="inline-link" href="/profile/orders">in your profile</a>.</p>
+                    <p>You cannot access your checkout summary via direct link or after refreshing the page. This is to prevent duplicate purchases and charges. You can view your order summary in your order confirmation email, or <a class="inline-link" href="/profile/orders" aria-label="Open an overlay on the same page with our contact details">in your profile</a>.</p>
                 {# Message for non-authenticated users #}
                 {% else %}
                     <p>You cannot access your checkout summary via direct link or after refreshing the page. This is to prevent duplicate purchases and charges. You can view your order summary in your order confirmation email.</p>

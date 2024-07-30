@@ -77,7 +77,7 @@
                             {# Newsletter signup #}
                             <form action="/newsletter" method="POST" id="news-signup-form">
                                 {% csrf_token %}
-                                <a href="javascript:modals('news-signup-anchor', 'news-modal')" id="news-signup-anchor">Newsletter Signup</a>
+                                <a href="javascript:modals('news-signup-anchor', 'news-modal')" id="news-signup-anchor" aria-label="Open an overlay on the same page to enter your email address and subscribe">Newsletter Signup</a>
                                 {# Modal to complete subscription #}
                                 <div id="news-modal" class="modal">
                                     <div class="modal-content">
@@ -92,12 +92,12 @@
                         </div>
                         {# Support details #}
                         <div class="nav-support">
-                            <a href="javascript:modals('sup-mailto-anchor', 'sup-mailto-modal')" id="sup-mailto-anchor"><i class="fa-solid fa-envelope"></i> Support</a>
+                            <a href="javascript:modals('sup-mailto-anchor', 'sup-mailto-modal')" id="sup-mailto-anchor" aria-label="Open an overlay on the same page with our contact details"><i class="fa-solid fa-envelope"></i> Support</a>
                             {# Modal to display customer support details #}
                             <div id="sup-mailto-modal" class="modal">
                                 <div class="modal-content">
                                     <span class="modal-close">&times;</span>
-                                    <p>You can <a href="mailto:{{ contact_email }}">click here</a> to automatically open your email client.</p>
+                                    <p>You can <a href="mailto:{{ contact_email }}" aria-label="Open a draft email to us (opens your system's mail client)">click here</a> to automatically open your email client.</p>
                                     <p class="modal-margin">Alternatively, you can reach us at: <span class="modal-mailto-email" onclick="copyMailto('sup-mailto-modal')">{{ contact_email }}</span></p>
                                     <span class="modal-tooltip">Copied!</span>
                                 </div>
@@ -128,7 +128,7 @@
                 {# Right navigation section #}
                 <div class="nav-right">
                     {# Site logo with link to homepage #}
-                    <a href="/"><img src="{{ MEDIA_URL }}logo.webp" alt="NutriForce Sports and Health Nutrition Logo"></a>
+                    <a href="/" aria-label="Homepage"><img src="{{ MEDIA_URL }}logo.webp" alt="NutriForce Sports and Health Nutrition Logo"></a>
                 </div>
             </div>
         </nav>
@@ -148,7 +148,7 @@
                 <div class="footer-content">
                     {# Footer links to other pages #}
                     <p id="footer-links">
-                        <a href="https://www.facebook.com/profile.php?id=100094712224458" target="_blank" rel="external nofollow noopener" aria-label="Follow Us"><i class="fa-brands fa-facebook"></i>ollow Us</a>
+                        <a href="https://www.facebook.com/profile.php?id=100094712224458" target="_blank" rel="external nofollow noopener" aria-label="Follow Us on Facebook (opens in a new tab)"><i class="fa-brands fa-facebook"></i>ollow Us</a>
                          |
                         <a href="{% url 'shipping' %}">Shipping</a>
                          |
@@ -164,7 +164,7 @@
                     </p>
                     {# Footer "Back to top" function #}
                     <p id="footer-top-link">
-                        <a href="javascript:topScroll()">Back to top</a>
+                        <a href="javascript:topScroll()" aria-label="Go back to the top of this page">Back to top</a>
                     </p>
                 </div>
             {% endblock copyright %}

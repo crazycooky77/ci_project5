@@ -19,7 +19,7 @@
                 <td>{{ order.order_id }}</td>
                 {# Include tracking link if available #}
                 {% if order.tracking_link %}
-                    <td><a class="inline-link" href="{{ order.tracking_link }}" target="_blank" rel="external nofollow noopener">Track</a></td>
+                    <td><a class="inline-link" href="{{ order.tracking_link }}" target="_blank" rel="external nofollow noopener" aria-label="Open the tracking link for your order (opens a new tab for the shipping provider's page)">Track</a></td>
                 {% else %}
                     <td>N/A</td>
                 {% endif %}
@@ -46,7 +46,7 @@
         <div id="can-ref-req-mailto-modal" class="modal">
             <div class="modal-content">
                 <span class="modal-close">&times;</span>
-                <p>You can <a href="mailto:{{ contact_email }}?subject=Cancellation%20Request%20for%20Order%20{{ order.order_id }}&body=Please%20add%20details%20for%20your%20request:%20">click here</a> to automatically open your email client.</p>
+                <p>You can <a href="mailto:{{ contact_email }}?subject=Cancellation%20Request%20for%20Order%20{{ order.order_id }}&body=Please%20add%20details%20for%20your%20request:%20" aria-label="Open a draft email to us that contains pre-filled contents (opens your system's mail client)">click here</a> to automatically open your email client.</p>
                 <p class="modal-margin">Alternatively, you can reach us at: <span class="modal-mailto-email" onclick="copyMailto('can-ref-req-mailto-modal')">{{ contact_email }}</span></p>
                 <span class="modal-tooltip">Copied!</span>
             </div>
@@ -55,7 +55,7 @@
         <div id="mid-ref-req-mailto-modal" class="modal">
             <div class="modal-content">
                 <span class="modal-close">&times;</span>
-                <p>You can <a href="mailto:{{ contact_email }}?subject=Refund%20Request%20for%20Order%20{{ order.order_id }}&body=Please%20add%20details%20for%20your%20request:%20">click here</a> to automatically open your email client.</p>
+                <p>You can <a href="mailto:{{ contact_email }}?subject=Refund%20Request%20for%20Order%20{{ order.order_id }}&body=Please%20add%20details%20for%20your%20request:%20" aria-label="Open a draft email to us that contains pre-filled contents (opens your system's mail client)">click here</a> to automatically open your email client.</p>
                 <p class="modal-margin">Alternatively, you can reach us at: <span class="modal-mailto-email" onclick="copyMailto('mid-ref-req-mailto-modal')">{{ contact_email }}</span></p>
                 <span class="modal-tooltip">Copied!</span>
             </div>
@@ -75,7 +75,7 @@
             {# All product details for products in order #}
             {% for item, product in order_details %}
                 <tr class="cart-tbl-prod">
-                    <td><a href="/products/id={{ item.product.product_id }}">
+                    <td><a href="/products/id={{ item.product.product_id }}" aria-label="Open this product's page (loads in the same tab)">
                         <div class="order-prod">
                             <img class="desktop order-prod-img" src="{{ item.product.product.product_pic.url }}" alt="Sports/Health Product image">
                             {% if item.product.flavour %}

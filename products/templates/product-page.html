@@ -78,12 +78,12 @@
                         {# Display all linked product details #}
                         {% for item in linked_sorted_distinct %}
                             <div class="linked-ver">
-                                <a href="/products/id={{ item.product.product_id }}">
+                                <a href="/products/id={{ item.product.product_id }}" aria-label="Open this product's page (loads in the same tab)">
                                     <img class="linked-img" src="{{ item.product.product_pic.url }}" alt="Sports/Health Product image">
                                 </a>
                                 <div class="linked-details">
                                     <div class="linked-name">
-                                        <a href="/products/id={{ item.product.product_id }}">
+                                        <a href="/products/id={{ item.product.product_id }}" aria-label="Open this product's page (loads in the same tab)">
                                             {{ item.product.brand }} {{ item.product.product_name }}
                                         </a>
                                     </div>

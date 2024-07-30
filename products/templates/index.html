@@ -15,23 +15,23 @@
             <div class="feat-prod-div">
                 {# Large screen image display #}
                 <div class="desktop feat-img-div">
-                    <a href="/products/id={{ new_product.product.product_id }}"><img class="feat-img" src="{{ new_product.product.product_pic.url }}" alt="New featured Sports/Health product"></a>
+                    <a href="/products/id={{ new_product.product.product_id }}" aria-label="Open this product's page (loads in the same tab)"><img class="feat-img" src="{{ new_product.product.product_pic.url }}" alt="New featured Sports/Health product"></a>
                 </div>
                 <div class="feat-prod-details-div">
                     {# Large screen product brand and name display #}
-                    <a href="/products/id={{ new_product.product.product_id }}" class="desktop">
+                    <a href="/products/id={{ new_product.product.product_id }}" aria-label="Open this product's page (loads in the same tab)" class="desktop">
                         <p class="desktop feat-prod-details">{{ new_product.product.brand }}</p>
                         <p class="desktop feat-prod-details">{{ new_product.product.product_name }}</p>
                     </a>
                     {# Small screen product image, brand, and name display #}
                     <div class="mobile feat-prod-img-name">
                         <div class="feat-img-div">
-                            <a href="/products/id={{ new_product.product.product_id }}">
+                            <a href="/products/id={{ new_product.product.product_id }}" aria-label="Open this product's page (loads in the same tab)">
                                 <img class="feat-img" src="{{ new_product.product.product_pic.url }}" alt="New featured Sports/Health product">
                             </a>
                         </div>
                         <div class="feat-name-div">
-                            <a href="/products/id={{ new_product.product.product_id }}">
+                            <a href="/products/id={{ new_product.product.product_id }}" aria-label="Open this product's page (loads in the same tab)">
                                 <p class="feat-prod-details">{{ new_product.product.brand }}</p>
                                 <p class="feat-prod-details">{{ new_product.product.product_name }}</p>
                             </a>
@@ -99,23 +99,23 @@
                 <div class="feat-prod-div">
                     {# Large screen image display #}
                     <div class="desktop feat-img-div">
-                        <a href="/products/id={{ sports_product.product.product_id }}"><img class="feat-img" src="{{ sports_product.product.product_pic.url }}" alt="Featured sports product"></a>
+                        <a href="/products/id={{ sports_product.product.product_id }}" aria-label="Open this product's page (loads in the same tab)"><img class="feat-img" src="{{ sports_product.product.product_pic.url }}" alt="Featured sports product"></a>
                     </div>
                     <div class="feat-prod-details-div">
                         {# Large screen product brand and name display #}
-                        <a href="/products/id={{ sports_product.product.product_id }}" class="desktop">
+                        <a href="/products/id={{ sports_product.product.product_id }}" aria-label="Open this product's page (loads in the same tab)" class="desktop">
                             <p class="desktop feat-prod-details">{{ sports_product.product.brand }}</p>
                             <p class="desktop feat-prod-details">{{ sports_product.product.product_name }}</p>
                         </a>
                         {# Small screen product image, brand, and name display #}
                         <div class="mobile feat-prod-img-name">
                             <div class="feat-img-div">
-                                <a href="/products/id={{ sports_product.product.product_id }}">
+                                <a href="/products/id={{ sports_product.product.product_id }}" aria-label="Open this product's page (loads in the same tab)">
                                     <img class="feat-img" src="{{ sports_product.product.product_pic.url }}" alt="Featured sports product">
                                 </a>
                             </div>
                             <div class="feat-name-div">
-                                <a href="/products/id={{ sports_product.product.product_id }}">
+                                <a href="/products/id={{ sports_product.product.product_id }}" aria-label="Open this product's page (loads in the same tab)">
                                     <p class="feat-prod-details">{{ sports_product.product.brand }}</p>
                                     <p class="feat-prod-details">{{ sports_product.product.product_name }}</p>
                                 </a>
@@ -182,23 +182,23 @@
                 <div class="feat-prod-div">
                     {# Large screen image display #}
                     <div class="desktop feat-img-div">
-                        <a href="/products/id={{ health_product.product.product_id }}"><img class="feat-img" src="{{ health_product.product.product_pic.url }}" alt="Featured health product"></a>
+                        <a href="/products/id={{ health_product.product.product_id }}" aria-label="Open this product's page (loads in the same tab)"><img class="feat-img" src="{{ health_product.product.product_pic.url }}" alt="Featured health product"></a>
                     </div>
                     <div class="feat-prod-details-div">
                         {# Large screen product brand and name display #}
-                        <a href="/products/id={{ health_product.product.product_id }}" class="desktop">
+                        <a href="/products/id={{ health_product.product.product_id }}" aria-label="Open this product's page (loads in the same tab)" class="desktop">
                             <p class="desktop feat-prod-details">{{ health_product.product.brand }}</p>
                             <p class="desktop feat-prod-details">{{ health_product.product.product_name }}</p>
                         </a>
                         {# Small screen product image, brand, and name display #}
                         <div class="mobile feat-prod-img-name">
                             <div class="feat-img-div">
-                                <a href="/products/id={{ health_product.product.product_id }}">
+                                <a href="/products/id={{ health_product.product.product_id }}" aria-label="Open this product's page (loads in the same tab)">
                                     <img class="feat-img" src="{{ health_product.product.product_pic.url }}" alt="Featured health product">
                                 </a>
                             </div>
                             <div class="feat-name-div">
-                                <a href="/products/id={{ health_product.product.product_id }}">
+                                <a href="/products/id={{ health_product.product.product_id }}" aria-label="Open this product's page (loads in the same tab)">
                                     <p class="feat-prod-details">{{ health_product.product.brand }}</p>
                                     <p class="feat-prod-details">{{ health_product.product.product_name }}</p>
                                 </a>

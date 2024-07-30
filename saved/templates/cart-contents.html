@@ -14,7 +14,7 @@
     {# Display product details #}
     {% for product, quantity in cart_prods %}
         <tr class="cart-tbl-prod">
-            <td><a href="/products/id={{ product.product.product_id }}">
+            <td><a href="/products/id={{ product.product.product_id }}" aria-label="Open this product's page (loads in the same tab)">
                 <div class="cart-prod">
                     <img class="desktop cart-prod-img" src="{{ product.product.product_pic.url }}" alt="Sports/Health Product image">
                     {# Display selected product flavour if available #}
