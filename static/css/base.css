@@ -143,7 +143,7 @@ label:has(+input:required):after {
     margin-top: 0;
     text-align: left;
     font-weight: bold;
-    width: 20%;
+    width: 15%;
 }
 
 .nav-left a {
@@ -173,7 +173,7 @@ label:has(+input:required):after {
     display: flex;
     flex-direction: column;
     margin: auto;
-    width: 60%;
+    width: 70%;
 }
 
 /* Support and Newsletter section */
@@ -201,6 +201,7 @@ label:has(+input:required):after {
 /* Nav buttons */
 .nav-middle .nav-buttons {
     display: flex;
+    flex-direction: row;
     margin-top: 20px;
     background-color: #aafaf6;
     border-radius: 5px;
@@ -453,16 +454,10 @@ footer * {
     .nav-left {
         margin: 0 0 0 5px;
         text-align: left;
-        width: 10%;
     }
 
     .nav-left a {
         margin: 2px auto;
-    }
-
-    /* Increase size for center nav */
-    .nav-middle {
-        width: 75%;
     }
 
     /* Reduce margin and remove padding for nav logout button */
@@ -470,6 +465,14 @@ footer * {
         margin: 2px auto;
         padding: 0;
         width: unset;
+    }
+
+    /* Decrease gap between Newsletter and Support links */
+    .nav-sup-news {
+        display: flex;
+        flex-direction: row;
+        margin-bottom: 30px;
+        gap: 20px;
     }
 
     /* Set vw width for nav search */
@@ -486,12 +489,6 @@ footer * {
 
 /* Screens up to 500px width */
 @media screen and (max-width: 500px) {
-    /* Display mobile-only elements */
-    .mobile {
-        display: flex;
-        flex-direction: column;
-    }
-
     /* Reduce global font size */
     * {
         font-size: 12px;
@@ -629,8 +626,8 @@ footer * {
 }
 
 
-/* Screens up to 310px width */
-@media screen and (max-width: 310px) {
+/* Screens up to 320px width */
+@media screen and (max-width: 320px) {
     /* Change support/newsletter nav section to flex column */
     .nav-sup-news {
         display: flex;
@@ -655,6 +652,11 @@ footer * {
 
     .nav-search button {
         margin: 5px 0;
+    }
+
+    .nav-buttons {
+        display: flex;
+        flex-direction: row;
     }
 
     /* Increase modal width */
