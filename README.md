@@ -671,23 +671,29 @@ Contents of every CSS file validate using [Jigsaw](https://jigsaw.w3.org/css-val
 <img src='media/readme/w3c.webp' alt='W3C CSS Checker results'>
 
 #### JSHint
-All JavaScript files were checked using [JSHint](https://jshint.com/). It mentions "undefined variables", however they are all from JQuery ($), the base.js file (prvWidth) that is pre-loaded separately, or the HTML file (json_addr). "unused variables" are also mentioned, but they are used in the HTML files as on-click functions.
+All JavaScript files were checked using [JSHint](https://jshint.com/).
 
-5 warnings from JSHint remain:
-- Use ES10 for optional catch binding (catch binding works on the live site without issue)
-- Body of for should be wrapped in if; it is already wrapped in an if statement
-- 3x Confusing semantics due to in-loop functions referencing outer-scoped variables; this is incorrect, the in-loop reference is to make updates related to that specific element
+The below warnings from JSHint remain, but are not relevant, as per the provided comments:
+1. "undefined variables" mentioned are all from JQuery ($), the base.js file (prvWidth) that is pre-loaded separately, or the HTML file (json_addr)
+2. "unused variables" mentioned are all used in the HTML files as on-click functions
+3. Use ES10 for optional catch binding; catch binding works on the live site without issue
+4. Body of for should be wrapped in if; it is already wrapped in an if statement
+5. 3x Confusing semantics due to in-loop functions referencing outer-scoped variables; this is incorrect, the in-loop reference is to make updates related to that specific element
 
 All other (syntax) issues were resolved.
 
-stripe.py:
-<img src='media/readme/jshint-stripe.webp' alt='JSHint stripe errors'>
+1. and 2. checkout.py (prvWidth is also used in products.py, addresses.py, orders.py, cart.py with the same warning):
+<img src='media/readme/jshint-checkout.webp' alt='JSHint checkout warnings'>
+2. base.py:
+<img src='media/readme/jshint-base.webp' alt='JSHint base warnings'>
+3. stripe.py:
+<img src='media/readme/jshint-stripe.webp' alt='JSHint stripe warnings'>
+4. products.py:
+<img src='media/readme/jshint-products-143.webp' alt='JSHint product warnings line 143'>
+5. products.py:
+<img src='media/readme/jshint-products-190-196.webp' alt='JSHint product warnings lines 190 and 196'>
+<img src='media/readme/jshint-products-465.webp' alt='JSHint product warnings line 465'>
 
-products.py:
-<img src='media/readme/jshint-products.webp' alt='JSHint product errors'>
-
-checkout.py:
-<img src='media/readme/jshint-checkout.webp' alt='JSHint checkout errors'>
 
 #### PEP8
 All python files were checked using [PEP8](https://pep8ci.herokuapp.com/). The only errors are from Django "AUTH_PASSWORD_VALIDATORS" in the settings.py file (lines too long).
