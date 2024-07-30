@@ -353,8 +353,13 @@ button[class$='add-cart'], .home-row button[class$='add-cart'], .hor-prod-div di
         gap: unset;
     }
 
-    .prod-img {
+    .hor-prod-div .prod-img {
         width: 20%;
+        margin: auto;
+    }
+
+    .prod-actions {
+        margin: auto;
     }
 
     .hor-prod-div div[id$='prod-cart'] button {
