@@ -12,8 +12,6 @@
 {% block content %}
     <div class="checkout">
         <h2>Order Summary</h2>
-        {# Include Django messages #}
-        {% include "form-responses.html" %}
         {# Display message to user for completed order, with order number #}
         <div class="order-confirm">
             <p>Your order #{{ completed_order.order_id }} has been submitted! You should receive a confirmation email shortly to {{ completed_order.purchaser_email }}. You will receive an additional email, once your order has shipped.</p>

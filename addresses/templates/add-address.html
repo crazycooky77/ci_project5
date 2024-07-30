@@ -1,8 +1,6 @@
 {# Add Address form for Profile #}
 <form method="POST" action="{% url 'add-address' %}" class="add-addr">
     {% csrf_token %}
-    {# Include Django messages #}
-    {% include "form-responses.html" %}
     {# Display all address form fields #}
     <div class="label-input">
         <label for="id_first_name" aria-label="First Name">First Name:</label>

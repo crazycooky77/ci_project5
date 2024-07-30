@@ -11,8 +11,6 @@
 {% block content %}
     <div class="cart">
         <h2>Cart</h2>
-        {# Include Django messages #}
-        {% include "form-responses.html" %}
         {# User Cart was emptied during checkout #}
         {% if checkout_empty %}
             <p class="form-error">We could not continue the checkout process, as stock changes resulted in your cart being emptied. You have not been charged.</p>

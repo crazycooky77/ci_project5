@@ -7,8 +7,6 @@
         <h2>Log In</h2>
         <form method="POST" action="{% url 'account_login' %}">
             {% csrf_token %}
-            {# Include Django messages #}
-            {% include "form-responses.html" %}
             {# Display login form fields #}
             <div class="form-div">
                 <div class="label-input">

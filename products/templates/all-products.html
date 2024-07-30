@@ -10,8 +10,6 @@
 {# Display list of products #}
 {% block content %}
     <div class="all-prod-div">
-        {# Include Django messages #}
-        {% include "form-responses.html" %}
         {# Additional content for product searches #}
         {% if request.get_full_path == "/products/search" %}
             <div class="search-results-div">

@@ -11,8 +11,6 @@
 {% block content %}
     <div class="mid-content">
         <h2>Checkout</h2>
-        {# Include Django messages #}
-        {% include "form-responses.html" %}
         <div class="checkout-signin">
             {# Check Out As Guest option #}
             <form method="POST" action="{% url 'checkout' %}">

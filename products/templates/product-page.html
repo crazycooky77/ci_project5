@@ -10,8 +10,6 @@
 {# Display individual product page #}
 {% block content %}
     <div class="prod-div">
-        {# Include Django messages #}
-        {% include "form-responses.html" %}
         {# If the product ID for the page exists, display the details #}
         {% if product %}
             <div class="hor-prod-div">

@@ -10,8 +10,6 @@
 {# Display confirmation/error message page for unsubscribing from the newsletter #}
 {% block content %}
     <div class="mid-content">
-        {# Include Django messages #}
-        {% include 'form-responses.html' %}
         <h2>Unsubscribe</h2>
         {# User successfully unsubscribed #}
         {% if unsub %}

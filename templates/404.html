@@ -4,8 +4,6 @@
 {# Display custom 404 page #}
 {% block content %}
     <div class="mid-content">
-        {# Include Django messages #}
-        {% include "form-responses.html" %}
         <h2>Page Not Found</h2>
         <p>The page you are looking for isn't available. If this error is unexpected, please <a class="inline-link" href="javascript:modals('404-mailto-anchor', '404-mailto-modal')" id="404-mailto-anchor">contact us</a>. If the contact link doesn't work for you, please <a class="inline-link" href="{% url 'support' %}">visit our support page here</a> instead.</p>
         {# Modal for customer support if needed #}

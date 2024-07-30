@@ -7,8 +7,6 @@
 {% block content %}
     <div class="mid-content">
         <h2>Verify Your Email Address</h2>
-        {# Include Django messages #}
-        {% include "form-responses.html" %}
         {# Inform user of verification email sent to their email address if accessing the page from the /signup page #}
         {% if request.META.HTTP_REFERER|slice:"-8:-1" == "/signup" %}
             {% blocktrans %}We have sent an email to you for verification. Follow the link provided to finalise the signup process. If you do not see the verification email in your main inbox, please check your spam folder.{% endblocktrans %}

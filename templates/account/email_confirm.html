@@ -6,7 +6,6 @@
 {# Display email confirmation page for email changes #}
 <div class="border">
     <h2>Confirm Email</h2>
-    {% include "form-responses.html" %}
     {% if confirmation %}
         {% user_display confirmation.email_address.user as user_display %}
         {% if can_confirm %}

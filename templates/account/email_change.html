@@ -11,8 +11,6 @@
     {% element form method="post" action=action_url %}
         {% slot body %}
             {% csrf_token %}
-            {# Include Django messages #}
-            {% include "form-responses.html" %}
             {# Display current email address #}
             {% if current_emailaddress %}
                 {% element field id="current_email" disabled=True type="email" value=current_emailaddress.email %}

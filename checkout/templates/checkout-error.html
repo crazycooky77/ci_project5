@@ -11,8 +11,6 @@
 {% block content %}
     <div class="checkout">
         <h2>Error</h2>
-        {# Include Django messages #}
-        {% include "form-responses.html" %}
         <div class="checkout-error">
             {# Custom message when a payment has gone through but the order was not created in the database #}
             {% if client_secret and cart %}

@@ -10,8 +10,6 @@
 {# Display homepage of featured products #}
 {% block content %}
     <div class="home-div">
-        {# Include Django messages #}
-        {% include "form-responses.html" %}
         {# If a new featured product exists, display product details #}
         {% if new_product %}
             <div class="feat-prod-div">
