@@ -49,25 +49,25 @@
                 {# Left-side bar for user actions #}
                 <div class="nav-left">
                     {# View Cart option #}
-                    <a href="/cart" aria-label="View Cart" title="View Cart"><i class="fa-solid fa-cart-shopping"></i> View Cart</a>
+                    <a href="/cart" aria-label="View Cart" title="View Cart"><i class="fa-solid fa-cart-shopping" title="View Cart"></i> View Cart</a>
                     {# If user is logged in, display Profile and Log Out buttons #}
                     {% if user.is_authenticated %}
                         <br>
-                        <a href="/profile" aria-label="Profile" title="Profile"><i class="fa-solid fa-user"></i> Profile</a>
+                        <a href="/profile" aria-label="Profile" title="Profile"><i class="fa-solid fa-user" title="Profile"></i> Profile</a>
                         <br>
                         <form method="POST" action="{% url 'account_logout' %}">
                             {% csrf_token %}
                             {% if redirect_field_value %}
                                 <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
                             {% endif %}
-                            <button type="submit" id="nav-logout" aria-label="Log Out" title="Log Out"><i class="fa-solid fa-right-from-bracket"></i> Log Out</button>
+                            <button type="submit" id="nav-logout" aria-label="Log Out" title="Log Out"><i class="fa-solid fa-right-from-bracket" title="Log Out"></i> Log Out</button>
                         </form>
                     {# If not logged in, display Log In and Create Account buttons #}
                     {% else %}
                         <br>
                         <a href="/login" aria-label="Log In" title="Log In"><i class="fa-regular fa-user"></i> Log In</a>
                         <br>
-                        <a href="/signup" aria-label="Create Account" title="Create Account"><i class="fa-solid fa-user-plus"></i> Create Account</a>
+                        <a href="/signup" aria-label="Create Account" title="Create Account"><i class="fa-solid fa-user-plus" title="Create Account"></i> Create Account</a>
                     {% endif %}
                 </div>
                 {# Center nav section #}

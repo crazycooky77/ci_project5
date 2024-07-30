@@ -208,13 +208,13 @@ function checkoutU800() {
             let headers = document.querySelectorAll('th');
             for (let i = 0; i < headers.length; i++) {
                 if (headers[i].title === 'Product') {
-                    headers[i].innerHTML = '<i class="fa-solid fa-bottle-water"></i>';
+                    headers[i].innerHTML = '<i class="fa-solid fa-bottle-water" title="Product"></i>';
                 } else if (headers[i].title === 'Size') {
-                    headers[i].innerHTML = '<i class="fa-solid fa-weight-scale"></i>';
+                    headers[i].innerHTML = '<i class="fa-solid fa-weight-scale" title="Size"></i>';
                 } else if (headers[i].title === 'Quantity') {
-                    headers[i].innerHTML = '<i class="fa-solid fa-arrow-up-9-1"></i>';
+                    headers[i].innerHTML = '<i class="fa-solid fa-arrow-up-9-1" title="Quantity"></i>';
                 } else if (headers[i].title === 'Sum') {
-                    headers[i].innerHTML = '<i class="fa-solid fa-sack-dollar"></i>';
+                    headers[i].innerHTML = '<i class="fa-solid fa-sack-dollar" title="Sum"></i>';
                 }
             }
         }

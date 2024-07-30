@@ -24,7 +24,7 @@
                         {% endif %}
                         <td>{{ order.get_status_display }}</td>
                         {# Link to detailed order data #}
-                        <td><button type="button" onclick="location.href='/profile/orders/id={{ order.order_id }}'">View Order</button></td>
+                        <td><button type="button" onclick="location.href='/profile/orders/id={{ order.order_id }}'" title="View Order">View Order</button></td>
                     </tr>
                 {% endfor %}
             </table>

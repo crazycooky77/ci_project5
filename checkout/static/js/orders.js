@@ -61,27 +61,27 @@ function profileOrdersU1100() {
             let headers = document.querySelectorAll('th');
             for (let i = 0; i < headers.length; i++) {
                 if (headers[i].title === 'Date') {
-                    headers[i].innerHTML = '<i class="fa-solid fa-calendar-day"></i>';
+                    headers[i].innerHTML = '<i class="fa-solid fa-calendar-day" title="Date"></i>';
                 } else if (headers[i].title === 'Order #') {
-                    headers[i].innerHTML = '<i class="fa-solid fa-hashtag"></i>';
+                    headers[i].innerHTML = '<i class="fa-solid fa-hashtag" title="Order #"></i>';
                 } else if (headers[i].title === 'Tracking') {
-                    headers[i].innerHTML = '<i class="fa-solid fa-truck-fast"></i>';
+                    headers[i].innerHTML = '<i class="fa-solid fa-truck-fast" title="Tracking"></i>';
                 } else if (headers[i].title === 'Order Status') {
-                    headers[i].innerHTML = '<i class="fa-solid fa-spinner"></i>';
+                    headers[i].innerHTML = '<i class="fa-solid fa-spinner" title="Order Status"></i>';
                 } else if (headers[i].title === 'Action') {
-                    headers[i].innerHTML = '<i class="fa-solid fa-hand"></i>';
-                } else if (headers[i].title === 'View' || headers[i].title === 'View Order') {
-                    headers[i].innerHTML = '<i class="fa-solid fa-eye"></i>';
+                    headers[i].innerHTML = '<i class="fa-solid fa-hand" title="Action"></i>';
+                } else if (headers[i].title === 'View Order') {
+                    headers[i].innerHTML = '<i class="fa-solid fa-eye" title="View Order"></i>';
                 } else if (headers[i].title === 'Product') {
-                    headers[i].innerHTML = '<i class="fa-solid fa-bottle-water"></i>';
+                    headers[i].innerHTML = '<i class="fa-solid fa-bottle-water" title="Product"></i>';
                 } else if (headers[i].title === 'Size') {
-                    headers[i].innerHTML = '<i class="fa-solid fa-weight-scale"></i>';
+                    headers[i].innerHTML = '<i class="fa-solid fa-weight-scale" title="Size"></i>';
                 } else if (headers[i].title === 'Quantity') {
-                    headers[i].innerHTML = '<i class="fa-solid fa-arrow-up-9-1"></i>';
+                    headers[i].innerHTML = '<i class="fa-solid fa-arrow-up-9-1" title="Quantity"></i>';
                 } else if (headers[i].title === 'Individual Price') {
-                    headers[i].innerHTML = '<i class="fa-solid fa-money-bill-1-wave"></i>';
+                    headers[i].innerHTML = '<i class="fa-solid fa-money-bill-1-wave" title="Individual Price"></i>';
                 } else if (headers[i].title === 'Sum') {
-                    headers[i].innerHTML = '<i class="fa-solid fa-sack-dollar"></i>';
+                    headers[i].innerHTML = '<i class="fa-solid fa-sack-dollar" title="Sum"></i>';
                 }
             }
         }
