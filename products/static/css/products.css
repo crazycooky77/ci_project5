@@ -14,8 +14,12 @@
 }
 
 /* Styling for additional add to cart buttons */
-button[class$='add-cart'], .home-row button[class$='add-cart'], .hor-prod-div div[id$='prod-cart'] button {
+button[class$='add-cart'], .home-row button[class$='add-cart'] {
     margin-top: 10px;
+}
+
+.hor-prod-div div[id$='prod-cart'] button {
+    margin-top: 5px;
 }
 
 /* Homepage styling */
@@ -331,7 +335,7 @@ button[class$='add-cart'], .home-row button[class$='add-cart'], .hor-prod-div di
     }
 
     p[id$='prod-price'], .home-row p[id$='prod-price'] {
-        margin: 10px auto;
+        margin: 5px auto 0 auto;
     }
 
     .home-row .feat-prod-details-div input {
