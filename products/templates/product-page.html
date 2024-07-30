@@ -47,7 +47,7 @@
                                 {% endfor %}
                             </select>
                         </p>
-                        <p id="{{ product.first.product.product_id }}-prod-price"></p>
+                        <p id="{{ product.first.product.product_id }}-prod-price">Price: € </p>
                         <div id="{{ product.first.product.product_id }}-prod-cart">
                             {# Field for user to select quantity they want to purchase #}
                             <label for="{{ product.first.product.product_id }}-prod-quantity">Quantity: </label>
@@ -114,7 +114,7 @@
                                                     {% endfor %}
                                                 </select>
                                             </p>
-                                            <p id="{{ item.product_id }}-prod-price"></p>
+                                            <p id="{{ item.product_id }}-prod-price">Price: € </p>
                                             <div id="{{ item.product_id }}-prod-cart" class="add-cart">
                                                 {# Field for user to select quantity they want to purchase #}
                                                 <label for="{{ item.product_id }}-prod-quantity" aria-label="Quantity"></label>
