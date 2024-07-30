@@ -46,6 +46,7 @@ button[class$='add-cart'], .home-row button[class$='add-cart'], .hor-prod-div di
     max-height: 300px;
     max-width: 100%;
     object-position: center;
+    margin-right: 0;
 }
 
 /* Featured product styling */
@@ -102,6 +103,11 @@ button[class$='add-cart'], .home-row button[class$='add-cart'], .hor-prod-div di
 .hor-prod-div {
     display: flex;
     flex-direction: row;
+    gap: 20px;
+}
+
+.prod-actions {
+    margin-left: 0;
 }
 
 .prod-actions p {
