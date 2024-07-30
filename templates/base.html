@@ -115,11 +115,14 @@
                         </form>
                     </div>
                     {# Site navigation buttons #}
-                    <div class="nav-buttons">
-                        <button onclick="location.href='/products/all'" title="All Products" aria-label="All Products">All Products</button>
-                        <button onclick="location.href='/products/sports'" title="Sports Products" aria-label="Sports Products">Sports</button>
-                        <button onclick="location.href='/products/health'" title="Health Products" aria-label="Health Products">Health</button>
-                        <button onclick="location.href='/products/new'" title="New Products" aria-label="New Products">What's New</button>
+                    <div class="nav-div sub-nav-div">
+                        <div class="nav-buttons">
+                            <button onclick="location.href='/'" title="Home" aria-label="Home">Home</button>
+                            <button onclick="location.href='/products/all'" title="All Products" aria-label="All Products">All Products</button>
+                            <button onclick="location.href='/products/sports'" title="Sports Products" aria-label="Sports Products">Sports</button>
+                            <button onclick="location.href='/products/health'" title="Health Products" aria-label="Health Products">Health</button>
+                            <button onclick="location.href='/products/new'" title="New Products" aria-label="New Products">What's New</button>
+                        </div>
                     </div>
                 </div>
                 {# Right navigation section #}
@@ -130,6 +133,8 @@
             </div>
         </nav>
         <main>
+            {# Include Django messages #}
+            {% include "form-responses.html" %}
             <div id="container">
                 {# Main site content from other templates #}
                 {% block content %}
