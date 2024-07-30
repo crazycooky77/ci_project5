@@ -1,8 +1,9 @@
 // Run all necessary functions once page content has loaded
-window.addEventListener('load', () => {
+window.addEventListener('DOMContentLoaded', () => {
     cartU800();
     cartO800();
 });
+
 
 // Run all necessary functions when page width is resized
 window.addEventListener('resize', () => {

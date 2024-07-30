@@ -1,12 +1,18 @@
-// Run all necessary functions once page content has loaded
-window.addEventListener('load', () => {
-    scrollOpt();
-    footerResize();
+// Run all necessary functions once the DOM has loaded
+window.addEventListener('DOMContentLoaded', () => {
     baseU320();
     baseO320();
     baseU500();
     baseO500();
 });
+
+
+// Run all necessary functions once page content has loaded
+window.addEventListener('load', () => {
+    scrollOpt();
+    footerResize();
+});
+
 
 // Run all necessary functions when page width is resized
 let prvWidth = window.innerWidth;

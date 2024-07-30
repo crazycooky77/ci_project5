@@ -1,5 +1,5 @@
 // Run all necessary functions once page content has loaded
-window.addEventListener('load', () => {
+window.addEventListener('DOMContentLoaded', () => {
     profileOrdersU500();
     profileOrdersO500();
     profileOrdersU1100();

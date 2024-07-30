@@ -1,9 +1,15 @@
 // Run all necessary functions once page content has loaded
-window.addEventListener('load', () => {
+window.addEventListener('DOMContentLoaded', () => {
     addrU800();
     addrO800();
+});
+
+
+// Run all necessary functions once page content has loaded
+window.addEventListener('load', () => {
     addrInputResize();
 });
+
 
 // Run all necessary functions when page width is resized
 window.addEventListener('resize', () => {
