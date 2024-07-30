@@ -36,6 +36,7 @@ function cartU800() {
                     headers[i].innerHTML = '<i class="fa-solid fa-sack-dollar"></i>';
                 }
             }
+            document.querySelector('[title="Free Shipping"]').innerText = 'Free';
         }
     }
 }
@@ -49,6 +50,7 @@ function cartO800() {
             for (let i = 0; i < headers.length; i++) {
                 headers[i].innerHTML = headers[i].title;
             }
+            document.querySelector('[title="Free Shipping"]').innerText = 'Free Shipping';
         }
     }
 }

@@ -69,10 +69,7 @@
             <td>€ {{ shipping }}</td>
         {# Display text for free shipping #}
         {% else %}
-            {# Text for larger screens #}
-            <td class="desktop">Free Shipping</td>
-            {# Text for smaller screens #}
-            <td class="mobile">Free</td>
+            <td title="Free Shipping">Free Shipping</td>
         {% endif %}
     </tr>
     {# Display grand total for all cart products plus shipping #}
