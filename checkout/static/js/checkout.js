@@ -1,13 +1,6 @@
-// Run all necessary functions once DOM has loaded
-window.addEventListener('DOMContentLoaded', () => {
-    initAddrSel();
-    checkoutSizing();
-    checkoutU800();
-    checkoutO800();
-});
-
 // Run all necessary functions once page content has loaded
 window.addEventListener('load', () => {
+    initAddrSel();
     checkoutSizing();
     checkoutU800();
     checkoutO800();

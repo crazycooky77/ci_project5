@@ -1,11 +1,3 @@
-// Run all necessary functions once DOM has loaded
-window.addEventListener('DOMContentLoaded', () => {
-    profileOrdersU500();
-    profileOrdersO500();
-    profileOrdersU1100();
-    profileOrdersO1100();
-});
-
 // Run all necessary functions once page content has loaded
 window.addEventListener('load', () => {
     profileOrdersU500();

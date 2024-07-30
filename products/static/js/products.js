@@ -1,12 +1,3 @@
-// Run all necessary functions once DOM has loaded
-window.addEventListener('DOMContentLoaded', () => {
-    featProds();
-    allProds();
-    searchedProds();
-    prodPage();
-    prodResizeScroll();
-});
-
 // Run all necessary functions once page content has loaded
 window.addEventListener('load', () => {
     featProds();

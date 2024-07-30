@@ -1,10 +1,3 @@
-// Run all necessary functions once DOM has loaded
-window.addEventListener('DOMContentLoaded', () => {
-    addrU800();
-    addrO800();
-    addrInputResize();
-});
-
 // Run all necessary functions once page content has loaded
 window.addEventListener('load', () => {
     addrU800();

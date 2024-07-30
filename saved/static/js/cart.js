@@ -1,9 +1,3 @@
-// Run all necessary functions once DOM has loaded
-window.addEventListener('DOMContentLoaded', () => {
-    cartU800();
-    cartO800();
-});
-
 // Run all necessary functions once page content has loaded
 window.addEventListener('load', () => {
     cartU800();
