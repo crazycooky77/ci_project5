@@ -2,6 +2,7 @@
 .add-cart {
     display: flex;
     flex-direction: row;
+    margin-top: 10px;
 }
 
 .add-cart input {
@@ -91,8 +92,8 @@ button[class$='add-cart'], .home-row button[class$='add-cart'] {
     margin-left: 0;
 }
 
-.feat-prod-details {
-    margin-bottom: 10px;
+.feat-prod-details:not(.feat-prod-details:first-child) {
+    margin-top: 10px;
 }
 
 .feat-prod-details:has(select[id$="-prod-flavours"]) {
