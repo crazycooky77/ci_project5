@@ -199,7 +199,7 @@ label:has(+input:required):after {
 }
 
 /* Nav buttons */
-.nav-middle .nav-buttons {
+.sub-nav-div .nav-buttons {
     display: flex;
     flex-direction: row;
     margin-top: 20px;
@@ -652,11 +652,6 @@ footer * {
 
     .nav-search button {
         margin: 5px 0;
-    }
-
-    .nav-buttons {
-        display: flex;
-        flex-direction: row;
     }
 
     /* Increase modal width */
