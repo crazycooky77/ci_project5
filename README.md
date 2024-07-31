@@ -660,10 +660,7 @@ Automated testing has not yet been implemented. This has been postponed to the 1
 
 ### Validator Testing
 #### HTML
-All pages were checked with [Nu HTML Checker](https://validator.w3.org/nu/#textarea). Pages with cart contents (cart, checkout-confirm, checkout-success) have a warning, as there are 5 columns, but one row has 6. This is expected behaviour, as 1 row will always have the "display: none" style, depending on screen size, making only 5 visible at a time. This is to make better use of available space on mobile screens ("Free Shipping" is replaced with "Free").
-<img src='media/readme/html-warning.webp' alt='Nu HTML Checker warning'>
-
-No errors and no other warnings were displayed.
+All pages were checked with [Nu HTML Checker](https://validator.w3.org/nu/#textarea). Minor issues identified were resolved, and no errors or other warnings remain.
 <img src='media/readme/html-passed.webp' alt='Nu HTML Checker passed'>
 
 #### CSS
@@ -704,7 +701,7 @@ WAVE was used on each page of the site. The majority of issues were contrast err
 <img src='media/readme/validator-wave.webp' alt='WAVE validator results'>
 
 #### Lighthouse
-All pages were checked using Lighthouse. Several performance issues (most notably on [All Products](#all-products)) are due to HTTP/1.1 requests, unused JavaScript (stripe), and render-blocking resources, that are all necessary. Amazon S3 does not support HTTP/2, so [an enhancement was raised](https://github.com/crazycooky77/ci_project5/issues/49) to potentially switch over to [Amazon CloudFront](https://aws.amazon.com/ru/blogs/aws/new-http2-support-for-cloudfront/), which seems even more cost-effective.
+All pages were checked using Lighthouse. Several minor performance issues (most notably on pages with a lot of scripts and/or images, such as [All Products](#all-products)) are due to HTTP/1.1 requests, unused JavaScript (stripe), and render-blocking resources, that are all necessary. Amazon S3 does not support HTTP/2, so [an enhancement was raised](https://github.com/crazycooky77/ci_project5/issues/49) to potentially switch over to [Amazon CloudFront](https://aws.amazon.com/ru/blogs/aws/new-http2-support-for-cloudfront/), which additionally seems more cost-effective.
 
 ##### Homepage
 <img src='media/readme/lh-home.webp' alt='Lighthouse homepage results'>
@@ -712,20 +709,41 @@ All pages were checked using Lighthouse. Several performance issues (most notabl
 ##### Signup
 <img src='media/readme/lh-signup.webp' alt='Lighthouse sign-up results'>
 
+##### Signup - Confirmation Link Sent
+<img src='media/readme/lh-signup-confirm.webp' alt='Lighthouse sign-up email confirmation results'>
+
+##### Signup - Invalid Confirmation Link
+<img src='media/readme/lh-signup-invalid-link.webp' alt='Lighthouse sign-up invalid confirmation link results'>
+
 ##### Login
 <img src='media/readme/lh-login.webp' alt='Lighthouse login results'>
 
 ##### Forgot Password
 <img src='media/readme/lh-pw-reset.webp' alt='Lighthouse password reset results'>
 
+##### Forgot Password - Email Sent
+<img src='media/readme/lh-pw-reset-done.webp' alt='Lighthouse password reset email sent results'>
+
+##### Forgot Password - Invalid Link
+<img src='media/readme/lh-pw-reset-invalid-link.webp' alt='Lighthouse password reset invalid link results'>
+
+##### Forgot Password - Success (Change Password)
+<img src='media/readme/lh-pw-reset-change-pw.webp' alt='Lighthouse password reset change password results'>
+
+##### Forgot Password - Logged In Error
+<img src='media/readme/lh-pw-reset-logged-in.webp' alt='Lighthouse password reset logged in error results'>
+
 ##### Profile Pages
-Profile pages have an SEO score of only 91, due to the mobile hamburger menu being an uncrawlable link (`javascript:void(0);`).
+Profile pages have an SEO score of only 91, due to the mobile menu being an uncrawlable link (`javascript:void(0);`).
 
 ##### Profile - Account Details
 <img src='media/readme/lh-profile.webp' alt='Lighthouse profile account details results'>
 
 ##### Profile - Email Change
 <img src='media/readme/lh-profile-email-change.webp' alt='Lighthouse profile email change results'>
+
+##### Profile - Email Change Invalid Link
+<img src='media/readme/lh-profile-email-change-invalid-link.webp' alt='Lighthouse profile email change invalid link results'>
 
 ##### Profile - Password Change
 <img src='media/readme/lh-profile-pw-change.webp' alt='Lighthouse profile password change results'>
@@ -744,6 +762,9 @@ Profile pages have an SEO score of only 91, due to the mobile hamburger menu bei
 
 ##### Profile - Order Details
 <img src='media/readme/lh-profile-order-details.webp' alt='Lighthouse profile order details results'>
+
+##### Profile - Logged Out Error
+<img src='media/readme/lh-profile-logged-out.webp' alt='Lighthouse profile logged out error results'>
 
 ##### All Products
 <img src='media/readme/lh-all-prod.webp' alt='Lighthouse all products results'>
@@ -770,6 +791,9 @@ Profile pages have an SEO score of only 91, due to the mobile hamburger menu bei
 All checkout pages share the same link, so Lighthouse could not evaluate them separately (always loads the checkout address page while Lighthouse is running).
 <img src='media/readme/lh-checkout.webp' alt='Lighthouse checkout results'>
 
+##### Checkout Complete
+<img src='media/readme/lh-checkout-complete.webp' alt='Lighthouse checkout complete results'>
+
 ##### Support
 <img src='media/readme/lh-support.webp' alt='Lighthouse support page results'>
 
@@ -787,6 +811,12 @@ All checkout pages share the same link, so Lighthouse could not evaluate them se
 
 ##### Shipping
 <img src='media/readme/lh-shipping.webp' alt='Lighthouse shipping page results'>
+
+##### Newsletter Unsubscription
+<img src='media/readme/lh-news-unsub.webp' alt='Lighthouse unsubscribed from newsletter results'>
+
+##### 404 Error Page
+<img src='media/readme/lh-404.webp' alt='Lighthouse 404 error page results'>
 
 
 ### Bugs
