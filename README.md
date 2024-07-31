@@ -115,7 +115,7 @@ robots.txt and sitemap.xml files were created to ensure search engines know whic
 ### Informational Pages
 Additional pages - all in the site footer - were created to ensure customers have all the necessary information about the company, their data and it's usage, and orders. Everything below in this section will help show customers that this is a trusted site they can make purchases from, as we are transparent, and all information is readily available. The Shipping, Returns, Privacy, and Support pages additionally include details on how to get in touch with the support team, should the customers need this.
 
-See details and an example screenshot in the Future Details > [Information Pages](#information-pages) section.
+See details and an example screenshot in the Feature Details > [Information Pages](#information-pages) section.
 
 #### About
 This page gives an introduction about the company and what is important to us. It should help customers feel more connected to us, and hopefully instill some confidence, as our values greatly relate to quality and integrity, as stated on the page.
@@ -124,7 +124,7 @@ This page gives an introduction about the company and what is important to us. I
 The Shipping detail page is currently rather generic, but will be updated once the shop officially goes live. For now, basic information is available to customers on the free shipping limit, shipping methods and times, and delayed orders.
 
 #### Returns
-This page details information on returns and refunds, again so customers don't have to search for this and have it readily available. The page ensures customers don't need to search for information necessary for them to know according to their rights, when a refund or return is required.
+This page details information on returns and refunds, again so customers don't have to search for this and have it readily available. The page ensures customers have the information necessary for them to know according to their rights, when a refund or return is required.
 
 #### Privacy Policy
 Details regarding what data is collected from customers and how it is used is fully outlined on this page. This is critical, particularly with the site being not only available in the EU, but specifically selling in Ireland (EU).
@@ -157,10 +157,10 @@ Screenshots and more details on the features implemented to achieve the visitor 
 - _As a frequent visitor to the site, I can save products for later, so I can keep track of them, when I don't want to immediately purchase them*_
 - _As a frequent visitor to the site, I can add out-of-stock products to a watchlist, so I can see and get notified when they are back in stock*_
 
-_* Save for Later and Watchlist features are not yet implemented. This is planned for release 1.1_
+_* Save for Later and Watchlist features are not yet implemented. This is planned for release 1.1._
 
 ### User Stories
-All EPICs and related user stories are listed in the [repository Issues here](https://github.com/crazycooky77/ci_project5/issues?q=is%3Aissue+is%3Aclosed+label%3Auser-story%2CEPIC).
+All completed EPICs and related user stories are listed in the [repository Issues here](https://github.com/crazycooky77/ci_project5/issues?q=is%3Aissue+is%3Aclosed+label%3Auser-story%2CEPIC).
 
 ### Design
 
@@ -225,7 +225,7 @@ _The Watchlist has not yet been implemented. Therefore, the menu item (on the le
 <img src='media/readme/wf-prod-browser.webp' alt='Product browser wireframe'>
 
 <ins>Product Page:</ins>
-_Add to Watchlist is not yet available. This is planned for release 1.1. [See user story here](https://github.com/crazycooky77/ci_project5/issues/25#issue-2250321761)._
+_Save for Later/Add to Watchlist is not yet available. This is planned for release 1.1. [See user story here](https://github.com/crazycooky77/ci_project5/issues/25#issue-2250321761)._
 <img src='media/readme/wf-prod-page.webp' alt='Product page wireframe'>
 
 #### Checkout
@@ -359,7 +359,7 @@ Some example screenshots have been added below.
 The [user story for mobile views is here](https://github.com/crazycooky77/ci_project5/issues/40). Based on the customer's screen width, various parts of the website are adjusted to better utilise the available space. The main changes between larger and smaller screens are that text is updated to icons or shorter text, and lesser-important information is removed from tables. Specifically:
 - Navigation bar text is shortened (All Products > All, Whats New > New)
 - Profile menu changes from permanently visible links to a dropdown menu
-- Top left customer action buttons (View Cart etc) change to icons
+- Top left customer action buttons (View Cart etc) have text removed, only icons remaining
 - Table headers (for orders and cart views) change to icons
 - "Individual Price" column is removed from order details and cart tables
 - Product images are removed from order details and cart tables
@@ -693,7 +693,7 @@ All other (syntax) issues were resolved.
 
 
 #### PEP8
-All python files were checked using [PEP8](https://pep8ci.herokuapp.com/). The only errors are from Django "AUTH_PASSWORD_VALIDATORS" in the settings.py file (lines too long).
+All python files were checked using [PEP8](https://pep8ci.herokuapp.com/). The only errors are from Django default "AUTH_PASSWORD_VALIDATORS" in the settings.py file (lines too long).
 <img src='media/readme/pep8.webp' alt='PEP8 validator results'>
 
 #### WAVE
