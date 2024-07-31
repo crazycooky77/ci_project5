@@ -438,6 +438,7 @@ function prodDetails(json) {
         if (sizes.length === disabledOpts) {
             if (stock !== null) {
                 sizes.parentElement.style.display = 'none';
+                price.style.display = 'none';
                 cart.style.display = 'none';
                 stock.textContent = 'Availability: Out Of Stock';
                 if (flavours) {
@@ -446,6 +447,7 @@ function prodDetails(json) {
             }
             else {
                 sizes.parentElement.style.display = 'none';
+                price.style.display = 'none';
                 cart.textContent = 'Out Of Stock';
                 cart.style.justifyContent = 'center';
                 if (flavours) {
