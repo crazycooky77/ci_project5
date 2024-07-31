@@ -124,7 +124,7 @@ stripeForm.addEventListener('submit', function(ev) {
         // Disable the payment field and button, display Processing message to user, hide any previous errors
         card.update({'disabled': true});
         $('#payment-button').attr('disabled', true);
-        document.getElementById('card-errors').style.display = 'none';
+        document.getElementById('card-errors').textContent = '';
         document.getElementById('pay-process').style.display = 'unset';
         // Run necessary functions for SetupIntents
         try {
@@ -138,7 +138,6 @@ stripeForm.addEventListener('submit', function(ev) {
                         <i class="fas fa-times"></i>
                     </span>
                     <span>Some product(s) in your cart have changed, due to stock updates. Please review your cart and make any necessary adjustments before checking out again.</span>`;
-                        errorDiv.style.display = 'unset';
                         $(errorDiv).html(html);
                         // Remove the Processing message and re-enable card field/button
                         document.getElementById('pay-process').style.display = 'none';
@@ -238,7 +237,6 @@ stripeForm.addEventListener('submit', function(ev) {
                             <i class="fas fa-times"></i>
                         </span>
                         <span>${result.error.message}</span>`;
-                        errorDiv.style.display = 'unset';
                         $(errorDiv).html(html);
                         document.getElementById('pay-process').style.display = 'none';
                         card.update({'disabled': false});
