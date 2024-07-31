@@ -38,7 +38,7 @@ def error_handler_emails(request, err_no):
     _send_admin_email(url, user, type_, value, traceback)
 
 
-def csrf_failure(request, reason=""):
+def csrf_failure(request, reason=''):
     """Custom csrf failure handler/view"""
     error_handler_emails(request, 'csrf')
     return render(request, '403_csrf.html', status=403)
